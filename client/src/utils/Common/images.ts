@@ -1,2 +1,4 @@
 // common
-export const REACT_LOGO = '/public/assets/react.svg';
+
+
+export const LOGIN_LOGO = '/public/assets/react.svg';
