@@ -1,6 +1,6 @@
 const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
   return (
-    <div>
+    <div className="">
         Day la login
     </div>
   )
