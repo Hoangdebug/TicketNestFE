@@ -4,7 +4,7 @@ import { ILoginPage, ILoginPageProps } from '../interface/pages/login'
 const LoginPage: ILoginPage<ILoginPageProps> = () => {
   return (
     <div>
-        <LoginForm/>
+        <LoginForm />
     </div>
   )
 }
