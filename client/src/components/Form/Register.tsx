@@ -1,4 +1,26 @@
+import { use, useState } from "react"
+
 const RegisterForm: IRegisterComponent<IRegisterComponentProps> = () => {
+  const [state, setState] = useState <IRegisterComponentState>({
+    userName: ''
+  });
+  const { userName } = state;
+
+  const handleOnChange = (feild: string, value: string | null) => {
+    setState((prev) => ({
+      ...prev,
+      [feild] : value
+    }))
+  }
+
+  const handleOnClick = (field: string, value: boolean | null) => {
+    setState((prev) => ({
+      ...prev,
+      [field]: value
+    }))
+  }
+  console.log("test", userName);
+  
   return (
     <div className="components__register ">
       <div className="components__register-form p-3">
@@ -9,7 +31,13 @@ const RegisterForm: IRegisterComponent<IRegisterComponentProps> = () => {
               <label htmlFor="username" className="pb-2">Username
                 <span className="text-danger">*</span>
               </label>
-              <input type="text" className="form-control" id="username" name="username" required placeholder="Enter User Name" />
+              <input type="text" 
+              className="form-control" 
+              id="username"
+              // value={userName}
+              // onChange={(value: string) => handleOnChange('username', value)}
+              name="username" required placeholder="Enter User Name" 
+              />
             </div>
             <div className="form-group">
               <label htmlFor="email" className="pb-2">Email
