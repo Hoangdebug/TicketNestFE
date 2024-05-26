@@ -2,10 +2,9 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequ
 
 import { http } from '../Common';
 import { authHelper } from '../helpers';
-import { appConfig } from '../configs';
 
 const axiosConfig = axios.create({
-    baseURL: appConfig.API_URL,
+    baseURL: 'http://localhost:5000/api',
 });
 
 axiosConfig.interceptors.request.use(

@@ -22,11 +22,11 @@ export const CLIENT = {
 // ================================ API ==============================
 
 const LOGIN_API: IRouteConstant = {
-    href: '/api/login'
+    href: '/user/login'
 }
 
 const REGISTER_API: IRouteConstant = {
-    href: '/api/register'
+    href: '/user/register'
 }
 
 export const API = { 

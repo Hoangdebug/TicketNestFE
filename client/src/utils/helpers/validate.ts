@@ -23,3 +23,10 @@ export const isNumber = (value: string) => {
 
     return false;
 };
+export const isCharacters = (value: string) => {
+    if (value.length < 2) {
+        return true;
+    }
+
+    return false;
+};
