@@ -3,6 +3,10 @@ interface IRegisterComponent<P = {}> extends IBaseComp<P>{}
 interface IRegisterComponentProps extends IBaseCompProps {}
 
 interface IRegisterComponentState { 
-    user?: IRegisterDataApi;
-    userName?: string;
+    username?: string;
+    email?: string;
+    phone?: string;
+    dob?: string;
+    password?: string;
+    confirmPassword?: string;
 }
