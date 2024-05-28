@@ -1,4 +1,4 @@
-import { createRef, useState } from "react"
+import { createRef, useEffect, useState } from "react"
 import Validator from "../Common/Validator";
 import { validateHelper } from "../../utils/helpers";
 import { useDispatch } from "react-redux";
@@ -41,6 +41,7 @@ const RegisterForm: IRegisterComponent<IRegisterComponentProps> = () => {
   //     [field]: value
   //   }))
   // }
+  
 
   const handleSubmit = async () => {
     let isValidate = true;
@@ -71,16 +72,11 @@ const RegisterForm: IRegisterComponent<IRegisterComponentProps> = () => {
     }
 
     if (isValidate) {
-      // dispatch(
-      //   fetchRegister({
-      //     username,
-      //     email,
-      //     phone,
-      //     dob,
-      //     password,
-      //     confirmPassword
-      //   })
-      // )
+      dispatch(
+        await fetchRegister({confirmPassword, dob, email, password, phone, username },(result: IRegisterDataApiRes | IErrorAPIRes | null)=> {
+        console.log('a', result);
+      })
+      )
     }
   }
   return (
