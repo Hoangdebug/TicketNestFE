@@ -54,7 +54,7 @@ export const fetchRegister = (
     try {
       console.log("HEHE__: ", data);
       const res = await apiHelper.register(data);
-      dispatch({ type: REGISTER_SUCCESS, payload: res?.data });
+      // dispatch({ type: REGISTER_SUCCESS, payload: res?.data });
       if (callBack) {
         callBack(res?.data);
       }

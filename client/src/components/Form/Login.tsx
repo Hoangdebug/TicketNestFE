@@ -3,7 +3,11 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
 
 const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
-  const [changeText, setChangeText] = useState();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   return (
     <div className="components__login">
       <div className="components__login-form p-4 ">
@@ -18,20 +22,34 @@ const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
             <span className="text-danger">*</span>
           </label>
           <input
-            type={changeText ? 'text' : 'password'}
+            type={showPassword ? 'text' : 'password'}
             className="form-control"
             id="password"
             name="password"
             required
             placeholder="Enter password"
           />
+          {showPassword ? (
           <RemoveRedEyeIcon
+            onClick={togglePasswordVisibility}
             sx={{
               top: 30,
               right: 7,
-              position: 'absolute'
+              position: 'absolute',
+              cursor: 'pointer',
             }}
           />
+        ) : (
+          <VisibilityOffIcon
+            onClick={togglePasswordVisibility}
+            sx={{
+              top: 30,
+              right: 7,
+              position: 'absolute',
+              cursor: 'pointer',
+            }}
+          />
+        )}
         </div>
         <div className="d-flex flex-row justify-content-between align-items-center">
           <div>
@@ -46,13 +64,6 @@ const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
           Sign in
         </button>
         <button type="submit" className="components__login-form-secondButton">
-          {/* do em xài bootstrap nên nó ko ăn thuộc tính css thôi, thường thì thuộc tính css của bootstrap thuộc độ ưu tien cao nhất
-        nên muốn xử lý css tay thì có 2 cách
-        => thêm !impotain vào 
-        => xoá bs5 và css tay là được 
-
-        => oke rồi đó
-        */}
           <span>Register for a free trial now</span>
         </button>
         <div className='text-center'>Or sign in with</div>
