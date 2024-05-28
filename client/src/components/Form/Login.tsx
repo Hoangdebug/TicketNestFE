@@ -1,34 +1,94 @@
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { useState } from 'react';
+import { createRef, useState } from 'react';
+import Validator from '../Common/Validator';
+import { validateHelper } from '../../utils/helpers';
+import { useNavigate } from 'react-router-dom';
+import { routes } from '../../utils/routes';
 
 const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [state, setState] = useState<ILoginComponentState>({
+    email: '',
+    password: ''
+  });
+  const handleNextPage = () => {
+    navigate(routes.CLIENT.REGISTER_PAGE.href)
+  }
+  const { email, password } = state;
 
+  const emailValidatorRef = createRef<IValidatorComponentHandle>();
+  const passwordValidatorRef = createRef<IValidatorComponentHandle>();
+
+  const handleOnChange = (feild: string, value: string | null) => {
+    setState((prev) => ({
+      ...prev,
+      [feild]: value
+    }))
+  }
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const submitForm = async () => {
+    let isValidate = true;
+
+    const validatorText = [
+      { ref: emailValidatorRef, value: email, message: 'Your First Name Is Not Empty!' },
+      { ref: passwordValidatorRef, value: password, message: 'Your Password Is Not Empty!' },
+    ]
+
+    validatorText.forEach(({ ref, value, message }) => {
+      ref.current?.onValidateMessage('');
+      if (validateHelper.isEmpty(value ?? '')) {
+        ref.current?.onValidateMessage(message);
+        isValidate = false;
+      } else if (validateHelper.isCharacters(value ?? '')) {
+        ref.current?.onValidateMessage(`Your ${message} Cannot Be Less Than 2 Characters`);
+        isValidate = false;
+      }
+    });
+
+    // call api
+    if(isValidate){
+      // logic call api
+    }
+  }
   return (
     <div className="components__login">
       <div className="components__login-form p-4 ">
         <h2 className="fw-bold text-center">Sign in</h2>
         <div className="form-group">
           <label htmlFor="username">Mail</label>
-          <input type="text" className="form-control" id="username" name="username" required placeholder="Enter Mail" />
+          <Validator ref={emailValidatorRef}>
+            <input type="email" 
+              className="form-control" 
+              id="username" 
+              name="username" 
+              value={email ?? ''}
+              onChange={(e) => handleOnChange('email', e.target.value)}
+              required placeholder="Enter Mail" 
+            />
+          </Validator>
         </div>
         <div className="form-group position-relative">
           <label htmlFor="password">
             Password
             <span className="text-danger">*</span>
           </label>
-          <input
-            type={showPassword ? 'text' : 'password'}
-            className="form-control"
-            id="password"
-            name="password"
-            required
-            placeholder="Enter password"
-          />
+          <Validator ref={passwordValidatorRef}>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              className="form-control"
+              id="password"
+              name="password"
+              value={password ?? ''}
+              onChange={(e) => handleOnChange('password', e.target.value)}
+              required
+              placeholder="Enter password"
+            />
+          </Validator>
           {showPassword ? (
           <RemoveRedEyeIcon
             onClick={togglePasswordVisibility}
@@ -60,10 +120,10 @@ const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
             Forgot password?
           </a>
         </div>
-        <button type="submit" className="components__login-form-firstButton btn btn-primary btn-block">
+        <button type="submit" onClick={submitForm} className="components__login-form-firstButton btn btn-primary btn-block">
           Sign in
         </button>
-        <button type="submit" className="components__login-form-secondButton">
+        <button type="submit" onClick={handleNextPage} className="components__login-form-secondButton">
           <span>Register for a free trial now</span>
         </button>
         <div className="text-center">Or sign in with</div>
