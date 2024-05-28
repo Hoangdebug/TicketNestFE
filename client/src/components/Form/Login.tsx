@@ -55,8 +55,8 @@ const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
         */}
           <span>Register for a free trial now</span>
         </button>
-        <div className='text-center'>Or sign in with</div>
-        <button className='components__login-form-thirdButton'>Google</button>
+        <div className="text-center">Or sign in with</div>
+        <button className="components__login-form-thirdButton">Google</button>
         <p id="error-message" className="error-message text-danger mt-2"></p>
       </div>
     </div>

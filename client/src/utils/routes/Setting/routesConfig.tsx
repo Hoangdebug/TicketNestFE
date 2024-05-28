@@ -1,22 +1,26 @@
-import { routes } from ".."
-import { LoginPage, RegisterPage, Home} from "../../../pages"
+import { routes } from '..';
+import { LoginPage, RegisterPage, Home, ForgotPasswordPage } from '../../../pages';
 
 const routesConfig = [
-    // ========================= AUTHENTICATION ==============================
-    {
-        path: routes.CLIENT.LOGIN_PAGE.href,
-        element: <LoginPage />
-    },
-    {
-        path: routes.CLIENT.REGISTER_PAGE.href,
-        element: <RegisterPage /> 
-    },
+  // ========================= AUTHENTICATION ==============================
+  {
+    path: routes.CLIENT.LOGIN_PAGE.href,
+    element: <LoginPage />
+  },
+  {
+    path: routes.CLIENT.REGISTER_PAGE.href,
+    element: <RegisterPage />
+  },
+  {
+    path: routes.CLIENT.FORGOTPASSWORD_PAGE.href,
+    element: <ForgotPasswordPage />
+  },
 
-    // ========================= PAGE =========================================
-    {
-        path: routes.CLIENT.HOME_PAGE.href,
-        element: <Home />
-    }
-]
+  // ========================= PAGE =========================================
+  {
+    path: routes.CLIENT.HOME_PAGE.href,
+    element: <Home />
+  }
+];
 
-export default routesConfig
+export default routesConfig;
