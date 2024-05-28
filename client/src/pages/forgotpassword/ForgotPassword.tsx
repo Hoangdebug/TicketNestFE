@@ -1,6 +1,6 @@
-import ForgotPasswordForm from '../components/Form/ForgotPassword';
-import { IForgotPasswordPage, IForgotPasswordPageProps } from '../interface/pages/forgotpassword';
-import { images } from '../utils/Common';
+import ForgotPasswordForm from '../../components/Form/ForgotPassword';
+import { IForgotPasswordPage, IForgotPasswordPageProps } from '../../interface/pages/forgotpassword';
+import { images } from '../../utils/Common';
 
 const ForgotPasswordPage: IForgotPasswordPage<IForgotPasswordPageProps> = () => {
   return (

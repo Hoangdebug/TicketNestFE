@@ -17,10 +17,20 @@ const FORGOTPASSWORD: IRouteConstant = {
     href: '/forgotpassword' 
 }
 
+const POSTFORGOTPASSWORD: IRouteConstant = {
+    href: '/postforgotpassword' 
+}
+
+const CHANGEPASSWORD: IRouteConstant = {
+    href: '/changepassword' 
+}
+
 export const CLIENT = {
     LOGIN_PAGE: LOGIN,
     REGISTER_PAGE: REGISTER,
     FORGOTPASSWORD_PAGE: FORGOTPASSWORD,
+    POSTFORGOTPASSWORD_PAGE: POSTFORGOTPASSWORD,
+    CHANGEPASSWORD_PAGE: CHANGEPASSWORD,
     HOME_PAGE: HOME 
     
 }
@@ -39,8 +49,18 @@ const FORGOTPASSWORD_API: IRouteConstant = {
     href: '/user/forgotpassword'
 }
 
+const POSTFORGOTPASSWORD_API: IRouteConstant = {
+    href: '/user/postforgotpassword'
+}
+
+const CHANGEPASSWORD_API: IRouteConstant = {
+    href: '/user/changepassword'
+}
+
 export const API = { 
     LOGIN: LOGIN_API,
     REGISTER: REGISTER_API,
-    FORGOTPASSWORD: FORGOTPASSWORD_API
+    FORGOTPASSWORD: FORGOTPASSWORD_API,
+    POSTFORGOTPASSWORD: POSTFORGOTPASSWORD_API,
+    CHANGEPASSWORD: CHANGEPASSWORD_API,
 }
