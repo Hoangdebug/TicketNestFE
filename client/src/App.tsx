@@ -28,7 +28,8 @@ useEffect(() => {
 
   const showComponents = 
     location.pathname !== routes.CLIENT.LOGIN_PAGE.href && 
-    location.pathname !== routes.CLIENT.REGISTER_PAGE.href;
+    location.pathname !== routes.CLIENT.REGISTER_PAGE.href &&
+    location.pathname !== routes.CLIENT.FORGOTPASSWORD_PAGE.href;
   return (
     <>
       {showComponents && (<><Header /></>)}
