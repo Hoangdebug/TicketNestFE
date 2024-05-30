@@ -35,7 +35,7 @@ const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
     let isValidate = true;
 
     const validatorText = [
-      { ref: emailValidatorRef, value: email, message: 'Your First Name Is Not Empty!' },
+      { ref: emailValidatorRef, value: email, message: 'Your Mail Is Not Empty!' },
       { ref: passwordValidatorRef, value: password, message: 'Your Password Is Not Empty!' },
     ]
 

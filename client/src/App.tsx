@@ -30,7 +30,8 @@ const App: IAppComponent<IAppComponentProps> = () => {
     location.pathname !== routes.CLIENT.REGISTER_PAGE.href &&
     location.pathname !== routes.CLIENT.FORGOTPASSWORD_PAGE.href &&
     location.pathname !== routes.CLIENT.POSTFORGOTPASSWORD_PAGE.href &&
-    location.pathname !== routes.CLIENT.CHANGEPASSWORD_PAGE.href;
+    location.pathname !== routes.CLIENT.CHANGEPASSWORD_PAGE.href &&
+    location.pathname !== routes.CLIENT.CHANGEPASSWORDSUCCESS_PAGE.href;
   return (
     <>
       {showComponents && (
