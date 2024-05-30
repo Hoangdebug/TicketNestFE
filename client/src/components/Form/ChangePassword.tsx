@@ -1,6 +1,10 @@
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { useState } from 'react';
+import { createRef, useState } from 'react';
+import Validator from '../Common/Validator';
+import { validateHelper } from '../../utils/helpers';
+import { useNavigate } from 'react-router-dom';
+import { routes } from '../../utils/routes';
 
 const ChangePasswordForm: IChangePasswordComponent<IChangePasswordComponentProps> = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -13,6 +17,63 @@ const ChangePasswordForm: IChangePasswordComponent<IChangePasswordComponentProps
   const toggleReNewPasswordVisibility = () => {
     setShowReNewPassword(!showReNewPassword);
   };
+
+  const navigate = useNavigate();
+
+  const handlePrevPage = () => {
+    navigate(routes.CLIENT.LOGIN_PAGE.href);
+  };
+
+  const handleNextPage = () => {
+    navigate(routes.CLIENT.POSTFORGOTPASSWORD_PAGE.href);
+  };
+
+  const [state, setState] = useState<IChangePasswordComponentState>({
+    newPassword: '',
+    reNewPassword: ''
+  });
+
+  const { newPassword, reNewPassword } = state;
+
+  const newPasswordValidatorRef = createRef<IValidatorComponentHandle>();
+  const reNewPasswordValidatorRef = createRef<IValidatorComponentHandle>();
+
+  const handleOnChange = (feild: string, value: string | null) => {
+    setState((prev) => ({
+      ...prev,
+      [feild]: value
+    }));
+  };
+
+  const submitForm = async () => {
+    let isValidate = true;
+
+    const validatorText = [
+      { ref: newPasswordValidatorRef, value: newPassword, message: 'Your New Password Is Not Empty!' },
+      { ref: reNewPasswordValidatorRef, value: reNewPassword, message: 'Your Re New Password Is Not Empty!' }
+    ];
+
+    validatorText.forEach(({ ref, value, message }) => {
+      ref.current?.onValidateMessage('');
+      if (validateHelper.isEmpty(value ?? '')) {
+        ref.current?.onValidateMessage(message);
+        isValidate = false;
+      } else if (validateHelper.isCharacters(value ?? '')) {
+        ref.current?.onValidateMessage(`Your ${message} Cannot Be Less Than 2 Characters`);
+        isValidate = false;
+      }
+    });
+
+    if (reNewPassword !== newPassword) {
+      reNewPasswordValidatorRef.current?.onValidateMessage('New Password And Re New Password Is Not Same. Please Enter Again');
+      isValidate = false;
+    }
+
+    // call api
+    if (isValidate) {
+      // logic call api
+    }
+  };
   return (
     <div className="components__changepw">
       <div className="components__changepw-form p-4 ">
@@ -22,14 +83,18 @@ const ChangePasswordForm: IChangePasswordComponent<IChangePasswordComponentProps
             New Password
             {/* <span className="text-danger">*</span> */}
           </label>
-          <input
-            type={showNewPassword ? 'text' : 'password'}
-            className="form-control"
-            id="password"
-            name="password"
-            required
-            placeholder="Enter new password"
-          />
+          <Validator ref={newPasswordValidatorRef}>
+            <input
+              type={showNewPassword ? 'text' : 'password'}
+              className="form-control"
+              id="password"
+              name="password"
+              value={newPassword ?? ''}
+              onChange={(e) => handleOnChange('newPassword', e.target.value)}
+              required
+              placeholder="Enter new password"
+            />
+          </Validator>
           {showNewPassword ? (
             <RemoveRedEyeIcon
               onClick={toggleNewPasswordVisibility}
@@ -57,14 +122,18 @@ const ChangePasswordForm: IChangePasswordComponent<IChangePasswordComponentProps
             Re New Password
             {/* <span className="text-danger">*</span> */}
           </label>
-          <input
-            type={showReNewPassword ? 'text' : 'password'}
-            className="form-control"
-            id="password"
-            name="password"
-            required
-            placeholder="Re enter new password"
-          />
+          <Validator ref={reNewPasswordValidatorRef}>
+            <input
+              type={showReNewPassword ? 'text' : 'password'}
+              className="form-control"
+              id="password"
+              name="password"
+              value={reNewPassword ?? ''}
+              onChange={(e) => handleOnChange('reNewPassword', e.target.value)}
+              required
+              placeholder="Re enter new password"
+            />
+          </Validator>
           {showReNewPassword ? (
             <RemoveRedEyeIcon
               onClick={toggleReNewPasswordVisibility}
@@ -87,10 +156,10 @@ const ChangePasswordForm: IChangePasswordComponent<IChangePasswordComponentProps
             />
           )}
         </div>
-        <button type="submit" className="components__login-form-firstButton btn btn-primary btn-block">
+        <button type="submit" onClick={submitForm} className="components__changepw-form-firstButton btn btn-primary btn-block">
           Change Password
         </button>
-        <button type="submit" className="components__login-form-secondButton">
+        <button type="submit" onClick={handlePrevPage} className="components__changepw-form-secondButton">
           <span>Back to sign in</span>
         </button>
         <p id="error-message" className="error-message text-danger mt-2"></p>

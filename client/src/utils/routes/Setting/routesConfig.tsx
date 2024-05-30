@@ -1,5 +1,13 @@
 import { routes } from '..';
-import { LoginPage, RegisterPage, Home, ForgotPasswordPage, PostForgotPasswordPage, ChangePasswordPage } from '../../../pages';
+import {
+  LoginPage,
+  RegisterPage,
+  Home,
+  ForgotPasswordPage,
+  PostForgotPasswordPage,
+  ChangePasswordPage,
+  ChangePasswordSuccessPage
+} from '../../../pages';
 
 const routesConfig = [
   // ========================= AUTHENTICATION ==============================
@@ -22,6 +30,10 @@ const routesConfig = [
   {
     path: routes.CLIENT.CHANGEPASSWORD_PAGE.href,
     element: <ChangePasswordPage />
+  },
+  {
+    path: routes.CLIENT.CHANGEPASSWORDSUCCESS_PAGE.href,
+    element: <ChangePasswordSuccessPage />
   },
 
   // ========================= PAGE =========================================
