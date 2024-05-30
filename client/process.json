@@ -1,0 +1,8 @@
+{
+    "apps": [
+        {
+            "name": "mock-project",
+            "script": "npm run start"
+        }
+    ]
+}

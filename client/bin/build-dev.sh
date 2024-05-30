@@ -1,0 +1,1 @@
+npm i && cp .env.dev.example .env && npm run build && pm2 delete mock-project || : && pm2 start process.json

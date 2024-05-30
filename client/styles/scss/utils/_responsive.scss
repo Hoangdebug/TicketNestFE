@@ -1,0 +1,92 @@
+// define responsive mixin for reuse
+$small-mobile-width: 336px;
+$mobile-width: 384px;
+$big-mobile-width: 576px;
+$tablet-width: 768px;
+$big-tablet-width: 992px;
+$laptop-width: 1200px;
+$pc-width: 1400px;
+
+@mixin responsive($media) {
+    @if $media == xl {
+        @media (min-width: ($laptop-width)) and (max-width: ($pc-width - 0.02px)) {
+            @content;
+        }
+    } @else if $media == lg {
+        @media (min-width: ($big-tablet-width)) and (max-width: ($laptop-width - 0.02px)) {
+            @content;
+        }
+    } @else if $media == md {
+        @media (min-width: ($tablet-width)) and (max-width: ($big-tablet-width - 0.02px)) {
+            @content;
+        }
+    } @else if $media == sm {
+        @media (min-width: ($big-mobile-width)) and (max-width: ($tablet-width - 0.02px)) {
+            @content;
+        }
+    } @else if $media == xs {
+        @media (min-width: ($mobile-width)) and (max-width: ($big-mobile-width - 0.02px)) {
+            @content;
+        }
+    } @else if $media == xxs {
+        @media (min-width: ($small-mobile-width)) and (max-width: ($mobile-width - 0.02px)) {
+            @content;
+        }
+    } @else if $media == max-xxl {
+        @media (max-width: ($pc-width - 0.02px)) {
+            @content;
+        }
+    } @else if $media == min-xxl {
+        @media (min-width: ($pc-width + 0.02px)) {
+            @content;
+        }
+    } @else if $media == max-xl {
+        @media (max-width: ($laptop-width - 0.02px)) {
+            @content;
+        }
+    } @else if $media == min-xl {
+        @media (min-width: ($laptop-width + 0.02px)) {
+            @content;
+        }
+    } @else if $media == max-lg {
+        @media (max-width: ($big-tablet-width - 0.02px)) {
+            @content;
+        }
+    } @else if $media == min-lg {
+        @media (min-width: ($big-tablet-width + 0.02px)) {
+            @content;
+        }
+    } @else if $media == max-md {
+        @media (max-width: ($tablet-width - 0.02px)) {
+            @content;
+        }
+    } @else if $media == min-md {
+        @media (min-width: ($tablet-width + 0.02px)) {
+            @content;
+        }
+    } @else if $media == max-sm {
+        @media (max-width: ($big-mobile-width - 0.02px)) {
+            @content;
+        }
+    } @else if $media == min-sm {
+        @media (min-width: ($big-mobile-width + 0.02px)) {
+            @content;
+        }
+    } @else if $media == max-xs {
+        @media (max-width: ($mobile-width - 0.02px)) {
+            @content;
+        }
+    } @else if $media == min-xs {
+        @media (min-width: ($mobile-width + 0.02px)) {
+            @content;
+        }
+    } @else if $media == max-xxs {
+        @media (max-width: ($small-mobile-width - 0.02px)) {
+            @content;
+        }
+    } @else if $media == min-xxs {
+        @media (min-width: ($small-mobile-width + 0.02px)) {
+            @content;
+        }
+    }
+}

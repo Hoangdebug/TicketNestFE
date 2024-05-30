@@ -1,0 +1,20 @@
+.components {
+    &__pagination {
+        button {
+            height: unset !important;
+            width: unset !important;
+            margin: 4px;
+            padding: 8px 11px !important;
+            line-height: 16px !important;
+        }
+        img {
+            width: 10px;
+            height: 16px;
+        }
+        &_arrow {
+            img {
+                filter: $color-black-filter;
+            }
+        }
+    }
+}

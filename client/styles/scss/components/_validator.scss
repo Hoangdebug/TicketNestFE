@@ -1,0 +1,12 @@
+.components {
+    &__validator {
+        &-input {
+            input,
+            textarea,
+            select,
+            > div {
+                border-color: $color-red !important;
+            }
+        }
+    }
+}

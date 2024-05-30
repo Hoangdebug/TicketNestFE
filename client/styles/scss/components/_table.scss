@@ -1,0 +1,97 @@
+.components {
+    &__table {
+        &-wrapper {
+            overflow-x: auto !important;
+        }
+        &-border {
+            border: 1px solid $color-white-gray;
+            border-collapse: collapse;
+            thead {
+                th {
+                    background-color: color-blue-opacity(0.1);
+                    border: 1px solid $color-white-gray;
+                    position: relative;
+                    line-height: 1;
+                    padding: 10px;
+                    padding-top: 12px;
+                    padding-bottom: 12px;
+                    white-space: pre !important;
+                }
+            }
+            tbody {
+                tr {
+                    &:nth-child(even) {
+                        td {
+                            background-color: $color-white-lighten;
+                        }
+                    }
+                    &:nth-child(odd) {
+                        td {
+                            background-color: $color-white;
+                        }
+                    }
+                    td {
+                        border: 1px solid $color-white-gray;
+                        line-height: 1;
+                        padding: 10px;
+                        padding-top: 17px;
+                        padding-bottom: 17px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+                }
+            }
+        }
+        &-link {
+            color: $color-blue;
+            text-decoration: underline;
+        }
+        &--top-table {
+            display: flex;
+            align-items: center;
+        }
+        &-btn {
+            margin: auto;
+            padding: 0;
+            img {
+                margin-right: 0;
+            }
+            &_body {
+                padding-top: 11px !important;
+                padding-bottom: 11px !important;
+            }
+        }
+        &-sorted {
+            margin-right: 20px !important;
+            display: inline-block !important;
+            &-icon {
+                cursor: pointer;
+                position: absolute;
+                top: calc(50% - 7px);
+                right: 8px;
+                width: 8px;
+                height: 14px;
+            }
+        }
+        &-sticky {
+            tr {
+                th:first-child,
+                td:first-child {
+                    position: sticky;
+                    left: -1px;
+                    z-index: 1;
+                }
+            }
+            &-border {
+                tr {
+                    th:first-child,
+                    td:first-child {
+                        border-left: none !important;
+                        border-right: none !important;
+                        box-shadow: inset -1px 0 0 0 $color-white-gray, inset 1px 0 0 0 $color-white-gray;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,263 @@
+.bases {
+    &__p {
+        &--cursor {
+            cursor: pointer;
+        }
+    }
+    &__p-event {
+        &--none {
+            pointer-events: none !important;
+        }
+    }
+    &__icon {
+        &--large {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+        &--medium {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+        }
+        &--small {
+            width: 15px;
+            height: 16px;
+            object-fit: contain;
+        }
+    }
+    &__font {
+        @for $i from 8 through 100 {
+            &--#{$i} {
+                font-size: #{$i}px !important;
+            }
+        }
+    }
+    &__line_height {
+        @for $i from 8 through 100 {
+            &--#{$i} {
+                line-height: #{$i}px !important;
+            }
+        }
+    }
+    &__text {
+        &--light {
+            font-weight: 200 !important;
+        }
+        &--normal {
+            font-weight: 400 !important;
+        }
+        &--semi-bold {
+            font-weight: 500 !important;
+        }
+        &--bold {
+            font-weight: 700 !important;
+        }
+        &--uppercase {
+            text-transform: uppercase;
+        }
+        &--black {
+            color: $color-black !important;
+        }
+        &--red {
+            color: $color-red !important;
+        }
+        &--white {
+            color: $color-white !important;
+        }
+        &--blue {
+            color: $color-blue !important;
+        }
+        &--gray {
+            color: $color-gray !important;
+        }
+        &--underline {
+            text-decoration: underline !important;
+            text-underline-position: under;
+        }
+        &--break {
+            word-break: break-all !important;
+        }
+    }
+    &__opacity {
+        &--05 {
+            opacity: 0.5;
+        }
+    }
+    &__background {
+        &--black {
+            background-color: $color-black !important;
+        }
+        &--white {
+            background-color: $color-white !important;
+        }
+        &--red {
+            background-color: $color-red !important;
+        }
+        &--red-opacity {
+            background-color: $color-red-opacity !important;
+        }
+        &--blue {
+            background-color: $color-blue !important;
+        }
+        &--orange {
+            background: $color-orange !important;
+        }
+        &--purple {
+            background: $color-purple !important;
+        }
+        &--green {
+            background: $color-green !important;
+        }
+        &--gray {
+            background: $color-gray !important;
+        }
+        &--yellow {
+            background: $color-yellow !important;
+        }
+        &--gray-g {
+            background: color-shadow(0.1) !important;
+        }
+        &--pizazz {
+            background: $color-pizazz !important;
+        }
+        &--dove-gray {
+            background: $color-dove-gray !important;
+        }
+        &--navy-blue {
+            background: $color-navy-blue !important;
+        }
+        &--japonica {
+            background: $color-japonica !important;
+        }
+        &--danube {
+            background: $color-danube !important;
+        }
+        &--purple-heart {
+            background: $color-purple-heart !important;
+        }
+    }
+
+    &__filter {
+        &--red {
+            filter: $color-red-filter;
+        }
+        &--black {
+            filter: $color-black-filter;
+        }
+        &--white {
+            filter: $color-white-filter;
+        }
+        &--gray {
+            filter: $color-gray-filter;
+        }
+        &--light-green {
+            filter: $color-light-green-filter;
+        }
+    }
+    &__margin {
+        @for $i from 2 through 100 {
+            &--left#{$i} {
+                margin-left: #{$i}px !important;
+            }
+            &--minus_left#{$i} {
+                margin-left: -#{$i}px !important;
+            }
+            &--right#{$i} {
+                margin-right: #{$i}px !important;
+            }
+            &--minus_right#{$i} {
+                margin-right: -#{$i}px !important;
+            }
+            &--bottom#{$i} {
+                margin-bottom: #{$i}px !important;
+            }
+            &--minus_bottom#{$i} {
+                margin-bottom: -#{$i}px !important;
+            }
+            &--top#{$i} {
+                margin-top: #{$i}px !important;
+            }
+            &--minus_top#{$i} {
+                margin-top: -#{$i}px !important;
+            }
+            &--vertical#{$i} {
+                margin-top: #{$i}px !important;
+                margin-bottom: #{$i}px !important;
+            }
+            &--horizontal#{$i} {
+                margin-left: #{$i}px !important;
+                margin-right: #{$i}px !important;
+            }
+            &#{$i} {
+                margin: #{$i}px !important;
+            }
+        }
+        &--bottom-screen {
+            margin-bottom: 30vh !important;
+        }
+    }
+    &__padding {
+        @for $i from 2 through 40 {
+            &--left#{$i} {
+                padding-left: #{$i}px !important;
+            }
+            &--right#{$i} {
+                padding-right: #{$i}px !important;
+            }
+            &--bottom#{$i} {
+                padding-bottom: #{$i}px !important;
+            }
+            &--top#{$i} {
+                padding-top: #{$i}px !important;
+            }
+            &--vertical#{$i} {
+                padding-top: #{$i}px !important;
+                padding-bottom: #{$i}px !important;
+            }
+            &--horizontal#{$i} {
+                padding-left: #{$i}px !important;
+                padding-right: #{$i}px !important;
+            }
+            &#{$i} {
+                padding: #{$i}px !important;
+            }
+        }
+    }
+    &__border {
+        &--red {
+            border: 1px solid $color-red !important;
+        }
+        &--gray {
+            border: 1px solid $color-gray !important;
+        }
+        &--black {
+            border: 1px solid $color-black !important;
+        }
+        &--link {
+            border: 1px solid $color-blue !important;
+        }
+    }
+    &__width {
+        @for $i from 0 through 200 {
+            &#{$i} {
+                width: #{$i * 1%} !important;
+            }
+            &#{$i}px {
+                width: #{$i}px !important;
+            }
+        }
+    }
+    &__height {
+        @for $i from 0 through 200 {
+            &#{$i} {
+                height: #{$i * 1%} !important;
+            }
+            &#{$i}px {
+                height: #{$i}px !important;
+            }
+        }
+    }
+}
+
+@import 'app';

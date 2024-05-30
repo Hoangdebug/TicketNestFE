@@ -1,0 +1,57 @@
+.components {
+    &__select {
+        border: 1px solid $color-black !important;
+        max-width: 100%;
+        width: auto;
+        min-height: 32px;
+        border-radius: 4px;
+        width: 100%;
+        background-color: $color-white;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background: transparent;
+        background: url('/assets/icons/arrow-down.svg');
+        background-repeat: no-repeat;
+        background-position-x: 98%;
+        background-position-y: 50%;
+        color: $color-black !important;
+        &:focus {
+            background-color: $color-white;
+            outline: unset !important;
+            border: 1px solid $color-blue !important;
+        }
+        .css-319lph-ValueContainer {
+            padding: 0 8px;
+        }
+        .css-1s2u09g-control,
+        .css-1pahdxg-control {
+            border: unset !important;
+            min-height: 30px;
+            background: url('/assets/icons/arrow-down.svg');
+            background-repeat: no-repeat;
+            background-position-x: 98%;
+            background-position-y: 50%;
+        }
+        .css-tlfecz-indicatorContainer,
+        .css-1gtu0rj-indicatorContainer {
+            color: $color-black;
+            svg {
+                display: none !important;
+            }
+        }
+        .css-1okebmr-indicatorSeparator {
+            display: none !important;
+        }
+        .css-6j8wv5-Input,
+        .css-1pndypt-Input {
+            padding: unset !important;
+            margin: unset !important;
+        }
+        .css-ackcql,
+        .css-vwja0k,
+        .css-qc6sy-singleValue {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+    }
+}

@@ -1,0 +1,48 @@
+// define colors for reuse
+$color-white: #fff;
+$color-white-gray: #dfdfdf;
+$color-white-lighten: #f7f7f7;
+$color-white-opacity: rgba(255, 255, 255, 0);
+
+$color-dark-black: #000000;
+$color-black: #222222;
+$color-black-opacity: rgba(0, 0, 0, 0.5);
+
+$color-blue: #0d6efd;
+$color-blue-opacity: rgba(0, 122, 225, 0.05);
+$color-navy-blue: #000080;
+
+$color-red: #e60012;
+$color-red-opacity: rgba(230, 0, 18, 0.1);
+
+$color-orange: #945f29;
+
+$color-purple: #80037e;
+
+$color-green: #007f09;
+
+$color-gray: #c7c7c7;
+
+$color-yellow: #ffc93f;
+
+$color-cyan: #3c8dbc;
+
+$color-pizazz: #ff8900;
+
+$color-dove-gray: #717171;
+
+$color-japonica: #dc7279;
+
+$color-danube: #5995cb;
+
+$color-purple-heart: #4e2bdb;
+
+$color-red-filter: invert(20%) sepia(61%) saturate(7360%) hue-rotate(347deg) brightness(84%) contrast(118%);
+$color-white-filter: invert(100%) sepia(3%) saturate(181%) hue-rotate(354deg) brightness(118%) contrast(100%);
+$color-black-filter: invert(0%) sepia(85%) saturate(8%) hue-rotate(30deg) brightness(99%) contrast(100%);
+$color-gray-filter: invert(81%) sepia(0%) saturate(32%) hue-rotate(175deg) brightness(95%) contrast(101%);
+$color-light-green-filter: invert(56%) sepia(89%) saturate(656%) hue-rotate(79deg) brightness(96%) contrast(83%);
+
+@function color-shadow($opacity) {
+    @return rgba(34, 34, 34, $opacity);
+}

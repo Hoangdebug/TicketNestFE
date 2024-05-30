@@ -1,0 +1,11 @@
+.components {
+    &__img {
+        &-full {
+            transition: opacity 0.4s ease 0s;
+        }
+        &-thumb {
+            transition: visibility 0s ease 0.4s;
+            visibility: visible;
+        }
+    }
+}

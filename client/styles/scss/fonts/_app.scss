@@ -1,0 +1,176 @@
+@font-face {
+    font-family: 'Noto Sans';
+    font-style: italic;
+    font-weight: 200;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/notosansdisplay/v13/RLpUK4fy6r6tOBEJg0IAKzqdFZVZxrktbnDB5UzBIup9PwAcHvsgEKK7-R-p.woff2)
+        format('woff2');
+    unicode-range: U+0-10FFFF,
+        U+0000005b U+0000005d U+0000007b U+0000007d U+00000023 U+00000025 U+0000005e U+0000002a U+0000002b U+0000003d U+0000005f U+0000005c
+            U+0000007c U+0000007e U+0000003c U+0000003e U+00000024 U+000000a5 U+000020ac U+00002022 U+0000002e U+0000002c U+0000003f
+            U+00000021 U+00002019 U+0000002d U+0000002f U+0000003a U+0000003b U+00000028 U+00000029 U+00000026 U+00000040 U+0000201c;
+}
+@font-face {
+    font-family: 'Noto Sans';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/notosansdisplay/v13/RLpUK4fy6r6tOBEJg0IAKzqdFZVZxrktbnDB5UzBIup9PwAcHvsgEKK7-R-p.woff2)
+        format('woff2');
+    unicode-range: U+0-10FFFF,
+        U+0000005b U+0000005d U+0000007b U+0000007d U+00000023 U+00000025 U+0000005e U+0000002a U+0000002b U+0000003d U+0000005f U+0000005c
+            U+0000007c U+0000007e U+0000003c U+0000003e U+00000024 U+000000a5 U+000020ac U+00002022 U+0000002e U+0000002c U+0000003f
+            U+00000021 U+00002019 U+0000002d U+0000002f U+0000003a U+0000003b U+00000028 U+00000029 U+00000026 U+00000040 U+0000201c;
+}
+@font-face {
+    font-family: 'Noto Sans';
+    font-style: italic;
+    font-weight: 500;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/notosansdisplay/v13/RLpUK4fy6r6tOBEJg0IAKzqdFZVZxrktbnDB5UzBIup9PwAcHvsgEKK7-R-p.woff2)
+        format('woff2');
+    unicode-range: U+0-10FFFF,
+        U+0000005b U+0000005d U+0000007b U+0000007d U+00000023 U+00000025 U+0000005e U+0000002a U+0000002b U+0000003d U+0000005f U+0000005c
+            U+0000007c U+0000007e U+0000003c U+0000003e U+00000024 U+000000a5 U+000020ac U+00002022 U+0000002e U+0000002c U+0000003f
+            U+00000021 U+00002019 U+0000002d U+0000002f U+0000003a U+0000003b U+00000028 U+00000029 U+00000026 U+00000040 U+0000201c;
+}
+@font-face {
+    font-family: 'Noto Sans';
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/notosansdisplay/v13/RLpUK4fy6r6tOBEJg0IAKzqdFZVZxrktbnDB5UzBIup9PwAcHvsgEKK7-R-p.woff2)
+        format('woff2');
+    unicode-range: U+0-10FFFF,
+        U+0000005b U+0000005d U+0000007b U+0000007d U+00000023 U+00000025 U+0000005e U+0000002a U+0000002b U+0000003d U+0000005f U+0000005c
+            U+0000007c U+0000007e U+0000003c U+0000003e U+00000024 U+000000a5 U+000020ac U+00002022 U+0000002e U+0000002c U+0000003f
+            U+00000021 U+00002019 U+0000002d U+0000002f U+0000003a U+0000003b U+00000028 U+00000029 U+00000026 U+00000040 U+0000201c;
+}
+@font-face {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 200;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/notosansdisplay/v13/RLpWK4fy6r6tOBEJg0IAKzqdFZVZxpMkXJMhnB9XjO1o90LEW8siGqWZ-w.woff2)
+        format('woff2');
+    unicode-range: U+0-10FFFF,
+        U+0000005b U+0000005d U+0000007b U+0000007d U+00000023 U+00000025 U+0000005e U+0000002a U+0000002b U+0000003d U+0000005f U+0000005c
+            U+0000007c U+0000007e U+0000003c U+0000003e U+00000024 U+000000a5 U+000020ac U+00002022 U+0000002e U+0000002c U+0000003f
+            U+00000021 U+00002019 U+0000002d U+0000002f U+0000003a U+0000003b U+00000028 U+00000029 U+00000026 U+00000040 U+0000201c;
+}
+@font-face {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/notosansdisplay/v13/RLpWK4fy6r6tOBEJg0IAKzqdFZVZxpMkXJMhnB9XjO1o90LEW8siGqWZ-w.woff2)
+        format('woff2');
+    unicode-range: U+0-10FFFF,
+        U+0000005b U+0000005d U+0000007b U+0000007d U+00000023 U+00000025 U+0000005e U+0000002a U+0000002b U+0000003d U+0000005f U+0000005c
+            U+0000007c U+0000007e U+0000003c U+0000003e U+00000024 U+000000a5 U+000020ac U+00002022 U+0000002e U+0000002c U+0000003f
+            U+00000021 U+00002019 U+0000002d U+0000002f U+0000003a U+0000003b U+00000028 U+00000029 U+00000026 U+00000040 U+0000201c;
+}
+@font-face {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/notosansdisplay/v13/RLpWK4fy6r6tOBEJg0IAKzqdFZVZxpMkXJMhnB9XjO1o90LEW8siGqWZ-w.woff2)
+        format('woff2');
+    unicode-range: U+0-10FFFF,
+        U+0000005b U+0000005d U+0000007b U+0000007d U+00000023 U+00000025 U+0000005e U+0000002a U+0000002b U+0000003d U+0000005f U+0000005c
+            U+0000007c U+0000007e U+0000003c U+0000003e U+00000024 U+000000a5 U+000020ac U+00002022 U+0000002e U+0000002c U+0000003f
+            U+00000021 U+00002019 U+0000002d U+0000002f U+0000003a U+0000003b U+00000028 U+00000029 U+00000026 U+00000040 U+0000201c;
+}
+@font-face {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/notosansdisplay/v13/RLpWK4fy6r6tOBEJg0IAKzqdFZVZxpMkXJMhnB9XjO1o90LEW8siGqWZ-w.woff2)
+        format('woff2');
+    unicode-range: U+0-10FFFF,
+        U+0000005b U+0000005d U+0000007b U+0000007d U+00000023 U+00000025 U+0000005e U+0000002a U+0000002b U+0000003d U+0000005f U+0000005c
+            U+0000007c U+0000007e U+0000003c U+0000003e U+00000024 U+000000a5 U+000020ac U+00002022 U+0000002e U+0000002c U+0000003f
+            U+00000021 U+00002019 U+0000002d U+0000002f U+0000003a U+0000003b U+00000028 U+00000029 U+00000026 U+00000040 U+0000201c;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: 200;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/roboto/v29/KFOjCnqEu92Fr1Mu51TjASc6CsTYl4BO.woff2) format('woff2');
+    unicode-range: U+0-10FFFF,
+        U+0000005b U+0000005d U+0000007b U+0000007d U+00000023 U+00000025 U+0000005e U+0000002a U+0000002b U+0000003d U+0000005f U+0000005c
+            U+0000007c U+0000007e U+0000003c U+0000003e U+00000024 U+000000a5 U+000020ac U+00002022 U+0000002e U+0000002c U+0000003f
+            U+00000021 U+00002019 U+0000002d U+0000002f U+0000003a U+0000003b U+00000028 U+00000029 U+00000026 U+00000040 U+0000201c;
+}
+@font-face {
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/roboto/v29/KFOkCnqEu92Fr1Mu51xIIzIXKMny.woff2) format('woff2');
+    unicode-range: U+0-10FFFF,
+        U+0000005b U+0000005d U+0000007b U+0000007d U+00000023 U+00000025 U+0000005e U+0000002a U+0000002b U+0000003d U+0000005f U+0000005c
+            U+0000007c U+0000007e U+0000003c U+0000003e U+00000024 U+000000a5 U+000020ac U+00002022 U+0000002e U+0000002c U+0000003f
+            U+00000021 U+00002019 U+0000002d U+0000002f U+0000003a U+0000003b U+00000028 U+00000029 U+00000026 U+00000040 U+0000201c;
+}
+@font-face {
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/roboto/v29/KFOjCnqEu92Fr1Mu51TzBic6CsTYl4BO.woff2) format('woff2');
+    unicode-range: U+0-10FFFF,
+        U+0000005b U+0000005d U+0000007b U+0000007d U+00000023 U+00000025 U+0000005e U+0000002a U+0000002b U+0000003d U+0000005f U+0000005c
+            U+0000007c U+0000007e U+0000003c U+0000003e U+00000024 U+000000a5 U+000020ac U+00002022 U+0000002e U+0000002c U+0000003f
+            U+00000021 U+00002019 U+0000002d U+0000002f U+0000003a U+0000003b U+00000028 U+00000029 U+00000026 U+00000040 U+0000201c;
+}
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 200;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmSU5fBBc4AMP6lQ.woff2) format('woff2');
+    unicode-range: U+0-10FFFF,
+        U+0000005b U+0000005d U+0000007b U+0000007d U+00000023 U+00000025 U+0000005e U+0000002a U+0000002b U+0000003d U+0000005f U+0000005c
+            U+0000007c U+0000007e U+0000003c U+0000003e U+00000024 U+000000a5 U+000020ac U+00002022 U+0000002e U+0000002c U+0000003f
+            U+00000021 U+00002019 U+0000002d U+0000002f U+0000003a U+0000003b U+00000028 U+00000029 U+00000026 U+00000040 U+0000201c;
+}
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/roboto/v29/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2) format('woff2');
+    unicode-range: U+0-10FFFF,
+        U+0000005b U+0000005d U+0000007b U+0000007d U+00000023 U+00000025 U+0000005e U+0000002a U+0000002b U+0000003d U+0000005f U+0000005c
+            U+0000007c U+0000007e U+0000003c U+0000003e U+00000024 U+000000a5 U+000020ac U+00002022 U+0000002e U+0000002c U+0000003f
+            U+00000021 U+00002019 U+0000002d U+0000002f U+0000003a U+0000003b U+00000028 U+00000029 U+00000026 U+00000040 U+0000201c;
+}
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmWUlfBBc4AMP6lQ.woff2) format('woff2');
+    unicode-range: U+0-10FFFF,
+        U+0000005b U+0000005d U+0000007b U+0000007d U+00000023 U+00000025 U+0000005e U+0000002a U+0000002b U+0000003d U+0000005f U+0000005c
+            U+0000007c U+0000007e U+0000003c U+0000003e U+00000024 U+000000a5 U+000020ac U+00002022 U+0000002e U+0000002c U+0000003f
+            U+00000021 U+00002019 U+0000002d U+0000002f U+0000003a U+0000003b U+00000028 U+00000029 U+00000026 U+00000040 U+0000201c;
+}
+
+html {
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -ms-overflow-style: scrollbar;
+    -webkit-tap-highlight-color: transparent;
+    font-size: 16px;
+}
+body {
+    font-family: 'Noto Sans' !important;
+    color: $color-black !important;
+}

@@ -1,0 +1,41 @@
+{
+  "extends": [
+    "tslint:latest",
+    "tslint-react",
+    "tslint-eslint-rules",
+    "tslint-config-prettier"
+  ],
+  "linterOptions": {
+    "exclude": [
+      "assets",
+      "node_modules",
+      ".next"
+    ]
+  },
+  "rules": {
+    "curly": [true, "ignore-same-line"],
+    "ordered-imports": false,
+    "no-submodule-imports": false,
+    "no-implicit-dependencies": false,
+    "no-var-requires": false,
+    "interface-name": false,
+    "object-literal-sort-keys": false,
+    "variable-name": {
+      "options": [
+        "check-format",
+        "allow-pascal-case",
+        "allow-snake-case",
+        "allow-leading-underscore"
+      ]
+    },
+    "prefer-for-of": false,
+    "no-shadowed-variable": false,
+    "no-empty-interface": false,
+    "no-empty": false,
+    "jsx-self-close": false,
+    "jsx-no-lambda": false,
+    "no-string-literal": false,
+    "radix": false,
+    "no-console": false
+  }
+}

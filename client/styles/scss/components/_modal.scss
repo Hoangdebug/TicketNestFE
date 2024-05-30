@@ -1,0 +1,28 @@
+.components {
+    &__modal {
+        z-index: 9999;
+        .modal-dialog {
+            @include responsive(max-lg) {
+                padding-top: 32px !important;
+            }
+            transition: unset !important;
+        }
+        &-heading {
+            padding: 16px 16px 20px 16px;
+            border-bottom: 1px solid $color-gray;
+        }
+        &-content {
+            padding: 24px;
+            max-height: calc(100vh - 200px) !important;
+            overflow-y: auto !important;
+            @include responsive(max-lg) {
+                padding: 17px !important;
+                max-height: calc(100vh - 270px) !important;
+            }
+        }
+        &-footer {
+            padding: 16px;
+            border-top: 1px solid $color-gray;
+        }
+    }
+}

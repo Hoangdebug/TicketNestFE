@@ -1,0 +1,27 @@
+stages:  # List of stages for jobs, and their order of execution
+    - deploy
+    - build
+
+before_script:
+    - echo "$SSH_KNOWN_HOSTS" >> /home/gitlab-runner/.ssh/known_hosts
+    - chmod 644 /home/gitlab-runner/.ssh/known_hosts
+
+deploy-dev-job: # This job runs in the deploy stage, which runs first.
+    stage: deploy
+    script:
+        - ssh giangnc-ubuntu@192.85.50.43 "cd Desktop/mock-project && git checkout develop && git pull origin develop && exit"
+        - echo "Application successfully deployed."
+    only:
+        - develop
+    tags:
+        - dev
+
+build-dev-job: # This job runs in the build stage.
+    stage: build
+    script:
+        - ssh giangnc-ubuntu@192.85.50.43 "cd Desktop/mock-project && ./bin/build-dev.sh && exit"
+        - echo "Application successfully builed."
+    only:
+        - develop
+    tags:
+        - dev

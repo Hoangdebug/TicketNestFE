@@ -1,0 +1,63 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none !important;
+    color: unset;
+    &:hover {
+        color: unset;
+    }
+}
+
+.row {
+    margin-left: unset !important;
+    margin-right: unset !important;
+}
+
+.bottom-0 {
+    bottom: 0 !important;
+}
+
+::placeholder {
+    color: $color-black !important;
+    opacity: 0.32 !important;
+}
+
+:-ms-input-placeholder {
+    color: $color-black !important;
+    opacity: 0.32 !important;
+}
+
+::-ms-input-placeholder {
+    color: $color-black !important;
+    opacity: 0.32 !important;
+}
+
+body {
+    &.modal-open {
+        padding-right: unset !important;
+    }
+    .fade {
+        transition: unset !important;
+    }
+}
+
+.no-scroll {
+    overflow: hidden !important;
+}
+
+input,
+select,
+optgroup,
+textarea {
+    line-height: unset !important;
+}
