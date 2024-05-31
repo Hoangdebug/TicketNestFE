@@ -44,6 +44,9 @@ const REGISTER_API: IRouteConstant = {
     href: '/user/register',
 };
 
+const CURRENT_USER_API: IRouteConstant = {
+    href: '/user/current'
+};
 const FORGOTPASSWORD_API: IRouteConstant = {
     href: '/user/forgotpassword',
 };
@@ -63,6 +66,7 @@ const CHANGEPASSWORDSUCCESS_API: IRouteConstant = {
 export const API = {
     LOGIN: LOGIN_API,
     REGISTER: REGISTER_API,
+    CURRENT_USER: CURRENT_USER_API,
     FORGOTPASSWORD: FORGOTPASSWORD_API,
     POSTFORGOTPASSWORD: POSTFORGOTPASSWORD_API,
     CHANGEPASSWORD: CHANGEPASSWORD_API,

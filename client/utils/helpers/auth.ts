@@ -1,6 +1,6 @@
 export const accessToken = () => {
     if (process.browser) {
-        const name = 'trainingAccessToken=';
+        const name = 'token=';
         const decodedCookie = decodeURIComponent(document.cookie);
         const cookie = decodedCookie.split(';');
         for (let i = 0; i < cookie.length; i++) {
@@ -24,7 +24,7 @@ export const setAccessToken = (accessToken: string) => {
     const date = new Date();
     date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000);
     const expires = `expires=${date.toUTCString()}`;
-    document.cookie = `trainingAccessToken=${accessToken};${expires};path=/;${window.location.protocol === 'https' ? 'secure;' : ''}`;
+    document.cookie = `token=${accessToken};${expires};path=/;${window.location.protocol === 'https' ? 'secure;' : ''}`;
 };
 
 export const isAuth = () => {
@@ -32,5 +32,14 @@ export const isAuth = () => {
 };
 
 export const logOut = () => {
-    document.cookie = 'trainingAccessToken=; Max-Age=-99999999;';
+    sessionStorage.clear();
+    localStorage.clear();
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i];
+        const eqPos = cookie.indexOf('=');
+        const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
+        document.cookie = `${name}=;max-age=-99999999;path=/;${window.location.protocol === 'https' ? 'secure;' : ''}`;
+    }
+    // document.cookie = 'token=; Max-Age=-99999999;';
 };

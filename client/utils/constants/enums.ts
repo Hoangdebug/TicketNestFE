@@ -1,4 +1,4 @@
 export const enum ROLE {
-    ADMIN = 1,
-    MOD = 2,
+    ADMIN = 'ROLE_ADMIN',
+    USER = 'ROLE_USER',
 }
