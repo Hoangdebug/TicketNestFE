@@ -43,6 +43,7 @@ const App: IAppComponent<IAppComponentProps> = (props) => {
         routes.CLIENT.POSTFORGOTPASSWORD_PAGE.href,
         routes.CLIENT.CHANGEPASSWORD_PAGE.href,
         routes.CLIENT.CHANGEPASSWORDSUCCESS_PAGE.href,
+        routes.CLIENT.ADMIN_PAGE.href,
     ];
     useEffect(() => {
         handleScrollToTop();

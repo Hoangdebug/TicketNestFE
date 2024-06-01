@@ -3,15 +3,18 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { createRef, useState } from 'react';
 import Validator from '@components/commons/Validator';
 import { validateHelper } from '@utils/helpers';
-import { routes } from '@utils/constants';
+import { enums, routes } from '@utils/constants';
 import router, { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchLogin } from '@redux/actions';
+import { ReduxStates } from '@redux/reducers';
 
 const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
     const navigate = useRouter();
     const dispatch = useDispatch();
     const [showPassword, setShowPassword] = useState(false);
+    // const { profile } = useSelector((states: ReduxStates) => states)
+
     const [state, setState] = useState<ILoginComponentState>({
         email: '',
         password: '',
@@ -56,8 +59,14 @@ const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
         // call api
         if (isValidate) {
             dispatch(await fetchLogin({email, password} , (res) => {
+                const isAdmin = res?.data?.userData?.role
+                console.log(isAdmin)
                 if(res?.code == 200){
-                    router.push(routes.CLIENT.HOME_PAGE.href);
+                    if(isAdmin.includes(enums?.ROLE?.ADMIN)){
+                        router.push(routes.CLIENT.ADMIN_PAGE.href)
+                    }else{
+                        router.push(routes.CLIENT.HOME_PAGE.href);
+                    }
                 }else if (res?.code == 400){ 
                     alert(res?.message);
                 }
