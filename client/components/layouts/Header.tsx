@@ -25,9 +25,9 @@ const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
         const checkRole = profile?.details?.role
         console.log(checkRole)
         if(checkRole?.includes(enums.ROLE.ADMIN)){
-            router.push(routes.CLIENT.HOME_PAGE.href)
+            router.push(routes.CLIENT.ADMIN_PAGE.href)
         }else{
-            router.push(routes.CLIENT.LOGIN_PAGE.href)
+            router.push(routes.CLIENT.HOME_PAGE.href)
         }
     }, [profile])
 
