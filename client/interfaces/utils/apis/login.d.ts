@@ -4,6 +4,6 @@ interface ILoginDataAPI {
 }
 
 interface ILoginAPIRes extends IBaseAPIRes {
-    access_token?: string;
+    accessToken?: string;
     session_id?: string;
 }

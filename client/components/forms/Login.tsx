@@ -4,10 +4,13 @@ import { createRef, useState } from 'react';
 import Validator from '@components/commons/Validator';
 import { validateHelper } from '@utils/helpers';
 import { routes } from '@utils/constants';
-import { useRouter } from 'next/router';
+import router, { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { fetchLogin } from '@redux/actions';
 
 const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
     const navigate = useRouter();
+    const dispatch = useDispatch();
     const [showPassword, setShowPassword] = useState(false);
     const [state, setState] = useState<ILoginComponentState>({
         email: '',
@@ -52,7 +55,13 @@ const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
 
         // call api
         if (isValidate) {
-            // logic call api
+            dispatch(await fetchLogin({email, password} , (res) => {
+                if(res?.code == 200){
+                    router.push(routes.CLIENT.HOME_PAGE.href);
+                }else if (res?.code == 400){ 
+                    alert(res?.message);
+                }
+            }))
         }
     };
     return (

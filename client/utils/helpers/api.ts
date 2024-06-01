@@ -16,3 +16,11 @@ export const register = async (data: IRegisterDataApi) => {
         throw err;
     }
 };
+
+export const getCurrentUser = async() =>{ 
+    try {
+        return await axios.get<ICurrentUserAPIRes>(`${routes.API.CURRENT_USER.href}`);
+    } catch (err) {
+        throw err;
+    }
+}

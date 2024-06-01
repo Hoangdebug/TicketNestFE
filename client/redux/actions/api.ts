@@ -1,9 +1,7 @@
 import { Dispatch } from 'redux';
 import { AxiosError, AxiosResponse } from 'axios';
-
 import { authHelper, apiHelper } from '@utils/helpers';
-
-import { SET_LOADER } from '@redux/actions/type';
+import { SET_LOADER, SET_MEMBER_PROFILE } from '@redux/actions/type';
 
 const setLoader = (data: boolean = false) => {
     return {
@@ -24,7 +22,7 @@ export const fetchLogin = async (
 
         try {
             const res = await apiHelper.login(data);
-            authHelper.setAccessToken(res.data.access_token ?? '');
+            authHelper.setAccessToken(res.data.accessToken ?? '');
             if (callBack) {
                 callBack(res?.data);
             }
@@ -53,7 +51,6 @@ export const fetchRegister = (
         }
 
         try {
-            console.log('HEHE__: ', data);
             const res = await apiHelper.register(data);
             if (callBack) {
                 callBack(res?.data);
@@ -70,5 +67,34 @@ export const fetchRegister = (
         if (isLoad) {
             dispatch(setLoader(false));
         }
+    };
+};
+
+export const fetchGetCurrentAccount = async ( 
+    callBack?: (result: ICurrentUserAPIRes | IErrorAPIRes| null) => void
+) => {
+    try {
+        const res = await apiHelper.getCurrentUser();
+        
+        return{
+            type: SET_MEMBER_PROFILE,
+            data: {details: res?.data?.rs}
+        }
+        
+    } catch (err) {
+        if (!(err instanceof Error)) {
+            const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+            if (callBack) {
+                callBack(res?.data);
+            }
+        }
+    }
+}
+
+export const fetchLogout = () => {
+    authHelper.logOut();
+    return {
+        type: SET_MEMBER_PROFILE,
+        data: { profile: null },
     };
 };

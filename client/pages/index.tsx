@@ -146,7 +146,7 @@ const HomePage: IHomePage<IHomePageProps> = () => {
                 onClick={() =>
                     router.push(
                         {
-                            pathname: routes.CLIENT.LOGIN.href,
+                            pathname: routes.CLIENT.LOGIN_PAGE.href,
                         },
                         undefined,
                         { scroll: false },
