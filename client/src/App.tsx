@@ -1,6 +1,6 @@
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import routesConfig from "./utils/routes/Setting/routesConfig";
-import {Header, Footer} from "./components/Layouts";
+import { Header, Footer } from "./components/Layouts";
 import { routes } from "./utils/routes";
 import { useEffect, useState } from "react";
 
@@ -10,25 +10,29 @@ const App: IAppComponent<IAppComponentProps> = () => {
   const [loader, setLoader] = useState(false)
   const [state, setState] = useState<IAppComponentState>({
     reloadKey: 0,
-    
-});
-const { reloadKey } = state;
 
-useEffect(() => {
-  const handlePopState = () => {
-    window.scrollTo(0, 0);
-  };
+  });
+  const { reloadKey } = state;
 
-  window.addEventListener('popstate', handlePopState);
+  useEffect(() => {
+    const handlePopState = () => {
+      window.scrollTo(0, 0);
+    };
 
-  return () => {
-    window.removeEventListener('popstate', handlePopState);
-  };
-}, []);
+    window.addEventListener('popstate', handlePopState);
 
-  const showComponents = 
-    location.pathname !== routes.CLIENT.LOGIN_PAGE.href && 
-    location.pathname !== routes.CLIENT.REGISTER_PAGE.href;
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
+  const showComponents =
+    location.pathname !== routes.CLIENT.LOGIN_PAGE.href &&
+    location.pathname !== routes.CLIENT.REGISTER_PAGE.href &&
+    location.pathname !== routes.CLIENT.REGISTERSUCCESS_PAGE.href &&
+    location.pathname !== routes.CLIENT.FIRSTERROR_PAGE.href&&
+    location.pathname !== routes.CLIENT.SECONDERROR_PAGE.href&&
+    location.pathname !== routes.CLIENT.THIRDERROR_PAGE.href;
   return (
     <>
       {showComponents && (<><Header /></>)}

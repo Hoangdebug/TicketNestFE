@@ -16,3 +16,10 @@ export const register = async (data: IRegisterDataApi) => {
         throw err;
     }
 }
+export const registersuccess = async (data: IRegisterSuccessDataApi) => {
+    try {
+        return await axios.post <IRegisterSuccessDataApiRes>(`${routes.API.REGISTERSUCCESS.href}`, data);
+    } catch (err) {
+        throw err;
+    }  
+}

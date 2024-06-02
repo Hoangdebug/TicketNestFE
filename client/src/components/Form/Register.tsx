@@ -186,11 +186,11 @@ const RegisterForm: IRegisterComponent<IRegisterComponentProps> = () => {
             </div>
           </div>
         </div>
-        <button type="submit" className="btn btn-success btn-block" onClick={() => handleSubmit()}>Sign Up</button>
-        <button type="button" className="btn btn-sencondary btn-block text-success">Back to Sign In</button>
+        <button type="submit" className="components__register-form-firstbutton btn btn-primary btn-block" onClick={() => handleSubmit()}>Sign Up</button>
+        <button type="button" className="components__register-form-secondbutton btn btn-sencondary btn-block "> <span>Back to Sign In</span></button>
       </div>
     </div>
   )
 }
-5
+
 export default RegisterForm
