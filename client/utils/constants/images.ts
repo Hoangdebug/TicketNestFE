@@ -7,3 +7,7 @@ export const ICON_LEFT_ARROW = '/assets/icons/left-arrow.svg';
 export const LOGIN_LOGO = '/assets/icons/react.svg';
 export const POSTFORGOTPW_LOGO = '/assets/icons/postforgotpw.svg';
 export const CHANGEPWSUCCESS_LOGO = '/assets/icons/changepwsuccess.svg';
+export const SUCCESS_LOGO = '/assets/icons/registersuccess.svg';
+export const ERROR403_LOGO = '/assets/icons/error403.svg';
+export const ERROR500_LOGO = '/assets/icons/error500.svg';
+export const ERROR404_LOGO = '/assets/icons/error404.svg';

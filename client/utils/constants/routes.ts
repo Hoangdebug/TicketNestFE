@@ -26,6 +26,22 @@ const CHANGEPASSWORDSUCCESS: IRouteConstant = {
     href: '/changepasswordsuccess',
 };
 
+const REGISTERSUCCESS: IRouteConstant = {
+    href: '/registersuccess',
+};
+
+const ERROR404: IRouteConstant = {
+    href: '/404',
+};
+
+const ERROR500: IRouteConstant = {
+    href: '/500',
+};
+
+const ERROR403: IRouteConstant = {
+    href: '/403',
+};
+
 const ADMIN_DASHBOARD: IRouteConstant = {
     href: '/admin',
 };
@@ -36,6 +52,10 @@ export const CLIENT = {
     POSTFORGOTPASSWORD_PAGE: POSTFORGOTPASSWORD,
     CHANGEPASSWORD_PAGE: CHANGEPASSWORD,
     CHANGEPASSWORDSUCCESS_PAGE: CHANGEPASSWORDSUCCESS,
+    REGISTERSUCCESS_PAGE: REGISTERSUCCESS,
+    ERROR404_PAGE: ERROR404,
+    ERROR500_PAGE: ERROR500,
+    ERROR403_PAGE: ERROR403,
     HOME_PAGE: HOME,
     ADMIN_PAGE: ADMIN_DASHBOARD,
 };
