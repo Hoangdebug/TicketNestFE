@@ -10,34 +10,34 @@ const REGISTER: IRouteConstant = {
     href: '/register',
 };
 
-const FORGOTPASSWORD: IRouteConstant = {
+const FORGOT_PASSWORD: IRouteConstant = {
     href: '/forgotpassword/forgot_password',
 };
 
-const POSTFORGOTPASSWORD: IRouteConstant = {
-    href: '/forgotpassword/',
+const POST_FORGOT_PASSWORD: IRouteConstant = {
+    href: '/forgotpassword/post_forgot_password',
 };
 
-const CHANGEPASSWORD: IRouteConstant = {
-    href: '/changepassword',
+const CHANGE_PASSWORD: IRouteConstant = {
+    href: '/forgotpassword/change_password',
 };
 
-const CHANGEPASSWORDSUCCESS: IRouteConstant = {
-    href: '/changepasswordsuccess',
+const CHANGE_PASSWORD_SUCCESS: IRouteConstant = {
+    href: '/forgotpassword/change_password_success',
 };
 
-const ADMIN_DASHBOARD: IRouteConstant ={ 
-    href: 'admin'
-}
+const ADMIN_DASHBOARD: IRouteConstant = {
+    href: 'admin',
+};
 export const CLIENT = {
     LOGIN_PAGE: LOGIN,
     REGISTER_PAGE: REGISTER,
-    FORGOTPASSWORD_PAGE: FORGOTPASSWORD,
-    POSTFORGOTPASSWORD_PAGE: POSTFORGOTPASSWORD,
-    CHANGEPASSWORD_PAGE: CHANGEPASSWORD,
-    CHANGEPASSWORDSUCCESS_PAGE: CHANGEPASSWORDSUCCESS,
+    FORGOT_PASSWORD_PAGE: FORGOT_PASSWORD,
+    POST_FORGOT_PASSWORD_PAGE: POST_FORGOT_PASSWORD,
+    CHANGE_PASSWORD_PAGE: CHANGE_PASSWORD,
+    CHANGE_PASSWORD_SUCCESS_PAGE: CHANGE_PASSWORD_SUCCESS,
     HOME_PAGE: HOME,
-    ADMIN_PAGE: ADMIN_DASHBOARD
+    ADMIN_PAGE: ADMIN_DASHBOARD,
 };
 
 const LOGIN_API: IRouteConstant = {
@@ -49,7 +49,7 @@ const REGISTER_API: IRouteConstant = {
 };
 
 const CURRENT_USER_API: IRouteConstant = {
-    href: '/user/current'
+    href: '/user/current',
 };
 const FORGOTPASSWORD_API: IRouteConstant = {
     href: '/user/forgotpassword',

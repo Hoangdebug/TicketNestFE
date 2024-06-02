@@ -16,7 +16,7 @@ const HomePage: IHomePage<IHomePageProps> = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const { locale } = useSelector((states: ReduxStates) => states);
-    const { profile } = useSelector((states: ReduxStates) => states)
+    const { profile } = useSelector((states: ReduxStates) => states);
 
     const [state, setState] = useState<IHomePageState>({
         checkboxChecked: [],
@@ -27,15 +27,11 @@ const HomePage: IHomePage<IHomePageProps> = () => {
         if (!token) {
             router.push(routes.CLIENT.LOGIN_PAGE.href);
         }
-    }, [token])
-    const isUser = profile?.details?.role
+    }, [token]);
+    const isUser = profile?.details?.role;
 
     if (isUser?.includes(enums?.ROLE?.USER)) {
-        return (
-            <div className="pages__home container">
-                Home page
-            </div>
-        )
+        return <div className="pages__home container">Home page</div>;
     }
 
     const changeLanguage = (lang: string) => {

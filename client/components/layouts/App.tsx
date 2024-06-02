@@ -23,7 +23,7 @@ const App: IAppComponent<IAppComponentProps> = (props) => {
 
     const noAuthPath = [
         // bắt phân quyền admin
-        routes.CLIENT.CHANGEPASSWORDSUCCESS_PAGE.href,
+        routes.CLIENT.CHANGE_PASSWORD_SUCCESS_PAGE.href,
     ];
     const isNotFoundPage = statusCode === http.NOT_FOUND_CODE;
 
@@ -39,10 +39,10 @@ const App: IAppComponent<IAppComponentProps> = (props) => {
     const noHeaderFooterPath = [
         routes.CLIENT.LOGIN_PAGE.href,
         routes.CLIENT.REGISTER_PAGE.href,
-        routes.CLIENT.FORGOTPASSWORD_PAGE.href,
-        routes.CLIENT.POSTFORGOTPASSWORD_PAGE.href,
-        routes.CLIENT.CHANGEPASSWORD_PAGE.href,
-        routes.CLIENT.CHANGEPASSWORDSUCCESS_PAGE.href,
+        routes.CLIENT.FORGOT_PASSWORD_PAGE.href,
+        routes.CLIENT.POST_FORGOT_PASSWORD_PAGE.href,
+        routes.CLIENT.CHANGE_PASSWORD_PAGE.href,
+        routes.CLIENT.CHANGE_PASSWORD_SUCCESS_PAGE.href,
         routes.CLIENT.ADMIN_PAGE.href,
     ];
     useEffect(() => {

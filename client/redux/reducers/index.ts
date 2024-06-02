@@ -6,7 +6,7 @@ const rootReducers = combineReducers({
     locale: localeReducer,
     modal: modalReducer,
     loader: loaderReducer,
-    profile: memberReducer
+    profile: memberReducer,
 });
 export type ReduxStates = ReturnType<typeof rootReducers>;
 export default rootReducers;
