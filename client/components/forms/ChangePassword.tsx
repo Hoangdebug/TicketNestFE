@@ -25,7 +25,7 @@ const ChangePasswordForm: IChangePasswordComponent<IChangePasswordComponentProps
     };
 
     const handleNextPage = () => {
-        navigate.push(routes.CLIENT.POSTFORGOTPASSWORD_PAGE.href);
+        navigate.push(routes.CLIENT.POST_FORGOT_PASSWORD_PAGE.href);
     };
 
     const [state, setState] = useState<IChangePasswordComponentState>({

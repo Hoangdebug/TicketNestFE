@@ -15,15 +15,15 @@ const AdminPages = () => {
         },
         {
             title: 'v',
-            href: routes.CLIENT.POSTFORGOTPASSWORD_PAGE.href,
+            href: routes.CLIENT.POST_FORGOT_PASSWORD_PAGE.href,
         },
         {
             title: 'b',
-            href: routes.CLIENT.POSTFORGOTPASSWORD_PAGE.href,
+            href: routes.CLIENT.POST_FORGOT_PASSWORD_PAGE.href,
         },
         {
             title: 'c',
-            link: routes.CLIENT.POSTFORGOTPASSWORD_PAGE.href,
+            link: routes.CLIENT.POST_FORGOT_PASSWORD_PAGE.href,
         },
     ];
 
