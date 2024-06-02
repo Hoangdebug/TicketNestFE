@@ -1,0 +1,34 @@
+.components {
+    &__firsterror {
+        &-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+
+            &-firstbutton {
+                width: 100%;
+                margin: 0 30px;
+                background-color: #396961;
+                border: 2px solid #396961;
+                color: white;
+                border-radius: 8px;
+                padding: 8px 16px;
+                font-size: 16px;
+            }
+        }
+
+        &-firsttext {
+            font-weight: 700;
+            color: black;
+            text-align: center;
+            font-size: 40px;
+        }
+
+        &-secondtext {
+            text-align: center;
+            font-size: 19px;
+            color: black;
+        }
+    }
+}
