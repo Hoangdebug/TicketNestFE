@@ -26,9 +26,9 @@ const CHANGEPASSWORDSUCCESS: IRouteConstant = {
     href: '/changepasswordsuccess',
 };
 
-const ADMIN_DASHBOARD: IRouteConstant ={ 
-    href: 'admin'
-}
+const ADMIN_DASHBOARD: IRouteConstant = {
+    href: '/admin',
+};
 export const CLIENT = {
     LOGIN_PAGE: LOGIN,
     REGISTER_PAGE: REGISTER,
@@ -37,7 +37,7 @@ export const CLIENT = {
     CHANGEPASSWORD_PAGE: CHANGEPASSWORD,
     CHANGEPASSWORDSUCCESS_PAGE: CHANGEPASSWORDSUCCESS,
     HOME_PAGE: HOME,
-    ADMIN_PAGE: ADMIN_DASHBOARD
+    ADMIN_PAGE: ADMIN_DASHBOARD,
 };
 
 const LOGIN_API: IRouteConstant = {
@@ -49,7 +49,7 @@ const REGISTER_API: IRouteConstant = {
 };
 
 const CURRENT_USER_API: IRouteConstant = {
-    href: '/user/current'
+    href: '/user/current',
 };
 const FORGOTPASSWORD_API: IRouteConstant = {
     href: '/user/forgotpassword',

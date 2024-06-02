@@ -58,19 +58,21 @@ const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
 
         // call api
         if (isValidate) {
-            dispatch(await fetchLogin({email, password} , (res) => {
-                const isAdmin = res?.data?.userData?.role
-                console.log(isAdmin)
-                if(res?.code == 200){
-                    if(isAdmin.includes(enums?.ROLE?.ADMIN)){
-                        router.push(routes.CLIENT.ADMIN_PAGE.href)
-                    }else{
-                        router.push(routes.CLIENT.HOME_PAGE.href);
+            dispatch(
+                await fetchLogin({ email, password }, (res) => {
+                    const isAdmin = res?.data?.userData?.role;
+                    console.log(isAdmin);
+                    if (res?.code == 200) {
+                        if (isAdmin.includes(enums?.ROLE?.ADMIN)) {
+                            router.push(routes.CLIENT.ADMIN_PAGE.href);
+                        } else {
+                            router.push(routes.CLIENT.HOME_PAGE.href);
+                        }
+                    } else if (res?.code == 400) {
+                        alert(res?.message);
                     }
-                }else if (res?.code == 400){ 
-                    alert(res?.message);
-                }
-            }))
+                }),
+            );
         }
     };
     return (

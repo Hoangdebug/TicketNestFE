@@ -6,7 +6,7 @@ interface IRegisterDataApi {
     confirmPassword?: string;
     dob?: string;
 }
-interface ICurrentUserAPIRes{
+interface ICurrentUserAPIRes {
     rs?: IRegisterDataApi;
 }
 interface IRegisterDataApiRes extends IBaseAPIRes {

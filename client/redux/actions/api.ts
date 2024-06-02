@@ -70,17 +70,14 @@ export const fetchRegister = (
     };
 };
 
-export const fetchGetCurrentAccount = async ( 
-    callBack?: (result: ICurrentUserAPIRes | IErrorAPIRes| null) => void
-) => {
+export const fetchGetCurrentAccount = async (callBack?: (result: ICurrentUserAPIRes | IErrorAPIRes | null) => void) => {
     try {
         const res = await apiHelper.getCurrentUser();
-        
-        return{
+
+        return {
             type: SET_MEMBER_PROFILE,
-            data: {details: res?.data?.rs}
-        }
-        
+            data: { details: res?.data?.rs },
+        };
     } catch (err) {
         if (!(err instanceof Error)) {
             const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
@@ -89,7 +86,7 @@ export const fetchGetCurrentAccount = async (
             }
         }
     }
-}
+};
 
 export const fetchLogout = () => {
     authHelper.logOut();
