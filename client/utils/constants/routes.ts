@@ -27,7 +27,7 @@ const CHANGE_PASSWORD_SUCCESS: IRouteConstant = {
 };
 
 const ADMIN_DASHBOARD: IRouteConstant = {
-    href: 'admin',
+    href: '/admin',
 };
 export const CLIENT = {
     LOGIN_PAGE: LOGIN,

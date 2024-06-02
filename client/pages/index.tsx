@@ -22,23 +22,26 @@ const HomePage: IHomePage<IHomePageProps> = () => {
         checkboxChecked: [],
         radioChecked: '1',
     });
-    const token = authHelper.accessToken();
+
     useEffect(() => {
-        if (!token) {
+        const accessToken = authHelper.accessToken();
+        console.log(accessToken);
+        if (accessToken) {
+            const currentPath = router.pathname;
+            console.log(currentPath);
+            if (currentPath === routes.CLIENT.LOGIN_PAGE.href || currentPath === routes.CLIENT.REGISTER_PAGE.href) {
+                router.push(routes.CLIENT.HOME_PAGE.href);
+            }
+        } else {
             router.push(routes.CLIENT.LOGIN_PAGE.href);
         }
-    }, [token]);
-    const isUser = profile?.details?.role;
-
-    if (isUser?.includes(enums?.ROLE?.USER)) {
-        return <div className="pages__home container">Home page</div>;
-    }
+    }, [router]);
 
     const changeLanguage = (lang: string) => {
         dispatch(setLocale(lang));
     };
 
-    return <></>;
+    return <a href={routes.CLIENT.LOGIN_PAGE.href}>home Pages</a>;
 };
 
 export default HomePage;

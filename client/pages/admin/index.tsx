@@ -1,7 +1,13 @@
-import { routes } from '@utils/constants';
-import React from 'react';
+import { ReduxStates } from '@redux/reducers';
+import { enums, routes } from '@utils/constants';
+import { authHelper } from '@utils/helpers';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const AdminPages = () => {
+    const { profile } = useSelector((states: ReduxStates) => states);
+    const router = useRouter();
     const sideBar = [
         {
             title: 'trung',
@@ -20,6 +26,25 @@ const AdminPages = () => {
             link: routes.CLIENT.POSTFORGOTPASSWORD_PAGE.href,
         },
     ];
+
+    useEffect(() => {
+        const isAdmin = profile?.details?.role;
+        console.log(isAdmin);
+
+        if (!isAdmin?.includes(enums?.ROLE?.ADMIN)) {
+            router.push(routes.CLIENT.HOME_PAGE.href);
+        }
+
+        const accessToken = authHelper.accessToken();
+        if (accessToken) {
+            const currentPath = router.pathname;
+            if (currentPath === routes.CLIENT.LOGIN_PAGE.href || currentPath === routes.CLIENT.REGISTER_PAGE.href) {
+                router.push(routes.CLIENT.HOME_PAGE.href);
+            }
+        } else {
+            router.push(routes.CLIENT.LOGIN_PAGE.href);
+        }
+    }, [profile, router]);
 
     return (
         <div className="row">
