@@ -1,6 +1,9 @@
 .components {
     &__register {
-        padding: 0px 10px;
+        padding: 0px 110.5px;
+        @media screen and (max-width: 768px) {
+            padding: 0px;
+        }
         &-form {
             box-shadow: 0px 2px 10px 0px #00000033;
             display: flex;
