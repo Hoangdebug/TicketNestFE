@@ -7,3 +7,5 @@ export const ICON_LEFT_ARROW = '/assets/icons/left-arrow.svg';
 export const LOGIN_LOGO = '/assets/icons/react.svg';
 export const POSTFORGOTPW_LOGO = '/assets/icons/postforgotpw.svg';
 export const CHANGEPWSUCCESS_LOGO = '/assets/icons/changepwsuccess.svg';
+export const LOGO_HOME = '/assets/icons/icon-logo-home.svg';
+export const BG_ITEMS_HOME = '/assets/bg/bg-item.svg';
