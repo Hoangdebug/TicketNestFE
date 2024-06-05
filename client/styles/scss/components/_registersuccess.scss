@@ -1,0 +1,36 @@
+.components {
+    &__registersuccess {
+        &-rightside {
+        }
+
+        &-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 38px;
+
+            &-firsttext {
+                font-size: 64px !important;
+                font-weight: 700;
+                font-weight: bold;
+                color: #0048b2;
+            }
+
+            &-secondtext {
+                font-weight: 400 !important;
+                font-size: 22px;
+            }
+
+            &-secondbutton {
+                color: white !important;
+                background-color: #3a57e8 !important;
+                border: 2px solid #3a57e8 !important;
+                padding: 10px 20px;
+                border-radius: 5px;
+                text-align: center;
+                cursor: pointer;
+                font-size: 16px;
+            }
+        }
+    }
+}
