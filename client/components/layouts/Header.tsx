@@ -47,23 +47,27 @@ const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
         {
             title: 'Schedule',
             href: routes.CLIENT.HOME_PAGE.href,
+            class: 'position-relative hover-link',
         },
         {
             title: 'Speakers',
             href: routes.CLIENT.CHANGE_PASSWORD_PAGE.href,
+            class: 'position-relative hover-link',
         },
         {
             title: 'Ticket',
             href: '#1',
+            class: 'position-relative hover-link',
         },
         {
             title: 'Contact',
             href: '#2',
+            class: 'position-relative hover-link',
         },
         {
             title: 'Login',
             href: routes.CLIENT.LOGIN_PAGE.href,
-            class: 'bases__header-link-login',
+            class: 'bases__header-link-login position-relative hover-link',
         },
     ];
 
@@ -77,23 +81,7 @@ const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
                     <ul className={`d-flex ${isOpen ? 'active' : ''}`} style={{ gap: '40px' }} onClick={handleOpen}>
                         {data?.map((link, index) => (
                             <li className="text-white bases__font--18 bases__header-link bases__width30" key={index}>
-                                <a
-                                    onClick={() =>
-                                        setState((prevState) => ({
-                                            ...prevState,
-                                        }))
-                                    }
-                                    style={
-                                        router.pathname === link.href
-                                            ? {
-                                                  borderBottom: '1px solid black',
-                                                  color: 'black',
-                                              }
-                                            : {}
-                                    }
-                                    className={link.class}
-                                    href={link.href}
-                                >
+                                <a className={`${link.class} ${router.pathname === link.href ? 'active' : ''}`} href={link.href}>
                                     {link.title}
                                 </a>
                             </li>

@@ -4,9 +4,9 @@ interface IAdminPageProps extends IBasePageProps {}
 
 interface IAdminPage<P = {}> extends IBasePage<P> {}
 
-interface IAdminPageState{
-    event?: boolean,
-    customer?: boolean,
-    theater?: boolean,
-    settings?: boolean,
+interface IAdminPageState {
+    event?: boolean;
+    customer?: boolean;
+    theater?: boolean;
+    settings?: boolean;
 }

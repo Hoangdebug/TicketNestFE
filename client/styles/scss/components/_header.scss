@@ -9,7 +9,62 @@
         background: linear-gradient(118.98deg, rgba(237, 70, 144, 0.9), rgba(85, 34, 204, 0.9)), url('/assets/bg/bg-home.svg');
         background-repeat: no-repeat;
         background-size: cover;
-        &-link {
+
+        &-item {
+            ul {
+                gap: 30px;
+                @media screen and (max-width: 769px) {
+                    display: flex;
+                    flex-direction: column;
+                    align-content: flex-start;
+                    justify-content: flex-start;
+                    position: fixed;
+                    top: 60px;
+                    right: -300px;
+                    width: 200px;
+                    height: 100vh;
+                    background: #cecece;
+                    box-shadow: 0 40px 60px rgb(0, 0, 0, 0.1);
+                    padding: 40px 0 0 10px;
+                    box-sizing: border-box;
+                    transition: 0.8s ease;
+                    z-index: 1111111;
+                    &.active {
+                        right: 0;
+                    }
+                }
+            }
+
+            a {
+                font-family: 'Poppins';
+                font-weight: 200;
+                font-style: normal;
+                color: black;
+                transition: 0.3s ease;
+                @media screen and (max-width: 769px) {
+                    color: black;
+                }
+
+                &:hover {
+                    opacity: 0.7;
+                    color: black;
+                }
+
+                &::after {
+                    position: absolute;
+                    content: '';
+                    width: 0;
+                    left: 0;
+                    bottom: -7px;
+                    background: black;
+                    height: 2px;
+                    transition: 0.3s ease-out;
+                }
+
+                &:hover::after {
+                    width: 100%;
+                }
+            }
         }
     }
 }
@@ -19,6 +74,19 @@
     border-radius: 50px;
     padding: 10px 40px;
 }
+
+.hover-link.active:hover {
+    opacity: 0.7;
+    color: black;
+    @media screen and (max-width: 769px) {
+        color: black;
+    }
+}
+
+.hover-link.active::after {
+    width: 100%;
+}
+
 #mobile {
     display: none;
     @media screen and (max-width: 769px) {

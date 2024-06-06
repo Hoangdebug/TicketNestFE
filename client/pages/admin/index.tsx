@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { ReduxStates } from '@redux/reducers';
-import { routes } from '@utils/constants';
+import { routes, images } from '@utils/constants';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import EventIcon from '@mui/icons-material/Event';
 import PeopleIcon from '@mui/icons-material/People';
@@ -10,7 +10,6 @@ import TheatersIcon from '@mui/icons-material/Theaters';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { images } from '@utils/constants';
 import { IAdminPage, IAdminPageProps, IAdminPageState } from '@interfaces/pages/admin';
 
 const AdminPages: IAdminPage<IAdminPageProps> = () => {
@@ -106,7 +105,8 @@ const AdminPages: IAdminPage<IAdminPageProps> = () => {
                                         toggleDropdown(item.key);
                                     }
                                 }}
-                                style={{ cursor: item.submenu ? 'pointer' : 'default' }}>
+                                style={{ cursor: item.submenu ? 'pointer' : 'default' }}
+                            >
                                 {item.icon}
                                 <span className="ml-2">{item.title}</span>
                                 {item.submenu && (
