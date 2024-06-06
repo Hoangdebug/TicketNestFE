@@ -11,18 +11,21 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { images } from '@utils/constants';
+import { IAdminPage, IAdminPageProps, IAdminPageState } from '@interfaces/pages/admin';
 
-const AdminPages = () => {
+const AdminPages: IAdminPage<IAdminPageProps> = () => {
     const { profile } = useSelector((states: ReduxStates) => states);
     const router = useRouter();
-    const [openDropdowns, setOpenDropdowns] = useState({
+    const [openDropdowns, setOpenDropdowns] = useState<IAdminPageState>({
         event: false,
         customer: false,
         theater: false,
         settings: false,
     });
 
-    const toggleDropdown = (menu) => {
+    // const {event, customer, theater, settings} = openDropdowns;
+
+    const toggleDropdown = (menu: any) => {
         setOpenDropdowns((prevState) => ({
             ...prevState,
             [menu]: !prevState[menu],
@@ -85,10 +88,10 @@ const AdminPages = () => {
 
     return (
         <div className="pages__admin row">
-            <div className="pages__admin-content col-md-3 p-4 col-sm-12">
+            <div className="pages__admin-content col-md-2 p-4 col-sm-12">
                 <div className="pages__admin-content-logo">
                     {/* Add your logo here */}
-                    <img src={images.LOGO_SIDEBAR} alt="Logo" className='fluid'/>
+                    <img src={images.LOGO_SIDEBAR} alt="Logo" className="fluid" />
                 </div>
                 <button className="pages__admin-content-button">+ New Event</button>
                 <div className="pages__admin-content-item">
