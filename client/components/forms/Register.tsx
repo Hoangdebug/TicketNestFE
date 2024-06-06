@@ -76,7 +76,7 @@ const RegisterForm: IRegisterComponent<IRegisterComponentProps> = () => {
                     { confirmPassword, dob, email, password, phone, username },
                     (result: IRegisterDataApiRes | IErrorAPIRes | null) => {
                         if (result?.code === 200) {
-                            navigate.push(routes?.CLIENT?.LOGIN_PAGE?.href);
+                            navigate.push(routes?.CLIENT?.REGISTERSUCCESS_PAGE?.href);
                         } else if (result?.code === 400) {
                             alert('Invalid');
                         }
@@ -199,7 +199,7 @@ const RegisterForm: IRegisterComponent<IRegisterComponentProps> = () => {
                 <button type="submit" className="btn btn-success btn-block" onClick={() => handleSubmit()}>
                     Sign Up
                 </button>
-                <button type="button" className="btn btn-sencondary btn-block text-success">
+                <button type="button" className="btn btn-sencondary btn-block text-success" onClick={() => handleSubmit()}>
                     Back to Sign In
                 </button>
             </div>
