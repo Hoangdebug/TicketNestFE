@@ -1,6 +1,6 @@
 interface IBaseAPIRes {
     code?: number;
-    message?: string;
+    mes?: string;
 }
 
 interface IErrorAPIRes extends IBaseAPIRes {}
