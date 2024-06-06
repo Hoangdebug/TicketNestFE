@@ -19,3 +19,10 @@
     border-radius: 50px;
     padding: 10px 40px;
 }
+#mobile {
+    display: none;
+    @media screen and (max-width: 769px) {
+        display: block;
+        font-size: 24px;
+    }
+}
