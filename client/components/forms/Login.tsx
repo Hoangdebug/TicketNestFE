@@ -68,13 +68,14 @@ const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
                         } else {
                             router.push(routes.CLIENT.HOME_PAGE.href);
                         }
-                    } else if (res?.code == 400) {
-                        alert(res?.message);
+                    } else if (res?.code == 500) {
+                        alert(res?.mes);
                     }
                 }),
             );
         }
     };
+
     return (
         <div className="components__login">
             <div className="components__login-form p-4 ">
