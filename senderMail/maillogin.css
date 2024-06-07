@@ -1,0 +1,80 @@
+.components__maillogin {
+    font-family: Arial, sans-serif;
+    padding: 48px;
+}
+
+.components__maillogin-form {
+    padding: 10px;
+    gap: 32px;
+}
+
+.components__maillogin-form-header {
+    font-size: 45px;
+    margin-bottom: 10px;
+}
+
+.components__maillogin-form-content {
+    font-size: 20px;
+    line-height: 3;
+    margin-bottom: 1rem;
+}
+
+.components__maillogin-form-content strong {
+    color: #396961;
+}
+
+.components__maillogin-form-firstbutton {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 20px 45px;
+    background-color: #396961;
+    color: white;
+    border-radius: 10px;
+    max-width: 400px;
+    font-size: 20px;
+}
+
+.components__maillogin-form-littleform {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 25px;
+    background-color: #E4F1EF;
+    border-radius: 10px;
+    font-size: 25px;
+    margin: 0 auto;
+    max-width: 450px;
+}
+
+.components__maillogin-form-littleform p {
+    margin-bottom: 0px;
+}
+
+.components__maillogin-form-socialbuttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.components__maillogin-form-socialbuttons button {
+    border: none;
+    background: none;
+}
+
+.components__maillogin-form-socialbuttons img {
+    width: 60px;
+    height: 60px;
+}
+
+.components__maillogin-form-footer {
+    text-align: center;
+}
+
+.components__maillogin-form-footer p {
+    margin-bottom: 10px;
+    line-height: 2;
+}
+
+.components__maillogin-form-footer-final a {
+
+    color:black
+}
