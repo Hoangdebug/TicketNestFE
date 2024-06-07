@@ -1,23 +1,35 @@
-import { fetchGetCurrentAccount } from '@redux/actions/api';
+import { fetchGetCurrentAccount, fetchLogout } from '@redux/actions/api';
 import { images, routes } from '@utils/constants';
 import { authHelper } from '@utils/helpers';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import DehazeIcon from '@mui/icons-material/Dehaze';
 import CloseIcon from '@mui/icons-material/Close';
+import { ReduxStates } from '@redux/reducers';
 
 const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
     const { isShow } = props;
     const router = useRouter();
     const dispatch = useDispatch();
+    const { profile } = useSelector((states: ReduxStates) => states);
+    console.log(profile?.details?.username);
+
     const [state, setState] = useState<IHeaderComponentState>({
         isOpen: false,
         isActive: routes.CLIENT.HOME_PAGE.href,
     });
 
     const { isOpen } = state;
+
+    const getLoginTitle = () => {
+        if (authHelper.isAuth()) {
+            return profile?.details?.username || 'User';
+        } else {
+            return 'Login';
+        }
+    };
 
     useEffect(() => {
         if (authHelper.isAuth()) {
@@ -43,27 +55,35 @@ const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
     //         router.push(routes.CLIENT.HOME_PAGE.href)
     //     }
     // }, [profile])
+    const handleLogout = () => {
+        dispatch(fetchLogout());
+    };
     const data = [
         {
             title: 'Schedule',
             href: routes.CLIENT.HOME_PAGE.href,
+            class: 'position-relative hover-link',
         },
         {
             title: 'Speakers',
             href: routes.CLIENT.CHANGE_PASSWORD_PAGE.href,
+            class: 'position-relative hover-link',
         },
         {
             title: 'Ticket',
             href: '#1',
+            class: 'position-relative hover-link',
         },
         {
             title: 'Contact',
             href: '#2',
+            class: 'position-relative hover-link',
         },
         {
-            title: 'Login',
-            href: routes.CLIENT.LOGIN_PAGE.href,
-            class: 'bases__header-link-login',
+            title: getLoginTitle(),
+            href: authHelper.isAuth() ? null : routes.CLIENT.LOGIN_PAGE.href,
+            class: 'position-relative hover-link',
+            onclick: authHelper.isAuth() ? handleLogout : null,
         },
     ];
 
@@ -71,28 +91,16 @@ const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
         return (
             <div className="components__header container-fluid d-flex justify-content-around pt-3 align-items-center">
                 <div className="">
-                    <img src={images.LOGO_HOME} className="bases__width150" />
+                    <img src={images.LOGO_HOME} />
                 </div>
                 <div className="components__header-item">
                     <ul className={`d-flex ${isOpen ? 'active' : ''}`} style={{ gap: '40px' }} onClick={handleOpen}>
                         {data?.map((link, index) => (
                             <li className="text-white bases__font--18 bases__header-link bases__width30" key={index}>
                                 <a
-                                    onClick={() =>
-                                        setState((prevState) => ({
-                                            ...prevState,
-                                        }))
-                                    }
-                                    style={
-                                        router.pathname === link.href
-                                            ? {
-                                                  borderBottom: '1px solid black',
-                                                  color: 'black',
-                                              }
-                                            : {}
-                                    }
-                                    className={link.class}
-                                    href={link.href}
+                                    onClick={link.onclick}
+                                    className={`${link.class} ${router.pathname === link.href ? 'active' : ''}`}
+                                    href={link.href ?? '#'}
                                 >
                                     {link.title}
                                 </a>

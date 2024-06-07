@@ -7,7 +7,7 @@ interface IRegisterDataApi {
     dob?: string;
 }
 interface ICurrentUserAPIRes {
-    rs?: IRegisterDataApi;
+    result?: IRegisterDataApi;
 }
 interface IRegisterDataApiRes extends IBaseAPIRes {
     code?: number;
