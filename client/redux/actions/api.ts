@@ -76,7 +76,7 @@ export const fetchGetCurrentAccount = async (callBack?: (result: ICurrentUserAPI
 
         return {
             type: SET_MEMBER_PROFILE,
-            data: { details: res?.data?.rs },
+            data: { details: res?.data?.result },
         };
     } catch (err) {
         if (!(err instanceof Error)) {
