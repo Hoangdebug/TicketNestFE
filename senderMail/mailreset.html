@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mail Reset Form</title>
+    <link rel="stylesheet" href="mailreset.css">
+</head>
+
+<body>
+    <div class="components__mailreset">
+        <img className="pages__thirderror-logo" style="Width:100% ;Height:100% "
+            src="/TicketNestFE/senderMail/assests/maillogin.svg" alt="Logo" />
+        <div class="components__mailreset-form">
+            <h1 class="components__mailreset-form-header">Hi Thinh Nguyen,</h1>
+            <div class="components__mailreset-form-content">
+                <p>You have requested a password reset for your VertZéro account. Please click on the button below.</p>
+
+            </div>
+
+            <br>
+            <button class="components__mailreset-form-firstbutton" onclick="location.href='login.html'">
+                Reset Password
+            </button>
+            <div class="components__mailreset-form-content">
+                <p>If you did not make this request, you can safely ignore this email.</p>
+                <p>Best Regards, <br><strong>VertZéro team</strong></p>
+            </div>
+            <hr>
+            <div class="components__mailreset-form-socialbuttons">
+                <a href="https://www.facebook.com/your-facebook-page-url" target="_blank">
+                    <button><img src="/TicketNestFE/senderMail/assests/facebooklogo.svg" alt="Facebook"></button>
+                </a>
+                <a href="https://www.instagram.com/your-instagram-page-url" target="_blank">
+                    <button><img src="/TicketNestFE/senderMail/assests/instagramlogo.svg" alt="Instagram"></button>
+                </a>
+            </div>
+            <hr>
+            <div class="components__mailreset-form-footer">
+                <p>&copy; 2024 VERZERO. All rights reserved.</p>
+                <br>
+                <p>You are receiving this mail because you registered to join the VERZERO platform as a user or a <br>
+                    creator. This also shows that you agree to our Terms of Use and Privacy Policies. If you no longer
+                    <br> want to receive mails from us, click the unsubscribe link below to unsubscribe.
+                </p>
+                <p class="components__mailreset-form-footer-final">
+                    <a href="#">Privacy Policy</a> •
+                    <a href="#">Terms of Service</a> •
+                    <a href="#">Help Center</a> •
+                    <a href="#">Unsubscribe</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
