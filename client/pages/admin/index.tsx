@@ -106,7 +106,8 @@ const AdminPages: IAdminPage<IAdminPageProps> = () => {
                                         toggleDropdown(item.key);
                                     }
                                 }}
-                                style={{ cursor: item.submenu ? 'pointer' : 'default' }}>
+                                style={{ cursor: item.submenu ? 'pointer' : 'default' }}
+                            >
                                 {item.icon}
                                 <span className="ml-2">{item.title}</span>
                                 {item.submenu && (
