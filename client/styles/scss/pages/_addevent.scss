@@ -1,0 +1,20 @@
+.pages {
+    &__addevent {
+        flex-direction: row;
+
+        &-rightside {
+            @media screen and (max-width: 768px) {
+                width: 100%;
+                padding: 150px 20px;
+            }
+        }
+
+        // &-leftside {
+        //     &-logo {
+        //         @media screen and (max-width: 768px) {
+        //             display: none;
+        //         }
+        //     }
+        // }
+    }
+}
