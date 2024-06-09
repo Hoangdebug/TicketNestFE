@@ -2,7 +2,7 @@ const Footer: IFooterComponent<IFooterComponentProps> = (props) => {
     const { isShow } = props;
 
     if (isShow) {
-        return <div>Footer</div>;
+        return <div></div>;
     }
     return <></>;
 };

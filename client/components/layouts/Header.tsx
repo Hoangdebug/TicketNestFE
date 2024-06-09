@@ -55,6 +55,7 @@ const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
     //         router.push(routes.CLIENT.HOME_PAGE.href)
     //     }
     // }, [profile])
+
     const handleLogout = () => {
         dispatch(fetchLogout());
     };
@@ -98,7 +99,7 @@ const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
                         {data?.map((link, index) => (
                             <li className="text-white bases__font--18 bases__header-link bases__width30" key={index}>
                                 <a
-                                    onClick={link.onclick}
+                                    onClick={link.onclick ?? undefined}
                                     className={`${link.class} ${router.pathname === link.href ? 'active' : ''}`}
                                     href={link.href ?? '#'}
                                 >

@@ -110,7 +110,7 @@ const AdminPages: IAdminPage<IAdminPageProps> = () => {
                                 {item.icon}
                                 <span className="ml-2">{item.title}</span>
                                 {item.submenu && (
-                                    <span className="ml-auto">{openDropdowns[item.key] ? <ExpandMoreIcon /> : <ChevronRightIcon />}</span>
+                                    <span className="ml-auto">{openDropdowns[item?.key] ? <ExpandMoreIcon /> : <ChevronRightIcon />}</span>
                                 )}
                             </a>
                             {item.submenu && openDropdowns[item.key] && (
