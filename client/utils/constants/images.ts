@@ -13,4 +13,5 @@ export const SUCCESS_LOGO = '/assets/icons/registersuccess.svg';
 export const ERROR403_LOGO = '/assets/icons/error403.svg';
 export const ERROR500_LOGO = '/assets/icons/error500.svg';
 export const ERROR404_LOGO = '/assets/icons/error404.svg';
-export const LOGO_SIDEBAR = 'assets/icons/logo_sidebar.svg';
+export const LOGO_SIDEBAR = '/assets/icons/logo_sidebar.svg';
+export const UK_FLAG = '/assets/icons/uk-flag.svg';

@@ -11,6 +11,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { IAdminPage, IAdminPageProps, IAdminPageState } from '@interfaces/pages/admin';
+import Graphic_Side from '@components/layouts/Graphic_Side';
 
 const AdminPages: IAdminPage<IAdminPageProps> = () => {
     const { profile } = useSelector((states: ReduxStates) => states);
@@ -128,7 +129,18 @@ const AdminPages: IAdminPage<IAdminPageProps> = () => {
                     ))}
                 </div>
             </div>
-            <div className="pages__admin-main col-md-9 col-sm-12">{/* Main content area */}</div>
+            <div className="pages__admin-main col-md-10 col-sm-12">
+                {/* Main content area */}
+                <div className="pages__admin-main-graphic">
+                    {/* Graphic side content */}
+                    <Graphic_Side />
+                </div>
+                <div className="pages__admin-main-content row">
+                    <div className="col-md-8 col-sm-12">{/* Left side content */}</div>
+                    <div className="col-md-4 col-sm-12">{/* Right side content */}</div>
+                </div>
+                <div className="pages__admin-main-footer">{/* Footer content */}</div>
+            </div>
         </div>
     );
 };
