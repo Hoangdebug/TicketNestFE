@@ -41,7 +41,9 @@ const ERROR500: IRouteConstant = {
 const ERROR403: IRouteConstant = {
     href: '/403',
 };
-
+const ADD_EVENT: IRouteConstant = {
+    href: '/addevent',
+};
 const ADMIN_DASHBOARD: IRouteConstant = {
     href: '/admin',
 };
@@ -56,7 +58,7 @@ export const CLIENT = {
     POST_FORGOT_PASSWORD_PAGE: POST_FORGOT_PASSWORD,
     CHANGE_PASSWORD_PAGE: CHANGE_PASSWORD,
     CHANGE_PASSWORD_SUCCESS_PAGE: CHANGE_PASSWORD_SUCCESS,
-
+    ADD_EVENT_PAGE: ADD_EVENT,
     HOME_PAGE: HOME,
     ADMIN_PAGE: ADMIN_DASHBOARD,
 };
