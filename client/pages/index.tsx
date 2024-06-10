@@ -29,6 +29,7 @@ const HomePage: IHomePage<IHomePageProps> = () => {
             <div className="py-5">
                 <EventList />
             </div>
+            <div className=""></div>
         </div>
     );
 };
