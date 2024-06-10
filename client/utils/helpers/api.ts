@@ -24,3 +24,11 @@ export const getCurrentUser = async () => {
         throw err;
     }
 };
+
+export const editUserProfile = async (data: IEditUserProfileDataAPI) => {
+    try {
+        return await axios.post<IEditUserProfileAPIRes>(`${routes.API.LOGIN.href}`, data);
+    } catch (err) {
+        throw err;
+    }
+}

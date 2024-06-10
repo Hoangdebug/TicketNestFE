@@ -8,5 +8,6 @@ import Table from './commons/Table';
 import App from './layouts/App';
 
 import LoginForm from './forms/Login';
+import EditUserProFileForm from './forms/EditUserProfile'
 
-export { Button, Img, Input, Select, Choice, Table, App, LoginForm };
+export { Button, Img, Input, Select, Choice, Table, App, LoginForm, EditUserProFileForm };
