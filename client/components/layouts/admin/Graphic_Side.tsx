@@ -7,7 +7,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 // import { IGraphicSideComponent, IGraphicSideComponentProps } from '@interfaces/components/graphicSide';
 import { images } from '@utils/constants';
 
-const Graphic_Side: React.FC = () => {
+const Graphic_Side: IGraphicSideComponent<IGraphicSideComponentProps> = () => {
     const summaryCards = [
         { title: 'Total Sales', value: '$1,200,000' },
         { title: 'Total Profit', value: '$300,000' },
@@ -18,12 +18,12 @@ const Graphic_Side: React.FC = () => {
     ];
 
     return (
-        <div className="graphic-side">
-            <div className="graphic-side-header">
+        <div className="components__graphic-side">
+            <div className="components__graphic-side-header">
                 <TextField
                     variant="outlined"
                     placeholder="Search..."
-                    className="search-bar"
+                    className="components__graphic-side-header-searchBar"
                     InputProps={{
                         endAdornment: (
                             <IconButton>
@@ -32,31 +32,31 @@ const Graphic_Side: React.FC = () => {
                         ),
                     }}
                 />
-                <div className="graphic-side-icons">
-                    <img src={images.UK_FLAG} alt="Flag" className="graphic-side-icon" />
+                <div className="components__graphic-side-header-icons">
+                    <img src={images.UK_FLAG} alt="Flag" className="components__graphic-side-header-icons-icon" />
                     <IconButton>
                         <MailIcon />
                     </IconButton>
                     <IconButton>
                         <NotificationsIcon />
                     </IconButton>
-                    <div className="graphic-side-account">
+                    <div className="components__graphic-side-header-icons-account">
                         <AccountCircleIcon />
-                        <span className="account-name">Admin Name</span>
+                        <span className="components__graphic-side-header-icons-account-name">Admin Name</span>
                     </div>
                 </div>
             </div>
-            <div className="graphic-side-background">
-                <div className="background-text">
+            <div className="components__graphic-side-background">
+                <div className="components__graphic-side-background-text">
                     <Typography variant="h4">Hello Devs!</Typography>
                     <Typography variant="h6">
                         We are on a mission to help developers like you to build beautiful projects for FREE
                     </Typography>
                 </div>
             </div>
-            <div className="graphic-side-summary row">
+            <div className="components__graphic-side-summary">
                 {summaryCards.map((card, index) => (
-                    <Card key={index} className="summary-card col-md-2">
+                    <Card key={index} className="components__graphic-side-summary-card">
                         <CardContent>
                             <Typography variant="h6">{card.title}</Typography>
                             <Typography variant="h5">{card.value}</Typography>

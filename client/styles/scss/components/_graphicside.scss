@@ -1,67 +1,61 @@
-.graphic-side {
-    padding: 16px;
-}
+.components {
+    &__graphic-side {
+        padding: 16px;
+        position: relative;
+        &-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            &-searchBar {
+                flex: 1;
+                margin-right: 16px;
+            }
+            &-icons {
+                display: flex;
+                align-items: center;
+                &-icon {
+                    margin: 0 8px;
+                }
+                &-account {
+                    display: flex;
+                    align-items: center;
+                    margin-left: 8px;
+                    &-name {
+                        margin-left: 4px;
+                    }
+                }
+            }
+        }
+        &-background {
+            position: relative;
+            margin-top: 16px;
+            background: radial-gradient(36.28% 150.93% at 50% 50%, #3b8aff 0%, #0048b3 100%);
 
-.graphic-side-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.search-bar {
-    flex: 1;
-    margin-right: 16px;
-}
-
-.graphic-side-icons {
-    display: flex;
-    align-items: center;
-}
-
-.graphic-side-icon {
-    margin: 0 8px;
-}
-
-.graphic-side-account {
-    display: flex;
-    align-items: center;
-    margin-left: 8px;
-}
-
-.account-name {
-    margin-left: 4px;
-}
-
-.graphic-side-background {
-    position: relative;
-    margin-top: 16px;
-    background: radial-gradient(36.28% 150.93% at 50% 50%, #3b8aff 0%, #0048b3 100%);
-
-    color: white;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: left;
-}
-
-.background-text {
-    max-width: 100%;
-    text-align: left;
-}
-
-.announcement-button {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    background: #3a57e859;
-}
-
-.graphic-side-summary {
-    margin-top: 16px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.summary-card {
-    flex: 1;
-    margin: 0 8px;
+            color: white;
+            padding: 20px;
+            padding-bottom: 50px; /* Adjust to make room for the cards */
+            border-radius: 8px;
+            text-align: left;
+            &-text {
+                max-width: 100%;
+                text-align: left;
+            }
+        }
+        &-summary {
+            margin-top: 16px;
+            // display: flex;
+            // justify-content: space-between;
+            position: relative;
+            top: -50px; /* Adjust this value to position the cards over the background */
+            display: flex;
+            justify-content: space-around; /* Space the cards evenly */
+            &-card {
+                flex: 1;
+                margin: 0 8px;
+                position: relative;
+                width: 15%; /* Adjust the width as needed */
+                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            }
+        }
+    }
 }

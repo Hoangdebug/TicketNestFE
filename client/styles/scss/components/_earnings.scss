@@ -1,0 +1,53 @@
+.components__earnings {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    .circle-chart {
+        position: relative;
+        width: 100px;
+        height: 100px;
+
+        &__background {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 10px solid #e0e0e0;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        &__foreground {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 10px solid transparent;
+            position: absolute;
+            top: 0;
+            left: 0;
+            clip: rect(0px, 100px, 100px, 50px);
+
+            &.fashion {
+                border-color: blue;
+                transform: rotate(70deg);
+            }
+
+            &.accessories {
+                border-color: cyan;
+                clip: rect(0px, 50px, 100px, 0px);
+                transform: rotate(210deg);
+            }
+        }
+    }
+
+    .MuiTypography-root {
+        font-size: 14px;
+    }
+
+    .MuiSelect-outlined {
+        font-size: 14px;
+    }
+}

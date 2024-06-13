@@ -1,0 +1,39 @@
+.components {
+    &__footer-admin {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        border-top: 1px solid #e0e0e0;
+        background-color: #fff;
+
+        &-links {
+            a {
+                margin-right: 15px;
+                color: #000;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        &-credits {
+            color: #000;
+
+            &-heart {
+                color: red;
+            }
+
+            a {
+                color: #007bff;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
