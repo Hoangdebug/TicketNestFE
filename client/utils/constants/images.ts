@@ -15,3 +15,7 @@ export const ERROR500_LOGO = '/assets/icons/error500.svg';
 export const ERROR404_LOGO = '/assets/icons/error404.svg';
 export const LOGO_SIDEBAR = '/assets/icons/logo_sidebar.svg';
 export const UK_FLAG = '/assets/icons/uk-flag.svg';
+export const CARD_LOGO = '/assets/icons/card.svg';
+export const CARD2_LOGO = '/assets/icons/card2.svg';
+export const START_ITEM = '/assets/icons/startitem.svg';
+export const START_ITEM2 = '/assets/icons/startitem2.svg';
