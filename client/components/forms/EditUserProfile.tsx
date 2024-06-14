@@ -12,8 +12,6 @@ import { ReduxStates } from '@redux/reducers';
 const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentProps> = () => {
     const navigate = useRouter();
     const dispatch = useDispatch();
-    const [showPassword, setShowPassword] = useState(false);
-    // const { profile } = useSelector((states: ReduxStates) => states)
 
     const [state, setState] = useState<IEditUserProfileComponentState>({
         firstName: '',
@@ -24,7 +22,7 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
         address: '',
     });
     const handleNextPage = () => {
-        navigate.push(routes.CLIENT.REGISTER_PAGE.href);
+        navigate.push(routes.CLIENT.HOME_PAGE.href);
     };
     const { firstName, lastName, dob, gender, phone, address } = state;
 
@@ -86,36 +84,121 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
     };
 
     return (
-        <div className="components__edituserprofile">
-            <div className="components__edituserprofile-form p-4 ">
-                <h2 className="fw-bold text-center">Edit Profile</h2>
-                <div className="form-group">
-                    <label htmlFor="username">First Name</label>                    
-                </div>
-                <div className="form-group position-relative">
-                    <label htmlFor="password">
-                        Last Name
-                        <span className="text-danger">*</span>
-                    </label>                                        
-                </div>
-                <div className="d-flex flex-row justify-content-between align-items-center">
-                    <div>
-                        <input className="danger" type="checkbox" />
-                        <label htmlFor="danger">Remember me</label>
+        <div className="components___edituserprofile">
+            <div className="components___edituserprofile-form p-3">
+                <h2 className="fw-bold mb-4 text-center">Edit Profile</h2>
+                <div className="row">
+                    <div className="col-md-6 gap-4 d-flex flex-column ">
+                        <div className="form-group">     
+                            <label htmlFor="firstname" className="pb-2">
+                                First Name
+                                <span className="text-danger">*</span>
+                            </label>
+                            <Validator ref={firstNameValidatorRef}>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="firstname"
+                                    value={firstName}
+                                    onChange={(e) => handleOnChange('firstname', e.target.value)}
+                                    name="firstname"
+                                    placeholder="Enter Your First Name"
+                                />
+                            </Validator>                       
+                        </div>
+                        <div className="form-group">         
+                            <label htmlFor="gender" className="pb-2">
+                                Gender
+                                <span className="text-danger">*</span>
+                            </label>
+                            <Validator ref={genderValidatorRef}>
+                                <select
+                                    value={gender}
+                                    onChange={(e) => handleOnChange('gender', e.target.value)}
+                                    className="form-control"
+                                >
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </Validator>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="form-control" className="pb-2">
+                                Phone Number
+                                <span className="text-danger">*</span>
+                            </label>
+                            <Validator ref={phoneValidatorRef}>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="phone_number"
+                                    name="phone_number"
+                                    value={phone}
+                                    onChange={(e) => handleOnChange('phone', e.target.value)}
+                                    placeholder="Enter Your Phone Number"
+                                />
+                            </Validator>
+                        </div>
                     </div>
-                    <a href="" className="text-decoration-none">
-                        Forgot password?
-                    </a>
+                    <div className="col-md-6 gap-4 d-flex flex-column ">
+                        <div className="form-group">
+                            <label htmlFor="lastname" className="pb-2">
+                                Last Name
+                                <span className="text-danger">*</span>
+                            </label>
+                            <Validator ref={lastNameValidatorRef}>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="lastname"
+                                    value={lastName}
+                                    onChange={(e) => handleOnChange('lastname', e.target.value)}
+                                    name="lastname"
+                                    placeholder="Enter Your Last Name"
+                                />
+                            </Validator> 
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="dob" className="pb-2">
+                                Date Of Birth
+                                <span className="text-danger">*</span>
+                            </label>
+                            <Validator ref={dobValidatorRef}>
+                                <input
+                                    value={dob}
+                                    onChange={(e) => handleOnChange('dob', e.target.value)}
+                                    type="date"
+                                    className="form-control"
+                                    name="dob"
+                                />
+                            </Validator>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="address" className="pb-2">
+                                Address
+                                <span className="text-danger">*</span>
+                            </label>
+                            <Validator ref={addressValidatorRef}>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="address"
+                                    value={address}
+                                    onChange={(e) => handleOnChange('address', e.target.value)}
+                                    name="address"
+                                    placeholder="Enter Your Address"
+                                />
+                            </Validator>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" onClick={submitForm} className="components__login-form-firstButton btn btn-primary btn-block">
-                    Sign in
+
+                <button type="submit" onClick={submitForm} className="components___edituserprofile-form-firstButton btn btn-primary btn-block">
+                    Submit
                 </button>
                 <button type="submit" onClick={handleNextPage} className="components__login-form-secondButton">
-                    <span>Register for a free trial now</span>
+                    <span>Back to Home Page</span>
                 </button>
-                <div className="text-center">Or sign in with</div>
-                <button className="components__login-form-thirdButton">Google</button>
-                <p id="error-message" className="error-message text-danger mt-2"></p>
             </div>
         </div>
     );
