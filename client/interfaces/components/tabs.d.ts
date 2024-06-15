@@ -1,6 +1,6 @@
 interface ITabsItem {
     event?: string;
-    title?: string;
+    title?: ReactElement;
     content?: ReactElement;
 }
 

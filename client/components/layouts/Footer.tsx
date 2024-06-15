@@ -2,7 +2,7 @@ const Footer: IFooterComponent<IFooterComponentProps> = (props) => {
     const { isShow } = props;
 
     if (isShow) {
-        return <div></div>;
+        return <div>dsfakfadhakhfafhfhdsfasfdkafhsjkfadkfasdfklfhkldfhk</div>;
     }
     return <></>;
 };
