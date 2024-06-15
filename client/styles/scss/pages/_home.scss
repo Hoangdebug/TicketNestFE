@@ -2,5 +2,14 @@
     &__home {
         background: #f5f7f9;
         min-height: 100vh;
+
+        &--step {
+            li {
+                width: 25% !important;
+            }
+        }
     }
+}
+.nav-tabs .nav-link:hover {
+    background: #f0f8ff;
 }
