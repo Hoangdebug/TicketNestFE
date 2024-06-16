@@ -61,7 +61,7 @@ const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
     };
     const data = [
         {
-            title: 'Schedule',
+            title: 'Home',
             href: routes.CLIENT.HOME_PAGE.href,
             class: 'position-relative hover-link',
         },

@@ -1,29 +1,77 @@
-import { images } from '@utils/constants';
-import React from 'react';
+import { Pagination, Autoplay, Navigation, Parallax } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 const NavBar = () => {
     return (
-        <div className="components__navbar d-flex position-relative">
-            {/*<div className='d-flex flex-column justify-content-center'>*/}
-            {/*    <img src={images.BG_ITEMS_HOME} alt=""/>*/}
-            {/*</div>*/}
-            {/*<div className='d-flex flex-column justify-content-center'>*/}
-            {/*    <h2 className="text-white fw-bolder bases__font--60">*/}
-            {/*        SBS MTV The Kpop Show Ticket Package*/}
-            {/*    </h2>*/}
-            {/*    <p className="text-wrap text-white">*/}
-            {/*        Look no further! Our SBS The Show tickets are the simplest way for you to experience a live Kpop*/}
-            {/*        recording.*/}
-            {/*    </p>*/}
-            {/*    <div className="d-flex gap-4 components__navbar-btn">*/}
-            {/*        <button className="bases__padding20 bases__width30 text-white bases__font--20">*/}
-            {/*            Get Ticket*/}
-            {/*        </button>*/}
-            {/*        <button className="bases__padding20 bases__width30 text-white bases__font--20">*/}
-            {/*            Learn More*/}
-            {/*        </button>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+        <div className="components__navbar d-flex justify-content-center">
+            <Swiper
+                style={{
+                    '--swiper-navigation-color': '#fff',
+                    '--swiper-pagination-color': '#fff',
+                }}
+                speed={600}
+                parallax={true}
+                pagination={{
+                    clickable: true,
+                }}
+                autoplay={{
+                    delay: 5500,
+                    disableOnInteraction: false,
+                }}
+                navigation={true}
+                modules={[Parallax, Pagination, Navigation, Autoplay]}
+                className="mySwiper"
+            >
+                <div slot="container-start" className="parallax-bg" data-swiper-parallax="-23%"></div>
+                <SwiperSlide>
+                    <div className="title" data-swiper-parallax="-300">
+                        Slide 1
+                    </div>
+                    <div className="subtitle" data-swiper-parallax="-200">
+                        Subtitle
+                    </div>
+                    <div className="text" data-swiper-parallax="-100">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam dictum mattis velit, sit amet faucibus felis
+                            iaculis nec. Nulla laoreet justo vitae porttitor porttitor. Suspendisse in sem justo. Integer laoreet magna nec
+                            elit suscipit, ac laoreet nibh euismod. Aliquam hendrerit lorem at elit facilisis rutrum. Ut at ullamcorper
+                            velit. Nulla ligula nisi, imperdiet ut lacinia nec, tincidunt ut libero. Aenean feugiat non eros quis feugiat.
+                        </p>
+                    </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <div className="title" data-swiper-parallax="-300">
+                        Slide 2
+                    </div>
+                    <div className="subtitle" data-swiper-parallax="-200">
+                        Subtitle
+                    </div>
+                    <div className="text" data-swiper-parallax="-100">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam dictum mattis velit, sit amet faucibus felis
+                            iaculis nec. Nulla laoreet justo vitae porttitor porttitor. Suspendisse in sem justo. Integer laoreet magna nec
+                            elit suscipit, ac laoreet nibh euismod. Aliquam hendrerit lorem at elit facilisis rutrum. Ut at ullamcorper
+                            velit. Nulla ligula nisi, imperdiet ut lacinia nec, tincidunt ut libero. Aenean feugiat non eros quis feugiat.
+                        </p>
+                    </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <div className="title" data-swiper-parallax="-300">
+                        Slide 3
+                    </div>
+                    <div className="subtitle" data-swiper-parallax="-200">
+                        Subtitle
+                    </div>
+                    <div className="text" data-swiper-parallax="-100">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam dictum mattis velit, sit amet faucibus felis
+                            iaculis nec. Nulla laoreet justo vitae porttitor porttitor. Suspendisse in sem justo. Integer laoreet magna nec
+                            elit suscipit, ac laoreet nibh euismod. Aliquam hendrerit lorem at elit facilisis rutrum. Ut at ullamcorper
+                            velit. Nulla ligula nisi, imperdiet ut lacinia nec, tincidunt ut libero. Aenean feugiat non eros quis feugiat.
+                        </p>
+                    </div>
+                </SwiperSlide>
+            </Swiper>
         </div>
     );
 };

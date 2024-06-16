@@ -8,7 +8,7 @@ import { routes } from '@utils/constants';
 import { EventList } from '@components/index';
 import Tabs from '@components/commons/Tab';
 
-import { Pagination } from 'swiper/modules';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 const HomePage: IHomePage<IHomePageProps> = () => {
@@ -53,7 +53,6 @@ const HomePage: IHomePage<IHomePageProps> = () => {
                         </div>
                     </div>
                 );
-                break;
             case 'step2':
                 return (
                     <div className="pt-5">
@@ -80,7 +79,6 @@ const HomePage: IHomePage<IHomePageProps> = () => {
                         </div>
                     </div>
                 );
-                break;
             case 'step3':
                 return (
                     <div className="pt-5">
@@ -107,7 +105,6 @@ const HomePage: IHomePage<IHomePageProps> = () => {
                         </div>
                     </div>
                 );
-                break;
             case 'step4':
                 return (
                     <div className="pt-5">
@@ -134,7 +131,6 @@ const HomePage: IHomePage<IHomePageProps> = () => {
                         </div>
                     </div>
                 );
-                break;
         }
     };
 
@@ -142,47 +138,68 @@ const HomePage: IHomePage<IHomePageProps> = () => {
         switch (type) {
             case 'step1':
                 return (
-                    <div className="d-flex flex-column">
+                    <div className="d-flex flex-column pages__home-title">
                         <h3>Step 1</h3>
                         <h4>Create Your Event</h4>
                     </div>
                 );
-                break;
             case 'step2':
                 return (
-                    <div className="d-flex flex-column">
+                    <div className="d-flex flex-column pages__home-title">
                         <h3>Step 2</h3>
                         <h4>Create Your Event</h4>
                     </div>
                 );
-                break;
             case 'step3':
                 return (
-                    <div className="d-flex flex-column">
+                    <div className="d-flex flex-column pages__home-title">
                         <h3>Step 3</h3>
                         <h4>Create Your Event</h4>
                     </div>
                 );
-                break;
             case 'step4':
                 return (
-                    <div className="d-flex flex-column">
+                    <div className="d-flex flex-column pages__home-title">
                         <h3>Step 4</h3>
                         <h4>Create Your Event</h4>
                     </div>
                 );
-                break;
             default:
                 return (
-                    <div className="d-flex flex-column">
+                    <div className="d-flex flex-column pages__home-title">
                         <h3>Step 1</h3>
                         <h4>Create Your Event</h4>
                     </div>
                 );
-                break;
         }
     };
-
+    const dataSwiper = [
+        {
+            title: 'Featured Talk Show',
+            prams: 'Join our engaging talk show on cutting-edge topics',
+            img: 'featured-talk-show.jpg',
+        },
+        {
+            title: 'Talk Show 1',
+            prams: 'Explore the latest trends in technology',
+            img: 'tech-talk.jpg',
+        },
+        {
+            title: 'Business Insights',
+            prams: 'Strategies for successful entrepreneurship',
+            img: 'business-insights.png',
+        },
+        {
+            title: 'Health and Wellness',
+            prams: 'Tips for a balanced lifestyle',
+            img: 'wellness-tips.jpg',
+        },
+        {
+            title: 'Travel Adventures',
+            prams: "Discover the world's hidden gems",
+            img: 'travel-adventures.png',
+        },
+    ];
     return (
         <div className="pages__home">
             <div className="pb-5">
@@ -199,10 +216,49 @@ const HomePage: IHomePage<IHomePageProps> = () => {
                         Build a unique event experience for you and your attendees.
                     </p>
                 </div>
-                <div className="" style={{ minHeight: '10vh' }}>
-                    <Swiper pagination={true} modules={[Pagination]} className="mySwiper">
-                        <SwiperSlide>Slide 1</SwiperSlide>
-                        <SwiperSlide>Slide 2</SwiperSlide>
+                <div className="p-5 pages__home--silder">
+                    <Swiper
+                        slidesPerView={3}
+                        spaceBetween={30}
+                        centeredSlides={true}
+                        autoplay={{
+                            delay: 5500,
+                            disableOnInteraction: false,
+                        }}
+                        breakpoints={{
+                            '@0.00': {
+                                slidesPerView: 1,
+                                spaceBetween: 10,
+                            },
+                            '@0.75': {
+                                slidesPerView: 2,
+                                spaceBetween: 20,
+                            },
+                            '@1.00': {
+                                slidesPerView: 3,
+                                spaceBetween: 40,
+                            },
+                            '@1.50': {
+                                slidesPerView: 4,
+                                spaceBetween: 50,
+                            },
+                        }}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        navigation={true}
+                        modules={[Autoplay, Pagination, Navigation]}
+                        className="mySwiper"
+                    >
+                        {dataSwiper?.map((data, index) => (
+                            <SwiperSlide style={{ minHeight: '300px' }} key={index}>
+                                <div className="col-md-12 pages__home--silder-item p-5">
+                                    <img src={data?.img} alt={data?.title} />
+                                    <h2 className="fw-bold fs-4">{data.title}</h2>
+                                    <p className="m-0">{data?.prams}</p>
+                                </div>
+                            </SwiperSlide>
+                        ))}
                     </Swiper>
                 </div>
             </div>
