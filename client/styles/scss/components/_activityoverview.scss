@@ -1,0 +1,51 @@
+.components {
+    &__activity-overview {
+        border: 1px solid #e0e0e0;
+        padding: 20px;
+        background-color: #fff;
+        width: 100%;
+        max-width: 400px;
+        margin: auto;
+
+        h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+
+        &-growth {
+            color: green;
+            font-size: 0.9em;
+            margin: 0 0 20px 0;
+        }
+
+        &-activities {
+            &-activity {
+                display: flex;
+                align-items: flex-start;
+                margin-bottom: 15px;
+
+                &-circle {
+                    width: 10px;
+                    height: 10px;
+                    background-color: blue;
+                    border-radius: 50%;
+                    margin-right: 10px;
+                }
+
+                &-details {
+                    &-description {
+                        margin: 0;
+                        font-size: 1em;
+                        color: #333;
+                    }
+
+                    &-time {
+                        margin: 5px 0 0 0;
+                        font-size: 0.8em;
+                        color: #999;
+                    }
+                }
+            }
+        }
+    }
+}

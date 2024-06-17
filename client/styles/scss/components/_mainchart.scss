@@ -1,0 +1,63 @@
+.main-chart {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    .main-chart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        h2 {
+            margin: 0;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        p {
+            margin: 0;
+            color: #888;
+            font-size: 1em;
+        }
+
+        .legend {
+            display: flex;
+            align-items: center;
+
+            .legend-item {
+                display: flex;
+                align-items: center;
+                margin-right: 15px;
+
+                .legend-color {
+                    display: inline-block;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    margin-right: 5px;
+
+                    &.sales {
+                        background-color: #8884d8;
+                    }
+
+                    &.cost {
+                        background-color: #82ca9d;
+                    }
+                }
+            }
+        }
+
+        .timeframe {
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+
+            .dropdown-icon {
+                margin-left: 5px;
+            }
+        }
+    }
+}

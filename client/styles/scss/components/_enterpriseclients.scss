@@ -1,0 +1,71 @@
+.components__enterprise-clients {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+
+    .MuiBox-root {
+        margin-bottom: 16px;
+    }
+
+    .MuiTableCell-root {
+        padding: 12px;
+        font-size: 0.875rem;
+        color: #555;
+    }
+
+    .MuiTableCell-head {
+        color: #999;
+        font-weight: bold;
+        font-size: 0.875rem;
+    }
+
+    .MuiAvatar-root {
+        width: 32px;
+        height: 32px;
+        font-size: 0.875rem;
+    }
+
+    .MuiLinearProgress-root {
+        border-radius: 5px;
+        background-color: #e0e0e0;
+        height: 8px;
+    }
+
+    .MuiLinearProgress-barColorPrimary {
+        background-color: #1976d2;
+    }
+
+    .MuiLinearProgress-barColorSecondary {
+        background-color: #4caf50;
+    }
+
+    .MuiTypography-root {
+        color: #555;
+    }
+
+    .MuiSvgIcon-root {
+        color: #999;
+    }
+
+    .MuiBox-root .MuiSvgIcon-root:first-of-type {
+        color: #1976d2;
+    }
+
+    .MuiBox-root .MuiTypography-root:first-of-type {
+        font-weight: bold;
+        margin-right: 8px;
+    }
+
+    .MuiBox-root .MuiTypography-root:last-of-type {
+        color: #999;
+        font-size: 0.875rem;
+    }
+
+    .contacts-row {
+        display: flex;
+        flex-direction: row;
+    }
+}
