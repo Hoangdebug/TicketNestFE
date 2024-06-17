@@ -1,0 +1,9 @@
+.pages {
+    &__organizer {
+        display: flex;
+        justify-content: center;
+        &-table {
+            max-width: 80vw;
+        }
+    }
+}
