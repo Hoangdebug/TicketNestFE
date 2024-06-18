@@ -1,0 +1,49 @@
+.components__conversions {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+
+    .MuiBox-root {
+        margin-bottom: 16px;
+    }
+
+    .MuiTypography-root {
+        color: #555;
+    }
+
+    .MuiFormControl-root {
+        min-width: 120px;
+    }
+
+    .chart {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        height: 200px;
+        margin-top: 20px;
+    }
+
+    .bar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &__top {
+            width: 20px;
+            background-color: #00bcd4;
+            margin-bottom: 2px;
+        }
+
+        &__bottom {
+            width: 20px;
+            background-color: #3f51b5;
+        }
+
+        .MuiTypography-body2 {
+            margin-top: 4px;
+        }
+    }
+}
