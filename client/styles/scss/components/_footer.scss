@@ -1,4 +1,7 @@
 .components {
     &__footer {
+        background: $color-black;
+        min-height: 300px;
+        color: $color-white;
     }
 }

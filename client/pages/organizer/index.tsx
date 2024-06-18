@@ -1,5 +1,6 @@
 import { Table } from '@components/index';
-import React, { createRef } from 'react';
+import { images } from '@utils/constants';
+import React, { createRef, useState } from 'react';
 
 const eventData = [
     {
@@ -86,10 +87,20 @@ const eventData = [
 
 const EventPageOrganizer = () => {
     const tableRef = createRef<ITableComponentHandle>();
+    const [state, setState] = useState();
 
-    const renderData = (): any[] => {
-        return eventData;
-    };
+    const renderData = eventData?.map((item) => {
+        const editBtn = {
+            export: {
+                srcIcon: images.ICON_DETAIL,
+            },
+        };
+
+        return {
+            ...item,
+            ...editBtn,
+        };
+    });
 
     const tableEventRender: ITableComponentProps = {
         heads: [
@@ -149,6 +160,10 @@ const EventPageOrganizer = () => {
                 title: 'Notes',
                 isSort: true,
             },
+            {
+                title: 'Action',
+                isSort: false,
+            },
         ],
         body: {
             columns: [
@@ -194,8 +209,11 @@ const EventPageOrganizer = () => {
                 {
                     field: 'notes',
                 },
+                {
+                    // isButton: true,
+                },
             ],
-            rows: renderData(),
+            rows: renderData,
         },
     };
     return (

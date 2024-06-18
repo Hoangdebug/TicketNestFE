@@ -1,0 +1,39 @@
+.components {
+    &__tabs {
+        ul {
+            li:not(.react-datepicker__time-list-item) {
+                width: 50%;
+            }
+        }
+
+        .tab-content {
+            border: 1px solid $color-white-gray;
+            border-top: none;
+        }
+
+        &-heading {
+            &.active {
+                color: $color-blue !important;
+            }
+        }
+
+        &--material {
+            .tab-content {
+                border: none !important;
+            }
+            .nav-tabs .nav-link {
+                border-top: none !important;
+                border-right: none !important;
+                border-left: none !important;
+            }
+            .nav-tabs .nav-link:not(.active) {
+                border-bottom: 1px solid $color-smoke !important;
+                color: $color-smoke !important;
+            }
+            .nav-tabs .nav-link.active {
+                border-bottom: 1px solid $color-blue-dark !important;
+                color: $color-blue-dark !important;
+            }
+        }
+    }
+}

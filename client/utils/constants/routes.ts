@@ -29,7 +29,9 @@ const CHANGE_PASSWORD_SUCCESS: IRouteConstant = {
 const REGISTERSUCCESS: IRouteConstant = {
     href: '/registersuccess',
 };
-
+const EVENT_DETAILS_PAGES: IRouteConstant = {
+    href: '/event/detail/[id]',
+};
 const ERROR404: IRouteConstant = {
     href: '/404',
 };
@@ -61,6 +63,7 @@ export const CLIENT = {
     ADD_EVENT_PAGE: ADD_EVENT,
     HOME_PAGE: HOME,
     ADMIN_PAGE: ADMIN_DASHBOARD,
+    EVENT_DETAILS: EVENT_DETAILS_PAGES,
 };
 
 const LOGIN_API: IRouteConstant = {
