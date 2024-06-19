@@ -1,7 +1,42 @@
-.components {
-    &__footer {
-        background: $color-black;
-        min-height: 300px;
-        color: $color-white;
+// .components {
+//     &__footer {
+//         background: $color-black;
+//         min-height: 300px;
+//         color: $color-white;
+//     }
+// }
+.footer {
+    padding: 40px 20px;
+    background-color: #333;
+    color: #fff;
+    margin-top: 64px;
+
+    .footer-container {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 20px;
+
+            h6 {
+                margin-bottom: 20px;
+                font-size: 18px;
+            }
+
+            p,
+            a {
+                color: #bbb;
+                margin-bottom: 10px;
+                text-decoration: none;
+                font-size: 16px;
+
+                &:hover {
+                    color: #fff;
+                }
+            }
+        }
     }
 }
