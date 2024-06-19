@@ -4,12 +4,13 @@ import { useRouter } from 'next/router';
 import { IHomePageProps, IHomePage } from '@interfaces/pages/home';
 import { authHelper } from '@utils/helpers';
 import NavBar from '@components/layouts/NavBar';
-import { routes } from '@utils/constants';
+import { images, routes } from '@utils/constants';
 import { EventList } from '@components/index';
 import Tabs from '@components/commons/Tab';
 
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { style } from '@mui/system';
 
 const HomePage: IHomePage<IHomePageProps> = () => {
     const router = useRouter();
@@ -30,50 +31,52 @@ const HomePage: IHomePage<IHomePageProps> = () => {
             case 'step1':
                 return (
                     <div className="pt-5">
-                        Sign up for free and create your event easily in minutes.
+                        Search and Select an Event easily in minutes.
                         <div className="row pt-5">
                             <div className="col-md-4 px-2">
-                                <h3 className="fw-bold">Sign up for free</h3>
+                                <h3 className="fw-bold">Use the search tool</h3>
                                 <p className="text-wrap">
-                                    Sign up easily using your Google or Facebook account or email and create your events in minutes.
+                                    Utilize the search bar to enter keywords or the name of the event you wish to attend.
                                 </p>
                             </div>
                             <div className="col-md-4 px-2">
-                                <h3 className="fw-bold">Use built-in event page template</h3>
+                                <h3 className="fw-bold">Apply search filters</h3>
                                 <p className="text-wrap">
-                                    Choose from our customised page templates specially designed to attract attendees.
+                                    Use available filters (e.g., date, location, event type) to narrow down the list of events that match
+                                    your preferences.
                                 </p>
                             </div>
                             <div className="col-md-4 px-2">
-                                <h3 className="fw-bold">Customise your event page as you like</h3>
+                                <h3 className="fw-bold">Review event details</h3>
                                 <p className="text-wrap">
-                                    Add logo, collage hero images, and add details to create an outstanding event page.
+                                    Click on each event to view specific information, select the event you want to attend and proceed with
+                                    ticket purchase.
                                 </p>
                             </div>
                         </div>
                     </div>
                 );
+
             case 'step2':
                 return (
                     <div className="pt-5">
-                        Sign up for free and create your event easily in minutes.
+                        Choose Tickets and Enter Personal Information easily in minutes.
                         <div className="row pt-5">
                             <div className="col-md-4 px-2">
-                                <h3 className="fw-bold">Sign up for free</h3>
+                                <h3 className="fw-bold">Select tickets</h3>
+                                <p className="text-wrap">Choose the type and quantity of tickets you wish to purchase.</p>
+                            </div>
+                            <div className="col-md-4 px-2">
+                                <h3 className="fw-bold">Enter personal information</h3>
                                 <p className="text-wrap">
-                                    Sign up easily using your Google or Facebook account or email and create your events in minutes.
+                                    Provide details such as name, email address, and phone number to complete the transaction.
                                 </p>
                             </div>
                             <div className="col-md-4 px-2">
-                                <h3 className="fw-bold">Use built-in event page template</h3>
+                                <h3 className="fw-bold">Confirm your selection</h3>
                                 <p className="text-wrap">
-                                    Choose from our customised page templates specially designed to attract attendees.
-                                </p>
-                            </div>
-                            <div className="col-md-4 px-2">
-                                <h3 className="fw-bold">Customise your event page as you like</h3>
-                                <p className="text-wrap">
-                                    Add logo, collage hero images, and add details to create an outstanding event page.
+                                    Review your chosen tickets and personal information to ensure accuracy before completing the
+                                    transaction.
                                 </p>
                             </div>
                         </div>
@@ -82,25 +85,19 @@ const HomePage: IHomePage<IHomePageProps> = () => {
             case 'step3':
                 return (
                     <div className="pt-5">
-                        Sign up for free and create your event easily in minutes.
+                        Confirm Information and Payment easily in minutes.
                         <div className="row pt-5">
                             <div className="col-md-4 px-2">
-                                <h3 className="fw-bold">Sign up for free</h3>
-                                <p className="text-wrap">
-                                    Sign up easily using your Google or Facebook account or email and create your events in minutes.
-                                </p>
+                                <h3 className="fw-bold">Review information</h3>
+                                <p className="text-wrap">Double-check selected tickets and personal details for accuracy.</p>
                             </div>
                             <div className="col-md-4 px-2">
-                                <h3 className="fw-bold">Use built-in event page template</h3>
-                                <p className="text-wrap">
-                                    Choose from our customised page templates specially designed to attract attendees.
-                                </p>
+                                <h3 className="fw-bold">Select payment method</h3>
+                                <p className="text-wrap">Choose your preferred payment method (credit card).</p>
                             </div>
                             <div className="col-md-4 px-2">
-                                <h3 className="fw-bold">Customise your event page as you like</h3>
-                                <p className="text-wrap">
-                                    Add logo, collage hero images, and add details to create an outstanding event page.
-                                </p>
+                                <h3 className="fw-bold">Enter payment details</h3>
+                                <p className="text-wrap">Provide required payment information according to your chosen method.</p>
                             </div>
                         </div>
                     </div>
@@ -108,25 +105,21 @@ const HomePage: IHomePage<IHomePageProps> = () => {
             case 'step4':
                 return (
                     <div className="pt-5">
-                        Sign up for free and create your event easily in minutes.
+                        Complete Payment and Receive Tickets
                         <div className="row pt-5">
                             <div className="col-md-4 px-2">
-                                <h3 className="fw-bold">Sign up for free</h3>
+                                <h3 className="fw-bold">Complete payment </h3>
+                                <p className="text-wrap">Click "Pay" to finalize your ticket purchase.</p>
+                            </div>
+                            <div className="col-md-4 px-2">
+                                <h3 className="fw-bold">Receive tickets</h3>
                                 <p className="text-wrap">
-                                    Sign up easily using your Google or Facebook account or email and create your events in minutes.
+                                    You will receive electronic tickets via email immediately upon successful payment.
                                 </p>
                             </div>
                             <div className="col-md-4 px-2">
-                                <h3 className="fw-bold">Use built-in event page template</h3>
-                                <p className="text-wrap">
-                                    Choose from our customised page templates specially designed to attract attendees.
-                                </p>
-                            </div>
-                            <div className="col-md-4 px-2">
-                                <h3 className="fw-bold">Customise your event page as you like</h3>
-                                <p className="text-wrap">
-                                    Add logo, collage hero images, and add details to create an outstanding event page.
-                                </p>
+                                <h3 className="fw-bold">Check tickets</h3>
+                                <p className="text-wrap">Verify the ticket details and keep them for use at the event.</p>
                             </div>
                         </div>
                     </div>
@@ -140,28 +133,28 @@ const HomePage: IHomePage<IHomePageProps> = () => {
                 return (
                     <div className="d-flex flex-column pages__home-title">
                         <h3>Step 1</h3>
-                        <h4>Create Your Event</h4>
+                        <h4>Search and Select an Event</h4>
                     </div>
                 );
             case 'step2':
                 return (
                     <div className="d-flex flex-column pages__home-title">
                         <h3>Step 2</h3>
-                        <h4>Create Your Event</h4>
+                        <h4>Select Tickets and Input Personal Details</h4>
                     </div>
                 );
             case 'step3':
                 return (
                     <div className="d-flex flex-column pages__home-title">
                         <h3>Step 3</h3>
-                        <h4>Create Your Event</h4>
+                        <h4>Confirm Information and Payment</h4>
                     </div>
                 );
             case 'step4':
                 return (
                     <div className="d-flex flex-column pages__home-title">
                         <h3>Step 4</h3>
-                        <h4>Create Your Event</h4>
+                        <h4>Complete Payment and Receive Tickets</h4>
                     </div>
                 );
             default:
@@ -175,29 +168,34 @@ const HomePage: IHomePage<IHomePageProps> = () => {
     };
     const dataSwiper = [
         {
-            title: 'Featured Talk Show',
-            prams: 'Join our engaging talk show on cutting-edge topics',
-            img: 'featured-talk-show.jpg',
+            title: 'Sai Gon Opera House',
+            // prams: 'One of the largest theaters in the city, renowned for its excellent sound and lighting',
+            prams: 'In Ho Chi Minh City, Vietnam.',
+            img: images.SG_HOUSE,
         },
         {
-            title: 'Talk Show 1',
-            prams: 'Explore the latest trends in technology',
-            img: 'tech-talk.jpg',
+            title: 'My Dinh Stadium',
+            prams: 'In Ha Noi Capital, Vietnam.',
+            // prams: 'A venue for major sports events with a capacity of up to 50,000 attendees.',
+            img: images.MY_DINH,
         },
         {
-            title: 'Business Insights',
-            prams: 'Strategies for successful entrepreneurship',
-            img: 'business-insights.png',
+            title: 'Hanoi Opera House',
+            prams: 'In Ha Noi Capital, Vietnam.',
+            // prams: 'A modern venue with advanced sound, lighting, and stage systems, perfect for acoustic music.',
+            img: images.HN_HOUSE,
         },
         {
-            title: 'Health and Wellness',
-            prams: 'Tips for a balanced lifestyle',
-            img: 'wellness-tips.jpg',
+            title: 'May Lang Thang Café',
+            prams: 'In Da Lat City, Viet Nam.',
+            // prams: 'A cozy cafe with an artistic atmosphere, perfect for acoustic music and intimate gatherings.',
+            img: images.DA_LAT,
         },
         {
-            title: 'Travel Adventures',
-            prams: "Discover the world's hidden gems",
-            img: 'travel-adventures.png',
+            title: 'Sun World Danang Wonders',
+            prams: 'In Da Nang City, Viet Nam.',
+            // prams: "Discover the world's hidden gems",
+            img: images.DA_NANG,
         },
     ];
     return (
@@ -210,10 +208,11 @@ const HomePage: IHomePage<IHomePageProps> = () => {
             </div>
             <div className="pages__home--host py-5 bases__background--white d-flex flex-column">
                 <div className="p-5">
-                    <h3 className="bases__font--40 fw-bolder">Host Engaging Online and Venue Events with Barren</h3>
+                    <h3 className="bases__font--40 fw-bolder">Venue for Exciting Events with TicketNest</h3>
                     <p className="m-0 bases__font--20 text-wrap">
-                        Organise venue events and host online events with unlimited possibilities using our built-in virtual event platform.
-                        Build a unique event experience for you and your attendees.
+                        We are proud to introduce to you classy locations with modern facilities, convenient locations and professional
+                        services. Each location is carefully selected to ensure you and your audience have the best experiences. Let's
+                        explore and choose the perfect location for your upcoming event!
                     </p>
                 </div>
                 <div className="p-5 pages__home--silder">
@@ -253,7 +252,7 @@ const HomePage: IHomePage<IHomePageProps> = () => {
                         {dataSwiper?.map((data, index) => (
                             <SwiperSlide style={{ minHeight: '300px' }} key={index}>
                                 <div className="col-md-12 pages__home--silder-item p-5">
-                                    <img src={data?.img} alt={data?.title} />
+                                    <img src={data?.img} alt={data?.title} style={{ width: '60px', height: '60px', objectFit: 'cover' }} />
                                     <h2 className="fw-bold fs-4">{data.title}</h2>
                                     <p className="m-0">{data?.prams}</p>
                                 </div>
@@ -265,10 +264,10 @@ const HomePage: IHomePage<IHomePageProps> = () => {
 
             <div className="py-5 pages__home--step">
                 <div className="p-5 ">
-                    <h2 className="fw-bolder">Become an Event Manager in 4 Easy Steps</h2>
+                    <h2 className="fw-bolder">Booking Tickets and Making Direct Payment in 4 Easy Steps</h2>
                     <p className="m-0 bases__font--20 text-wrap">
-                        Organise venue events and host online events with unlimited possibilities using our built-in virtual event platform.
-                        Build a unique event experience for you and your attendees.
+                        Our platform offers you a simple and convenient event ticket booking experience online. With just a few easy steps,
+                        you can effortlessly select and purchase tickets for your favorite events.
                     </p>
                 </div>
                 <div className="p-5">
