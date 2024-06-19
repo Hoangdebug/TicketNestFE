@@ -1,36 +1,58 @@
+import React from 'react';
+
 const Footer: IFooterComponent<IFooterComponentProps> = (props) => {
     const { isShow } = props;
 
+    const footerData = [
+        {
+            title: 'Company',
+            links: [
+                { text: 'About', href: '#' },
+                { text: 'Careers', href: '#' },
+                { text: 'Press', href: '#' },
+                { text: 'Blog', href: '#' },
+            ],
+        },
+        {
+            title: 'Contact',
+            content: [
+                { text: 'Email: contact@ticketnest.com' },
+                { text: 'Phone: (123) 456-7890' },
+                { text: 'Address: 123 TicketNest St, City, Country' },
+            ],
+        },
+        {
+            title: 'Resources',
+            links: [
+                { text: 'Help Center', href: '#' },
+                { text: 'Privacy Policy', href: '#' },
+                { text: 'Terms of Service', href: '#' },
+                { text: 'Contact Support', href: '#' },
+            ],
+        },
+    ];
+
     if (isShow) {
         return (
-            <div className="components__footer p-5">
-                <div className="row">
-                    <div className="col-md-4 col-sm-12">
-                        <div className="d-flex flex-column py-3">
-                            <h4>Company</h4>
-                            <div className="d-flex flex-column">
-                                <p>About</p>
-                                <p>Careers</p>
-                                <p>Press</p>
-                                <p>Blog</p>
-                            </div>
+            <div className="footer">
+                <div className="footer-container">
+                    {footerData.map((section, index) => (
+                        <div className="footer-section" key={index}>
+                            <h6>{section.title}</h6>
+                            {section.links &&
+                                section.links.map((link, idx) => (
+                                    <a key={idx} href={link.href}>
+                                        {link.text} <br></br>
+                                    </a>
+                                ))}
+                            {section.content && section.content.map((item, idx) => <p key={idx}>{item.text}</p>)}
                         </div>
-                    </div>
-                    <div className="col-md-4 col-sm-12">
-                        <div className="d-flex flex-row py-3">
-                            <h4>Contact</h4>
-                        </div>
-                    </div>
-                    <div className="col-md-4 col-sm-12">
-                        <div className="d-flex flex-row py-3">
-                            <h4>Resources</h4>
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </div>
         );
     }
-    return <></>;
+    return null;
 };
 
 Footer.defaultProps = {
