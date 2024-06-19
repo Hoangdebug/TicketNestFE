@@ -1,7 +1,6 @@
 .pages {
     &__addevent {
         flex-direction: row;
-
         &-rightside {
             @media screen and (max-width: 768px) {
                 width: 100%;
@@ -9,12 +8,8 @@
             }
         }
 
-        // &-leftside {
-        //     &-logo {
-        //         @media screen and (max-width: 768px) {
-        //             display: none;
-        //         }
-        //     }
-        // }
+        &-leftside {
+            min-height: 100vh;
+        }
     }
 }

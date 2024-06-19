@@ -9,13 +9,13 @@ const Rightside_Content: IRightsideContentComponent<IRightsideContentComponentPr
                     <div className="components__Rightside_content-form-overlay-logos">
                         <img
                             className="components__Rightside_content-form-overlay-logos-logo1"
-                            style={{ height: '390px' }}
+                            style={{ height: '430px' }}
                             src={images.CARD2_LOGO}
                             alt=""
                         />
                         <img
                             className="components__Rightside_content-form-overlay-logos-logo2"
-                            style={{ height: '390px' }}
+                            style={{ height: '430px' }}
                             src={images.CARD_LOGO}
                             alt=""
                         />

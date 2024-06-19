@@ -29,9 +29,11 @@ const CHANGE_PASSWORD_SUCCESS: IRouteConstant = {
 const REGISTERSUCCESS: IRouteConstant = {
     href: '/registersuccess',
 };
+
 const EVENT_DETAILS_PAGES: IRouteConstant = {
     href: '/event/detail/[id]',
 };
+
 const ERROR404: IRouteConstant = {
     href: '/404',
 };
@@ -43,12 +45,22 @@ const ERROR500: IRouteConstant = {
 const ERROR403: IRouteConstant = {
     href: '/403',
 };
+
 const ADD_EVENT: IRouteConstant = {
-    href: '/addevent',
+    href: '/organizer/event/addevent',
 };
+const UPDATE_EVENT: IRouteConstant = {
+    href: '/organizer/event/[id]',
+};
+
+const ORGANIZER_LIST_EVENT_PAGE: IRouteConstant = {
+    href: '/organizer',
+};
+
 const ADMIN_DASHBOARD: IRouteConstant = {
     href: '/admin',
 };
+
 export const CLIENT = {
     LOGIN_PAGE: LOGIN,
     REGISTER_PAGE: REGISTER,
@@ -64,6 +76,8 @@ export const CLIENT = {
     HOME_PAGE: HOME,
     ADMIN_PAGE: ADMIN_DASHBOARD,
     EVENT_DETAILS: EVENT_DETAILS_PAGES,
+    ORGANIZER_LIST_EVENT: ORGANIZER_LIST_EVENT_PAGE,
+    UPDATE_EVENT_PAGE: UPDATE_EVENT,
 };
 
 const LOGIN_API: IRouteConstant = {
