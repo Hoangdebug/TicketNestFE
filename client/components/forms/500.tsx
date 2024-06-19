@@ -1,13 +1,11 @@
-import { routes } from '@utils/constants';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 
 const SecondErrorForm: ISecondErrorComponent<ISecondErrorComponentProps> = () => {
     const navigate = useRouter();
     const handleNextPage = () => {
-        navigate.push(routes.CLIENT.HOME_PAGE.href, undefined, { scroll: false });
+        navigate.back();
     };
-    const [changeText, setChangeText] = useState();
+
     return (
         <div className="components__seconderror">
             <div className="components__seconderror-form p-4 ">

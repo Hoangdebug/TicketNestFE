@@ -1,6 +1,4 @@
-import { createRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { routes } from '@utils/constants';
+import { createRef, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Validator from '@components/commons/Validator';
 import { validateHelper } from '@utils/helpers';
@@ -8,8 +6,6 @@ import { validateHelper } from '@utils/helpers';
 const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
     // const dispatch = useDispatch();
     const router = useRouter();
-    const dispatch = useDispatch();
-    const navigate = useRouter();
 
     const [state, setState] = useState<IAddEventComponentState>({
         title: '',
@@ -59,6 +55,36 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
             [feild]: value,
         }));
     };
+
+    useEffect(() => {
+        const handleBeforeUnload = () => {
+            setState({
+                title: '',
+                description: '',
+                banner: '',
+                startDate: '',
+                endDate: '',
+                location: '',
+                ticketType: '',
+                ticketPrice: '',
+                ticketQuantity: '',
+                supportContact: '',
+                saleStartDate: '',
+                saleEndDate: '',
+            });
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
+
+    const hanldeCancelBack = () => {
+        router.back();
+    };
+
     const handleSubmit = async () => {
         let isValidate = true;
 
@@ -101,7 +127,6 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
                     <div className="col-md-6 gap-4 d-flex flex-column ">
                         <div className="form-group">
                             <label htmlFor="title" className="pb-2">
-                                {' '}
                                 Title <span className="text-danger">*</span>{' '}
                             </label>
                             <Validator ref={titleValidatorRef}>
@@ -297,7 +322,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
                     <button
                         type="button"
                         className="components__addevent-form-secondbutton btn btn-secondary btn-block text-success mx-2 px-5 py-3"
-                        onClick={() => handleSubmit()}
+                        onClick={() => hanldeCancelBack()}
                     >
                         Cancel
                     </button>

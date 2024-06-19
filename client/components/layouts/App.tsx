@@ -41,7 +41,9 @@ const App: IAppComponent<IAppComponentProps> = (props) => {
         routes.CLIENT.REGISTER_PAGE.href,
         routes.CLIENT.FORGOT_PASSWORD_PAGE.href,
         routes.CLIENT.POST_FORGOT_PASSWORD_PAGE.href,
-        // routes.CLIENT.CHANGE_PASSWORD_PAGE.href,
+        routes.CLIENT.CHANGE_PASSWORD_PAGE.href,
+        routes.CLIENT.ADD_EVENT_PAGE.href,
+        routes.CLIENT.ORGANIZER_LIST_EVENT.href,
         routes.CLIENT.CHANGE_PASSWORD_SUCCESS_PAGE.href,
         routes.CLIENT.ADMIN_PAGE.href,
     ];
