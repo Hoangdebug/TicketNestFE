@@ -25,49 +25,37 @@ const NavBar = () => {
                 <div slot="container-start" className="parallax-bg" data-swiper-parallax="-23%"></div>
                 <SwiperSlide>
                     <div className="title" data-swiper-parallax="-300">
-                        Slide 1
+                        <strong>Leading Online Event Ticketing Platform</strong>
                     </div>
-                    <div className="subtitle" data-swiper-parallax="-200">
-                        Subtitle
-                    </div>
+                    {/* <div className="subtitle" data-swiper-parallax="-200">
+                          Introduction to TicketNest:
+                    </div> */}
                     <div className="text" data-swiper-parallax="-100">
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam dictum mattis velit, sit amet faucibus felis
-                            iaculis nec. Nulla laoreet justo vitae porttitor porttitor. Suspendisse in sem justo. Integer laoreet magna nec
-                            elit suscipit, ac laoreet nibh euismod. Aliquam hendrerit lorem at elit facilisis rutrum. Ut at ullamcorper
-                            velit. Nulla ligula nisi, imperdiet ut lacinia nec, tincidunt ut libero. Aenean feugiat non eros quis feugiat.
+                            TicketNest is the top online event ticketing platform for concerts and performing arts, offering a fast,
+                            user-friendly experience.
                         </p>
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
                     <div className="title" data-swiper-parallax="-300">
-                        Slide 2
-                    </div>
-                    <div className="subtitle" data-swiper-parallax="-200">
-                        Subtitle
+                        <strong>Seamless and Secure Ticket Purchasing Experience</strong>
                     </div>
                     <div className="text" data-swiper-parallax="-100">
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam dictum mattis velit, sit amet faucibus felis
-                            iaculis nec. Nulla laoreet justo vitae porttitor porttitor. Suspendisse in sem justo. Integer laoreet magna nec
-                            elit suscipit, ac laoreet nibh euismod. Aliquam hendrerit lorem at elit facilisis rutrum. Ut at ullamcorper
-                            velit. Nulla ligula nisi, imperdiet ut lacinia nec, tincidunt ut libero. Aenean feugiat non eros quis feugiat.
+                            TicketNest's interface simplifies event browsing, seat selection, and secure payments with top providers, backed
+                            by responsive support.
                         </p>
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
                     <div className="title" data-swiper-parallax="-300">
-                        Slide 3
-                    </div>
-                    <div className="subtitle" data-swiper-parallax="-200">
-                        Subtitle
+                        <strong>Unlock a World of Memorable Experiences</strong>
                     </div>
                     <div className="text" data-swiper-parallax="-100">
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam dictum mattis velit, sit amet faucibus felis
-                            iaculis nec. Nulla laoreet justo vitae porttitor porttitor. Suspendisse in sem justo. Integer laoreet magna nec
-                            elit suscipit, ac laoreet nibh euismod. Aliquam hendrerit lorem at elit facilisis rutrum. Ut at ullamcorper
-                            velit. Nulla ligula nisi, imperdiet ut lacinia nec, tincidunt ut libero. Aenean feugiat non eros quis feugiat.
+                            TicketNest unlocks unforgettable experiences in music and the arts, making attending your favorite events easier
+                            and more enjoyable than ever!
                         </p>
                     </div>
                 </SwiperSlide>
