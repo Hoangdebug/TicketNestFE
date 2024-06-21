@@ -1,0 +1,99 @@
+.pages {
+    &__eventDetail {
+        display: flex;
+        flex-direction: column;
+
+        &__header {
+            display: flex;
+            flex-direction: column-reverse;
+
+            @media screen and (min-width: 768px) {
+                flex-direction: row;
+            }
+
+            &-left {
+                display: flex;
+                align-items: center;
+            }
+
+            &__date-box {
+                background-color: green;
+                color: white;
+                padding: 10px;
+                text-align: center;
+                margin-right: 20px;
+            }
+
+            &__date {
+                font-size: 24px;
+            }
+
+            &__day {
+                font-size: 48px;
+            }
+
+            &__title {
+                font-size: 36px;
+                margin: 0;
+            }
+
+            &__subtitle {
+                font-size: 18px;
+                color: gray;
+            }
+
+            &__image {
+                width: 100%;
+                height: auto;
+                margin-bottom: 20px;
+            }
+        }
+
+        &__details {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 20px 0;
+
+            &__countdown,
+            &__organizer,
+            &__datetime,
+            &__location,
+            &__price {
+                flex: 1;
+                min-width: 150px;
+                margin: 10px;
+                text-align: center;
+            }
+
+            &__book-now {
+                width: 100%;
+                margin: 20px 0;
+            }
+        }
+
+        &__about {
+            margin: 20px 0;
+        }
+
+        &__more-events {
+            margin: 20px 0;
+
+            &-list {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            &__more-event-card {
+                width: 100%;
+                margin: 10px;
+
+                img {
+                    width: 100%;
+                    height: auto;
+                }
+            }
+        }
+    }
+}
