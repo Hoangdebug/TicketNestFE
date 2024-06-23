@@ -1,6 +1,6 @@
 // ContactPage.scss
 .contact-page {
-    .breadcrumb {
+    &-breadcrumb {
         padding: 20px;
         background-color: #f0f0f0;
         text-align: center;
@@ -8,7 +8,7 @@
         color: #666;
     }
 
-    .contact-section {
+    &-contact-section {
         text-align: center;
         margin: 20px;
         padding: 20px;
@@ -23,14 +23,14 @@
             margin-bottom: 20px;
         }
 
-        .contact-content {
+        &-contact-content {
             display: flex;
             justify-content: center;
             align-items: flex-start;
             gap: 20px;
 
-            .contact-info,
-            .contact-form {
+            &-contact-info,
+            &-contact-form {
                 background: #fff;
                 padding: 30px;
                 border-radius: 8px;
@@ -40,7 +40,7 @@
                 text-align: left;
             }
 
-            .contact-info {
+            &-contact-info {
                 background: #8bc34a;
                 color: white;
                 display: flex;
@@ -77,66 +77,66 @@
                 }
             }
 
-            .contact-form {
-                background: #fff;
+            // .contact-form {
+            //     // background: #fff;
 
-                form {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 20px;
+            //     // form {
+            //     //     display: flex;
+            //     //     flex-wrap: wrap;
+            //     //     gap: 20px;
 
-                    .form-group {
-                        flex: 1 1 45%;
-                        display: flex;
-                        flex-direction: column;
+            //     //     .form-group {
+            //     //         flex: 1 1 45%;
+            //     //         display: flex;
+            //     //         flex-direction: column;
 
-                        &.full-width {
-                            flex: 1 1 100%;
-                        }
+            //     //         &.full-width {
+            //     //             flex: 1 1 100%;
+            //     //         }
 
-                        label {
-                            margin-bottom: 5px;
-                            font-weight: bold;
-                            font-size: 1rem;
-                            color: #333;
-                        }
+            //     //         label {
+            //     //             margin-bottom: 5px;
+            //     //             font-weight: bold;
+            //     //             font-size: 1rem;
+            //     //             color: #333;
+            //     //         }
 
-                        input,
-                        textarea {
-                            padding: 10px;
-                            border: 1px solid #ddd;
-                            border-radius: 4px;
-                            font-size: 1rem;
-                            transition: border-color 0.3s ease;
+            //     //         input,
+            //     //         textarea {
+            //     //             padding: 10px;
+            //     //             border: 1px solid #ddd;
+            //     //             border-radius: 4px;
+            //     //             font-size: 1rem;
+            //     //             transition: border-color 0.3s ease;
 
-                            &:focus {
-                                border-color: #8bc34a;
-                            }
-                        }
+            //     //             &:focus {
+            //     //                 border-color: #8bc34a;
+            //     //             }
+            //     //         }
 
-                        textarea {
-                            resize: vertical;
-                            height: 150px;
-                        }
-                    }
+            //     //         textarea {
+            //     //             resize: vertical;
+            //     //             height: 150px;
+            //     //         }
+            //     //     }
 
-                    button {
-                        padding: 10px 20px;
-                        background-color: #8bc34a;
-                        color: #fff;
-                        border: none;
-                        border-radius: 4px;
-                        cursor: pointer;
-                        transition: background-color 0.3s ease;
-                        font-size: 1rem;
-                        font-weight: bold;
+            //     //     button {
+            //     //         padding: 10px 20px;
+            //     //         background-color: #8bc34a;
+            //     //         color: #fff;
+            //     //         border: none;
+            //     //         border-radius: 4px;
+            //     //         cursor: pointer;
+            //     //         transition: background-color 0.3s ease;
+            //     //         font-size: 1rem;
+            //     //         font-weight: bold;
 
-                        &:hover {
-                            background-color: #7cb342;
-                        }
-                    }
-                }
-            }
+            //     //         &:hover {
+            //     //             background-color: #7cb342;
+            //     //         }
+            //     //     }
+            //     // }
+            // }
         }
     }
 }

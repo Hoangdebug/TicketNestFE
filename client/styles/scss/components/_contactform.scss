@@ -1,5 +1,5 @@
 // ContactForm.scss
-.contact-form {
+.contact {
     background: #fff;
     padding: 30px;
     border-radius: 8px;
@@ -7,12 +7,12 @@
     max-width: 600px;
     margin: 0 auto;
 
-    form {
+    &-form {
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
 
-        .form-group {
+        &-form-group {
             flex: 1 1 45%;
             display: flex;
             flex-direction: column;
