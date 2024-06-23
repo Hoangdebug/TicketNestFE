@@ -1,5 +1,3 @@
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { createRef, useState } from 'react';
 import Validator from '@components/commons/Validator';
 import { validateHelper } from '@utils/helpers';
@@ -12,7 +10,10 @@ import { ReduxStates } from '@redux/reducers';
 const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentProps> = () => {
     const navigate = useRouter();
     const dispatch = useDispatch();
-
+    const { profile } = useSelector((states: ReduxStates) => states); 
+    // lấy data trong thằng profile này truyền vào các ô input để update 
+    console.log("data__: ",profile);
+    
     const [state, setState] = useState<IEditUserProfileComponentState>({
         firstName: '',
         lastName: '',
@@ -20,11 +21,10 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
         gender: '',
         phone : '',
         address: '',
+        images: '',
     });
-    const handleNextPage = () => {
-        navigate.push(routes.CLIENT.HOME_PAGE.href);
-    };
-    const { firstName, lastName, dob, gender, phone, address } = state;
+    
+    const { firstName, lastName, dob, gender, phone, address, images } = state;
 
     const firstNameValidatorRef = createRef<IValidatorComponentHandle>();
     const lastNameValidatorRef = createRef<IValidatorComponentHandle>();
@@ -32,6 +32,23 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
     const genderValidatorRef = createRef<IValidatorComponentHandle>();
     const phoneValidatorRef = createRef<IValidatorComponentHandle>();
     const addressValidatorRef = createRef<IValidatorComponentHandle>();
+
+    const handleAvatarChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setState((prev) => ({
+                ...prev,
+                avatar: URL.createObjectURL(file),
+            }));
+        }
+    };
+
+    const handleDeleteAvatar = () => {
+        setState((prev) => ({
+            ...prev,
+            avatar: '',
+        }));
+    };
 
     const handleOnChange = (feild: string, value: string | null) => {
         setState((prev) => ({
@@ -88,8 +105,8 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
             <div className="components___edituserprofile-form p-3">
                 <h2 className="fw-bold mb-4 text-center">Edit Profile</h2>
                 <div className="row">
-                    <div className="col-md-6 gap-4 d-flex flex-column ">
-                        <div className="form-group">     
+                    <div className="col-md-6 gap-4 d-flex flex-column">
+                        <div className="form-group">
                             <label htmlFor="firstname" className="pb-2">
                                 First Name
                                 <span className="text-danger">*</span>
@@ -100,13 +117,13 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                                     className="form-control"
                                     id="firstname"
                                     value={firstName}
-                                    onChange={(e) => handleOnChange('firstname', e.target.value)}
+                                    onChange={(e) => handleOnChange('firstName', e.target.value)}
                                     name="firstname"
                                     placeholder="Enter Your First Name"
                                 />
-                            </Validator>                       
+                            </Validator>
                         </div>
-                        <div className="form-group">         
+                        <div className="form-group">
                             <label htmlFor="gender" className="pb-2">
                                 Gender
                                 <span className="text-danger">*</span>
@@ -123,7 +140,7 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                             </Validator>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="form-control" className="pb-2">
+                            <label htmlFor="phone_number" className="pb-2">
                                 Phone Number
                                 <span className="text-danger">*</span>
                             </label>
@@ -140,7 +157,7 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                             </Validator>
                         </div>
                     </div>
-                    <div className="col-md-6 gap-4 d-flex flex-column ">
+                    <div className="col-md-6 gap-4 d-flex flex-column">
                         <div className="form-group">
                             <label htmlFor="lastname" className="pb-2">
                                 Last Name
@@ -152,11 +169,11 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                                     className="form-control"
                                     id="lastname"
                                     value={lastName}
-                                    onChange={(e) => handleOnChange('lastname', e.target.value)}
+                                    onChange={(e) => handleOnChange('lastName', e.target.value)}
                                     name="lastname"
                                     placeholder="Enter Your Last Name"
                                 />
-                            </Validator> 
+                            </Validator>
                         </div>
                         <div className="form-group">
                             <label htmlFor="dob" className="pb-2">
@@ -190,18 +207,41 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                                 />
                             </Validator>
                         </div>
+                        <div className="form-group">
+                            <label htmlFor="avatar" className="pb-2">
+                                Avatar
+                            </label>
+                            <div className="d-flex align-items-center">
+                                <input
+                                    type="file"
+                                    className="form-control"
+                                    id="avatar"
+                                    name="avatar"
+                                    onChange={handleAvatarChange}
+                                />
+                                {images && (
+                                    <div className="ms-3">
+                                        <img src={images} alt="Avatar" className="img-thumbnail" style={{ width: '100px', height: '100px' }} />
+                                        <button type="button" className="btn btn-danger mt-2" onClick={handleDeleteAvatar}>
+                                            Delete
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <button type="submit" onClick={submitForm} className="components___edituserprofile-form-firstButton btn btn-primary btn-block">
-                    Submit
-                </button>
-                <button type="submit" onClick={handleNextPage} className="components__login-form-secondButton">
-                    <span>Back to Home Page</span>
-                </button>
+                <div className="d-flex justify-content-end pt-4">
+                    <button type="button" onClick={submitForm} className="components___edituserprofile-form-firstButton">
+                        Submit
+                    </button>
+                </div>
             </div>
         </div>
     );
 };
 
 export default EditUserProFileForm;
+
+

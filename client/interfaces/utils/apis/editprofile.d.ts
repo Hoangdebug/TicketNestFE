@@ -18,6 +18,7 @@ interface IEditUserProfileAPIRes extends IBaseAPIRes {
             gender: string;
             phone: string;
             address: string;
+            images: string;
         };
     };
 }
