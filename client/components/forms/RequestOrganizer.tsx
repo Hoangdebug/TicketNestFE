@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRequestOrganizer, fetchCheckOrganizerStatus } from '@redux/actions';
 import { ReduxStates } from '@redux/reducers';
+import React from 'react';
 
 interface IRequestOrganizerComponentState {
     organizationName: string;
@@ -13,6 +14,7 @@ interface IRequestOrganizerComponentState {
     contactEmail: string;
     contactPhone: string;
     status: string; // to hold the request status
+    avatar: string | null; // For storing the selected avatar URL
 }
 
 const RequestOrganizerForm: React.FC = () => {
@@ -25,14 +27,26 @@ const RequestOrganizerForm: React.FC = () => {
         contactEmail: '',
         contactPhone: '',
         status: '',
+        avatar: null, // Initialize with null
     });
+    const [images, setImages] = React.useState([]); // Store all images
+    const maxNumber = 69;
 
-    useEffect(() => {
-        if (profile) {
-            // Fetch the current organizer request status if profile is loaded
-            dispatch(fetchCheckOrganizerStatus(profile.userId));
-        }
-    }, [profile]);
+    const onChange = (
+        imageList: ImageListType,
+        addUpdateIndex: number[] | undefined
+    ) => {
+        // data for submit
+        console.log(imageList, addUpdateIndex);
+        setImages(imageList as never[]);
+    };
+
+    // useEffect(() => {
+    //     if (profile) {
+    //         // Fetch the current organizer request status if profile is loaded
+    //         dispatch(fetchCheckOrganizerStatus(profile.userId));
+    //     }
+    // }, [profile]);
 
     useEffect(() => {
         if (organizerStatus) {
@@ -43,7 +57,7 @@ const RequestOrganizerForm: React.FC = () => {
         }
     }, [organizerStatus]);
 
-    const { organizationName, description, contactEmail, contactPhone, status } = state;
+    const { organizationName, description, contactEmail, contactPhone, status, avatar } = state;
 
     const organizationNameValidatorRef = createRef<Validator>();
     const descriptionValidatorRef = createRef<Validator>();
@@ -54,6 +68,26 @@ const RequestOrganizerForm: React.FC = () => {
         setState((prevState) => ({
             ...prevState,
             [field]: value,
+        }));
+    };
+
+    const handleAvatarChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Get the file URL
+            const avatarUrl = URL.createObjectURL(file);
+            // Update state with the avatar URL
+            setState((prev) => ({
+                ...prev,
+                avatar: avatarUrl,
+            }));
+        }
+    };
+
+    const handleDeleteAvatar = () => {
+        setState((prev) => ({
+            ...prev,
+            avatar: '', // Reset the avatar URL
         }));
     };
 
@@ -165,6 +199,28 @@ const RequestOrganizerForm: React.FC = () => {
                                     placeholder="Enter Contact Phone"
                                 />
                             </Validator>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="avatar" className="pb-2">
+                                Image
+                            </label>
+                            <div className="d-flex align-items-center">
+                                <input
+                                    type="file"
+                                    className="form-control"
+                                    id="avatar"
+                                    name="avatar"
+                                    onChange={handleAvatarChange}
+                                />
+                                {avatar && ( // Display only if avatar is available
+                                    <div className="ms-3">
+                                        <img src={avatar} alt="Avatar" className="img-thumbnail" style={{ width: '100px', height: '100px' }} />
+                                        <button type="button" className="btn btn-danger mt-2" onClick={handleDeleteAvatar}>
+                                            Delete
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>

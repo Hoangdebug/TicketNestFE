@@ -45,6 +45,14 @@ const ERROR403: IRouteConstant = {
 const ADMIN_DASHBOARD: IRouteConstant = {
     href: '/admin',
 };
+
+const EDITPROFILE: IRouteConstant = {
+    href: '/editprofile',
+};
+
+const REQUESTORGANIZE: IRouteConstant = {
+    href: '/requestorganize',
+};
 export const CLIENT = {
     LOGIN_PAGE: LOGIN,
     REGISTER_PAGE: REGISTER,
@@ -59,6 +67,8 @@ export const CLIENT = {
 
     HOME_PAGE: HOME,
     ADMIN_PAGE: ADMIN_DASHBOARD,
+    EDIT_PROFILE_PAGE: EDITPROFILE,
+    REQUEST_ORGNIZE_PAGE: REQUESTORGANIZE,
 };
 
 const LOGIN_API: IRouteConstant = {

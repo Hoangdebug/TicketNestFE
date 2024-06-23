@@ -1,37 +1,46 @@
-import { createRef, useState } from 'react';
+import { createRef, useState, useEffect } from 'react';
 import Validator from '@components/commons/Validator';
 import { validateHelper } from '@utils/helpers';
 import { enums, routes } from '@utils/constants';
-import router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEditUserProfile } from '@redux/actions';
 import { ReduxStates } from '@redux/reducers';
 
-const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentProps> = () => {
+interface IEditUserProfileComponentState {
+    firstName: string;
+    lastName: string;
+    dob: string;
+    gender: string;
+    phone: string;
+    address: string;
+    avatar: string | null; // Store avatar URL 
+}
+
+const EditUserProFileForm: React.FC = () => {
     const navigate = useRouter();
     const dispatch = useDispatch();
-    const { profile } = useSelector((states: ReduxStates) => states); 
-    // lấy data trong thằng profile này truyền vào các ô input để update 
-    console.log("data__: ",profile);
-    
-    const [state, setState] = useState<IEditUserProfileComponentState>({
-        firstName: '',
-        lastName: '',
-        dob: '',
-        gender: '',
-        phone : '',
-        address: '',
-        images: '',
-    });
-    
-    const { firstName, lastName, dob, gender, phone, address, images } = state;
+    const { profile } = useSelector((states: ReduxStates) => states);
 
-    const firstNameValidatorRef = createRef<IValidatorComponentHandle>();
-    const lastNameValidatorRef = createRef<IValidatorComponentHandle>();
-    const dobValidatorRef = createRef<IValidatorComponentHandle>();
-    const genderValidatorRef = createRef<IValidatorComponentHandle>();
-    const phoneValidatorRef = createRef<IValidatorComponentHandle>();
-    const addressValidatorRef = createRef<IValidatorComponentHandle>();
+    // Initialize state with profile data
+    const [state, setState] = useState<IEditUserProfileComponentState>({
+        firstName: profile?.firstName || '',
+        lastName: profile?.lastName || '',
+        dob: profile?.dob || '',
+        gender: profile?.gender || '',
+        phone: profile?.phone || '',
+        address: profile?.address || '',
+        avatar: profile?.avatar || null, // Handle avatar URL
+    });
+
+    const { firstName, lastName, dob, gender, phone, address, avatar } = state;
+
+    const firstNameValidatorRef = createRef<Validator>();
+    const lastNameValidatorRef = createRef<Validator>();
+    const dobValidatorRef = createRef<Validator>();
+    const genderValidatorRef = createRef<Validator>();
+    const phoneValidatorRef = createRef<Validator>();
+    const addressValidatorRef = createRef<Validator>();
 
     const handleAvatarChange = (e) => {
         const file = e.target.files[0];
@@ -46,16 +55,16 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
     const handleDeleteAvatar = () => {
         setState((prev) => ({
             ...prev,
-            avatar: '',
+            avatar: null,
         }));
     };
 
-    const handleOnChange = (feild: string, value: string | null) => {
+    const handleOnChange = (field: string, value: string | null) => {
         setState((prev) => ({
             ...prev,
-            [feild]: value,
+            [field]: value,
         }));
-    };    
+    };
 
     const submitForm = async () => {
         let isValidate = true;
@@ -80,19 +89,18 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
             }
         });
 
-        // call api
         if (isValidate) {
             dispatch(
                 await fetchEditUserProfile({ firstName, lastName, dob, gender, phone, address }, (res) => {
                     const isAdmin = res?.data?.userData?.role;
                     console.log(isAdmin);
-                    if (res?.code == 200) {
-                        if (isAdmin.includes(enums?.ROLE?.ADMIN)) {
-                            router.push(routes.CLIENT.ADMIN_PAGE.href);
+                    if (res?.code === 200) {
+                        if (isAdmin.includes(enums.ROLE.ADMIN)) {
+                            navigate.push(routes.CLIENT.ADMIN_PAGE.href);
                         } else {
-                            router.push(routes.CLIENT.HOME_PAGE.href);
+                            navigate.push(routes.CLIENT.HOME_PAGE.href);
                         }
-                    } else if (res?.code == 500) {
+                    } else if (res?.code === 500) {
                         alert(res?.mes);
                     }
                 }),
@@ -219,9 +227,9 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                                     name="avatar"
                                     onChange={handleAvatarChange}
                                 />
-                                {images && (
+                                {avatar && ( // Show the avatar only if it's available
                                     <div className="ms-3">
-                                        <img src={images} alt="Avatar" className="img-thumbnail" style={{ width: '100px', height: '100px' }} />
+                                        <img src={avatar} alt="Avatar" className="img-thumbnail" style={{ width: '100px', height: '100px' }} />
                                         <button type="button" className="btn btn-danger mt-2" onClick={handleDeleteAvatar}>
                                             Delete
                                         </button>
@@ -243,5 +251,3 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
 };
 
 export default EditUserProFileForm;
-
-
