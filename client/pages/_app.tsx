@@ -12,6 +12,8 @@ import { useTrans } from '@utils/hooks';
 import { IAppPage, IAppPageProps } from '@interfaces/pages/app';
 
 import '@styles/scss/main.scss';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 const AppPage: IAppPage<IAppPageProps> = (props) => {
     const trans = useTrans();

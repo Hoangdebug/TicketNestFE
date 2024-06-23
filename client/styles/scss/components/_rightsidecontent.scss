@@ -1,0 +1,181 @@
+.components {
+    &__Rightside_content {
+        // display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        &-form {
+            background: #ffffff;
+            margin: 10px;
+            border-radius: 20px;
+            overflow: hidden;
+
+            &-overlay {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                min-height: 390px;
+
+                &-logos {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 30px;
+                    position: absolute;
+                }
+                &-card {
+                    background: rgba(255, 255, 255, 0.2);
+                    backdrop-filter: blur(10px);
+                    border: 2px solid #ffffff;
+                    border-radius: 15px;
+                    padding: 20px;
+                    margin: 35px 0;
+                    width: 437px;
+                    height: 298px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    color: white;
+                    font-family: Inter, sans-serif;
+                    // position: relative;
+
+                    z-index: 1;
+
+                    &-visalogo {
+                        font-size: 24px;
+                        font-weight: bold;
+                    }
+
+                    &-accounttype {
+                        font-size: 14px;
+                    }
+
+                    &-cardnumber {
+                        font-size: 20px;
+                        letter-spacing: 2px;
+                        margin-bottom: 20px;
+                    }
+
+                    &-details {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 20px;
+
+                        &-holder {
+                            &-type {
+                                font-size: 11px;
+                            }
+                            &-name {
+                                font-size: 19px;
+                            }
+                        }
+                        &-expirydate {
+                            &-date {
+                                font-size: 11px;
+                            }
+                            &-value {
+                                font-size: 19px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &-frame {
+                width: 479px;
+                &-stats {
+                    display: flex;
+                    margin-bottom: 10px;
+                    margin-left: 20px;
+                    &-item {
+                        display: flex;
+                        // text-align: center;
+                        // flex-direction: column;
+                        align-items: center;
+                        padding: 10px;
+                        &-img {
+                            margin-right: 10px;
+                        }
+                        &-product {
+                            &-value {
+                                font-size: 18px;
+                                font-weight: bold;
+                            }
+
+                            &-label {
+                                font-size: 12px;
+                            }
+                        }
+                        &-order {
+                            &-value2 {
+                                font-size: 18px;
+                                font-weight: bold;
+                            }
+
+                            &-label2 {
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                }
+
+                &-growth {
+                    display: flex;
+                    text-align: center;
+                    // flex-direction: column;
+                    align-items: center;
+
+                    &-lifetimesales {
+                        padding-left: 10px;
+                        font-size: 28px;
+                        font-weight: 500;
+                        margin-bottom: 10px;
+                        margin-right: 200px;
+                    }
+                    &-label {
+                        background: #28a745;
+                        padding: 5px 10px;
+                        border-radius: 35px;
+                        color: white;
+                        font-size: 13px;
+                        display: inline-block;
+                        margin-bottom: 20px;
+                        width: 86px;
+                        height: 25px;
+                    }
+                }
+                &-content {
+                    padding-left: 10px;
+                    font-size: 16px;
+                    color: #08b1ba;
+                    margin-bottom: 25px;
+                }
+
+                &-buttons {
+                    margin: 35px;
+
+                    &-viewproject {
+                        width: 178px;
+                        height: 36px;
+                        border: none;
+                        padding: 10px;
+                        border-radius: 5px;
+                        color: white;
+                        font-size: 16px;
+                        background: #3a57e8;
+                    }
+                    &-analytics {
+                        margin-left: 53px;
+                        border: none;
+                        width: 178px;
+                        height: 36px;
+                        padding: 10px;
+                        border-radius: 5px;
+                        color: white;
+                        font-size: 16px;
+                        background: #08b1ba;
+                    }
+                }
+            }
+        }
+    }
+}

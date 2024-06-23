@@ -52,7 +52,9 @@
                 @media screen and (max-width: 769px) {
                     color: black;
                 }
-
+                &.active {
+                    color: black;
+                }
                 &:hover {
                     opacity: 0.7;
                     color: black;
@@ -67,10 +69,12 @@
                     background: black;
                     height: 2px;
                     transition: 0.3s ease-out;
+                    color: black;
                 }
 
                 &:hover::after {
                     width: 100%;
+                    color: black;
                 }
             }
         }

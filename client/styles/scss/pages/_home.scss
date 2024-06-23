@@ -1,4 +1,37 @@
 .pages {
     &__home {
+        background: #f5f7f9;
+        min-height: 100vh;
+
+        &--silder {
+            &-item {
+                max-height: 250px;
+                box-shadow: 2px 1px 10px rgba(0, 0, 0, 0.5);
+                border: 2px solid rgba(255, 255, 255, 0.5);
+            }
+        }
+        &--step {
+            li {
+                width: 25% !important;
+            }
+        }
+        &-title {
+            h3,
+            h4 {
+                @include responsive(max-md) {
+                    font-size: 15px;
+                }
+            }
+        }
     }
+}
+.nav-tabs .nav-link:hover {
+    background: #f0f8ff;
+}
+.swiper-pagination-bullet-active {
+    background: #6ac045 !important;
+}
+.swiper-pagination-bullet {
+    width: 20px !important;
+    height: 20px !important;
 }

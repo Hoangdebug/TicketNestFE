@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { ReduxStates } from '@redux/reducers';
 import { routes, images } from '@utils/constants';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import EventIcon from '@mui/icons-material/Event';
@@ -30,7 +28,7 @@ const SideBar: ISideBarComponent<ISideBarComponentProps> = () => {
     const sideBar = [
         {
             title: 'Dashboard',
-            href: '/dashboard',
+            href: routes.CLIENT.ADMIN_PAGE.href,
             icon: <DashboardIcon />,
             class: '',
         },
@@ -41,9 +39,8 @@ const SideBar: ISideBarComponent<ISideBarComponentProps> = () => {
             icon: <EventIcon />,
             class: '',
             submenu: [
-                { title: 'Add New', href: '/events/add' },
-                { title: 'Check Schedule', href: '/events/schedule' },
-                { title: 'Order List', href: '/events/orders' },
+                { title: 'List Event', href: routes.CLIENT.ORGANIZER_LIST_EVENT.href },
+                { title: 'Add New', href: routes.CLIENT.ADD_EVENT_PAGE.href },
             ],
         },
         {
@@ -84,10 +81,16 @@ const SideBar: ISideBarComponent<ISideBarComponentProps> = () => {
     return (
         <div className="components__sidebar-content">
             <div className="components__sidebar-content-logo">
-                {/* Add your logo here */}
                 <img src={images.LOGO_SIDEBAR} alt="Logo" className="fluid" />
             </div>
-            <button className="components__sidebar-content-button">+ New Event</button>
+            <button
+                className="components__sidebar-content-button"
+                onClick={() => {
+                    router.push(routes.CLIENT.ADD_EVENT_PAGE.href);
+                }}
+            >
+                + New Event
+            </button>
             <div className="components__sidebar-content-item">
                 {sideBar?.map((item, index) => (
                     <div key={index}>

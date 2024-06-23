@@ -30,6 +30,10 @@ const REGISTERSUCCESS: IRouteConstant = {
     href: '/registersuccess',
 };
 
+const EVENT_DETAILS_PAGES: IRouteConstant = {
+    href: '/event/detail/[id]',
+};
+
 const ERROR404: IRouteConstant = {
     href: '/404',
 };
@@ -40,6 +44,17 @@ const ERROR500: IRouteConstant = {
 
 const ERROR403: IRouteConstant = {
     href: '/403',
+};
+
+const ADD_EVENT: IRouteConstant = {
+    href: '/organizer/event/addevent',
+};
+const UPDATE_EVENT: IRouteConstant = {
+    href: '/organizer/event/[id]',
+};
+
+const ORGANIZER_LIST_EVENT_PAGE: IRouteConstant = {
+    href: '/organizer',
 };
 
 const ADMIN_DASHBOARD: IRouteConstant = {
@@ -53,6 +68,10 @@ const EDITPROFILE: IRouteConstant = {
 const REQUESTORGANIZE: IRouteConstant = {
     href: '/requestorganize',
 };
+const CONTACT: IRouteConstant = {
+    href: '/contact',
+};
+
 export const CLIENT = {
     LOGIN_PAGE: LOGIN,
     REGISTER_PAGE: REGISTER,
@@ -64,11 +83,15 @@ export const CLIENT = {
     POST_FORGOT_PASSWORD_PAGE: POST_FORGOT_PASSWORD,
     CHANGE_PASSWORD_PAGE: CHANGE_PASSWORD,
     CHANGE_PASSWORD_SUCCESS_PAGE: CHANGE_PASSWORD_SUCCESS,
-
+    ADD_EVENT_PAGE: ADD_EVENT,
     HOME_PAGE: HOME,
     ADMIN_PAGE: ADMIN_DASHBOARD,
     EDIT_PROFILE_PAGE: EDITPROFILE,
     REQUEST_ORGNIZE_PAGE: REQUESTORGANIZE,
+    EVENT_DETAILS: EVENT_DETAILS_PAGES,
+    ORGANIZER_LIST_EVENT: ORGANIZER_LIST_EVENT_PAGE,
+    UPDATE_EVENT_PAGE: UPDATE_EVENT,
+    CONTACT_PAGE: CONTACT,
 };
 
 const LOGIN_API: IRouteConstant = {
