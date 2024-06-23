@@ -60,6 +60,9 @@ const ORGANIZER_LIST_EVENT_PAGE: IRouteConstant = {
 const ADMIN_DASHBOARD: IRouteConstant = {
     href: '/admin',
 };
+const ABOUT_US: IRouteConstant = {
+    href: '/about',
+};
 
 export const CLIENT = {
     LOGIN_PAGE: LOGIN,
@@ -78,6 +81,7 @@ export const CLIENT = {
     EVENT_DETAILS: EVENT_DETAILS_PAGES,
     ORGANIZER_LIST_EVENT: ORGANIZER_LIST_EVENT_PAGE,
     UPDATE_EVENT_PAGE: UPDATE_EVENT,
+    ABOUT_PAGE: ABOUT_US,
 };
 
 const LOGIN_API: IRouteConstant = {

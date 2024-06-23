@@ -1,0 +1,100 @@
+.pages {
+    &__about {
+        // background: #f5f7f9;
+        min-height: 100vh;
+
+        &-content {
+            padding-left: 100px;
+            padding-right: 100px;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            // border: 2px solid rgba(255, 255, 255, 0.5);
+            background: #f5f7f9;
+
+            h1 {
+                font-size: 30px;
+                font-weight: bold;
+                line-height: 1.5;
+            }
+            p {
+                font-size: 16.5px;
+            }
+        }
+        &-intro {
+            padding-left: 100px;
+            padding-right: 100px;
+            padding-top: 50px;
+
+            h1 {
+                font-size: 30px;
+                font-weight: bold;
+                text-align: center;
+                padding-bottom: 25px;
+            }
+            &-silder {
+                .row {
+                    display: flex;
+                    justify-content: center;
+                    gap: 20px;
+                    padding-bottom: 50px;
+                }
+                padding-top: 40px;
+                &-item {
+                    margin-right: 30px;
+                    max-height: 500px;
+                    width: 25%;
+                    // box-shadow: 2px 1px 10px rgba(0, 0, 0, 0.2);
+                    border: 1px solid #f2f2f2;
+                    font-size: 16.5px;
+                    img {
+                        text-align: center;
+                    }
+                    p {
+                        padding: 10px;
+                    }
+                }
+            }
+        }
+
+        &-step {
+            background: #f5f7f9;
+            padding-left: 100px;
+            padding-right: 100px;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            &-content {
+                padding-bottom: 30px;
+            }
+            h2 {
+                padding-bottom: 30px;
+            }
+            li {
+                width: 20% !important;
+            }
+            p {
+                color: #767b7f;
+            }
+        }
+        &-title {
+            h3 {
+                font-size: 26px;
+                color: black;
+            }
+            h4 {
+                @include responsive(max-md) {
+                    font-size: 15px;
+                }
+            }
+        }
+    }
+}
+.nav-tabs .nav-link:hover {
+    background: #e34d91;
+}
+.swiper-pagination-bullet-active {
+    background: #5e26b7 !important;
+}
+.swiper-pagination-bullet {
+    width: 20px !important;
+    height: 20px !important;
+}
