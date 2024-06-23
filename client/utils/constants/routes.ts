@@ -61,6 +61,10 @@ const ADMIN_DASHBOARD: IRouteConstant = {
     href: '/admin',
 };
 
+const CONTACT: IRouteConstant = {
+    href: '/contact',
+};
+
 export const CLIENT = {
     LOGIN_PAGE: LOGIN,
     REGISTER_PAGE: REGISTER,
@@ -78,6 +82,7 @@ export const CLIENT = {
     EVENT_DETAILS: EVENT_DETAILS_PAGES,
     ORGANIZER_LIST_EVENT: ORGANIZER_LIST_EVENT_PAGE,
     UPDATE_EVENT_PAGE: UPDATE_EVENT,
+    CONTACT_PAGE: CONTACT,
 };
 
 const LOGIN_API: IRouteConstant = {
