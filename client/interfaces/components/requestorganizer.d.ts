@@ -1,9 +1,12 @@
-interface IEditUserProfileComponentProps extends IBaseCompProps {}
+interface IRequestOrganizerComponentProps extends IBaseCompProps {}
 
-interface IEditUserProfileComponent<P = {}> extends IBaseComp<P> {}
+interface IRequestOrganizerComponent<P = {}> extends IBaseComp<P> {}
 
-interface IEditUserProfileComponentState extends IBaseCompState {
-    description : string;
-    name: string;
-    Images: string;
+interface IRequestOrganizerComponentState {
+    organizationName?: string;
+    description?: string;
+    contactEmail?: string;
+    contactPhone?: string;
+    status?: string;
+    Images?: string | null;
 }

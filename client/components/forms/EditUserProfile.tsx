@@ -7,19 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchEditUserProfile } from '@redux/actions';
 import { ReduxStates } from '@redux/reducers';
 
-interface IEditUserProfileComponentState {
-    firstName: string;
-    lastName: string;
-    dob: string;
-    gender: string;
-    phone: string;
-    address: string;
-    avatar: string | null; // Store avatar URL 
-}
-
-const EditUserProFileForm: React.FC = () => {
-    const navigate = useRouter();
-    const dispatch = useDispatch();
+const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentProps> = () => {    
     const { profile } = useSelector((states: ReduxStates) => states);
 
     // Initialize state with profile data
@@ -87,25 +75,7 @@ const EditUserProFileForm: React.FC = () => {
                 ref.current?.onValidateMessage(`Your ${message} Cannot Be Less Than 2 Characters`);
                 isValidate = false;
             }
-        });
-
-        if (isValidate) {
-            dispatch(
-                await fetchEditUserProfile({ firstName, lastName, dob, gender, phone, address }, (res) => {
-                    const isAdmin = res?.data?.userData?.role;
-                    console.log(isAdmin);
-                    if (res?.code === 200) {
-                        if (isAdmin.includes(enums.ROLE.ADMIN)) {
-                            navigate.push(routes.CLIENT.ADMIN_PAGE.href);
-                        } else {
-                            navigate.push(routes.CLIENT.HOME_PAGE.href);
-                        }
-                    } else if (res?.code === 500) {
-                        alert(res?.mes);
-                    }
-                }),
-            );
-        }
+        });        
     };
 
     return (
