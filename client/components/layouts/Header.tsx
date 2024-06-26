@@ -66,8 +66,8 @@ const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
             class: 'position-relative hover-link',
         },
         {
-            title: 'Speakers',
-            href: routes.CLIENT.CHANGE_PASSWORD_PAGE.href,
+            title: 'About',
+            href: routes.CLIENT.ABOUT_PAGE.href,
             class: 'position-relative hover-link',
         },
         {
@@ -110,15 +110,21 @@ const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
                         <li className="text-white bases__font--18 bases__header-link bases__width30">
                             <div className="dropdown">
                                 <a
-                                    onClick={(authHelper.isAuth() ? handleLogout : null)}
-                                    className={`${'position-relative hover-link '} ${router.pathname === (authHelper.isAuth() ? null : routes.CLIENT.LOGIN_PAGE.href) ? 'active' : ''}`}
+                                    onClick={authHelper.isAuth() ? handleLogout : null}
+                                    className={`${'position-relative hover-link '} ${
+                                        router.pathname === (authHelper.isAuth() ? null : routes.CLIENT.LOGIN_PAGE.href) ? 'active' : ''
+                                    }`}
                                     href={(authHelper.isAuth() ? null : routes.CLIENT.LOGIN_PAGE.href) ?? '#'}
                                 >
                                     {getLoginTitle()}
                                 </a>
                                 <div className="dropdown-content">
-                                    <a href={routes.CLIENT.EDIT_PROFILE_PAGE.href} style={{fontSize: "15px"}}>Edit profile</a>
-                                    <a href={routes.CLIENT.REQUEST_ORGNIZE_PAGE.href} style={{fontSize: "15px"}}>Request organize</a>
+                                    <a href={routes.CLIENT.EDIT_PROFILE_PAGE.href} style={{ fontSize: '15px' }}>
+                                        Edit profile
+                                    </a>
+                                    <a href={routes.CLIENT.REQUEST_ORGNIZE_PAGE.href} style={{ fontSize: '15px' }}>
+                                        Request organize
+                                    </a>
                                 </div>
                             </div>
                         </li>
