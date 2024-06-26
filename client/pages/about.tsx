@@ -239,57 +239,38 @@ const AboutPage: IAboutPage<IAboutPageProps> = () => {
     };
     const dataSwiper = [
         {
-            // title: 'Sai Gon Opera House',
-            // prams: 'One of the largest theaters in the city, renowned for its excellent sound and lighting',
             prams: 'We partner with industry leaders and community organizations across Viet Nam to empower event organizers for effortless success. While organizing events can be challenging, we ensure that selling tickets online is seamless and straightforward.',
             img: images.ABOUT1,
         },
         {
-            // title: 'My Dinh Stadium',
             prams: 'We offer a simple, convenient, and secure ticket buying experience. Ticket Nest connects you to exciting events with advanced technology and dedicated service, making it easy to find and purchase tickets for your favorite cultural, entertainment, and sports events.',
-            // prams: 'A venue for major sports events with a capacity of up to 50,000 attendees.',
+
             img: images.ABOUT2,
         },
         {
-            // title: 'Hanoi Opera House',
             prams: 'We work closely with event organizers to provide you with the latest and most accurate event information. Through our strong partnerships, we offer official tickets, exclusive deals, and early access to popular events, ensuring you can access the best events confidently and conveniently.',
-            // prams: 'A modern venue with advanced sound, lighting, and stage systems, perfect for acoustic music.',
+
             img: images.ABOUT3,
         },
-        // {
-        //     title: 'May Lang Thang Café',
-        //     prams: 'In Da Lat City, Viet Nam.',
-        //     // prams: 'A cozy cafe with an artistic atmosphere, perfect for acoustic music and intimate gatherings.',
-        //     img: images.DA_LAT,
-        // },
-        // {
-        //     title: 'Sun World Danang Wonders',
-        //     prams: 'In Da Nang City, Viet Nam.',
-        //     // prams: "Discover the world's hidden gems",
-        //     img: images.DA_NANG,
-        // },
     ];
     return (
         <div className="pages__about">
-            <div className="pb-5">
-                <NavBar />
+            <div className="pages__about-background">
+                <img src={images.BG_ABOUT} style={{ width: '100%', height: '100%' }} />
             </div>
-            <br></br>
 
             <div className="pages__about-content">
                 <h1 className="pages__about-content-aim">
                     Our goal is to provide a powerful and affordable event ticketing platform that can handle any type of ticket for events
                     of any size and complexity, without any obstacles.
                 </h1>
-                <br></br>
-                <hr></hr>
-                <br></br>
-                <p className="pages__about-content-essay">
+
+                <p className="pages__about-content-essay py-2">
                     TicketNest's online event ticketing software is built on the idea that anyone, anywhere in Vietnam who wants to organize
                     and sell tickets for their event should have the tools to easily do so. We promote this idea every day through the
                     dedication of a team of students at FPT University in Da Nang.
                 </p>
-                <br></br>
+
                 <p className="pages__about-content-essay">
                     The focus of our efforts is on event ticket sellers, who always strive to ensure that music lovers and enthusiasts in
                     other fields can easily and conveniently book tickets online. At the same time, we support event organizers in promoting
@@ -299,15 +280,12 @@ const AboutPage: IAboutPage<IAboutPageProps> = () => {
 
             <div className="pages__about-intro">
                 <h1>We enrich community experiences through events​ </h1>
-                <hr></hr>
+
                 <div className=" pages__about-intro-silder">
                     <div className="row">
                         {dataSwiper?.map((data, index) => (
                             <div className="col-md-3 pages__about-intro-silder-item p-2" key={index}>
-                                <img src={data?.img} style={{ width: '315px', height: '250px', objectFit: 'cover' }} />
-                                {/* <h2 className="fw-bold fs-4">{data.title}</h2> */}
-                                <br></br>
-                                <br></br>
+                                <img className="img-fluid" src={data?.img} />
                                 <p className="m-0">{data?.prams}</p>
                             </div>
                         ))}
@@ -358,17 +336,6 @@ const AboutPage: IAboutPage<IAboutPageProps> = () => {
                     />
                 </div>
             </div>
-
-            {/* <div className="pages__about-host py-5 bases__background--white d-flex flex-column">
-                <div className="p-5">
-                    <h3 className="bases__font-40 fw-bolder">Venue for Exciting Events with TicketNest</h3>
-                    <p className="m-0 bases__font--20 text-wrap">
-                        We are proud to introduce to you classy locations with modern facilities, convenient locations and professional
-                        services. Each location is carefully selected to ensure you and your audience have the best experiences. Let's
-                        explore and choose the perfect location for your upcoming event!
-                    </p>
-                </div>
-            </div> */}
         </div>
     );
 };
