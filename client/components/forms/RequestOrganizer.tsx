@@ -20,11 +20,8 @@ const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponen
         status: profile?.status || '',
         Image: profile?.Image || '',
     });
-    
-    const onChange = (
-        imageList: ImageListType,
-        addUpdateIndex: number[] | undefined
-    ) => {
+
+    const onChange = (imageList: ImageListType, addUpdateIndex: number[] | undefined) => {
         // data for submit
         console.log(imageList, addUpdateIndex);
         setImages(imageList as never[]);
@@ -187,16 +184,15 @@ const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponen
                                 Image
                             </label>
                             <div className="d-flex align-items-center">
-                                <input
-                                    type="file"
-                                    className="form-control"
-                                    id="Image"
-                                    name="Image"
-                                    onChange={handleImageChange}
-                                />
+                                <input type="file" className="form-control" id="Image" name="Image" onChange={handleImageChange} />
                                 {Image && ( // Display only if Image is available
                                     <div className="ms-3">
-                                        <img src={Image} alt="Image" className="img-thumbnail" style={{ width: '100px', height: '100px' }} />
+                                        <img
+                                            src={Image}
+                                            alt="Image"
+                                            className="img-thumbnail"
+                                            style={{ width: '100px', height: '100px' }}
+                                        />
                                         <button type="button" className="btn btn-danger mt-2" onClick={handleDeleteImage}>
                                             Delete
                                         </button>

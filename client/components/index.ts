@@ -9,7 +9,7 @@ import App from './layouts/App';
 import EventList from './layouts/EventList';
 
 import LoginForm from './forms/Login';
-import EditUserProFileForm from './forms/EditUserProfile'
-import RequestOrganizerForm from './forms/RequestOrganizer'
+import EditUserProFileForm from './forms/EditUserProfile';
+import RequestOrganizerForm from './forms/RequestOrganizer';
 
 export { Button, Img, Input, Select, Choice, Table, App, LoginForm, EventList, EditUserProFileForm, RequestOrganizerForm };

@@ -31,4 +31,4 @@ export const editUserProfile = async (data: IEditUserProfileDataAPI) => {
     } catch (err) {
         throw err;
     }
-}
+};

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchEditUserProfile } from '@redux/actions';
 import { ReduxStates } from '@redux/reducers';
 
-const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentProps> = () => {    
+const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentProps> = () => {
     const { profile } = useSelector((states: ReduxStates) => states);
 
     // Initialize state with profile data
@@ -75,7 +75,7 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                 ref.current?.onValidateMessage(`Your ${message} Cannot Be Less Than 2 Characters`);
                 isValidate = false;
             }
-        });        
+        });
     };
 
     return (
@@ -107,11 +107,7 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                                 <span className="text-danger">*</span>
                             </label>
                             <Validator ref={genderValidatorRef}>
-                                <select
-                                    value={gender}
-                                    onChange={(e) => handleOnChange('gender', e.target.value)}
-                                    className="form-control"
-                                >
+                                <select value={gender} onChange={(e) => handleOnChange('gender', e.target.value)} className="form-control">
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
@@ -190,16 +186,15 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                                 Avatar
                             </label>
                             <div className="d-flex align-items-center">
-                                <input
-                                    type="file"
-                                    className="form-control"
-                                    id="avatar"
-                                    name="avatar"
-                                    onChange={handleAvatarChange}
-                                />
+                                <input type="file" className="form-control" id="avatar" name="avatar" onChange={handleAvatarChange} />
                                 {avatar && ( // Show the avatar only if it's available
                                     <div className="ms-3">
-                                        <img src={avatar} alt="Avatar" className="img-thumbnail" style={{ width: '100px', height: '100px' }} />
+                                        <img
+                                            src={avatar}
+                                            alt="Avatar"
+                                            className="img-thumbnail"
+                                            style={{ width: '100px', height: '100px' }}
+                                        />
                                         <button type="button" className="btn btn-danger mt-2" onClick={handleDeleteAvatar}>
                                             Delete
                                         </button>

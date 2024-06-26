@@ -3,6 +3,18 @@
         // background: #f5f7f9;
         min-height: 100vh;
 
+        .nav-tabs .nav-link:hover {
+            background: #ffcbe2;
+            color: white !important;
+        }
+        .swiper-pagination-bullet-active {
+            background: #5e26b7 !important;
+        }
+        .swiper-pagination-bullet {
+            width: 20px !important;
+            height: 20px !important;
+        }
+
         &-content {
             padding-left: 100px;
             padding-right: 100px;
@@ -87,14 +99,4 @@
             }
         }
     }
-}
-.nav-tabs .nav-link:hover {
-    background: #e34d91;
-}
-.swiper-pagination-bullet-active {
-    background: #5e26b7 !important;
-}
-.swiper-pagination-bullet {
-    width: 20px !important;
-    height: 20px !important;
 }
