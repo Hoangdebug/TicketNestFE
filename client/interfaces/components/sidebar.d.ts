@@ -7,4 +7,5 @@ interface ISideBarComponentState {
     customer?: boolean;
     theater?: boolean;
     settings?: boolean;
+    [key: string]: boolean;
 }

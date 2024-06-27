@@ -3,6 +3,8 @@ interface IAddEventComponent<P = {}> extends IBaseComp<P> {}
 interface IAddEventComponentProps extends IBaseCompProps {}
 
 interface IAddEventComponentState {
+    isValidateStartDateTime?: boolean;
+    isValidateEndDateTime?: boolean;
     title?: string;
     description?: string;
     banner?: string;
@@ -13,6 +15,4 @@ interface IAddEventComponentState {
     ticketPrice?: string;
     supportContact?: string;
     ticketQuantity?: string;
-    saleStartDate?: string;
-    saleEndDate?: string;
 }

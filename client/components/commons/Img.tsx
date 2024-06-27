@@ -1,9 +1,16 @@
-import { useState, forwardRef } from 'react';
-import LazyImg from 'react-cool-img';
+import { useState, useEffect, forwardRef } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const Img = forwardRef<HTMLImageElement, IImgComponentProps>((props, ref) => {
-    const { isBlur, placeholder, className, src, onClick, width, height } = props;
+    const { isBlur, className, src, onClick, width, height } = props;
     const [classes, setClasses] = useState<string[]>([isBlur ? 'components__img-thumb' : '', className ?? '']);
+
+    useEffect(() => {
+        if (classes.length > 1) {
+            classes[1] = className ?? '';
+            setClasses([...classes]);
+        }
+    }, [className]);
 
     const handleImageLoaded = () => {
         if (isBlur) {
@@ -15,41 +22,37 @@ const Img = forwardRef<HTMLImageElement, IImgComponentProps>((props, ref) => {
     };
 
     const renderClass = () => {
-        let className = '';
-        for (const [index, item] of classes.entries()) {
-            className += item;
-            if (item && index < classes.length - 1) {
-                className += ' ';
+        let classNameImg = '';
+        for (const [_index, item] of classes.entries()) {
+            if (item) {
+                classNameImg += `${item} `;
             }
         }
-        return className;
+        return classNameImg;
     };
 
     return (
         <>
-            <LazyImg
-                ref={ref}
+            <LazyLoadImage
                 className={renderClass()}
-                placeholder={placeholder ? placeholder : src}
                 onClick={() => (onClick ? onClick() : {})}
                 onLoad={() => handleImageLoaded()}
-                debounce={0}
                 src={src}
                 width={width}
                 height={height}
                 draggable={false}
             />
             <noscript>
-                <img className={className} src={src} alt="Training" />
+                <img ref={ref} className={className} src={src} draggable={false} alt="AIMS" />
             </noscript>
         </>
     );
 });
 
 Img.defaultProps = {
+    className: '',
     isBlur: false,
     placeholder: '',
-    className: '',
     src: '',
     onClick: () => {},
 };
