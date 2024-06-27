@@ -29,3 +29,5 @@ export const ABOUT1 = '/assets/icons/about1.svg';
 export const ABOUT2 = '/assets/icons/about2.svg';
 export const ABOUT3 = '/assets/icons/about3.svg';
 export const BG_ABOUT = '/assets/icons/bgabout.svg';
+export const ICON_CALENDAR = '/assets/icons/icon-calendar.svg';
+export const ICON_CLOCK = '/assets/icons/icon-clock.svg';

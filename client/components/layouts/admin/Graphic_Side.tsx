@@ -1,19 +1,33 @@
-import React from 'react';
-import { TextField, IconButton, Card, CardContent, Typography, Button } from '@mui/material';
+import React, { useEffect } from 'react';
+import { TextField, IconButton, Card, CardContent, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-// import { IGraphicSideComponent, IGraphicSideComponentProps } from '@interfaces/components/graphicSide';
-import { images } from '@utils/constants';
+import { routes } from '@utils/constants';
+import { useSelector } from 'react-redux';
+import { ReduxStates } from '@redux/reducers';
+import { useRouter } from 'next/router';
+import { authHelper } from '@utils/helpers';
 
 const Graphic_Side: IGraphicSideComponent<IGraphicSideComponentProps> = () => {
+    const { profile } = useSelector((states: ReduxStates) => states);
+    const router = useRouter();
+
+    useEffect(() => {
+        if (authHelper.accessToken()) {
+            const currentPath = router.pathname;
+            if (currentPath === routes.CLIENT.LOGIN_PAGE.href || currentPath === routes.CLIENT.REGISTER_PAGE.href) {
+                router.replace(routes.CLIENT.HOME_PAGE.href, undefined, { scroll: false });
+            }
+        } else {
+            router.replace(routes.CLIENT.LOGIN_PAGE.href, undefined, { scroll: false });
+        }
+    }, [profile, router]);
+
     const summaryCards = [
         { title: 'Total Sales', value: '$1,200,000' },
         { title: 'Total Profit', value: '$300,000' },
         { title: 'Total Cost', value: '$900,000' },
         { title: 'Revenue', value: '$1,500,000' },
-        // { title: 'Net Income', value: '$200,000' },
         { title: 'Today', value: '$50,000' },
     ];
 
@@ -33,16 +47,9 @@ const Graphic_Side: IGraphicSideComponent<IGraphicSideComponentProps> = () => {
                     }}
                 />
                 <div className="components__graphic-side-header-icons">
-                    <img src={images.UK_FLAG} alt="Flag" className="components__graphic-side-header-icons-icon" />
-                    <IconButton>
-                        <MailIcon />
-                    </IconButton>
-                    <IconButton>
-                        <NotificationsIcon />
-                    </IconButton>
                     <div className="components__graphic-side-header-icons-account">
                         <AccountCircleIcon />
-                        <span className="components__graphic-side-header-icons-account-name">Admin Name</span>
+                        <span className="components__graphic-side-header-icons-account-name">{profile?.details?.username}</span>
                     </div>
                 </div>
             </div>

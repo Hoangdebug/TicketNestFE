@@ -33,7 +33,9 @@ const RegisterForm: IRegisterComponent<IRegisterComponentProps> = () => {
             [feild]: value,
         }));
     };
-
+    const handleBackLogin = () => {
+        navigate.push(routes.CLIENT.LOGIN_PAGE.href, undefined, { scroll: false });
+    };
     // const handleOnClick = (field: string, value: boolean | null) => {
     //   setState((prev) => ({
     //     ...prev,
@@ -199,7 +201,7 @@ const RegisterForm: IRegisterComponent<IRegisterComponentProps> = () => {
                 <button type="submit" className="btn btn-success btn-block" onClick={() => handleSubmit()}>
                     Sign Up
                 </button>
-                <button type="button" className="btn btn-sencondary btn-block text-success" onClick={() => handleSubmit()}>
+                <button type="button" className="btn btn-sencondary btn-block text-success" onClick={() => handleBackLogin()}>
                     Back to Sign In
                 </button>
             </div>
