@@ -32,3 +32,11 @@ export const editUserProfile = async (data: IEditUserProfileDataAPI) => {
         throw err;
     }
 };
+
+export const addEvent = async (data: IEventDataApi) => {
+    try {
+        return await axios.post<IEventDataApiRes>(`${routes.API.ADD_EVENT.href}`, { data });
+    } catch (err) {
+        throw err;
+    }
+};

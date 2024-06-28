@@ -121,10 +121,9 @@ const CHANGEPASSWORD_API: IRouteConstant = {
     href: '/user/changepassword',
 };
 
-const CHANGEPASSWORDSUCCESS_API: IRouteConstant = {
-    href: '/user/changepasswordsuccess',
+const ADD_EVENT_API: IRouteConstant = {
+    href: '/',
 };
-
 export const API = {
     LOGIN: LOGIN_API,
     REGISTER: REGISTER_API,
@@ -132,5 +131,7 @@ export const API = {
     FORGOTPASSWORD: FORGOTPASSWORD_API,
     POSTFORGOTPASSWORD: POSTFORGOTPASSWORD_API,
     CHANGEPASSWORD: CHANGEPASSWORD_API,
-    CHANGEPASSWORDSUCCESS: CHANGEPASSWORDSUCCESS_API,
+
+    // organizer
+    ADD_EVENT: ADD_EVENT_API,
 };

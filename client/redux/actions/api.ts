@@ -125,3 +125,35 @@ export const fetchEditUserProfile = async (
         }
     };
 };
+
+export const fetchAddEvent = (
+    data: IEventDataApi,
+    callBack?: (result: IEventDataApiRes | IErrorAPIRes | null) => void,
+    isLoad: boolean = true,
+) => {
+    return async (dispatch: Dispatch) => {
+        if (isLoad) {
+            dispatch(setLoader(true));
+        }
+
+        try {
+            const formData = new FormData();
+            // formData.append('sdsd', data.name ?? "")
+            const res = await apiHelper.addEvent(formData);
+            if (callBack) {
+                callBack(res?.data);
+            }
+        } catch (err) {
+            if (!(err instanceof Error)) {
+                const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+                if (callBack) {
+                    callBack(res?.data);
+                }
+            }
+        }
+
+        if (isLoad) {
+            dispatch(setLoader(false));
+        }
+    };
+};
