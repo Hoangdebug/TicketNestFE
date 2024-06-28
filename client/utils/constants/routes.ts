@@ -60,7 +60,17 @@ const ORGANIZER_LIST_EVENT_PAGE: IRouteConstant = {
 const ADMIN_DASHBOARD: IRouteConstant = {
     href: '/admin',
 };
+const ABOUT_US: IRouteConstant = {
+    href: '/about',
+};
 
+const EDITPROFILE: IRouteConstant = {
+    href: '/editprofile',
+};
+
+const REQUESTORGANIZE: IRouteConstant = {
+    href: '/requestorganize',
+};
 const CONTACT: IRouteConstant = {
     href: '/contact',
 };
@@ -79,9 +89,12 @@ export const CLIENT = {
     ADD_EVENT_PAGE: ADD_EVENT,
     HOME_PAGE: HOME,
     ADMIN_PAGE: ADMIN_DASHBOARD,
+    EDIT_PROFILE_PAGE: EDITPROFILE,
+    REQUEST_ORGNIZE_PAGE: REQUESTORGANIZE,
     EVENT_DETAILS: EVENT_DETAILS_PAGES,
     ORGANIZER_LIST_EVENT: ORGANIZER_LIST_EVENT_PAGE,
     UPDATE_EVENT_PAGE: UPDATE_EVENT,
+    ABOUT_PAGE: ABOUT_US,
     CONTACT_PAGE: CONTACT,
 };
 

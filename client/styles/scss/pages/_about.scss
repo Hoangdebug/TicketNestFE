@@ -1,0 +1,186 @@
+.pages {
+    &__about {
+        min-height: 100vh;
+
+        .nav-tabs .nav-link:hover {
+            background: #ffcbe2;
+            color: white !important;
+        }
+        .swiper-pagination-bullet-active {
+            background: #5e26b7 !important;
+        }
+        .swiper-pagination-bullet {
+            width: 20px !important;
+            height: 20px !important;
+        }
+
+        &-content {
+            padding-left: 100px;
+            padding-right: 100px;
+            padding-bottom: 40px;
+            background: #f5f7f9;
+
+            h1 {
+                font-size: 30px;
+                font-weight: bold;
+                line-height: 1.5;
+                border-bottom: 2px solid #ccc;
+                padding-bottom: 50px;
+                padding-top: 50px;
+            }
+
+            p {
+                font-size: 20px;
+            }
+            @media (max-width: 768px) {
+                padding: 20px;
+
+                h1 {
+                    font-size: 24px;
+                    padding-bottom: 30px;
+                    padding-top: 30px;
+                }
+
+                p {
+                    font-size: 18px;
+                }
+            }
+            @media (max-width: 576px) {
+                padding: 10px;
+
+                h1 {
+                    font-size: 20px;
+                    padding-bottom: 20px;
+                    padding-top: 20px;
+                }
+
+                p {
+                    font-size: 16px;
+                }
+            }
+        }
+
+        &-intro {
+            padding-left: 100px;
+            padding-right: 100px;
+            padding-top: 50px;
+
+            h1 {
+                font-size: 30px;
+                font-weight: bold;
+                text-align: center;
+                padding-bottom: 50px;
+                border-bottom: 2px solid #ccc;
+            }
+            &-silder {
+                .row {
+                    display: flex;
+                    justify-content: center;
+                    gap: 20px;
+                    padding-bottom: 50px;
+                }
+                padding-top: 40px;
+                &-item {
+                    margin-right: 30px;
+                    max-height: 500px;
+                    width: 25%;
+                    border: 1px solid #f2f2f2;
+                    font-size: 16.5px;
+                    img {
+                        padding-bottom: 20px;
+                        text-align: center;
+                        max-width: 100%;
+                        height: auto;
+                    }
+                    p {
+                        padding: 10px;
+                    }
+                }
+                @media (max-width: 768px) {
+                    &-item {
+                        width: 50%;
+                    }
+                }
+
+                @media (max-width: 576px) {
+                    &-item {
+                        width: 100%;
+                    }
+                }
+            }
+            @media (max-width: 768px) {
+                padding: 20px;
+
+                h1 {
+                    font-size: 24px;
+                    padding-bottom: 30px;
+                }
+            }
+
+            @media (max-width: 576px) {
+                padding: 10px;
+
+                h1 {
+                    font-size: 20px;
+                    padding-bottom: 20px;
+                }
+            }
+        }
+
+        &-step {
+            background: #f5f7f9;
+            padding-left: 100px;
+            padding-right: 100px;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            &-content {
+                padding-bottom: 30px;
+            }
+            h2 {
+                padding-bottom: 30px;
+            }
+            li {
+                width: 20% !important;
+            }
+            p {
+                color: #767b7f;
+            }
+            @media (max-width: 768px) {
+                padding: 20px;
+
+                h2 {
+                    font-size: 24px;
+                    padding-bottom: 20px;
+                }
+
+                p {
+                    font-size: 18px;
+                }
+            }
+
+            @media (max-width: 576px) {
+                padding: 10px;
+
+                h2 {
+                    font-size: 20px;
+                    padding-bottom: 15px;
+                }
+
+                p {
+                    font-size: 16px;
+                }
+            }
+        }
+        &-title {
+            h3 {
+                font-size: 26px;
+                color: black;
+            }
+            h4 {
+                @include responsive(max-md) {
+                    font-size: 15px;
+                }
+            }
+        }
+    }
+}

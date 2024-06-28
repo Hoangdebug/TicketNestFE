@@ -3,6 +3,17 @@
         background: #f5f7f9;
         min-height: 100vh;
 
+        .nav-tabs .nav-link:hover {
+            background: #f0f8ff;
+        }
+        .swiper-pagination-bullet-active {
+            background: #6ac045 !important;
+        }
+        .swiper-pagination-bullet {
+            width: 20px !important;
+            height: 20px !important;
+        }
+
         &--silder {
             &-item {
                 max-height: 250px;
@@ -24,14 +35,4 @@
             }
         }
     }
-}
-.nav-tabs .nav-link:hover {
-    background: #f0f8ff;
-}
-.swiper-pagination-bullet-active {
-    background: #6ac045 !important;
-}
-.swiper-pagination-bullet {
-    width: 20px !important;
-    height: 20px !important;
 }

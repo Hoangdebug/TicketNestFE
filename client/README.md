@@ -5,7 +5,6 @@ This is a Training Web project bootstrapped with [`create-next-app`](https://git
 First, install package's dependencies:
 
 ```bash
-npm run i
 # or
 yarn
 yarn --ignore-engines

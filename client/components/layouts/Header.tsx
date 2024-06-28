@@ -14,7 +14,6 @@ const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
     const router = useRouter();
     const dispatch = useDispatch();
     const { profile } = useSelector((states: ReduxStates) => states);
-    console.log(profile?.details?.username);
 
     const [state, setState] = useState<IHeaderComponentState>({
         isOpen: false,
@@ -46,15 +45,6 @@ const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
             isOpen: !isOpen,
         }));
     };
-    // useEffect(() => {
-    //     const checkRole = profile?.details?.role
-    //     console.log(checkRole)
-    //     if(checkRole?.includes(enums.ROLE.ADMIN)){
-    //         router.push(routes.CLIENT.ADMIN_PAGE.href)
-    //     }else{
-    //         router.push(routes.CLIENT.HOME_PAGE.href)
-    //     }
-    // }, [profile])
 
     const handleLogout = () => {
         dispatch(fetchLogout());
@@ -66,8 +56,8 @@ const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
             class: 'position-relative hover-link',
         },
         {
-            title: 'Speakers',
-            href: routes.CLIENT.CHANGE_PASSWORD_PAGE.href,
+            title: 'About',
+            href: routes.CLIENT.ABOUT_PAGE.href,
             class: 'position-relative hover-link',
         },
         {
@@ -79,12 +69,6 @@ const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
             title: 'Contact',
             href: '#2',
             class: 'position-relative hover-link',
-        },
-        {
-            title: getLoginTitle(),
-            href: authHelper.isAuth() ? null : routes.CLIENT.LOGIN_PAGE.href,
-            class: 'position-relative hover-link',
-            onclick: authHelper.isAuth() ? handleLogout : null,
         },
     ];
 
@@ -98,15 +82,37 @@ const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
                     <ul className={`d-flex ${isOpen ? 'active' : ''}`} style={{ gap: '40px' }} onClick={handleOpen}>
                         {data?.map((link, index) => (
                             <li className="text-white bases__font--18 bases__header-link bases__width30" key={index}>
-                                <a
-                                    onClick={link.onclick ?? undefined}
-                                    className={`${link.class} ${router.pathname === link.href ? 'active' : ''}`}
-                                    href={link.href ?? '#'}
-                                >
+                                <a className={`${link.class} ${router.pathname === link.href ? 'active' : ''}`} href={link.href ?? '#'}>
                                     {link.title}
                                 </a>
                             </li>
                         ))}
+                        <li className="text-white bases__font--18 bases__header-link bases__width30">
+                            <div className="dropdown">
+                                <a
+                                    onClick={() => (authHelper.isAuth() ? handleLogout : null)}
+                                    className={`${'position-relative hover-link '} ${
+                                        router.pathname === (authHelper.isAuth() ? null : routes.CLIENT.LOGIN_PAGE.href) ? 'active' : ''
+                                    }`}
+                                    href={(authHelper.isAuth() ? null : routes.CLIENT.LOGIN_PAGE.href) ?? '#'}
+                                >
+                                    {getLoginTitle()}
+                                </a>
+                                {authHelper.isAuth() && (
+                                    <div className="dropdown-content">
+                                        <a href={routes.CLIENT.EDIT_PROFILE_PAGE.href} style={{ fontSize: '15px' }}>
+                                            Edit profile
+                                        </a>
+                                        <a href={routes.CLIENT.REQUEST_ORGNIZE_PAGE.href} style={{ fontSize: '15px' }}>
+                                            Request organize
+                                        </a>
+                                        <a onClick={handleLogout} style={{ fontSize: '15px', cursor: 'pointer' }}>
+                                            Log out
+                                        </a>
+                                    </div>
+                                )}
+                            </div>
+                        </li>
                     </ul>
                 </div>
                 <div id="mobile" className="components__header-mobile mb-2" onClick={handleOpen}>

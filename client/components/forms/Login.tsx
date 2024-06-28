@@ -3,17 +3,15 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { createRef, useState } from 'react';
 import Validator from '@components/commons/Validator';
 import { validateHelper } from '@utils/helpers';
-import { enums, routes } from '@utils/constants';
+import { enums, http, routes } from '@utils/constants';
 import router, { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { fetchLogin } from '@redux/actions';
-import { ReduxStates } from '@redux/reducers';
 
 const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
     const navigate = useRouter();
     const dispatch = useDispatch();
     const [showPassword, setShowPassword] = useState(false);
-    // const { profile } = useSelector((states: ReduxStates) => states)
 
     const [state, setState] = useState<ILoginComponentState>({
         email: '',
@@ -33,6 +31,7 @@ const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
             [feild]: value,
         }));
     };
+
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
@@ -59,16 +58,16 @@ const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
         // call api
         if (isValidate) {
             dispatch(
-                await fetchLogin({ email, password }, (res) => {
-                    const isAdmin = res?.data?.userData?.role;
-                    console.log(isAdmin);
-                    if (res?.code == 200) {
-                        if (isAdmin.includes(enums?.ROLE?.ADMIN)) {
-                            router.push(routes.CLIENT.ADMIN_PAGE.href);
-                        } else {
+                await fetchLogin({ email, password }, (res: ILoginAPIRes | IErrorAPIRes | null) => {
+                    const isAdmin = (res as ILoginAPIRes)?.userData.type;
+
+                    if (res?.code === http.SUCCESS_CODE) {
+                        if (isAdmin === enums.TYPES.USER) {
                             router.push(routes.CLIENT.HOME_PAGE.href);
+                        } else {
+                            router.push(routes.CLIENT.ADMIN_PAGE.href);
                         }
-                    } else if (res?.code == 500) {
+                    } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
                         alert(res?.mes);
                     }
                 }),

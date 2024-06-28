@@ -1,30 +1,25 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-
 import { IHomePageProps, IHomePage } from '@interfaces/pages/home';
-import { authHelper } from '@utils/helpers';
 import NavBar from '@components/layouts/NavBar';
-import { images, routes } from '@utils/constants';
+import { enums, images, routes } from '@utils/constants';
 import { EventList } from '@components/index';
 import Tabs from '@components/commons/Tab';
 
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { style } from '@mui/system';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { ReduxStates } from '@redux/reducers';
 
 const HomePage: IHomePage<IHomePageProps> = () => {
+    const { profile } = useSelector((states: ReduxStates) => states);
     const router = useRouter();
 
     useEffect(() => {
-        if (authHelper.accessToken()) {
-            const currentPath = router.pathname;
-            if (currentPath === routes.CLIENT.LOGIN_PAGE.href || currentPath === routes.CLIENT.REGISTER_PAGE.href) {
-                router.push(routes.CLIENT.HOME_PAGE.href);
-            }
-        } else {
-            router.push(routes.CLIENT.LOGIN_PAGE.href);
+        if (profile?.details?.type === enums.TYPES.ADMIN || profile?.details?.type === enums.TYPES.ORGANIZER) {
+            router.push(routes.CLIENT.ERROR403_PAGE.href, undefined, { scroll: false });
         }
-    }, [router]);
+    }, [profile, router]);
 
     const stepData = (type: 'step1' | 'step2' | 'step3' | 'step4') => {
         switch (type) {

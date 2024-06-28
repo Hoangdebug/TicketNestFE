@@ -1,9 +1,25 @@
+import { ReduxStates } from '@redux/reducers';
+import { enums, routes } from '@utils/constants';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 const ThirdErrorForm: IThirdErrorComponent<IThirdErrorComponentProps> = () => {
-    const navigate = useRouter();
+    const router = useRouter();
+    const { profile } = useSelector((states: ReduxStates) => states);
+
     const handleNextPage = () => {
-        navigate.back();
+        if (profile && profile.details) {
+            const userType = profile.details.type;
+            if (userType === enums.TYPES.ADMIN) {
+                router.push(routes.CLIENT.ADMIN_PAGE.href, undefined, { scroll: false });
+            } else if (userType === enums.TYPES.USER) {
+                router.push(routes.CLIENT.HOME_PAGE.href, undefined, { scroll: false });
+            } else if (userType === enums.TYPES.ORGANIZER) {
+                router.push(routes.CLIENT.ADMIN_PAGE.href, undefined, { scroll: false });
+            } else {
+                router.push(routes.CLIENT.LOGIN_PAGE.href, undefined, { scroll: false });
+            }
+        }
     };
 
     return (

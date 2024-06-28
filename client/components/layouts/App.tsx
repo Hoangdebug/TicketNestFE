@@ -37,6 +37,9 @@ const App: IAppComponent<IAppComponentProps> = (props) => {
         };
     }, []);
     const noHeaderFooterPath = [
+        routes.CLIENT.ERROR403_PAGE.href,
+        routes.CLIENT.ERROR404_PAGE.href,
+        routes.CLIENT.ERROR500_PAGE.href,
         routes.CLIENT.LOGIN_PAGE.href,
         routes.CLIENT.REGISTER_PAGE.href,
         routes.CLIENT.FORGOT_PASSWORD_PAGE.href,
