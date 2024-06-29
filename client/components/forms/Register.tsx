@@ -72,7 +72,6 @@ const RegisterForm: IRegisterComponent<IRegisterComponentProps> = () => {
         }
 
         if (isValidate) {
-            console.log('state__validate: ', isValidate);
             dispatch(
                 fetchRegister(
                     { confirmPassword, dob, email, password, phone, username },

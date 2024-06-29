@@ -49,7 +49,7 @@ const Graphic_Side: IGraphicSideComponent<IGraphicSideComponentProps> = () => {
                 <div className="components__graphic-side-header-icons">
                     <div className="components__graphic-side-header-icons-account">
                         <AccountCircleIcon />
-                        <span className="components__graphic-side-header-icons-account-name">{profile?.details?.username}</span>
+                        <span className="components__graphic-side-header-icons-account-name">{profile?.username}</span>
                     </div>
                 </div>
             </div>

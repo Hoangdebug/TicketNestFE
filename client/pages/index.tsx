@@ -16,7 +16,7 @@ const HomePage: IHomePage<IHomePageProps> = () => {
     const router = useRouter();
 
     useEffect(() => {
-        if (profile?.details?.type === enums.TYPES.ADMIN || profile?.details?.type === enums.TYPES.ORGANIZER) {
+        if (profile?.type === enums.TYPES.ADMIN || profile?.type === enums.TYPES.ORGANIZER) {
             router.push(routes.CLIENT.ERROR403_PAGE.href, undefined, { scroll: false });
         }
     }, [profile, router]);

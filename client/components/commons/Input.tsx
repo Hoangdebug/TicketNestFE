@@ -1,7 +1,9 @@
-import React, { forwardRef, useEffect, useState } from 'react';
-import Autosuggest from 'react-autosuggest';
+import { forwardRef, useEffect, useState } from 'react';
 
-import { validateHelper } from '@utils/helpers';
+import { stringHelper, validateHelper } from '@utils/helpers';
+import Img from '@components/commons/Img';
+import { images } from '@utils/constants';
+import Autosuggest from 'react-autosuggest';
 
 const Input = forwardRef<any, IInputComponentProps>((props, ref) => {
     const {
@@ -10,33 +12,49 @@ const Input = forwardRef<any, IInputComponentProps>((props, ref) => {
         disabled,
         type,
         className,
-        formClassName,
-        value,
-        fontSize,
-        placeholder,
-        rows,
-        maxLength,
-        min,
-        max,
         onChange,
         onPress,
+        value,
+        rawValue,
+        fontSize,
+        placeholder,
+        readOnly,
+        maxLength,
+        min,
+        onKeyDown,
+        onKeyUp,
         onBlur,
         onFocus,
+        onClick,
         onSelectSuggest,
         onEndTyping,
-        onSubmit,
         isSuggest,
-        isFormFlex,
         suggestions,
+        isBlockSpecial,
     } = props;
+
     const [state, setState] = useState<IInputComponentState>({
+        oldValue: value?.toString(),
+        currentValue: rawValue ? rawValue : '',
+        passwordShow: false,
         isSelectSuggest: false,
         isTyping: false,
         typingTimer: 1000,
         suggestionElement: undefined,
         suggestionInputElement: undefined,
     });
-    const { suggestionElement, suggestionInputElement, isSelectSuggest, isTyping, typingTimer } = state;
+
+    const { oldValue, currentValue, passwordShow, suggestionElement, suggestionInputElement, isSelectSuggest, isTyping, typingTimer } =
+        state;
+
+    useEffect(() => {
+        if (!rawValue) {
+            setState((prevState) => ({
+                ...prevState,
+                currentValue: '',
+            }));
+        }
+    }, [rawValue]);
 
     useEffect(() => {
         if (isSuggest) {
@@ -102,44 +120,12 @@ const Input = forwardRef<any, IInputComponentProps>((props, ref) => {
         }
     }, [isTyping]);
 
-    const handleSubmitSuggestion = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmitSuggestion = (event: React.FormEvent<HTMLFormElement | HTMLTextAreaElement | HTMLInputElement>) => {
         event.preventDefault();
         if (suggestionElement && suggestionInputElement) {
             const suggestionHightlightElement = suggestionElement?.querySelector('.react-autosuggest__suggestion--highlighted div');
             const suggestionHightlightText = suggestionHightlightElement?.textContent;
             handleSelectSuggest(suggestionHightlightText ? suggestionHightlightText : suggestionInputElement?.value ?? '', true);
-        }
-    };
-
-    const handleSubmitInput = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        if (onSubmit) {
-            onSubmit();
-            const inputs = document?.querySelectorAll('input');
-            inputs.forEach((input) => {
-                input.blur();
-            });
-        }
-    };
-
-    const handleOnChange = (eventValue: string) => {
-        const eventValueTrim = eventValue.trim();
-        if (type === 'number') {
-            if (eventValueTrim === '' || !validateHelper.isNumber(eventValueTrim)) {
-                eventValue = '';
-            } else {
-                if (parseInt(eventValueTrim ?? 0) < (min ?? 0) || parseInt(eventValueTrim ?? 0) > (max ?? 0)) {
-                    eventValue = value?.toString() ?? '';
-                }
-            }
-        } else {
-            if (eventValueTrim.length > (maxLength ?? 0)) {
-                eventValue = value?.toString().substring(0, maxLength) ?? '';
-            }
-        }
-
-        if (onChange) {
-            onChange(eventValue);
         }
     };
 
@@ -164,13 +150,104 @@ const Input = forwardRef<any, IInputComponentProps>((props, ref) => {
         }));
     };
 
+    const togglePassword = () => {
+        setState((prevState) => ({
+            ...prevState,
+            passwordShow: !passwordShow,
+        }));
+    };
+
+    const handleOnChange = (eventValue: string) => {
+        if (eventValue.length > (maxLength ?? 0)) {
+            eventValue = oldValue?.length === (maxLength ?? 0) ? oldValue : eventValue.substring(0, maxLength);
+        }
+
+        let isValidValue = true;
+        if (eventValue) {
+            if (type === 'number' || type === 'float-number' || type === 'signed-number') {
+                eventValue = stringHelper.formatHalfWidthText(eventValue);
+            }
+            if (
+                (type === 'number' && !validateHelper.isNumber(eventValue)) ||
+                (type === 'float-number' && !validateHelper.isFloatNumber(eventValue)) ||
+                (isBlockSpecial && validateHelper.isSpecialCharacter(stringHelper.formatHalfWidthText(eventValue))) ||
+                (type === 'signed-number' && !validateHelper.isSignedNumber(eventValue))
+            ) {
+                isValidValue = false;
+            }
+        }
+
+        if (isValidValue && onChange) {
+            setState((prevState) => ({
+                ...prevState,
+                oldValue: eventValue,
+            }));
+
+            onChange(eventValue);
+        }
+    };
+
     const handleOutFocus = (eventValue: string) => {
         eventValue = eventValue.trim();
+        if (type === 'float-number' && eventValue.charAt(eventValue.length - 1) === '.') {
+            eventValue = `${eventValue}0`;
+        } else if (type === 'float-number' && eventValue.charAt(0) === '.') {
+            eventValue = `0${eventValue}`;
+        } else {
+            if (rawValue) {
+                setState((prevState) => ({
+                    ...prevState,
+                    currentValue: rawValue,
+                }));
+            }
+        }
+
+        // Convert full-width <--> half-width
+        if (type !== 'password' && eventValue) {
+            eventValue = stringHelper.formatHalfWidthText(eventValue);
+        }
+
+        setState((prevState) => ({
+            ...prevState,
+            oldValue: eventValue,
+        }));
+
         if (onChange) {
             onChange(eventValue);
         }
+
         if (onBlur) {
             onBlur(eventValue);
+        }
+    };
+
+    const handleFocus = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        if (rawValue) {
+            event.currentTarget.value = value?.toString() ?? '';
+            setState((prevState) => ({
+                ...prevState,
+                currentValue: '',
+            }));
+        }
+
+        if (onChange) {
+            onChange(event.target.value);
+        }
+        if (onFocus) {
+            onFocus(event);
+        }
+    };
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        handleOnTyping();
+        let checkIfNum = false;
+        if (event.key && type === 'number') {
+            checkIfNum = event.key === 'e' || event.key === '.' || event.key === '+' || event.key === '-';
+        }
+        if (checkIfNum) {
+            event.preventDefault();
+        } else if (onKeyDown) {
+            onKeyDown(event);
         }
     };
 
@@ -178,8 +255,12 @@ const Input = forwardRef<any, IInputComponentProps>((props, ref) => {
         const renderSuggestion = (suggestion: string) => <div>{suggestion}</div>;
 
         return (
-            <div id={id} className={`components__input bases__font--${fontSize} ${className}`}>
-                <form className="flex-grow-1" onSubmit={(event: React.FormEvent<HTMLFormElement>) => handleSubmitSuggestion(event)}>
+            <div id={id} className={`components__input-suggest bases__padding0 bases__font--${fontSize} ${className}`}>
+                <form
+                    onSubmit={(event: React.FormEvent<HTMLFormElement | HTMLTextAreaElement | HTMLInputElement>) =>
+                        handleSubmitSuggestion(event)
+                    }
+                >
                     <Autosuggest
                         onSuggestionsFetchRequested={(_suggestion: Autosuggest.SuggestionsFetchRequestedParams) => {}}
                         onSuggestionsClearRequested={() => {}}
@@ -187,12 +268,13 @@ const Input = forwardRef<any, IInputComponentProps>((props, ref) => {
                         getSuggestionValue={(suggestion: string) => suggestion ?? ''}
                         renderSuggestion={(suggestion: string) => renderSuggestion(suggestion)}
                         onSuggestionSelected={(_event, data: Autosuggest.SuggestionSelectedEventData<string>) =>
-                            handleSelectSuggest(data.suggestionValue ?? '')
+                            handleSelectSuggest(data.suggestionValue.toString() ?? '')
                         }
                         inputProps={{
                             placeholder: placeholder ?? '',
                             value: value?.toString() ?? '',
                             onChange: (_event, params: Autosuggest.ChangeEvent) => handleOnChange(params.newValue),
+                            onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => handleKeyDown(event),
                             onBlur: () => {
                                 handleOutFocus(value?.toString() ?? '');
                                 suggestionElement?.classList.remove('bases__border--link');
@@ -206,71 +288,77 @@ const Input = forwardRef<any, IInputComponentProps>((props, ref) => {
         if (type === 'textarea') {
             return (
                 <textarea
-                    rows={rows}
                     ref={ref}
                     id={id}
                     name={name}
                     disabled={disabled}
-                    className={`components__input bases__font--${fontSize} ${className}`}
-                    autoComplete="new-password"
-                    placeholder={placeholder}
-                    onBlur={(event: React.ChangeEvent<HTMLTextAreaElement>) => handleOutFocus(event.target.value)}
+                    value={currentValue ? currentValue : value}
+                    className={`components__input components__input-area bases__font--${fontSize} ${className}`}
                     onInput={(event: React.ChangeEvent<HTMLTextAreaElement>) => handleOnChange(event.target.value)}
+                    onBlur={(event: React.ChangeEvent<HTMLTextAreaElement>) => handleOutFocus(event.target.value)}
+                    onFocus={(event: React.ChangeEvent<HTMLTextAreaElement>) => handleFocus(event)}
                     onKeyPress={(event: React.KeyboardEvent<HTMLTextAreaElement>) => (onPress ? onPress(event) : {})}
+                    onClick={(event: React.MouseEvent<HTMLElement>) => (onClick ? onClick(event) : {})}
+                    autoComplete="off"
+                    placeholder={placeholder}
                     onKeyDown={() => handleOnTyping()}
-                    onFocus={(event: React.FocusEvent<HTMLTextAreaElement>) => (onFocus ? onFocus(event) : {})}
-                    value={value}
                 />
             );
         }
-
-        return (
-            <form
-                className={`${isFormFlex ? 'flex-grow-1' : ''} ${formClassName}`}
-                onSubmit={(event: React.FormEvent<HTMLFormElement>) => handleSubmitInput(event)}
-            >
-                <input
-                    type={type}
-                    ref={ref}
-                    id={id}
-                    name={name}
-                    disabled={disabled}
-                    className={`components__input bases__font--${fontSize} ${className}`}
-                    onBlur={(event: React.ChangeEvent<HTMLInputElement>) => handleOutFocus(event.target.value)}
-                    onInput={(event: React.ChangeEvent<HTMLInputElement>) => handleOnChange(event.target.value)}
-                    onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-                        handleOnTyping();
-                        let checkIfNum: boolean = false;
-                        if (event.key !== undefined && type === 'number') {
-                            checkIfNum = event.key === 'e' || event.key === '.' || event.key === '+' || event.key === '-';
-                        }
-                        return checkIfNum && event.preventDefault();
-                    }}
-                    onKeyPress={(event: React.KeyboardEvent<HTMLInputElement>) => (onPress ? onPress(event) : {})}
-                    onFocus={(event: React.FocusEvent<HTMLInputElement>) => (onFocus ? onFocus(event) : {})}
-                    autoComplete="new-password"
-                    placeholder={placeholder}
-                    value={value}
-                />
-            </form>
-        );
     }
+
+    return (
+        <div className={`${type === 'password' ? 'position-relative' : 'w-100'}`}>
+            <input
+                ref={ref}
+                type={type === 'number' || type === 'float-number' || (type === 'password' && passwordShow) ? 'text' : type}
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                autoComplete="off"
+                id={id}
+                name={name}
+                disabled={disabled}
+                value={currentValue ? currentValue : value}
+                minLength={min}
+                className={`components__input w-100 bases__font--${fontSize} ${className}`}
+                onInput={(event: React.ChangeEvent<HTMLInputElement>) => handleOnChange(event.target.value)}
+                onBlur={(event: React.ChangeEvent<HTMLInputElement>) => handleOutFocus(event.target.value)}
+                onFocus={(event: React.ChangeEvent<HTMLInputElement>) => handleFocus(event)}
+                onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => handleKeyDown(event)}
+                onKeyPress={(event: React.KeyboardEvent<HTMLInputElement>) => (onPress ? onPress(event) : {})}
+                onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>) => (onKeyUp ? onKeyUp(event) : {})}
+                placeholder={placeholder}
+                readOnly={readOnly}
+            />
+            {/* {type === 'password' ? (
+                <Img
+                    onClick={() => {
+                        togglePassword();
+                    }}
+                    className={`components__input-icon bases__filter--dark-gray position-absolute`}
+                    src={`${passwordShow ? images.ICON_EYE_SHOW : images.ICON_EYE_HIDE}`}
+                />
+            ) : (
+                <></>
+            )} */}
+        </div>
+    );
 });
 
 Input.defaultProps = {
     type: 'text',
     placeholder: '',
     className: '',
-    formClassName: '',
-    fontSize: '16',
+    fontSize: '14',
+    onChange: () => {},
+    onPress: () => {},
     readOnly: false,
     disabled: false,
     value: '',
-    rows: 7,
-    maxLength: 255,
+    rows: 12,
+    maxLength: 1000,
     min: 0,
-    max: 9999,
-    isFormFlex: true,
 };
 
 export default Input;
