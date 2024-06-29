@@ -8,10 +8,13 @@ const loaderReducer = (state: boolean = false, action: ILoaderReduxAction) => {
             return state;
     }
 };
-const memberReducer = (state: IMemberProfileReduxData = { profile: null }, action: IMemberProfileReduxAction) => {
+const memberReducer = (state: IEditUserProfileDataAPI = {}, action: IMemberProfileReduxAction) => {
     switch (action.type) {
         case SET_MEMBER_PROFILE:
-            return action.data;
+            return {
+                ...state,
+                ...action.data,
+            };
         default:
             return state;
     }

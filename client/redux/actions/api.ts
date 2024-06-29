@@ -10,6 +10,13 @@ const setLoader = (data: boolean = false) => {
     };
 };
 
+const setAccount = (data: IEditUserProfileDataAPI | null) => {
+    return {
+        type: SET_MEMBER_PROFILE,
+        data,
+    };
+};
+
 export const fetchLogin = async (
     data: ILoginDataAPI,
     callBack?: (result: ILoginAPIRes | IErrorAPIRes | null) => void,
@@ -40,6 +47,7 @@ export const fetchLogin = async (
         }
     };
 };
+
 export const fetchRegister = (
     data: IRegisterDataApi,
     callBack?: (result: IRegisterDataApiRes | IErrorAPIRes | null) => void,
@@ -71,21 +79,20 @@ export const fetchRegister = (
 };
 
 export const fetchGetCurrentAccount = async (callBack?: (result: ICurrentUserAPIRes | IErrorAPIRes | null) => void) => {
-    try {
-        const res = await apiHelper.getCurrentUser();
+    return async (dispatch: Dispatch) => {
+        try {
+            const res = await apiHelper.getCurrentUser();
 
-        return {
-            type: SET_MEMBER_PROFILE,
-            data: { details: res?.data?.result },
-        };
-    } catch (err) {
-        if (!(err instanceof Error)) {
-            const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
-            if (callBack) {
-                callBack(res?.data);
+            dispatch(setAccount(res?.data?.result ?? null));
+        } catch (err) {
+            if (!(err instanceof Error)) {
+                const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+                if (callBack) {
+                    callBack(res?.data);
+                }
             }
         }
-    }
+    };
 };
 
 export const fetchLogout = () => {
@@ -108,6 +115,38 @@ export const fetchEditUserProfile = async (
 
         try {
             const res = await apiHelper.editUserProfile(data);
+            if (callBack) {
+                callBack(res?.data);
+            }
+        } catch (err) {
+            if (!(err instanceof Error)) {
+                const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+                if (callBack) {
+                    callBack(res?.data);
+                }
+            }
+        }
+
+        if (isLoad) {
+            dispatch(setLoader(false));
+        }
+    };
+};
+
+export const fetchAddEvent = (
+    data: IEventDataApi,
+    callBack?: (result: IEventDataApiRes | IErrorAPIRes | null) => void,
+    isLoad: boolean = true,
+) => {
+    return async (dispatch: Dispatch) => {
+        if (isLoad) {
+            dispatch(setLoader(true));
+        }
+
+        try {
+            const formData = new FormData();
+            // formData.append('sdsd', data.name ?? "")
+            const res = await apiHelper.addEvent(formData);
             if (callBack) {
                 callBack(res?.data);
             }

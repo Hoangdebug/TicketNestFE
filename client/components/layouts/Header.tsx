@@ -1,6 +1,6 @@
 import { fetchGetCurrentAccount, fetchLogout } from '@redux/actions/api';
 import { images, routes } from '@utils/constants';
-import { authHelper } from '@utils/helpers';
+import { authHelper, stringHelper } from '@utils/helpers';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,7 +24,7 @@ const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
 
     const getLoginTitle = () => {
         if (authHelper.isAuth()) {
-            return profile?.details?.username || 'User';
+            return stringHelper.limitText(profile?.username ?? '', 3) || 'User';
         } else {
             return 'Login';
         }
@@ -67,7 +67,7 @@ const Header: IHeaderComponent<IHeaderComponentProps> = (props) => {
         },
         {
             title: 'Contact',
-            href: '#2',
+            href: routes.CLIENT.CONTACT_PAGE.href,
             class: 'position-relative hover-link',
         },
     ];

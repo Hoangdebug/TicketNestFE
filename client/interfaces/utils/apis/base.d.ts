@@ -4,3 +4,8 @@ interface IBaseAPIRes {
 }
 
 interface IErrorAPIRes extends IBaseAPIRes {}
+
+interface IAccessTokenAndParams {
+    token?: string;
+    params?: IListParams;
+}
