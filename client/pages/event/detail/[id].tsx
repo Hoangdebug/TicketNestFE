@@ -63,7 +63,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                         date: '1 May • Sun, 4:30 PM',
                     },
                     {
-                        id: '5',
+                        id: '6',
                         title: 'Shutter Life',
                         image: 'https://qph.cf2.quoracdn.net/main-qimg-d10365c0d88404820cb52a5a91628b0d',
                         price: 'AUD $85.00',
