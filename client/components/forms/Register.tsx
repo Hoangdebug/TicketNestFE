@@ -72,7 +72,6 @@ const RegisterForm: IRegisterComponent<IRegisterComponentProps> = () => {
         }
 
         if (isValidate) {
-            console.log('state__validate: ', isValidate);
             dispatch(
                 fetchRegister(
                     { confirmPassword, dob, email, password, phone, username },
@@ -174,6 +173,7 @@ const RegisterForm: IRegisterComponent<IRegisterComponentProps> = () => {
                                     className="form-control"
                                     id="phone_number"
                                     name="phone_number"
+                                    maxLength={10}
                                     value={phone}
                                     onChange={(e) => handleOnChange('phone', e.target.value)}
                                     placeholder="Enter Phone Number"

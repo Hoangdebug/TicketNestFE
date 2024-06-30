@@ -12,12 +12,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchLogout } from '@redux/actions/api';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { ReduxStates } from '@redux/reducers';
+import { TYPES } from '@utils/constants/enums';
 
 const SideBar: ISideBarComponent<ISideBarComponentProps> = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const { profile } = useSelector((states: ReduxStates) => states);
-
+    console.log(profile);
     const [openDropdowns, setOpenDropdowns] = useState<ISideBarComponentState>({
         event: false,
         customer: false,
@@ -110,7 +111,7 @@ const SideBar: ISideBarComponent<ISideBarComponentProps> = () => {
             </button>
             <div className="components__sidebar-content-item">
                 {sideBar
-                    ?.filter((item) => item.roles.includes(profile?.details?.type))
+                    ?.filter((item) => item.roles.includes((profile?.type as TYPES) ?? (enums.TYPES.ADMIN || enums.TYPES.ORGANIZER)))
                     ?.map((item, index) => (
                         <div key={index} className="bases__p--cusor">
                             <a

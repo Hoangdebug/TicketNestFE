@@ -14,7 +14,7 @@ const LoginPage: ILoginPage<ILoginPageProps> = () => {
 
     useEffect(() => {
         if (token) {
-            switch (profile?.details?.type) {
+            switch (profile?.type) {
                 case enums.TYPES.ADMIN:
                     router.push(routes.CLIENT.ADMIN_PAGE.href, undefined, { scroll: false });
                     break;

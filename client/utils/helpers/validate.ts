@@ -70,3 +70,27 @@ export const isDateTime = (value: string) => {
 
     return false;
 };
+
+export const isSignedNumber = (value: string) => {
+    if (regex.RULE.SIGNED_NUMBER.test(value)) {
+        return true;
+    }
+
+    return false;
+};
+
+export const isFloatNumber = (value: string) => {
+    if (regex.RULE.FLOAT_NUMBER.test(value)) {
+        return true;
+    }
+
+    return false;
+};
+
+export const isSpecialCharacter = (value: string) => {
+    if (regex.RULE.SPECIAL_CHARACTER.test(value)) {
+        return true;
+    }
+
+    return false;
+};

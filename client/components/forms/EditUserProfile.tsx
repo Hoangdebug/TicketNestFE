@@ -1,36 +1,32 @@
 import { createRef, useState, useEffect } from 'react';
 import Validator from '@components/commons/Validator';
 import { validateHelper } from '@utils/helpers';
-import { enums, routes } from '@utils/constants';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { fetchEditUserProfile } from '@redux/actions';
-import { ReduxStates } from '@redux/reducers';
+import Input from '@components/commons/Input';
+import { http, routes } from '@utils/constants';
 
-const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentProps> = () => {
-    const { profile } = useSelector((states: ReduxStates) => states);
+const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentProps> = (props) => {
+    const { currentUser } = props;
+    const dispatch = useDispatch();
+    const router = useRouter();
 
-    // Initialize state with profile data
     const [state, setState] = useState<IEditUserProfileComponentState>({
-        firstName: profile?.firstName || '',
-        lastName: profile?.lastName || '',
-        dob: profile?.dob || '',
-        gender: profile?.gender || '',
-        phone: profile?.phone || '',
-        address: profile?.address || '',
-        avatar: profile?.avatar || null, // Handle avatar URL
+        curentProfile: {
+            ...currentUser,
+        },
     });
 
-    const { firstName, lastName, dob, gender, phone, address, avatar } = state;
+    const { curentProfile } = state;
 
-    const firstNameValidatorRef = createRef<Validator>();
-    const lastNameValidatorRef = createRef<Validator>();
-    const dobValidatorRef = createRef<Validator>();
-    const genderValidatorRef = createRef<Validator>();
-    const phoneValidatorRef = createRef<Validator>();
-    const addressValidatorRef = createRef<Validator>();
+    const firstNameValidatorRef = createRef<IValidatorComponentHandle>();
+    const dobValidatorRef = createRef<IValidatorComponentHandle>();
+    const genderValidatorRef = createRef<IValidatorComponentHandle>();
+    const phoneValidatorRef = createRef<IValidatorComponentHandle>();
+    const addressValidatorRef = createRef<IValidatorComponentHandle>();
 
-    const handleAvatarChange = (e) => {
+    const handleAvatarChange = (e: any) => {
         const file = e.target.files[0];
         if (file) {
             setState((prev) => ({
@@ -50,7 +46,10 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
     const handleOnChange = (field: string, value: string | null) => {
         setState((prev) => ({
             ...prev,
-            [field]: value,
+            curentProfile: {
+                ...prev.curentProfile,
+                [field]: value,
+            },
         }));
     };
 
@@ -58,12 +57,11 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
         let isValidate = true;
 
         const validatorText = [
-            { ref: firstNameValidatorRef, value: firstName, message: 'Your First Name Is Not Empty!' },
-            { ref: lastNameValidatorRef, value: lastName, message: 'Your Last Name Is Not Empty!' },
-            { ref: dobValidatorRef, value: dob, message: 'Your Date of Birth Is Not Empty!' },
-            { ref: genderValidatorRef, value: gender, message: 'Your Gender Is Not Empty!' },
-            { ref: phoneValidatorRef, value: phone, message: 'Your Phone Is Not Empty!' },
-            { ref: addressValidatorRef, value: address, message: 'Your Address Is Not Empty!' },
+            { ref: firstNameValidatorRef, value: curentProfile?.username, message: 'Your First Name Is Not Empty!' },
+            { ref: dobValidatorRef, value: curentProfile?.dob, message: 'Your Date of Birth Is Not Empty!' },
+            { ref: genderValidatorRef, value: curentProfile?.gender, message: 'Your Gender Is Not Empty!' },
+            { ref: phoneValidatorRef, value: curentProfile?.phone, message: 'Your Phone Is Not Empty!' },
+            { ref: addressValidatorRef, value: curentProfile?.address, message: 'Your Address Is Not Empty!' },
         ];
 
         validatorText.forEach(({ ref, value, message }) => {
@@ -76,6 +74,19 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                 isValidate = false;
             }
         });
+
+        if (isValidate) {
+            dispatch(
+                await fetchEditUserProfile(curentProfile ?? {}, (result: IEditUserProfileAPIRes | IErrorAPIRes | null) => {
+                    setState((prevState) => ({
+                        ...prevState,
+                    }));
+                    if (result && result.code === http.SUCCESS_CODE) {
+                        router.push(routes.CLIENT.HOME_PAGE.href, undefined, { scroll: false });
+                    }
+                }),
+            );
+        }
     };
 
     return (
@@ -86,18 +97,18 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                     <div className="col-md-6 gap-4 d-flex flex-column">
                         <div className="form-group">
                             <label htmlFor="firstname" className="pb-2">
-                                First Name
+                                User Name
                                 <span className="text-danger">*</span>
                             </label>
                             <Validator ref={firstNameValidatorRef}>
-                                <input
+                                <Input
                                     type="text"
-                                    className="form-control"
                                     id="firstname"
-                                    value={firstName}
-                                    onChange={(e) => handleOnChange('firstName', e.target.value)}
+                                    value={curentProfile?.username}
+                                    onChange={(value: string) => handleOnChange('username', value)}
                                     name="firstname"
                                     placeholder="Enter Your First Name"
+                                    isBlockSpecial={true}
                                 />
                             </Validator>
                         </div>
@@ -107,9 +118,14 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                                 <span className="text-danger">*</span>
                             </label>
                             <Validator ref={genderValidatorRef}>
-                                <select value={gender} onChange={(e) => handleOnChange('gender', e.target.value)} className="form-control">
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                <select
+                                    value={curentProfile?.gender}
+                                    onChange={(e) => handleOnChange('gender', e.target.value)}
+                                    className="form-control"
+                                >
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
                                 </select>
                             </Validator>
                         </div>
@@ -119,13 +135,14 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                                 <span className="text-danger">*</span>
                             </label>
                             <Validator ref={phoneValidatorRef}>
-                                <input
-                                    type="text"
+                                <Input
+                                    type="signed-number"
                                     className="form-control"
+                                    maxLength={10}
                                     id="phone_number"
                                     name="phone_number"
-                                    value={phone}
-                                    onChange={(e) => handleOnChange('phone', e.target.value)}
+                                    value={curentProfile?.phone}
+                                    onChange={(value: string) => handleOnChange('phone', value)}
                                     placeholder="Enter Your Phone Number"
                                 />
                             </Validator>
@@ -133,30 +150,13 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                     </div>
                     <div className="col-md-6 gap-4 d-flex flex-column">
                         <div className="form-group">
-                            <label htmlFor="lastname" className="pb-2">
-                                Last Name
-                                <span className="text-danger">*</span>
-                            </label>
-                            <Validator ref={lastNameValidatorRef}>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="lastname"
-                                    value={lastName}
-                                    onChange={(e) => handleOnChange('lastName', e.target.value)}
-                                    name="lastname"
-                                    placeholder="Enter Your Last Name"
-                                />
-                            </Validator>
-                        </div>
-                        <div className="form-group">
                             <label htmlFor="dob" className="pb-2">
                                 Date Of Birth
                                 <span className="text-danger">*</span>
                             </label>
                             <Validator ref={dobValidatorRef}>
                                 <input
-                                    value={dob}
+                                    value={curentProfile?.dob}
                                     onChange={(e) => handleOnChange('dob', e.target.value)}
                                     type="date"
                                     className="form-control"
@@ -170,14 +170,16 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                                 <span className="text-danger">*</span>
                             </label>
                             <Validator ref={addressValidatorRef}>
-                                <input
+                                <Input
                                     type="text"
                                     className="form-control"
+                                    maxLength={100}
                                     id="address"
-                                    value={address}
-                                    onChange={(e) => handleOnChange('address', e.target.value)}
+                                    value={curentProfile?.address}
+                                    onChange={(value: string) => handleOnChange('address', value)}
                                     name="address"
                                     placeholder="Enter Your Address"
+                                    isBlockSpecial={true}
                                 />
                             </Validator>
                         </div>
@@ -187,10 +189,10 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                             </label>
                             <div className="d-flex align-items-center">
                                 <input type="file" className="form-control" id="avatar" name="avatar" onChange={handleAvatarChange} />
-                                {avatar && ( // Show the avatar only if it's available
+                                {curentProfile?.images && (
                                     <div className="ms-3">
                                         <img
-                                            src={avatar}
+                                            src={curentProfile?.images}
                                             alt="Avatar"
                                             className="img-thumbnail"
                                             style={{ width: '100px', height: '100px' }}

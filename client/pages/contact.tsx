@@ -8,15 +8,15 @@ import HelpIcon from '@mui/icons-material/Help';
 
 const ContactPage: IContactPage<IContactPageProps> = () => {
     return (
-        <div className="contact-page">
-            <div className="breadcrumb">Home / Contact Us</div>
-            <div className="contact-section">
+        <div className="pages__contact-page">
+            <div className="pages__contact-page-breadcrumb">Home / Contact Us</div>
+            <div className="pages__contact-page-contact-section">
                 <h1>Contact Us</h1>
                 <p>Have any questions? We'd love to hear from you.</p>
                 <hr></hr>
                 <br></br>
-                <div className="contact-content">
-                    <div className="contact-info">
+                <div className="pages__contact-page-contact-section-contact-content">
+                    <div className="pages__contact-page-contact-section-contact-content-contact-info">
                         <h2>Contact Information</h2>
                         <p>Fill out the form and our team will get back to you soon.</p>
                         <ul>
