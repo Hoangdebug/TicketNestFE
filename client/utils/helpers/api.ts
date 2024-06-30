@@ -86,7 +86,23 @@ export const uploadImg = async (formData: FormData, config?: AxiosRequestConfig)
 
 export const addEvent = async (data: IEventDataApi) => {
     try {
-        return await axios.post<IEventDataApiRes>(`${routes.API.ADD_EVENT.href}`, { data });
+        return await axios.post<IEventDataApiRes>(`${routes.API.EVENT.href}`, { data });
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const listEvent = async () => {
+    try {
+        return await axios.get<IEventDataApiListRes>(`${routes.API.EVENT.href}`);
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const requestOrganizer = async (data: IEditUserProfileDataAPI) => {
+    try {
+        return await axios.put<IEditUserProfileAPIRes>(`${routes.API.REQUEST_ORGANIZER.href}`, { data });
     } catch (err) {
         throw err;
     }

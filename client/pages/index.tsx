@@ -1,25 +1,50 @@
-import { IHomePageProps, IHomePage } from '@interfaces/pages/home';
+import { IHomePageProps, IHomePage, IHomePageState } from '@interfaces/pages/home';
 import NavBar from '@components/layouts/NavBar';
-import { enums, images, routes } from '@utils/constants';
+import { enums, http, images, routes } from '@utils/constants';
 import { EventList } from '@components/index';
 import Tabs from '@components/commons/Tab';
 
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ReduxStates } from '@redux/reducers';
+import { fetchListEvent } from '@redux/actions/api';
 
 const HomePage: IHomePage<IHomePageProps> = () => {
     const { profile } = useSelector((states: ReduxStates) => states);
     const router = useRouter();
+    const dispatch = useDispatch();
+    const [state, setState] = useState<IHomePageState>({
+        event: [],
+    });
+
+    const { event } = state;
 
     useEffect(() => {
         if (profile?.type === enums.TYPES.ADMIN || profile?.type === enums.TYPES.ORGANIZER) {
             router.push(routes.CLIENT.ERROR403_PAGE.href, undefined, { scroll: false });
         }
     }, [profile, router]);
+
+    useEffect(() => {
+        handleFetchListEvents();
+    }, []);
+
+    const handleFetchListEvents = async () => {
+        dispatch(
+            await fetchListEvent((res: IEventDataApiListRes | IErrorAPIRes | null) => {
+                if (res && res?.code === http.SUCCESS_CODE) {
+                    const data = (res as IEventDataApiListRes).result;
+                    setState((prevState) => ({
+                        ...prevState,
+                        event: data,
+                    }));
+                }
+            }),
+        );
+    };
 
     const stepData = (type: 'step1' | 'step2' | 'step3' | 'step4') => {
         switch (type) {
@@ -199,7 +224,7 @@ const HomePage: IHomePage<IHomePageProps> = () => {
                 <NavBar />
             </div>
             <div className="py-5">
-                <EventList />
+                <EventList dataEvent={event} />
             </div>
             <div className="pages__home--host py-5 bases__background--white d-flex flex-column">
                 <div className="p-5">

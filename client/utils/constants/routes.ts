@@ -109,6 +109,11 @@ const REGISTER_API: IRouteConstant = {
 const CURRENT_USER_API: IRouteConstant = {
     href: '/user/current',
 };
+
+const REQUEST_ORGANIZER_API: IRouteConstant = {
+    href: '/user/request-organizer',
+};
+
 const FORGOTPASSWORD_API: IRouteConstant = {
     href: '/user/forgotpassword',
 };
@@ -121,9 +126,10 @@ const CHANGEPASSWORD_API: IRouteConstant = {
     href: '/user/changepassword',
 };
 
-const ADD_EVENT_API: IRouteConstant = {
-    href: '/',
+const EVENT_API: IRouteConstant = {
+    href: 'event/',
 };
+
 export const API = {
     LOGIN: LOGIN_API,
     REGISTER: REGISTER_API,
@@ -131,7 +137,8 @@ export const API = {
     FORGOTPASSWORD: FORGOTPASSWORD_API,
     POSTFORGOTPASSWORD: POSTFORGOTPASSWORD_API,
     CHANGEPASSWORD: CHANGEPASSWORD_API,
+    REQUEST_ORGANIZER: REQUEST_ORGANIZER_API,
 
     // organizer
-    ADD_EVENT: ADD_EVENT_API,
+    EVENT: EVENT_API,
 };

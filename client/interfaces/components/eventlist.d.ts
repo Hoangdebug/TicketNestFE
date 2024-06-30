@@ -1,4 +1,6 @@
-interface IEventListComponentProps extends IBaseCompProps {}
+interface IEventListComponentProps extends IBaseCompProps {
+    dataEvent?: IEventDataApi[];
+}
 
 interface IEventListComponent<P = {}> extends IBaseComp<P> {}
 
