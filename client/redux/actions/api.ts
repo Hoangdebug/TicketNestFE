@@ -133,7 +133,37 @@ export const fetchEditUserProfile = async (
     };
 };
 
-export const fetchAddEvent = (
+export const fetchRequestOrganizer = async (
+    data: IEditUserProfileDataAPI,
+    callBack?: (result: IEditUserProfileAPIRes | IErrorAPIRes | null) => void,
+    isLoad: boolean = true,
+) => {
+    return async (dispatch: Dispatch) => {
+        if (isLoad) {
+            dispatch(setLoader(true));
+        }
+
+        try {
+            const res = await apiHelper.requestOrganizer(data);
+            if (callBack) {
+                callBack(res?.data);
+            }
+        } catch (err) {
+            if (!(err instanceof Error)) {
+                const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+                if (callBack) {
+                    callBack(res?.data);
+                }
+            }
+        }
+
+        if (isLoad) {
+            dispatch(setLoader(false));
+        }
+    };
+};
+
+export const fetchAddEvent = async (
     data: IEventDataApi,
     callBack?: (result: IEventDataApiRes | IErrorAPIRes | null) => void,
     isLoad: boolean = true,
@@ -144,9 +174,32 @@ export const fetchAddEvent = (
         }
 
         try {
-            const formData = new FormData();
-            // formData.append('sdsd', data.name ?? "")
-            const res = await apiHelper.addEvent(formData);
+            const res = await apiHelper.addEvent(data);
+            if (callBack) {
+                callBack(res?.data);
+            }
+        } catch (err) {
+            if (!(err instanceof Error)) {
+                const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+                if (callBack) {
+                    callBack(res?.data);
+                }
+            }
+        }
+
+        if (isLoad) {
+            dispatch(setLoader(false));
+        }
+    };
+};
+export const fetchListEvent = async (callBack?: (result: IEventDataApiListRes | IErrorAPIRes | null) => void, isLoad: boolean = true) => {
+    return async (dispatch: Dispatch) => {
+        if (isLoad) {
+            dispatch(setLoader(true));
+        }
+
+        try {
+            const res = await apiHelper.listEvent();
             if (callBack) {
                 callBack(res?.data);
             }

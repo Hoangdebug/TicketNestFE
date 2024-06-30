@@ -6,6 +6,9 @@ interface IEditUserProfileDataAPI {
     address?: string;
     images?: string;
     type?: string;
+    organizerName?: string;
+    organizerDescription?: string;
+    mailOrganizerName?: string;
 }
 
 interface IEditUserProfileAPIRes extends IBaseAPIRes {

@@ -6,12 +6,15 @@ import TodayIcon from '@mui/icons-material/Today';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import BookmarkOutlinedIcon from '@mui/icons-material/BookmarkOutlined';
-import { routes } from '@utils/constants';
-const EventList: IEventListComponent<IEventListComponentProps> = () => {
+
+const EventList: IEventListComponent<IEventListComponentProps> = (props) => {
+    const { dataEvent } = props;
+
+    console.log(dataEvent);
     const router = useRouter();
 
     const [state, setState] = useState<IEventListComponentState>({
-        type: undefined,
+        type: 'All',
         isActive: undefined,
     });
     const { type, isActive } = state;
@@ -22,9 +25,7 @@ const EventList: IEventListComponent<IEventListComponentProps> = () => {
             isActive: !isActive,
         }));
     };
-    const handleSeeMore = () => {
-        router.push(routes.CLIENT.CHANGE_PASSWORD_SUCCESS_PAGE.href, undefined, { scroll: false });
-    };
+
     useEffect(() => {
         const { type } = router.query;
 
@@ -130,7 +131,7 @@ const EventList: IEventListComponent<IEventListComponentProps> = () => {
                 </div>
             </div>
             <div className="components__event--items row">
-                {listEvent.map((item, index) => (
+                {dataEvent?.map((item, index) => (
                     <div className="col-md-3 mb-4" key={index}>
                         <div className="components__event--items-card">
                             <div className="w-100" style={{ position: 'relative' }}>
@@ -160,15 +161,6 @@ const EventList: IEventListComponent<IEventListComponentProps> = () => {
                         </div>
                     </div>
                 ))}
-                <div className="d-flex justify-content-center align-items-center w-100 pt-4">
-                    <Button
-                        onClick={handleSeeMore}
-                        buttonText="See More"
-                        textColor="white"
-                        fontSize="25px"
-                        className="components__event--btnSeeMore"
-                    />
-                </div>
             </div>
         </div>
     );

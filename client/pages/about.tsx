@@ -3,14 +3,8 @@ import { useRouter } from 'next/router';
 
 import { IAboutPageProps, IAboutPage } from '@interfaces/pages/about';
 import { authHelper } from '@utils/helpers';
-import NavBar from '@components/layouts/NavBar';
 import { images, routes } from '@utils/constants';
-import { EventList } from '@components/index';
 import Tabs from '@components/commons/Tab';
-
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { style } from '@mui/system';
 
 const AboutPage: IAboutPage<IAboutPageProps> = () => {
     const router = useRouter();

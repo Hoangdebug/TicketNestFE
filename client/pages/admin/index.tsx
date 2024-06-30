@@ -20,8 +20,10 @@ const AdminPages: IAdminPage<IAdminPageProps> = () => {
     const router = useRouter();
 
     useEffect(() => {
-        if (profile && profile?.type !== enums.TYPES.ADMIN && profile?.type !== enums.TYPES.ORGANIZER) {
-            router.push(routes.CLIENT.ERROR403_PAGE.href, undefined, { scroll: false });
+        if (profile !== undefined) {
+            if (profile?.type !== enums.TYPES.ADMIN && profile?.type !== enums.TYPES.ORGANIZER) {
+                router.push(routes.CLIENT.ERROR403_PAGE.href, undefined, { scroll: false });
+            }
         }
     }, [profile, router]);
 

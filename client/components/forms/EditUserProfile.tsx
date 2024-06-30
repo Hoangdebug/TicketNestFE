@@ -1,4 +1,4 @@
-import { createRef, useState, useEffect } from 'react';
+import { createRef, useState } from 'react';
 import Validator from '@components/commons/Validator';
 import { validateHelper } from '@utils/helpers';
 import { useRouter } from 'next/router';

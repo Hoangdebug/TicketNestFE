@@ -5,6 +5,5 @@ interface IHomePageProps extends IBasePageProps {}
 interface IHomePage<P = {}> extends IBasePage<P> {}
 
 interface IHomePageState {
-    checkboxChecked: string[];
-    radioChecked: string;
+    event?: IEventDataApi[];
 }

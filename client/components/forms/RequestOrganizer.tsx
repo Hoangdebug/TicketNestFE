@@ -1,72 +1,38 @@
-import { createRef, useState, useEffect, ChangeEvent } from 'react';
+import { createRef, useState } from 'react';
 import Validator from '@components/commons/Validator';
 import { validateHelper } from '@utils/helpers';
-import { enums, routes } from '@utils/constants';
+import { http, routes } from '@utils/constants';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchRequestOrganizer, fetchCheckOrganizerStatus } from '@redux/actions';
-import { ReduxStates } from '@redux/reducers';
-import React from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchRequestOrganizer } from '@redux/actions/api';
+import Button from '@components/commons/Button';
+import Input from '@components/commons/Input';
 
-const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponentProps> = () => {
-    const navigate = useRouter();
+const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponentProps> = (props) => {
+    const { organizerRequest } = props;
+    const router = useRouter();
     const dispatch = useDispatch();
-    const { profile, organizerStatus } = useSelector((states: ReduxStates) => states);
+
     const [state, setState] = useState<IRequestOrganizerComponentState>({
-        organizationName: profile?.organizationName || '',
-        description: profile?.description || '',
-        contactEmail: profile?.contactEmail || '',
-        contactPhone: profile?.contactPhone || '',
-        status: profile?.status || '',
-        Image: profile?.Image || '',
+        organizer: {
+            ...organizerRequest,
+        },
     });
 
-    const onChange = (imageList: ImageListType, addUpdateIndex: number[] | undefined) => {
-        // data for submit
-        console.log(imageList, addUpdateIndex);
-        setImages(imageList as never[]);
-    };
-
-    useEffect(() => {
-        if (organizerStatus) {
-            setState((prevState) => ({
-                ...prevState,
-                status: organizerStatus,
-            }));
-        }
-    }, [organizerStatus]);
-
-    const { organizationName, description, contactEmail, contactPhone, status, Image } = state;
-
-    const organizationNameValidatorRef = createRef<Validator>();
-    const descriptionValidatorRef = createRef<Validator>();
-    const contactEmailValidatorRef = createRef<Validator>();
-    const contactPhoneValidatorRef = createRef<Validator>();
+    const { organizer } = state;
+    console.log(organizer?.phone);
+    const organizationNameValidatorRef = createRef<IValidatorComponentHandle>();
+    const descriptionValidatorRef = createRef<IValidatorComponentHandle>();
+    const contactEmailValidatorRef = createRef<IValidatorComponentHandle>();
+    const contactPhoneValidatorRef = createRef<IValidatorComponentHandle>();
 
     const handleOnChange = (field: string, value: string | null) => {
         setState((prevState) => ({
             ...prevState,
-            [field]: value,
-        }));
-    };
-
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            // Get the file URL
-            const ImageUrl = URL.createObjectURL(file);
-            // Update state with the Image URL
-            setState((prev) => ({
-                ...prev,
-                Image: ImageUrl,
-            }));
-        }
-    };
-
-    const handleDeleteImage = () => {
-        setState((prev) => ({
-            ...prev,
-            Image: '', // Reset the Image URL
+            organizer: {
+                ...prevState.organizer,
+                [field]: value,
+            },
         }));
     };
 
@@ -74,10 +40,10 @@ const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponen
         let isValidate = true;
 
         const validatorText = [
-            { ref: organizationNameValidatorRef, value: organizationName, message: 'Organization Name Is Not Empty!' },
-            { ref: descriptionValidatorRef, value: description, message: 'Description Is Not Empty!' },
-            { ref: contactEmailValidatorRef, value: contactEmail, message: 'Contact Email Is Not Empty!' },
-            { ref: contactPhoneValidatorRef, value: contactPhone, message: 'Contact Phone Is Not Empty!' },
+            { ref: organizationNameValidatorRef, value: organizer?.organizerName, message: 'Organization Name Is Not Empty!' },
+            { ref: descriptionValidatorRef, value: organizer?.organizerDescription, message: 'Description Is Not Empty!' },
+            { ref: contactEmailValidatorRef, value: organizer?.mailOrganizerName, message: 'Contact Email Is Not Empty!' },
+            { ref: contactPhoneValidatorRef, value: organizer?.phone, message: 'Contact Phone Is Not Empty!' },
         ];
 
         validatorText.forEach(({ ref, value, message }) => {
@@ -91,11 +57,16 @@ const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponen
             }
         });
 
+        if (!validateHelper.isEmail(organizer?.mailOrganizerName ?? '')) {
+            contactEmailValidatorRef.current?.onValidateMessage('Enter a valid email address');
+            isValidate = false;
+        }
+
         if (isValidate) {
             dispatch(
-                await fetchRequestOrganizer({ organizationName, description, contactEmail, contactPhone }, (res) => {
-                    if (res?.code === 200) {
-                        navigate.push(routes.CLIENT.HOME_PAGE.href);
+                await fetchRequestOrganizer(organizer ?? {}, (res) => {
+                    if (res?.code === http.SUCCESS_CODE) {
+                        router.push(routes.CLIENT.HOME_PAGE.href);
                     } else if (res?.code === 500) {
                         alert(res?.mes);
                     }
@@ -116,14 +87,15 @@ const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponen
                                 <span className="text-danger">*</span>
                             </label>
                             <Validator ref={organizationNameValidatorRef}>
-                                <input
+                                <Input
                                     type="text"
                                     className="form-control"
                                     id="organizationName"
-                                    value={organizationName}
-                                    onChange={(e) => handleOnChange('organizationName', e.target.value)}
+                                    value={organizer?.organizerName}
+                                    onChange={(value: string) => handleOnChange('organizerName', value)}
                                     name="organizationName"
                                     placeholder="Enter Your Organization Name"
+                                    isBlockSpecial={true}
                                 />
                             </Validator>
                         </div>
@@ -133,11 +105,12 @@ const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponen
                                 <span className="text-danger">*</span>
                             </label>
                             <Validator ref={descriptionValidatorRef}>
-                                <textarea
+                                <Input
+                                    type="textarea"
                                     className="form-control"
                                     id="description"
-                                    value={description}
-                                    onChange={(e) => handleOnChange('description', e.target.value)}
+                                    value={organizer?.organizerDescription}
+                                    onChange={(value: string) => handleOnChange('organizerDescription', value)}
                                     name="description"
                                     placeholder="Enter Description of Your Organization"
                                 />
@@ -151,12 +124,12 @@ const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponen
                                 <span className="text-danger">*</span>
                             </label>
                             <Validator ref={contactEmailValidatorRef}>
-                                <input
-                                    type="email"
+                                <Input
+                                    type="text"
                                     className="form-control"
                                     id="contactEmail"
-                                    value={contactEmail}
-                                    onChange={(e) => handleOnChange('contactEmail', e.target.value)}
+                                    value={organizer?.mailOrganizerName}
+                                    onChange={(value: string) => handleOnChange('mailOrganizerName', value)}
                                     name="contactEmail"
                                     placeholder="Enter Contact Email"
                                 />
@@ -168,49 +141,24 @@ const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponen
                                 <span className="text-danger">*</span>
                             </label>
                             <Validator ref={contactPhoneValidatorRef}>
-                                <input
-                                    type="text"
+                                <Input
+                                    type="signed-number"
                                     className="form-control"
                                     id="contactPhone"
-                                    value={contactPhone}
-                                    onChange={(e) => handleOnChange('contactPhone', e.target.value)}
+                                    maxLength={10}
+                                    value={organizer?.phone ?? ''}
+                                    onChange={(value: string) => handleOnChange('phone', value)}
                                     name="contactPhone"
                                     placeholder="Enter Contact Phone"
+                                    isBlockSpecial={true}
                                 />
                             </Validator>
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="Image" className="pb-2">
-                                Image
-                            </label>
-                            <div className="d-flex align-items-center">
-                                <input type="file" className="form-control" id="Image" name="Image" onChange={handleImageChange} />
-                                {Image && ( // Display only if Image is available
-                                    <div className="ms-3">
-                                        <img
-                                            src={Image}
-                                            alt="Image"
-                                            className="img-thumbnail"
-                                            style={{ width: '100px', height: '100px' }}
-                                        />
-                                        <button type="button" className="btn btn-danger mt-2" onClick={handleDeleteImage}>
-                                            Delete
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
                     </div>
                 </div>
-                {status && (
-                    <div className="mt-4">
-                        <h5 className="text-center">Request Status: {status}</h5>
-                    </div>
-                )}
+
                 <div className="d-flex justify-content-end pt-4">
-                    <button type="button" onClick={submitForm} className="components___requestorganizer-form-firstButton">
-                        Submit
-                    </button>
+                    <Button onClick={submitForm} buttonText="Submit" className="components___requestorganizer-form-firstButton" />
                 </div>
             </div>
         </div>
