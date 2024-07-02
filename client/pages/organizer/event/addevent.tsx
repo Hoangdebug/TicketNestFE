@@ -1,4 +1,4 @@
-import AddEventForm from '@components/forms/AddEvent';
+import AddEventForm from '@components/forms/Event';
 import SideBar from '@components/layouts/admin/Sidebar';
 import { IAddEventPage, IAddEventPageProps } from '@interfaces/pages/addevent';
 

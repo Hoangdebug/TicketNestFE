@@ -1,4 +1,4 @@
-import { IEventDetail, IEventDetailPage, IEventDetailPageProps } from '@interfaces/pages/eventdetail';
+import { IEventDetailPageState, IEventDetailPage, IEventDetailPageProps } from '@interfaces/pages/eventdetail';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { IoLocationOutline } from 'react-icons/io5';
@@ -6,11 +6,20 @@ import { IoMdShare } from 'react-icons/io';
 import { CiHeart } from 'react-icons/ci';
 import { MdOutlinePeople } from 'react-icons/md';
 import { SlCalender } from 'react-icons/sl';
+import { useDispatch } from 'react-redux';
+import { fetchDetailsEvent, fetchListEvent } from '@redux/actions/api';
+import { http } from '@utils/constants';
 
 const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
     const router = useRouter();
     const { id } = router.query;
-    const [eventData, setEventData] = useState<IEventDetail | null>(null);
+    const dispatch = useDispatch();
+    const [state, setState] = useState<IEventDetailPageState>({
+        eventDetails: undefined,
+        event: [],
+    });
+    const { eventDetails, event } = state;
+
     const [quantity, setQuantity] = useState(0);
 
     const increaseQuantity = () => {
@@ -22,60 +31,38 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
             setQuantity(quantity - 1);
         }
     };
+    const handleDetialsEvent = async () => {
+        dispatch(
+            await fetchDetailsEvent(id?.toString() ?? '', (res: IEventDataApiRes | IErrorAPIRes | null) => {
+                if (res && res.code === http.SUCCESS_CODE) {
+                    const event = (res as IEventDataApiRes).result;
+                    setState((prevState) => ({
+                        ...prevState,
+                        eventDetails: event,
+                    }));
+                }
+            }),
+        );
+    };
 
+    const handleFetchListEvents = async () => {
+        dispatch(
+            await fetchListEvent((res: IEventDataApiListRes | IErrorAPIRes | null) => {
+                if (res && res?.code === http.SUCCESS_CODE) {
+                    const data = (res as IEventDataApiListRes).result;
+                    setState((prevState) => ({
+                        ...prevState,
+                        event: data,
+                    }));
+                }
+            }),
+        );
+    };
+    console.log(eventDetails);
     useEffect(() => {
-        if (id) {
-            const sampleData: IEventDetail = {
-                id: id as string,
-                title: 'Tutorial on Canvas Painting for Beginners',
-                date: 'Wed, Jun 01, 2022 5:30 AM',
-                image: 'https://qph.cf2.quoracdn.net/main-qimg-d10365c0d88404820cb52a5a91628b0d',
-                days: 346,
-                hours: 8,
-                minutes: 25,
-                seconds: 46,
-                time: 2,
-                organizer: 'Story Tellers',
-                price: 'AUD $50.00',
-                destination: 'Venue Events',
-                description:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dolor justo, sodales mattis orci et, mattis faucibus est. Nulla semper consectetur sapien a tempor. Ut vel lacus lorem. Nulla mauris massa, pharetra a mi ut, mattis euismod libero. Ut pretium bibendum urna nec egestas. Etiam tempor vehicula libero. Aenean cursus venenatis orci, ac porttitor leo porta sit amet. Nulla eleifend mollis enim sed rutrum. Nunc cursus ex a ligula consequat aliquet. Donec semper tellus ac ante vestibulum, vitae varius leo mattis. In vestibulum blandit tempus.',
-                moreEvents: [
-                    {
-                        id: '2',
-                        title: 'A New Way Of Life',
-                        image: 'https://qph.cf2.quoracdn.net/main-qimg-d10365c0d88404820cb52a5a91628b0d',
-                        price: 'AUD $100.00',
-                        date: '15 Apr • Fri, 3:45 PM',
-                    },
-                    {
-                        id: '3',
-                        title: 'Earrings Workshop with Bronwyn David',
-                        image: 'https://qph.cf2.quoracdn.net/main-qimg-d10365c0d88404820cb52a5a91628b0d',
-                        price: 'AUD $75.00',
-                        date: '30 Apr • Sat, 11:20 PM',
-                    },
-                    {
-                        id: '4',
-                        title: 'Spring Showcase Saturday April 30th 2022 at 7pm',
-                        image: 'https://qph.cf2.quoracdn.net/main-qimg-d10365c0d88404820cb52a5a91628b0d',
-                        price: 'Free',
-                        date: '1 May • Sun, 4:30 PM',
-                    },
-                    {
-                        id: '6',
-                        title: 'Shutter Life',
-                        image: 'https://qph.cf2.quoracdn.net/main-qimg-d10365c0d88404820cb52a5a91628b0d',
-                        price: 'AUD $85.00',
-                        date: '1 May • Sun, 5:30 PM',
-                    },
-                ],
-            };
-            setEventData(sampleData);
-        }
-    }, [id]);
-
-    if (!eventData) return <div>Loading...</div>;
+        handleDetialsEvent();
+        handleFetchListEvents();
+    }, []);
 
     return (
         <div className="pages__eventdetail container">
@@ -85,24 +72,24 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                     <h4>30</h4>
                 </div>
                 <div className="pages__eventdetail_headers_sideright col-md-10">
-                    <h2>{eventData.title}</h2>
+                    <h2>{eventDetails?.name}</h2>
                     <div className="pages__eventdetail_headers_sideright_param">
                         <IoLocationOutline />
-                        <p>
+                        {/* <p>
                             {' '}
                             {eventData.destination}
                             <span className="pages__eventdetail_headers_sideright_param_separator">•</span>
                             {eventData.date}
                             <span className="pages__eventdetail_headers_sideright_param_separator">•</span>
                             {eventData.time}h
-                        </p>
+                        </p> */}
                     </div>
                 </div>
             </div>
             <div className="pages__eventdetail_body">
                 <div className="pages__eventdetail_body_sideleft col-md-8">
                     <div className="pages__eventdetail_body_sideleft_image">
-                        <img src={eventData.image} alt="Event Image" />
+                        <img src={eventDetails?.image} alt="Event Image" />
                     </div>
                     <div className="pages__eventdetail_body_sideleft_actions">
                         <button className="save-button">
@@ -138,19 +125,19 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
 
                     <div className="pages__eventdetail_body_sideright_count">
                         <div className="pages__eventdetail_body_sideright_count_item">
-                            <span className="pages__eventdetail_body_sideright_count_item_value">{eventData.days}</span>
+                            <span className="pages__eventdetail_body_sideright_count_item_value">{eventDetails?.day_start}</span>
                             <span className="pages__eventdetail_body_sideright_count_item_label">DAYS</span>
                         </div>
                         <div className="pages__eventdetail_body_sideright_count_item">
-                            <span className="pages__eventdetail_body_sideright_count_item_value">{eventData.hours}</span>
+                            <span className="pages__eventdetail_body_sideright_count_item_value">{eventDetails?.day_start}</span>
                             <span className="pages__eventdetail_body_sideright_count_item_label">HOURS</span>
                         </div>
                         <div className="pages__eventdetail_body_sideright_count_item">
-                            <span className="pages__eventdetail_body_sideright_count_item_value">{eventData.minutes}</span>
+                            <span className="pages__eventdetail_body_sideright_count_item_value">{eventDetails?.day_start}</span>
                             <span className="pages__eventdetail_body_sideright_count_item_label">MINUTES</span>
                         </div>
                         <div className="pages__eventdetail_body_sideright_count_item">
-                            <span className="pages__eventdetail_body_sideright_count_item_value">{eventData.seconds}</span>
+                            <span className="pages__eventdetail_body_sideright_count_item_value">{eventDetails?.day_start}</span>
                             <span className="pages__eventdetail_body_sideright_count_item_label">SECONDS</span>
                         </div>
                     </div>
@@ -201,7 +188,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                     </div>
                     <div className="pages__eventdetail_body_sideright_line"></div>
                     <div className="pages__eventdetail_body_sideright_seat">
-                        <div className="pages__eventdetail_body_sideright_seat_price">{eventData.price}</div>
+                        <div className="pages__eventdetail_body_sideright_seat_price">{eventDetails?.price}</div>
                         <div className="pages__eventdetail_body_sideright_seat_quantity">
                             <button className="pages__eventdetail_body_sideright_seat_quantity_decrease" onClick={decreaseQuantity}>
                                 -
@@ -225,13 +212,13 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
             <div className="pages__eventdetail_relate">
                 <h2>More Events</h2>
                 <div className="pages__eventdetail_relate_list">
-                    {eventData.moreEvents.map((event) => (
-                        <div key={event.id} className="pages__eventdetail_relate_list_card">
-                            <img src={event.image} alt={event.title} />
-                            <h3>{event.title}</h3>
+                    {event?.map((events) => (
+                        <div key={events?._id} className="pages__eventdetail_relate_list_card">
+                            <img src={events.image} alt={events?.name} />
+                            <h3>{events?.name}</h3>
                             <div className="pages__eventdetail_relate_list_card_infor">
-                                <p className="pages__eventdetail_relate_list_card_infor_price">{event.price}</p>
-                                <p className="pages__eventdetail_relate_list_card_infor_date">{event.date}</p>
+                                <p className="pages__eventdetail_relate_list_card_infor_price">{events?.price}</p>
+                                <p className="pages__eventdetail_relate_list_card_infor_date">{events?.day_start}</p>
                             </div>
                         </div>
                     ))}

@@ -1,43 +1,29 @@
 import { createRef, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Validator from '@components/commons/Validator';
-import { dateHelper, validateHelper } from '@utils/helpers';
+import { validateHelper } from '@utils/helpers';
 
 import Input from '@components/commons/Input';
 import DateTimePicker from '@components/commons/DateTimePicker';
+import { useDispatch } from 'react-redux';
+import { fetchAddEvent } from '@redux/actions/api';
+import { http, routes } from '@utils/constants';
 
-const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
-    // const dispatch = useDispatch();
+const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
+    const { eventUpdate } = props;
+    const dispatch = useDispatch();
     const router = useRouter();
+    const { query, pathname } = router;
+    const { id } = query;
 
     const [state, setState] = useState<IAddEventComponentState>({
         isValidateStartDateTime: true,
         isValidateEndDateTime: true,
-        title: '',
-        description: '',
-        banner: '',
-        startDate: '',
-        endDate: '',
-        location: '',
-        ticketType: '',
-        ticketPrice: '',
-        ticketQuantity: '',
-        supportContact: '',
+        eventAdd: {
+            ...(eventUpdate ?? {}),
+        },
     });
-    const {
-        title,
-        description,
-        banner,
-        startDate,
-        endDate,
-        location,
-        ticketType,
-        ticketPrice,
-        ticketQuantity,
-        supportContact,
-        isValidateStartDateTime,
-        isValidateEndDateTime,
-    } = state;
+    const { eventAdd, isValidateStartDateTime, isValidateEndDateTime } = state;
 
     const titleValidatorRef = createRef<IValidatorComponentHandle>();
     const descriptionValidatorRef = createRef<IValidatorComponentHandle>();
@@ -48,30 +34,23 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
     const ticketTypeValidatorRef = createRef<IValidatorComponentHandle>();
     const ticketPriceValidatorRef = createRef<IValidatorComponentHandle>();
     const ticketQuantityValidatorRef = createRef<IValidatorComponentHandle>();
-    const supportContactValidatorRef = createRef<IValidatorComponentHandle>();
     const startDateTimeValidatorRef = createRef<IValidatorComponentHandle>();
     const endDateTimeValidatorRef = createRef<IValidatorComponentHandle>();
 
     const handleOnChange = (feild: string, value: string | null) => {
         setState((prev) => ({
             ...prev,
-            [feild]: value,
+            eventAdd: {
+                ...prev.eventAdd,
+                [feild]: value,
+            },
         }));
     };
 
     useEffect(() => {
         const handleBeforeUnload = () => {
             setState({
-                title: '',
-                description: '',
-                banner: '',
-                startDate: '',
-                endDate: '',
-                location: '',
-                ticketType: '',
-                ticketPrice: '',
-                ticketQuantity: '',
-                supportContact: '',
+                eventAdd: undefined,
             });
         };
 
@@ -101,7 +80,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
 
     const handleValidateStartDateTime = () => {
         handleSetValidateDateTime(true);
-        if (startDate && !validateHelper.isDate(startDate)) {
+        if (eventAdd?.day_start && !validateHelper.isDate(eventAdd?.day_start)) {
             handleSetValidateDateTime(false);
         }
     };
@@ -110,7 +89,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
         handleSetValidateDateTime(true, 'end');
         endDateTimeValidatorRef?.current?.onValidateMessage('');
 
-        if (endDate && !validateHelper.isDate(endDate)) {
+        if (eventAdd?.day_end && !validateHelper.isDate(eventAdd?.day_end)) {
             handleSetValidateDateTime(false, 'end');
         }
     };
@@ -119,32 +98,39 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
         let isValidate = true;
 
         const validator = [
-            { ref: titleValidatorRef, value: title, message: 'Title Is Not Empty!' },
-            { ref: descriptionValidatorRef, value: description, message: 'Description Is Not Empty!' },
-            { ref: bannerValidatorRef, value: banner, message: 'Banner Is Not Empty!' },
-            { ref: startDateValidatorRef, value: startDate, message: 'Start Date Is Not Empty!' },
-            { ref: endDateValidatorRef, value: endDate, message: 'End Date Is Not Empty!' },
-            { ref: locationValidatorRef, value: location, message: 'Location Is Not Empty!' },
-            { ref: ticketTypeValidatorRef, value: ticketType, message: 'TicketType Is Not Empty!' },
-            { ref: ticketPriceValidatorRef, value: ticketPrice, message: 'Ticket Price Is Not Empty!' },
-            { ref: ticketQuantityValidatorRef, value: ticketQuantity, message: 'Ticket Quantity Is Not Empty!' },
-            { ref: supportContactValidatorRef, value: supportContact, message: 'Support Contact Is Not Empty!' },
+            { ref: titleValidatorRef, value: eventAdd?.name, message: 'Title Is Not Empty!' },
+            { ref: descriptionValidatorRef, value: eventAdd?.description, message: 'Description Is Not Empty!' },
+            { ref: bannerValidatorRef, value: eventAdd?.image, message: 'Banner Is Not Empty!' },
+            { ref: startDateValidatorRef, value: eventAdd?.day_start, message: 'Start Date Is Not Empty!' },
+            { ref: endDateValidatorRef, value: eventAdd?.day_end, message: 'End Date Is Not Empty!' },
+            { ref: locationValidatorRef, value: eventAdd?.location, message: 'Location Is Not Empty!' },
+            { ref: ticketTypeValidatorRef, value: eventAdd?.event_type, message: 'TicketType Is Not Empty!' },
+            { ref: ticketPriceValidatorRef, value: eventAdd?.price, message: 'Ticket Price Is Not Empty!' },
+            { ref: ticketQuantityValidatorRef, value: eventAdd?.ticket_number, message: 'Ticket Quantity Is Not Empty!' },
         ];
 
         validator.forEach(({ ref, value, message }) => {
             ref.current?.onValidateMessage('');
-            if (validateHelper.isEmpty(value ?? '')) {
+            if (validateHelper.isEmpty(String(value ?? ''))) {
                 ref.current?.onValidateMessage(message);
                 isValidate = false;
-            } else if (validateHelper.isCharacters(value ?? '')) {
+            } else if (validateHelper.isCharacters(String(value ?? ''))) {
                 ref.current?.onValidateMessage(`Your ${message} Cannot Be Less Than 2 Characters`);
                 isValidate = false;
             }
         });
-        // if (isValidate) {
-        //     // Logic để submit form
-        //     console.log('Form submitted', state);
-        // }
+
+        if (isValidate) {
+            dispatch(
+                await fetchAddEvent(eventAdd ?? {}, (res: IEventDataApiRes | IErrorAPIRes | null) => {
+                    if (res?.code === http.SUCCESS_CODE) {
+                        router.push(routes.CLIENT.ADMIN_PAGE.href, undefined, { scroll: false });
+                    } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
+                        alert(res?.mes);
+                    }
+                }),
+            );
+        }
     };
 
     return (
@@ -160,8 +146,8 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
                             <Validator ref={titleValidatorRef}>
                                 <Input
                                     type="text"
-                                    value={title}
-                                    onChange={(value: string) => handleOnChange('title', value)}
+                                    value={eventAdd?.name}
+                                    onChange={(value: string) => handleOnChange('name', value)}
                                     id="eventname"
                                     name="eventname"
                                     placeholder="Enter Title"
@@ -175,7 +161,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
                             <Validator ref={descriptionValidatorRef}>
                                 <Input
                                     type="textarea"
-                                    value={description}
+                                    value={eventAdd?.description}
                                     onChange={(value: string) => handleOnChange('description', value)}
                                     id="eventdescription"
                                     name="eventdescription"
@@ -193,21 +179,11 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
                                 ref={startDateTimeValidatorRef}
                             >
                                 <DateTimePicker
-                                    value={startDate ?? ''}
+                                    value={eventAdd?.day_start}
                                     onBlur={() => handleValidateStartDateTime()}
-                                    onChange={(value: string) => handleOnChange('start-date', value)}
-                                    maxDate={
-                                        startDate
-                                            ? dateHelper.formatToDate(startDate, 'YYYY-MM-DD HH:mm:ss')
-                                            : dateHelper.formatToDate(dateHelper.getUTCStringNow(), 'YYYY-MM-DD HH:mm:ss')
-                                    }
-                                    maxTime={
-                                        startDate &&
-                                        validateHelper.isDateTime(startDate) &&
-                                        dateHelper.compareDateSame(startDate ?? '', endDate ?? '', 'YYYY-MM-DD')
-                                            ? dateHelper.formatToDate(startDate, 'YYYY-MM-DD HH:mm:ss')
-                                            : null
-                                    }
+                                    onChange={(value: string) => handleOnChange('day_start', value)}
+                                    maxDate={null}
+                                    maxTime={null}
                                     classNameDate="components__addevent_picker-date"
                                     classNameTime="components__addevent_picker-time"
                                 />
@@ -217,33 +193,13 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
                             </span>
                             <Validator className="bases__width-percent--40 components__addevent_picker_to" ref={endDateTimeValidatorRef}>
                                 <DateTimePicker
-                                    value={endDate ?? ''}
+                                    value={eventAdd?.day_end}
                                     onBlur={() => handleValidateEndDateTime()}
-                                    onChange={(value: string) => handleOnChange('export_datetime_to', value)}
-                                    minDate={startDate ? dateHelper.formatToDate(startDate, 'YYYY-MM-DD HH:mm:ss') : null}
-                                    minTime={
-                                        startDate &&
-                                        validateHelper.isDateTime(startDate) &&
-                                        dateHelper.compareDateSame(startDate ?? '', endDate ?? '', 'YYYY-MM-DD')
-                                            ? dateHelper.formatToDate(startDate, 'YYYY-MM-DD HH:mm:ss')
-                                            : null
-                                    }
+                                    onChange={(value: string) => handleOnChange('day_end', value)}
+                                    minDate={null}
+                                    minTime={null}
                                     classNameDate="components__addevent_picker-date"
                                     classNameTime="components__addevent_picker-time"
-                                />
-                            </Validator>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="endDate" className="pb-2">
-                                supportContact<span className="text-danger">*</span>
-                            </label>
-                            <Validator ref={supportContactValidatorRef}>
-                                <Input
-                                    value={endDate}
-                                    type="textarea"
-                                    onChange={(value: string) => handleOnChange('supportContact', value)}
-                                    id="supportContact"
-                                    name="supportContact"
                                 />
                             </Validator>
                         </div>
@@ -255,7 +211,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
                             </label>
                             <Validator ref={locationValidatorRef}>
                                 <Input
-                                    value={location}
+                                    value={eventAdd?.location}
                                     type="text"
                                     onChange={(value: string) => handleOnChange('location', value)}
                                     id="location"
@@ -270,9 +226,9 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
                             </label>
                             <Validator ref={ticketTypeValidatorRef}>
                                 <Input
-                                    value={ticketType}
+                                    value={eventAdd?.event_type}
                                     type="text"
-                                    onChange={(value: string) => handleOnChange('ticketType', value)}
+                                    onChange={(value: string) => handleOnChange('event_type', value)}
                                     id="tickettype"
                                     name="tickettype"
                                     placeholder="Enter Ticket Type"
@@ -285,12 +241,14 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
                             </label>
                             <Validator ref={ticketPriceValidatorRef}>
                                 <Input
-                                    value={ticketPrice}
-                                    type="text"
-                                    onChange={(value: string) => handleOnChange('ticketPrice', value)}
+                                    value={eventAdd?.price}
+                                    type="signed-number"
+                                    onChange={(value: string) => handleOnChange('price', value)}
                                     id="ticketprice"
                                     name="ticketprice"
                                     placeholder="Enter Ticket Price"
+                                    isBlockSpecial={true}
+                                    maxLength={10}
                                 />
                             </Validator>
                         </div>
@@ -300,11 +258,13 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
                             </label>
                             <Validator ref={ticketQuantityValidatorRef}>
                                 <Input
-                                    value={ticketQuantity}
-                                    type="number"
-                                    onChange={(value: string) => handleOnChange('ticketQuantity', value)}
+                                    value={eventAdd?.ticket_number}
+                                    type="signed-number"
+                                    maxLength={10}
+                                    onChange={(value: string) => handleOnChange('ticket_number', value)}
                                     id="ticketprice"
                                     name="ticketprice"
+                                    isBlockSpecial={true}
                                 />
                             </Validator>
                         </div>
@@ -315,8 +275,8 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = () => {
                             <Validator ref={bannerValidatorRef}>
                                 <input
                                     type="file"
-                                    value={banner}
-                                    onChange={(e) => handleOnChange('banner', e.target.value)}
+                                    value={eventAdd?.image}
+                                    onChange={(e) => handleOnChange('image', e.target.value)}
                                     id="event-image"
                                     name="event-image"
                                     accept="image/*"

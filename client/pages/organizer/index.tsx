@@ -1,7 +1,10 @@
 import { Table } from '@components/index';
 import SideBar from '@components/layouts/admin/Sidebar';
-import { images } from '@utils/constants';
-import React, { createRef, useState } from 'react';
+import { IEventListPage, IEventListPageProps, IEventListPageState } from '@interfaces/pages/eventpage';
+import { fetchListEvent } from '@redux/actions/api';
+import { http, images } from '@utils/constants';
+import React, { createRef, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 const eventData = [
     {
@@ -86,9 +89,33 @@ const eventData = [
     },
 ];
 
-const EventPageOrganizer = () => {
+const EventPageOrganizer: IEventListPage<IEventListPageProps> = () => {
+    const [state, setState] = useState<IEventListPageState>({
+        events: [],
+    });
+
+    // const { event } = state
+
+    const dispatch = useDispatch();
     const tableRef = createRef<ITableComponentHandle>();
-    const [state, setState] = useState();
+
+    useEffect(() => {
+        handleFetchListEvents();
+    }, []);
+
+    const handleFetchListEvents = async () => {
+        dispatch(
+            await fetchListEvent((res: IEventDataApiListRes | IErrorAPIRes | null) => {
+                if (res && res?.code === http.SUCCESS_CODE) {
+                    const data = (res as IEventDataApiListRes).result;
+                    setState((prevState) => ({
+                        ...prevState,
+                        event: data,
+                    }));
+                }
+            }),
+        );
+    };
 
     const renderData = eventData?.map((item) => {
         const editBtn = {

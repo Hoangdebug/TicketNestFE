@@ -26,7 +26,7 @@ const EventList: IEventListComponent<IEventListComponentProps> = (props) => {
 
     useEffect(() => {
         const { type } = router.query;
-        if (type === 'All' || type === 'Music' || type === 'Dramatic' || type === 'Work Shop') {
+        if (type === 'All' || type === 'Music' || type === 'Dramatic' || type === 'Workshop') {
             setState((prevState) => ({ ...prevState, type }));
         } else {
             setState((prevState) => ({ ...prevState, type: 'All' }));
@@ -37,7 +37,7 @@ const EventList: IEventListComponent<IEventListComponentProps> = (props) => {
         { title: 'All', query: 'All' },
         { title: 'Music', query: 'Music' },
         { title: 'Dramatic', query: 'Dramatic' },
-        { title: 'Work Shop', query: 'Work Shop' },
+        { title: 'Work Shop', query: 'Workshop' },
     ];
 
     const filteredEvents = dataEvent?.filter((event) => (type === 'All' ? true : event?.event_type === type));
@@ -80,7 +80,11 @@ const EventList: IEventListComponent<IEventListComponentProps> = (props) => {
                                 <div className="p-3 ">
                                     <h3
                                         onClick={() =>
-                                            router.push(`${routes.CLIENT.EVENT_DETAILS.href}/${item.id}`, undefined, { scroll: false })
+                                            router.push(
+                                                { pathname: routes.CLIENT.EVENT_DETAILS.href, query: { id: item._id } },
+                                                undefined,
+                                                { scroll: false },
+                                            )
                                         }
                                         className="fw-bold pb-5 bases__font--20"
                                     >
@@ -102,7 +106,7 @@ const EventList: IEventListComponent<IEventListComponentProps> = (props) => {
                         </div>
                     ))
                 ) : (
-                    <div>No events today</div>
+                    <div className="text-center bases__font--16 fw-bolder">No events today</div>
                 )}
             </div>
         </div>

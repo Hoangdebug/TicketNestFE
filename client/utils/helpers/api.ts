@@ -100,6 +100,14 @@ export const listEvent = async () => {
     }
 };
 
+export const detailsEvent = async (id: string) => {
+    try {
+        return await axios.get<IEventDataApiRes>(`${routes.API.EVENT.href}/${id}`);
+    } catch (err) {
+        throw err;
+    }
+};
+
 export const requestOrganizer = async (data: IEditUserProfileDataAPI) => {
     try {
         return await axios.put<IEditUserProfileAPIRes>(`${routes.API.REQUEST_ORGANIZER.href}`, { data });
