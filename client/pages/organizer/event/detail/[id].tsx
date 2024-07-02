@@ -8,7 +8,7 @@ import { MdOutlinePeople } from 'react-icons/md';
 import { SlCalender } from 'react-icons/sl';
 import { useDispatch } from 'react-redux';
 import { fetchDetailsEvent, fetchListEvent } from '@redux/actions/api';
-import { http } from '@utils/constants';
+import { http, routes } from '@utils/constants';
 
 const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
     const router = useRouter();
@@ -213,7 +213,15 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                 <h2>More Events</h2>
                 <div className="pages__eventdetail_relate_list">
                     {event?.map((events) => (
-                        <div key={events?._id} className="pages__eventdetail_relate_list_card">
+                        <div
+                            onClick={() =>
+                                router.push({ pathname: routes.CLIENT.EVENT_DETAILS.href, query: { id: events._id } }, undefined, {
+                                    scroll: false,
+                                })
+                            }
+                            key={events?._id}
+                            className="pages__eventdetail_relate_list_card"
+                        >
                             <img src={events.image} alt={events?.name} />
                             <h3>{events?.name}</h3>
                             <div className="pages__eventdetail_relate_list_card_infor">
