@@ -31,7 +31,7 @@ const REGISTERSUCCESS: IRouteConstant = {
 };
 
 const EVENT_DETAILS_PAGES: IRouteConstant = {
-    href: '/event/detail/[id]',
+    href: 'organizer/event/detail/[id]',
 };
 
 const ERROR404: IRouteConstant = {

@@ -1,5 +1,5 @@
 interface IEventDataApi {
-    id?: string;
+    _id?: string;
     name?: string;
     description?: string;
     image?: string;
@@ -7,8 +7,8 @@ interface IEventDataApi {
     day_end?: string;
     event_type?: string;
     location?: string;
-    price?: string;
-    ticket_number?: string;
+    price?: number;
+    ticket_number?: number;
 }
 
 interface IEventDataApiRes extends IBaseAPIRes {
