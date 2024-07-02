@@ -86,7 +86,7 @@ const EventList: IEventListComponent<IEventListComponentProps> = (props) => {
                                                 { scroll: false },
                                             )
                                         }
-                                        className="fw-bold pb-5 bases__font--20"
+                                        className="fw-bold pb-5 bases__font--20 bases__p--cusor"
                                     >
                                         {item?.name}
                                     </h3>
