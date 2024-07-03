@@ -1,7 +1,7 @@
 import { Table } from '@components/index';
 import SideBar from '@components/layouts/admin/Sidebar';
 import { IEventListPage, IEventListPageProps, IEventListPageState } from '@interfaces/pages/eventpage';
-import { fetchListEvent } from '@redux/actions/api';
+import { fetchListEventOrganizer } from '@redux/actions/api';
 import { http, images, routes } from '@utils/constants';
 import { useRouter } from 'next/router';
 import React, { createRef, useEffect, useState } from 'react';
@@ -25,7 +25,7 @@ const EventPageOrganizer: IEventListPage<IEventListPageProps> = () => {
 
     const handleFetchListEvents = async () => {
         dispatch(
-            await fetchListEvent((res: IEventDataApiListRes | IErrorAPIRes | null) => {
+            await fetchListEventOrganizer((res: IEventDataApiListRes | IErrorAPIRes | null) => {
                 if (res && res?.code === http.SUCCESS_CODE) {
                     const data = (res as IEventDataApiListRes).result;
                     setState((prevState) => ({
@@ -54,10 +54,6 @@ const EventPageOrganizer: IEventListPage<IEventListPageProps> = () => {
 
     const tableEventRender: ITableComponentProps = {
         heads: [
-            {
-                title: '',
-                isSort: false,
-            },
             {
                 title: 'Edit Events',
                 isSort: false,
@@ -97,10 +93,6 @@ const EventPageOrganizer: IEventListPage<IEventListPageProps> = () => {
         ],
         body: {
             columns: [
-                {
-                    field: 'export',
-                    isButton: true,
-                },
                 {
                     field: 'export',
                     isButton: true,
