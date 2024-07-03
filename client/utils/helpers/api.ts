@@ -91,6 +91,13 @@ export const addEvent = async (data: IEventDataApi) => {
         throw err;
     }
 };
+export const updateEvent = async (id: string, data: IEventDataApi) => {
+    try {
+        return await axios.put<IEventDataApiRes>(`${routes.API.EVENT.href}/${id}`, data);
+    } catch (err) {
+        throw err;
+    }
+};
 
 export const listEvent = async () => {
     try {

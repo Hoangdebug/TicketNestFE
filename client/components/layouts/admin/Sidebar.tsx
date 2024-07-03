@@ -18,7 +18,7 @@ const SideBar: ISideBarComponent<ISideBarComponentProps> = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const { profile } = useSelector((states: ReduxStates) => states);
-    console.log(profile);
+
     const [openDropdowns, setOpenDropdowns] = useState<ISideBarComponentState>({
         event: false,
         customer: false,
@@ -34,7 +34,7 @@ const SideBar: ISideBarComponent<ISideBarComponentProps> = () => {
     };
 
     const handleLogout = async () => {
-        await dispatch(fetchLogout());
+        dispatch(await fetchLogout());
         router.replace(routes.CLIENT.LOGIN_PAGE.href, undefined, { scroll: false });
     };
 
@@ -48,14 +48,9 @@ const SideBar: ISideBarComponent<ISideBarComponentProps> = () => {
         },
         {
             title: 'Event',
-            key: 'event',
-            href: '#',
+            href: routes.CLIENT.ORGANIZER_LIST_EVENT.href,
             icon: <EventIcon />,
             class: '',
-            submenu: [
-                { title: 'List Event', href: routes.CLIENT.ORGANIZER_LIST_EVENT.href },
-                { title: 'Add New', href: routes.CLIENT.ADD_EVENT_PAGE.href },
-            ],
             roles: [enums.TYPES.ORGANIZER],
         },
         {
@@ -116,7 +111,7 @@ const SideBar: ISideBarComponent<ISideBarComponentProps> = () => {
                         <div key={index} className="bases__p--cusor">
                             <a
                                 className="components__sidebar-content-item-subItem"
-                                href={item.href}
+                                href={typeof item.href === 'string' ? item.href : '#'}
                                 onClick={(e) => {
                                     if (item.submenu) {
                                         e.preventDefault();

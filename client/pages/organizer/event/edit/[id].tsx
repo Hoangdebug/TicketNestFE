@@ -17,9 +17,9 @@ const UpdateEventOrganizer: IUpdateEventOrganizerPage<IUpdateEventOrganizerPageP
     const { query } = router;
     const { id } = query;
     const [state, setState] = useState<IUpdateEventOrganizerPageState>({
-        eventDetails: undefined,
+        event: undefined,
     });
-    const { eventDetails } = state;
+    const { event } = state;
 
     useEffect(() => {
         handleDetialsEvent();
@@ -32,7 +32,7 @@ const UpdateEventOrganizer: IUpdateEventOrganizerPage<IUpdateEventOrganizerPageP
                     const event = (res as IEventDataApiRes).result;
                     setState((prevState) => ({
                         ...prevState,
-                        eventDetails: event,
+                        event: event,
                     }));
                 }
             }),
@@ -46,7 +46,7 @@ const UpdateEventOrganizer: IUpdateEventOrganizerPage<IUpdateEventOrganizerPageP
             </div>
             <div className=" pages__addevent-rightSide justify-content-center col-md-9">
                 <h2 className="fw-bold mb-4 text-center">Update Event</h2>
-                <AddEventForm eventUpdate={eventDetails} />
+                <AddEventForm event={event} />
             </div>
         </div>
     );

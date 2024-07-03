@@ -1,7 +1,7 @@
 interface IAddEventComponent<P = {}> extends IBaseComp<P> {}
 
 interface IAddEventComponentProps extends IBaseCompProps {
-    eventUpdate?: IEventDataApi;
+    event?: IEventDataApi;
 }
 
 interface IAddEventComponentState {

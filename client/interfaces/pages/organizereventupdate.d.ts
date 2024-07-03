@@ -5,5 +5,5 @@ interface IUpdateEventOrganizerPageProps extends IBasePageProps {}
 interface IUpdateEventOrganizerPage<P = {}> extends IBasePage<P> {}
 
 interface IUpdateEventOrganizerPageState {
-    eventDetails?: IEventDataApi;
+    event?: IEventDataApi;
 }

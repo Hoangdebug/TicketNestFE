@@ -6,20 +6,22 @@ import { validateHelper } from '@utils/helpers';
 import Input from '@components/commons/Input';
 import DateTimePicker from '@components/commons/DateTimePicker';
 import { useDispatch } from 'react-redux';
-import { fetchAddEvent } from '@redux/actions/api';
+import { fetchAddEvent, fetchUpdateEvent } from '@redux/actions/api';
 import { http, routes } from '@utils/constants';
 
 const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
-    const { eventUpdate } = props;
-
+    const { event } = props;
+    console.log('update', event);
     const dispatch = useDispatch();
     const router = useRouter();
+    const { query } = router;
+    const { id } = query;
 
     const [state, setState] = useState<IAddEventComponentState>({
         isValidateStartDateTime: true,
         isValidateEndDateTime: true,
         eventAdd: {
-            ...(eventUpdate ?? {}),
+            ...(event ?? {}),
         },
     });
     const { eventAdd, isValidateStartDateTime, isValidateEndDateTime } = state;
@@ -36,12 +38,12 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     const startDateTimeValidatorRef = createRef<IValidatorComponentHandle>();
     const endDateTimeValidatorRef = createRef<IValidatorComponentHandle>();
 
-    const handleOnChange = (feild: string, value: string | null) => {
-        setState((prev) => ({
-            ...prev,
+    const handleOnChange = (field: string, value: string | number | boolean) => {
+        setState((prevState) => ({
+            ...prevState,
             eventAdd: {
-                ...prev.eventAdd,
-                [feild]: value,
+                ...prevState.eventAdd,
+                [field]: value,
             },
         }));
     };
@@ -63,6 +65,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     const hanldeCancelBack = () => {
         router.back();
     };
+
     const handleSetValidateDateTime = (value: boolean, field: 'start' | 'end' = 'start') => {
         if (field === 'start') {
             setState((prevState) => ({
@@ -93,6 +96,30 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
         }
     };
 
+    const handleSubmitUpdateEvent = async () => {
+        dispatch(
+            await fetchUpdateEvent(id?.toString() ?? '', eventAdd ?? {}, (res: IEventDataApiRes | IErrorAPIRes | null) => {
+                if (res?.code === http.SUCCESS_CODE) {
+                    router.push(routes.CLIENT.ORGANIZER_LIST_EVENT.href, undefined, { scroll: false });
+                } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
+                    alert(res?.mes);
+                }
+            }),
+        );
+    };
+
+    const handleSubmitAddEvent = async () => {
+        dispatch(
+            await fetchAddEvent(eventAdd ?? {}, (res: IEventDataApiRes | IErrorAPIRes | null) => {
+                if (res?.code === http.SUCCESS_CODE) {
+                    router.push(routes.CLIENT.ADMIN_PAGE.href, undefined, { scroll: false });
+                } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
+                    alert(res?.mes);
+                }
+            }),
+        );
+    };
+
     const handleSubmit = async () => {
         let isValidate = true;
 
@@ -120,15 +147,11 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
         });
 
         if (isValidate) {
-            dispatch(
-                await fetchAddEvent(eventAdd ?? {}, (res: IEventDataApiRes | IErrorAPIRes | null) => {
-                    if (res?.code === http.SUCCESS_CODE) {
-                        router.push(routes.CLIENT.ADMIN_PAGE.href, undefined, { scroll: false });
-                    } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
-                        alert(res?.mes);
-                    }
-                }),
-            );
+            if (id) {
+                await handleSubmitUpdateEvent();
+            } else {
+                await handleSubmitAddEvent();
+            }
         }
     };
 
