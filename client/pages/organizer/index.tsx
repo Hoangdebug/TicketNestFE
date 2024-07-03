@@ -14,7 +14,7 @@ const EventPageOrganizer: IEventListPage<IEventListPageProps> = () => {
         events: [],
     });
 
-    const { events } = state;
+    const { events, totalItems } = state;
 
     const dispatch = useDispatch();
     const tableRef = createRef<ITableComponentHandle>();
@@ -31,6 +31,7 @@ const EventPageOrganizer: IEventListPage<IEventListPageProps> = () => {
                     setState((prevState) => ({
                         ...prevState,
                         events: data,
+                        totalItems: data?.length,
                     }));
                 }
             }),
@@ -139,7 +140,7 @@ const EventPageOrganizer: IEventListPage<IEventListPageProps> = () => {
                 <SideBar />
             </div>
             <div className="pages__organizer-table">
-                <Table ref={tableRef} heads={tableEventRender.heads} body={tableEventRender.body} />
+                <Table ref={tableRef} heads={tableEventRender.heads} body={tableEventRender.body} total={totalItems} />
             </div>
         </div>
     );
