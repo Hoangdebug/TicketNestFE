@@ -1,8 +1,8 @@
-interface IAddEventComponent<P = {}> extends IBaseComp<P> {
-    eventUpdate?: IEventDataApi;
-}
+interface IAddEventComponent<P = {}> extends IBaseComp<P> {}
 
-interface IAddEventComponentProps extends IBaseCompProps {}
+interface IAddEventComponentProps extends IBaseCompProps {
+    event?: IEventDataApi;
+}
 
 interface IAddEventComponentState {
     isValidateStartDateTime?: boolean;
