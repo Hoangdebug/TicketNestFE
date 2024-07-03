@@ -50,7 +50,7 @@ const ADD_EVENT: IRouteConstant = {
     href: '/organizer/event/addevent',
 };
 const UPDATE_EVENT: IRouteConstant = {
-    href: '/organizer/event/[id]',
+    href: '/organizer/event/edit/[id]',
 };
 
 const ORGANIZER_LIST_EVENT_PAGE: IRouteConstant = {

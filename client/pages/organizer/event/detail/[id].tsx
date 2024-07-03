@@ -31,6 +31,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
             setQuantity(quantity - 1);
         }
     };
+
     const handleDetialsEvent = async () => {
         dispatch(
             await fetchDetailsEvent(id?.toString() ?? '', (res: IEventDataApiRes | IErrorAPIRes | null) => {
@@ -58,7 +59,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
             }),
         );
     };
-    console.log(eventDetails);
+
     useEffect(() => {
         handleDetialsEvent();
         handleFetchListEvents();
