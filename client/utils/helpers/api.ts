@@ -86,7 +86,7 @@ export const uploadImg = async (formData: FormData, config?: AxiosRequestConfig)
 
 export const addEvent = async (data: IEventDataApi) => {
     try {
-        return await axios.post<IEventDataApiRes>(`${routes.API.EVENT.href}`, { data });
+        return await axios.post<IEventDataApiRes>(`${routes.API.EVENT.href}`, data);
     } catch (err) {
         throw err;
     }

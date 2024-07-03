@@ -11,10 +11,9 @@ import { http, routes } from '@utils/constants';
 
 const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     const { eventUpdate } = props;
+
     const dispatch = useDispatch();
     const router = useRouter();
-    const { query, pathname } = router;
-    const { id } = query;
 
     const [state, setState] = useState<IAddEventComponentState>({
         isValidateStartDateTime: true,
@@ -136,7 +135,6 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     return (
         <div className="components__addevent ">
             <div className="components__addevent-form p-3">
-                <h2 className="fw-bold mb-4 text-center">Add Event</h2>
                 <div className="row">
                     <div className="col-md-6 gap-4 d-flex flex-column ">
                         <div className="form-group">

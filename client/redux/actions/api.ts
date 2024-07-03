@@ -192,6 +192,7 @@ export const fetchAddEvent = async (
         }
     };
 };
+
 export const fetchListEvent = async (callBack?: (result: IEventDataApiListRes | IErrorAPIRes | null) => void, isLoad: boolean = true) => {
     return async (dispatch: Dispatch) => {
         if (isLoad) {

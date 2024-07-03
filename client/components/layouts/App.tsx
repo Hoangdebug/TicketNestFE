@@ -53,6 +53,7 @@ const App: IAppComponent<IAppComponentProps> = (props) => {
         routes.CLIENT.ORGANIZER_LIST_EVENT.href,
         routes.CLIENT.CHANGE_PASSWORD_SUCCESS_PAGE.href,
         routes.CLIENT.ADMIN_PAGE.href,
+        routes.CLIENT.UPDATE_EVENT_PAGE.href,
     ];
     useEffect(() => {
         handleScrollToTop();
