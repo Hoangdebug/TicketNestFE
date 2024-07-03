@@ -112,7 +112,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
         dispatch(
             await fetchAddEvent(eventAdd ?? {}, (res: IEventDataApiRes | IErrorAPIRes | null) => {
                 if (res?.code === http.SUCCESS_CODE) {
-                    router.push(routes.CLIENT.ADMIN_PAGE.href, undefined, { scroll: false });
+                    router.push(routes.CLIENT.ORGANIZER_LIST_EVENT.href, undefined, { scroll: false });
                 } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
                     alert(res?.mes);
                 }
