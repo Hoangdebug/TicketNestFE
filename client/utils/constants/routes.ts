@@ -130,6 +130,10 @@ const EVENT_API: IRouteConstant = {
     href: 'event/',
 };
 
+const EVENT_LIST_ORGANIZER_API: IRouteConstant = {
+    href: 'event/get-event',
+};
+
 export const API = {
     LOGIN: LOGIN_API,
     REGISTER: REGISTER_API,
@@ -141,4 +145,5 @@ export const API = {
 
     // organizer
     EVENT: EVENT_API,
+    ORGANIZER_LIST_EVENT: EVENT_LIST_ORGANIZER_API,
 };
