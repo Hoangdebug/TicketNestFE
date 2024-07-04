@@ -1,46 +1,46 @@
 import SeatType1 from '@components/layouts/SeatType1';
 import { ISeatType1Page, ISeatType1PageProps } from '@interfaces/pages/SeatType1';
-import { ReduxStates } from '@redux/reducers';
-
-import { enums, images, routes } from '@utils/constants';
+import { routes } from '@utils/constants';
 import { authHelper } from '@utils/helpers';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
 const SeatType1Page: ISeatType1Page<ISeatType1PageProps> = () => {
     const router = useRouter();
     const token = authHelper.accessToken();
-    const { profile } = useSelector((states: ReduxStates) => states);
 
     useEffect(() => {
-        if (token) {
-            switch (profile?.details?.type) {
-                case enums.TYPES.ADMIN:
-                    router.push(routes.CLIENT.ADMIN_PAGE.href, undefined, { scroll: false });
-                    break;
-                case enums.TYPES.ORGANIZER:
-                    router.push(routes.CLIENT.ADMIN_PAGE.href, undefined, { scroll: false });
-                    break;
-                case enums.TYPES.USER:
-                    router.push(routes.CLIENT.HOME_PAGE.href, undefined, { scroll: false });
-                    break;
-                default:
-                    router.push(routes.CLIENT.ADMIN_PAGE.href, undefined, { scroll: false });
-                    break;
-            }
+        if (!token) {
+            router.push(routes.CLIENT.LOGIN_PAGE.href, undefined, { scroll: false });
         }
-    }, [token, profile, router]);
+    }, []);
 
     return (
-        <div className="pages__register d-flex">
-            <div className=" pages__register-leftside">
-                <img className="pages__register-leftside-logo" style={{ height: '100vh' }} src={images.LOGIN_LOGO} alt="" />
-            </div>
-            <div className="col-md-6 col-sm-12 pages__register-rightside d-flex flex-column justify-content-center">
+        <>
+            <div className="bg-slate-700 flex p-4">{/* <IoChevronBackCircleOutline size={25} color="white" /> */}</div>
+            <div className="flex flex-col justify-start items-center h-[100vh] mt-0 bg-slate-700">
+                <ul className="bg-slate-700 pt-5 rounded-lg flex justify-center items-center gap-10 list-none">
+                    <li className="flex justify-center items-center gap-2 my-10 text-white">
+                        <div className="h-[30px] w-[35px] m-[5px] bg-slate-800 rounded-t-xl"></div>
+                        <small className="font-thin text-xl">Empty</small>
+                    </li>
+                    <li className="flex justify-center items-center gap-2 my-10 text-white">
+                        <div className="h-[30px] w-[35px] m-[5px] bg-yellow-500 bg-slate-800 rounded-t-xl"></div>
+                        <small className="font-thin text-xl">VIP</small>
+                    </li>
+                    <li className="flex justify-center items-center gap-2 my-10">
+                        <div className="h-[30px] w-[35px] m-[5px] bg-green-500 rounded-t-xl"></div>
+                        <small className="font-thin text-xl text-white">Selected</small>
+                    </li>
+                    <li className="flex justify-center items-center gap-2 my-10">
+                        <div className="h-[30px] w-[35px] m-[5px] bg-white rounded-t-xl"></div>
+                        <small className="font-thin text-xl text-white">Ordered</small>
+                    </li>
+                </ul>
+
                 <SeatType1 />
             </div>
-        </div>
+        </>
     );
 };
 

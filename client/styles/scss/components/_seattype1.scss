@@ -1,0 +1,57 @@
+.components {
+    &__seattype1 {
+        &-screen {
+            height: 70px;
+            width: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            margin: 5px 0;
+            background-color: #fff;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
+            transform: rotateX(-45deg);
+            -webkit-transform: rotateX(-45deg);
+            -moz-transform: rotateX(-45deg);
+            -ms-transform: rotateX(-45deg);
+            -o-transform: rotateX(-45deg);
+            transition: background-color 0.3s, color 0.3s; /* Added transition here */
+        }
+
+        &-stage {
+            height: 100%;
+            width: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            margin: 5px 0;
+            background-color: #fff;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+            transform: rotateX(-45deg);
+            -webkit-transform: rotateX(-45deg);
+            -moz-transform: rotateX(-45deg);
+            -ms-transform: rotateX(-45deg);
+            -o-transform: rotateX(-45deg);
+        }
+
+        &-seat {
+            transition: background-color 0.3s, color 0.3s; /* Added transition for .seat class */
+        }
+
+        &-animate-marquee-right-to-left {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee-right-to-left 10s linear infinite;
+        }
+    }
+}
+@keyframes marquee-right-to-left {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
