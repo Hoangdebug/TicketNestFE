@@ -7,11 +7,13 @@ import Input from '@components/commons/Input';
 import DateTimePicker from '@components/commons/DateTimePicker';
 import { useDispatch } from 'react-redux';
 import { fetchAddEvent, fetchUpdateEvent } from '@redux/actions/api';
-import { http, routes } from '@utils/constants';
+import { enums, http, routes } from '@utils/constants';
+import Select from '@components/commons/Select';
+import Button from '@components/commons/Button';
 
 const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     const { event } = props;
-    console.log('update', event);
+
     const dispatch = useDispatch();
     const router = useRouter();
     const { query } = router;
@@ -49,6 +51,23 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     };
 
     useEffect(() => {
+        setState((prevState) => ({
+            ...prevState,
+            eventAdd: {
+                ...prevState.eventAdd,
+                name: event?.name ?? '',
+                description: event?.description ?? '',
+                day_start: event?.day_start ?? '',
+                day_end: event?.day_end ?? '',
+                event_type: event?.event_type ?? enums.EVENTTYPE.MUSIC,
+                location: event?.location ?? '',
+                price: event?.price ?? 0,
+                ticket_number: event?.ticket_number ?? enums.EVENTTICKET.BASE,
+            },
+        }));
+    }, [event]);
+
+    useEffect(() => {
         const handleBeforeUnload = () => {
             setState({
                 eventAdd: undefined,
@@ -78,6 +97,44 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                 isValidateEndDateTime: value,
             }));
         }
+    };
+
+    const renderEventTypeOptions = () => {
+        const eventTypeOptions = [
+            {
+                value: enums.EVENTTYPE.MUSIC,
+                label: enums.EVENTTYPE.MUSIC,
+            },
+            {
+                value: enums.EVENTTYPE.DRAMATIC,
+                label: enums.EVENTTYPE.DRAMATIC,
+            },
+            {
+                value: enums.EVENTTYPE.WORKSHOP,
+                label: enums.EVENTTYPE.WORKSHOP,
+            },
+        ];
+
+        return eventTypeOptions;
+    };
+
+    const renderEventTicketOptions = () => {
+        const eventTicketOptions = [
+            {
+                value: enums.EVENTTICKET.BASE,
+                label: enums.EVENTTICKET.BASE,
+            },
+            {
+                value: enums.EVENTTICKET.MEDIUM,
+                label: enums.EVENTTICKET.MEDIUM,
+            },
+            {
+                value: enums.EVENTTICKET.LARGE,
+                label: enums.EVENTTICKET.LARGE,
+            },
+        ];
+
+        return eventTicketOptions;
     };
 
     const handleValidateStartDateTime = () => {
@@ -246,13 +303,10 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                                 Ticket Type<span className="text-danger">*</span>{' '}
                             </label>
                             <Validator ref={ticketTypeValidatorRef}>
-                                <Input
+                                <Select
                                     value={eventAdd?.event_type}
-                                    type="text"
                                     onChange={(value: string) => handleOnChange('event_type', value)}
-                                    id="tickettype"
-                                    name="tickettype"
-                                    placeholder="Enter Ticket Type"
+                                    options={renderEventTypeOptions()}
                                 />
                             </Validator>
                         </div>
@@ -278,14 +332,10 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                                 Ticket Quantity<span className="text-danger">*</span>{' '}
                             </label>
                             <Validator ref={ticketQuantityValidatorRef}>
-                                <Input
+                                <Select
                                     value={eventAdd?.ticket_number}
-                                    type="signed-number"
-                                    maxLength={10}
                                     onChange={(value: string) => handleOnChange('ticket_number', value)}
-                                    id="ticketprice"
-                                    name="ticketprice"
-                                    isBlockSpecial={true}
+                                    options={renderEventTicketOptions()}
                                 />
                             </Validator>
                         </div>
@@ -307,17 +357,9 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                         </div>
                     </div>
                 </div>
-                <div className="d-flex flex-row-reverse ">
-                    <button type="submit" className="btn btn-success btn-block mx-2 px-5 py-3" onClick={() => handleSubmit()}>
-                        Submit
-                    </button>
-                    <button
-                        type="button"
-                        className="components__addevent-form-secondbutton btn btn-secondary btn-block text-success mx-2 px-5 py-3"
-                        onClick={() => hanldeCancelBack()}
-                    >
-                        Cancel
-                    </button>
+                <div className="d-flex flex-row-reverse gap-2">
+                    <Button buttonText="Submit" onClick={handleSubmit} background="green" fontSize="14" />
+                    <Button buttonText="Cancel" onClick={hanldeCancelBack} fontSize="14" />
                 </div>
             </div>
         </div>
