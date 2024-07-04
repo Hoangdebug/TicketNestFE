@@ -60,21 +60,19 @@ const SideBar: ISideBarComponent<ISideBarComponentProps> = () => {
             icon: <PeopleIcon />,
             class: '',
             submenu: [
-                { title: 'Customer List', href: '/customers/list' },
-                { title: 'Customer Orders', href: '/customers/orders' },
+                { title: 'Customer List', href: routes.CLIENT.ADMIN_LIST_CUSTOMER_PAGE.href },
+                { title: 'Customer Ban', href: routes.CLIENT.ADMIN_LIST_CUSTOMER_BAN_PAGE.href },
+                { title: 'Customer Request', href: routes.CLIENT.ADMIN_LIST_CUSTOMER_REQUEST_PAGE.href },
             ],
             roles: [enums.TYPES.ADMIN],
         },
         {
-            title: 'Theater',
+            title: 'Event',
             key: 'theater',
             href: '#',
             icon: <TheatersIcon />,
             class: '',
-            submenu: [
-                { title: 'Add Theater', href: '/theaters/add' },
-                { title: 'Manage Theaters', href: '/theaters/manage' },
-            ],
+            submenu: [{ title: 'Manager Event', href: routes.CLIENT.ADMIN_MANAGER_EVENT_PAGE.href }],
             roles: [enums.TYPES.ADMIN],
         },
         {
@@ -83,10 +81,7 @@ const SideBar: ISideBarComponent<ISideBarComponentProps> = () => {
             href: '#',
             icon: <SettingsIcon />,
             class: '',
-            submenu: [
-                { title: 'Profile', href: '/settings/profile' },
-                { title: 'Security', href: '/settings/security' },
-            ],
+            submenu: [{ title: 'Create Account', href: routes.CLIENT.ADMIN_CREATE_ACCOUNT_PAGE.href }],
             roles: [enums.TYPES.ADMIN],
         },
     ];
@@ -96,14 +91,18 @@ const SideBar: ISideBarComponent<ISideBarComponentProps> = () => {
             <div className="components__sidebar-content-logo">
                 <img src={images.LOGO_SIDEBAR} alt="Logo" className="fluid" />
             </div>
-            <button
-                className="components__sidebar-content-button"
-                onClick={() => {
-                    router.push(routes.CLIENT.ADD_EVENT_PAGE.href);
-                }}
-            >
-                + New Event
-            </button>
+
+            {profile?.type === enums.TYPES.ORGANIZER && (
+                <button
+                    className="components__sidebar-content-button"
+                    onClick={() => {
+                        router.push(routes.CLIENT.ADD_EVENT_PAGE.href);
+                    }}
+                >
+                    + New Event
+                </button>
+            )}
+
             <div className="components__sidebar-content-item">
                 {sideBar
                     ?.filter((item) => item.roles.includes((profile?.type as TYPES) ?? (enums.TYPES.ADMIN || enums.TYPES.ORGANIZER)))
