@@ -1,12 +1,15 @@
 interface IModalReduxData {
-    isShow: boolean;
     title?: string;
     content?: JSX.Element;
-    closeOnOutsiteClick?: boolean;
-    onClose?: () => void;
-    isHideButtons?: boolean;
-    buttonText?: string;
+    button?: JSX.Element;
+    isShow: boolean;
     cancelText?: string;
+    background?: string;
+    textColor?: string;
+    borderColor?: string;
+    fontSize?: string;
+    onClose?: () => void;
+    isHideButtonCancle?: boolean;
 }
 
 interface IModalReduxAction {

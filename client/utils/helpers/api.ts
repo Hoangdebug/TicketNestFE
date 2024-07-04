@@ -130,3 +130,19 @@ export const requestOrganizer = async (data: IEditUserProfileDataAPI) => {
         throw err;
     }
 };
+
+export const adminListCustomer = async () => {
+    try {
+        return await axios.get<IAdminCustomerListAPIRes>(`${routes.API.ADMIN_LIST_CUSTOMER.href}`);
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const adminBanCustomer = async (id: string) => {
+    try {
+        return await axios.put<IAdminCustomerBanAPIRes>(`${routes.API.ADMIN_BAN_CUSTOMER.href}/${id}`);
+    } catch (err) {
+        throw err;
+    }
+};
