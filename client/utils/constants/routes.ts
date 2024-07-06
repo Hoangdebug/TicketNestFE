@@ -60,6 +60,27 @@ const ORGANIZER_LIST_EVENT_PAGE: IRouteConstant = {
 const ADMIN_DASHBOARD: IRouteConstant = {
     href: '/admin',
 };
+
+const ADMIN_LIST_CUSTOMER: IRouteConstant = {
+    href: '/admin/customer',
+};
+
+const ADMIN_LIST_CUSTOMER_BAN: IRouteConstant = {
+    href: '/admin/customer/customerBan',
+};
+
+const ADMIN_LIST_CUSTOMER_REQUEST: IRouteConstant = {
+    href: '/admin/customer/customerRequest',
+};
+
+const ADMIN_MANAGER_EVENT: IRouteConstant = {
+    href: '/admin/event',
+};
+
+const ADMIN_CREATE_ACCOUNT: IRouteConstant = {
+    href: '/admin/customer/createAccount',
+};
+
 const ABOUT_US: IRouteConstant = {
     href: '/about',
 };
@@ -96,6 +117,11 @@ export const CLIENT = {
     UPDATE_EVENT_PAGE: UPDATE_EVENT,
     ABOUT_PAGE: ABOUT_US,
     CONTACT_PAGE: CONTACT,
+    ADMIN_LIST_CUSTOMER_PAGE: ADMIN_LIST_CUSTOMER,
+    ADMIN_LIST_CUSTOMER_BAN_PAGE: ADMIN_LIST_CUSTOMER_BAN,
+    ADMIN_LIST_CUSTOMER_REQUEST_PAGE: ADMIN_LIST_CUSTOMER_REQUEST,
+    ADMIN_MANAGER_EVENT_PAGE: ADMIN_MANAGER_EVENT,
+    ADMIN_CREATE_ACCOUNT_PAGE: ADMIN_CREATE_ACCOUNT,
 };
 
 const LOGIN_API: IRouteConstant = {
@@ -130,6 +156,18 @@ const EVENT_API: IRouteConstant = {
     href: 'event/',
 };
 
+const EVENT_LIST_ORGANIZER_API: IRouteConstant = {
+    href: 'event/get-event',
+};
+
+const ADMIN_LIST_CUSTOMER_API: IRouteConstant = {
+    href: '/user',
+};
+
+const ADMIN_BAN_CUSTOMER_API: IRouteConstant = {
+    href: '/user/ban',
+};
+
 export const API = {
     LOGIN: LOGIN_API,
     REGISTER: REGISTER_API,
@@ -141,4 +179,9 @@ export const API = {
 
     // organizer
     EVENT: EVENT_API,
+    ORGANIZER_LIST_EVENT: EVENT_LIST_ORGANIZER_API,
+
+    // admin
+    ADMIN_LIST_CUSTOMER: ADMIN_LIST_CUSTOMER_API,
+    ADMIN_BAN_CUSTOMER: ADMIN_BAN_CUSTOMER_API,
 };

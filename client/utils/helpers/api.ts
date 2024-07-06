@@ -91,10 +91,25 @@ export const addEvent = async (data: IEventDataApi) => {
         throw err;
     }
 };
+export const updateEvent = async (id: string, data: IEventDataApi) => {
+    try {
+        return await axios.put<IEventDataApiRes>(`${routes.API.EVENT.href}/${id}`, data);
+    } catch (err) {
+        throw err;
+    }
+};
 
 export const listEvent = async () => {
     try {
         return await axios.get<IEventDataApiListRes>(`${routes.API.EVENT.href}`);
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const listEventOrganizer = async () => {
+    try {
+        return await axios.get<IEventDataApiListRes>(`${routes.API.ORGANIZER_LIST_EVENT.href}`);
     } catch (err) {
         throw err;
     }
@@ -111,6 +126,22 @@ export const detailsEvent = async (id: string) => {
 export const requestOrganizer = async (data: IEditUserProfileDataAPI) => {
     try {
         return await axios.put<IEditUserProfileAPIRes>(`${routes.API.REQUEST_ORGANIZER.href}`, { data });
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const adminListCustomer = async () => {
+    try {
+        return await axios.get<IAdminCustomerListAPIRes>(`${routes.API.ADMIN_LIST_CUSTOMER.href}`);
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const adminBanCustomer = async (id: string) => {
+    try {
+        return await axios.put<IAdminCustomerBanAPIRes>(`${routes.API.ADMIN_BAN_CUSTOMER.href}/${id}`);
     } catch (err) {
         throw err;
     }
