@@ -8,7 +8,7 @@ interface IEventDataApi {
     event_type?: string;
     location?: string;
     price?: number;
-    ticket_number?: number;
+    ticket_number?: string;
 }
 
 interface IEventDataApiRes extends IBaseAPIRes {

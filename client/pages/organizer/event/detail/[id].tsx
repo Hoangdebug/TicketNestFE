@@ -32,7 +32,9 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
             setQuantity(quantity - 1);
         }
     };
-    const handleDetailsEvent = async () => {
+
+    const handleDetialsEvent = async () => {
+
         dispatch(
             await fetchDetailsEvent(id?.toString() ?? '', (res: IEventDataApiRes | IErrorAPIRes | null) => {
                 if (res && res.code === http.SUCCESS_CODE) {
@@ -59,7 +61,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
             }),
         );
     };
-    console.log(eventDetails);
+
     useEffect(() => {
         handleDetailsEvent();
         handleFetchListEvents();

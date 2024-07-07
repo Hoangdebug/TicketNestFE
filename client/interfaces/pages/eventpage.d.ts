@@ -5,5 +5,6 @@ interface IEventListPageProps extends IBasePageProps {}
 interface IEventListPage<P = {}> extends IBasePage<P> {}
 
 interface IEventListPageState {
-    events: IEventDataApi[];
+    events?: IEventDataApi[];
+    totalItems?: number;
 }
