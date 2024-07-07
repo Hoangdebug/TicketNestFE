@@ -31,7 +31,7 @@
                     border-radius: 15px;
                     padding: 20px;
                     margin: 35px 0;
-                    width: 437px;
+                    width: auto;
                     height: 298px;
                     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                     color: white;
@@ -152,9 +152,10 @@
 
                 &-buttons {
                     margin: 35px;
+                    width: max-content;
 
                     &-viewproject {
-                        width: 178px;
+                        width: 130px;
                         height: 36px;
                         border: none;
                         padding: 10px;
@@ -166,7 +167,7 @@
                     &-analytics {
                         margin-left: 53px;
                         border: none;
-                        width: 178px;
+                        width: 130px;
                         height: 36px;
                         padding: 10px;
                         border-radius: 5px;
