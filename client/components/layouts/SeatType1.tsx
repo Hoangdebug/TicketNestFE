@@ -1,25 +1,31 @@
 import { useState, useEffect } from 'react';
 
-const SeatType1: ISeatType1Component<ISeatType1ComponentProps> = () => {
+interface ISeatType1ComponentState {
+    rows: string[];
+    numSeatOfRowLeft: number[];
+    numSeatOfRowRight: number[];
+    vipRows: string[];
+    selectedSeat: string | null;
+    orderedSeats: string[];
+    ticketPrice: number;
+}
+
+const SeatType1 = () => {
     const [state, setState] = useState<ISeatType1ComponentState>({
-        rows: [],
-        numSeatOfRowLeft: [],
-        numSeatOfRowRight: [],
-        vipRows: [],
+        rows: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+        numSeatOfRowLeft: [1, 2, 3, 4],
+        numSeatOfRowRight: [5, 6, 7, 8],
+        vipRows: ['A', 'B'],
         selectedSeat: null,
-        orderedSeats: [],
+        orderedSeats: ['A1', 'C1', 'C2'],
         ticketPrice: 0,
     });
 
     const { rows, numSeatOfRowLeft, numSeatOfRowRight, vipRows, selectedSeat, orderedSeats, ticketPrice } = state;
 
-    useEffect(() => {
-        populateUI();
-    }, []);
-
     const toggleSeat = (row: string, seatNum: number) => {
         const seatId = `${row}${seatNum}`;
-        if (orderedSeats?.includes(seatId)) return;
+        if (orderedSeats.includes(seatId)) return;
 
         if (selectedSeat === seatId) {
             setState((prev) => ({
@@ -31,107 +37,113 @@ const SeatType1: ISeatType1Component<ISeatType1ComponentProps> = () => {
             setState((prev) => ({
                 ...prev,
                 selectedSeat: seatId,
-                ticketPrice: vipRows?.includes(row) ? 100000 : 75000,
-            }));
-        }
-    };
-
-    const populateUI = () => {
-        const savedSeat = localStorage.getItem('selectedSeat');
-        const savedPrice = localStorage.getItem('ticketPrice');
-        if (savedSeat) {
-            setState((prev) => ({
-                ...prev,
-                selectedSeat: savedSeat,
-            }));
-        }
-        if (savedPrice) {
-            setState((prev) => ({
-                ...prev,
-                ticketPrice: +savedPrice,
+                ticketPrice: vipRows.includes(row) ? 100000 : 75000,
             }));
         }
     };
 
     useEffect(() => {
-        localStorage.setItem('selectedSeat', selectedSeat || '');
-        localStorage.setItem('ticketPrice', ticketPrice);
+        const savedSeat = localStorage.getItem('selectedSeat');
+        const savedPrice = localStorage.getItem('ticketPrice');
+        if (savedSeat && savedPrice) {
+            setState((prev) => ({
+                ...prev,
+                selectedSeat: savedSeat,
+                ticketPrice: +savedPrice,
+            }));
+        }
+    }, []);
+
+    useEffect(() => {
+        if (selectedSeat) {
+            localStorage.setItem('selectedSeat', selectedSeat);
+            localStorage.setItem('ticketPrice', ticketPrice.toString());
+        } else {
+            localStorage.removeItem('selectedSeat');
+            localStorage.removeItem('ticketPrice');
+        }
     }, [selectedSeat, ticketPrice]);
 
     return (
         <div className="components__seattype1">
+            <div>
+                <ul className="components__seattype1-seattitle">
+                    <li className="components__seattype1-row text-white">
+                        <div className="components__seattype1-seat empty"></div>
+                        <small className="font-thin text-xl">Empty</small>
+                    </li>
+                    <li className="components__seattype1-row text-white">
+                        <div className="components__seattype1-seat vip"></div>
+                        <small className="font-thin text-xl">VIP</small>
+                    </li>
+                    <li className="components__seattype1-row">
+                        <div className="components__seattype1-seat selected"></div>
+                        <small className="font-thin text-xl text-white">Selected</small>
+                    </li>
+                    <li className="components__seattype1-row">
+                        <div className="components__seattype1-seat ordered"></div>
+                        <small className="font-thin text-xl text-white">Ordered</small>
+                    </li>
+                </ul>
+            </div>
             <div className="components__seattype1-screen">Screen</div>
-            <div className="mt-10 flex flex-col justify-center items-center w-[900px] h-[500px] gap-10">
-                <div className="w-full flex justify-center items-start gap-10">
-                    <div className="flex flex-col justify-start items-center gap-1">
-                        {rows?.map((row) => (
-                            <div key={row} className="w-[98%] h-[50px] flex items-center justify-start">
-                                <span className="w-10 text-white">{row}</span>
-                                <div className="flex justify-around items-center">
-                                    {numSeatOfRowLeft?.map((seatNum) => {
-                                        const seatId = `${row}${seatNum}`;
-                                        const isVIP = vipRows?.includes(row);
-                                        const isSelected = selectedSeat === seatId;
-                                        const isOrdered = orderedSeats?.includes(seatId);
-                                        return (
-                                            <div
-                                                key={seatNum}
-                                                className={`components__seattype1-seat min-h-[30px] cursor-pointer min-w-[35px] m-[5px] rounded-t-2xl flex justify-center items-center ${
-                                                    isSelected
-                                                        ? 'bg-green-500 text-white'
-                                                        : isOrdered
-                                                        ? 'bg-white'
-                                                        : isVIP
-                                                        ? 'bg-yellow-500'
-                                                        : 'bg-slate-800'
-                                                }`}
-                                                onClick={() => toggleSeat(row, seatNum)}
-                                            >
-                                                {isSelected ? seatId : ''}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
+            <div className="components__seattype1-container">
+                <div className="components__seattype1-column">
+                    {rows.map((row) => (
+                        <div key={row} className="components__seattype1-row">
+                            <div className="components__seattype1-row-label">{row}</div>
+                            <div className="components__seattype1-row-seats">
+                                {numSeatOfRowLeft.map((seatNum) => {
+                                    const seatId = `${row}${seatNum}`;
+                                    const isVIP = vipRows.includes(row);
+                                    const isSelected = selectedSeat === seatId;
+                                    const isOrdered = orderedSeats.includes(seatId);
+                                    return (
+                                        <div
+                                            key={seatNum}
+                                            className={`components__seattype1-seat ${
+                                                isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
+                                            }`}
+                                            onClick={() => toggleSeat(row, seatNum)}
+                                        >
+                                            {isSelected ? seatId : ''}
+                                        </div>
+                                    );
+                                })}
                             </div>
-                        ))}
-                    </div>
-                    <div className="components__seattype1-stage">Stage</div>
-                    <div className="flex flex-col justify-start items-center gap-1">
-                        {rows?.map((row) => (
-                            <div key={row} className="w-[98%] h-[50px] flex items-center justify-start">
-                                <span className="w-10 text-white">{row}</span>
-                                <div className="flex justify-around items-center">
-                                    {numSeatOfRowRight?.map((seatNum) => {
-                                        const seatId = `${row}${seatNum}`;
-                                        const isVIP = vipRows?.includes(row);
-                                        const isSelected = selectedSeat === seatId;
-                                        const isOrdered = orderedSeats?.includes(seatId);
-                                        return (
-                                            <div
-                                                key={seatNum}
-                                                className={`components__seattype1-seat min-h-[30px] cursor-pointer min-w-[35px] m-[5px] rounded-t-2xl flex justify-center items-center ${
-                                                    isSelected
-                                                        ? 'bg-green-500 text-white'
-                                                        : isOrdered
-                                                        ? 'bg-white'
-                                                        : isVIP
-                                                        ? 'bg-yellow-500'
-                                                        : 'bg-slate-800'
-                                                }`}
-                                                onClick={() => toggleSeat(row, seatNum)}
-                                            >
-                                                {isSelected ? seatId : ''}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="components__seattype1-stage">Stage</div>
+                <div className="components__seattype1-column">
+                    {rows.map((row) => (
+                        <div key={row} className="components__seattype1-row">
+                            <div className="components__seattype1-row-label">{row}</div>
+                            <div className="components__seattype1-row-seats">
+                                {numSeatOfRowRight.map((seatNum) => {
+                                    const seatId = `${row}${seatNum}`;
+                                    const isVIP = vipRows.includes(row);
+                                    const isSelected = selectedSeat === seatId;
+                                    const isOrdered = orderedSeats.includes(seatId);
+                                    return (
+                                        <div
+                                            key={seatNum}
+                                            className={`components__seattype1-seat ${
+                                                isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
+                                            }`}
+                                            onClick={() => toggleSeat(row, seatNum)}
+                                        >
+                                            {isSelected ? seatId : ''}
+                                        </div>
+                                    );
+                                })}
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    ))}
                 </div>
             </div>
             {selectedSeat && (
-                <div className="text-white mt-5">
+                <div className="components__seattype1-info">
                     Ghế {selectedSeat} đang được chọn - Với giá: {ticketPrice} VND
                 </div>
             )}
