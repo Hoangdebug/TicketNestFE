@@ -9,9 +9,7 @@ interface IEditUserProfileDataAPI {
     isBlocked?: boolean;
     type?: string;
     role?: string;
-    organizerName?: string;
-    organizerDescription?: string;
-    mailOrganizerName?: string;
+    organizerRequest?: string;
 }
 
 interface IEditUserProfileAPIRes extends IBaseAPIRes {
@@ -25,6 +23,11 @@ interface IEditUserProfileAPIRes extends IBaseAPIRes {
 interface IAdminCustomerListAPIRes extends IBaseAPIRes {
     code: number;
     result?: IEditUserProfileDataAPI[];
+}
+
+interface IAdminUpdateOrganizerAPIRes extends IBaseAPIRes {
+    code: number;
+    result?: IEditUserProfileDataAPI;
 }
 
 interface IAdminCustomerBanAPIRes extends IBaseAPIRes {
