@@ -6,6 +6,7 @@ import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import BookmarkOutlinedIcon from '@mui/icons-material/BookmarkOutlined';
 import { routes } from '@utils/constants';
+import moment from 'moment';
 
 const EventList: IEventListComponent<IEventListComponentProps> = (props) => {
     const { dataEvent } = props;
@@ -32,7 +33,8 @@ const EventList: IEventListComponent<IEventListComponentProps> = (props) => {
             setState((prevState) => ({ ...prevState, type: 'All' }));
         }
     }, [router.query]);
-
+    const formattedDayStart = moment(dataEvent?.[0]?.day_start).format('MMM DD, YYYY');
+    const formattedDayEnd = moment(dataEvent?.[0]?.day_end).format('MMM DD, YYYY');
     const listTypeSearch = [
         { title: 'All', query: 'All' },
         { title: 'Music', query: 'Music' },
@@ -90,15 +92,15 @@ const EventList: IEventListComponent<IEventListComponentProps> = (props) => {
                                     >
                                         {item?.name}
                                     </h3>
-                                    <p>{item?.price}</p>
+                                    <p>{item?.price} $</p>
                                     <div className="d-flex justify-content-between align-items-center">
                                         <span className="d-flex flex-row w-100 gap-2">
                                             <TodayIcon />
-                                            <p className="m-0">{item?.day_start}</p>
+                                            <p className="m-0">{formattedDayStart}</p>
                                         </span>
                                         <span className="d-flex flex-row w-100 gap-2" style={{ justifyContent: 'flex-end' }}>
                                             <WatchLaterIcon />
-                                            <p className="m-0">{item?.day_end}</p>
+                                            <p className="m-0">{formattedDayEnd}</p>
                                         </span>
                                     </div>
                                 </div>

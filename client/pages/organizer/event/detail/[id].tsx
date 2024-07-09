@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { fetchDetailsEvent, fetchListEvent } from '@redux/actions/api';
 import { http, routes } from '@utils/constants';
 import Countdown from '@components/commons/Countdown';
+import moment from 'moment';
 
 const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
     const router = useRouter();
@@ -32,7 +33,12 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
             setQuantity(quantity - 1);
         }
     };
-
+    const totalMoney = quantity * (eventDetails?.price ?? 0);
+    const slicedEvents = event?.slice(0, 4);
+    const formattedDayStart = moment(eventDetails?.day_start).format('MMM DD, YYYY HH:mm:ss');
+    const formattedDayEnd = moment(eventDetails?.day_end).format('MMM DD, YYYY HH:mm:ss');
+    const dayStart = moment(formattedDayEnd).format('DD');
+    const monthStart = moment(formattedDayEnd).format('MMM');
     const handleDetailsEvent = async () => {
         dispatch(
             await fetchDetailsEvent(id?.toString() ?? '', (res: IEventDataApiRes | IErrorAPIRes | null) => {
@@ -70,8 +76,8 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
         <div className="pages__eventdetail container">
             <div className="pages__eventdetail_headers">
                 <div className="pages__eventdetail_headers_sideleft col-md-2">
-                    <h4>APR</h4>
-                    <h4>30</h4>
+                    <h4>{monthStart}</h4>
+                    <h4>{dayStart}</h4>
                 </div>
                 <div className="pages__eventdetail_headers_sideright col-md-10">
                     <h2>{eventDetails?.name}</h2>
@@ -80,9 +86,9 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                         <p>
                             {eventDetails?.location}
                             <span className="pages__eventdetail_headers_sideright_param_separator">•</span>
-                            {eventDetails?.day_start}
+                            {formattedDayStart}
                             <span className="pages__eventdetail_headers_sideright_param_separator">•</span>
-                            {/* {eventDetails?.time}h */}
+                            {formattedDayEnd}
                         </p>
                     </div>
                 </div>
@@ -122,7 +128,9 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                                 <MdOutlinePeople className="pages__eventdetail_body_sideright_infor_item_sec_icon col-md-2" />
                                 <div className="pages__eventdetail_body_sideright_infor_item_sec_text col-md-10">
                                     <span className="pages__eventdetail_body_sideright_infor_item_sec_label">Organised by</span>
-                                    <span className="pages__eventdetail_body_sideright_infor_item_sec_value">The Teeny Rabbit</span>
+                                    <span className="pages__eventdetail_body_sideright_infor_item_sec_value">
+                                        {eventDetails?.created_by?.name}
+                                    </span>
                                     <a href="#" className="pages__eventdetail_body_sideright_infor_item_sec_link">
                                         View Profile
                                     </a>
@@ -133,7 +141,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                                 <SlCalender className="pages__eventdetail_body_sideright_infor_item_sec_icon col-md-2" />
                                 <div className="pages__eventdetail_body_sideright_infor_item_sec_text col-md-10">
                                     <span className="pages__eventdetail_body_sideright_infor_item_sec_label">Date and Time</span>
-                                    <span className="pages__eventdetail_body_sideright_infor_item_sec_value">{eventDetails?.day_end}</span>
+                                    <span className="pages__eventdetail_body_sideright_infor_item_sec_value">{formattedDayEnd}</span>
                                     <a href="#" className="pages__eventdetail_body_sideright_infor_item_sec_link">
                                         Add to Calendar
                                     </a>
@@ -144,9 +152,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                                 <IoLocationOutline className="pages__eventdetail_body_sideright_infor_item_sec_icon col-md-2" />
                                 <div className="pages__eventdetail_body_sideright_infor_item_sec_text col-md-10">
                                     <span className="pages__eventdetail_body_sideright_infor_item_sec_label">Location</span>
-                                    <span className="pages__eventdetail_body_sideright_infor_item_sec_value">
-                                        00 Challis St, Newport, Victoria, 0000, Australia
-                                    </span>
+                                    <span className="pages__eventdetail_body_sideright_infor_item_sec_value">{eventDetails?.location}</span>
                                     <a href="#" className="pages__eventdetail_body_sideright_infor_item_sec_link">
                                         View Map
                                     </a>
@@ -160,7 +166,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                     </div>
                     <div className="pages__eventdetail_body_sideright_line"></div>
                     <div className="pages__eventdetail_body_sideright_seat">
-                        <div className="pages__eventdetail_body_sideright_seat_price">{eventDetails?.price}</div>
+                        <div className="pages__eventdetail_body_sideright_seat_price">{eventDetails?.price} $</div>
                         <div className="pages__eventdetail_body_sideright_seat_quantity">
                             <button className="pages__eventdetail_body_sideright_seat_quantity_decrease" onClick={decreaseQuantity}>
                                 -
@@ -174,8 +180,8 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                     <p>2 x pair hand painted leather earrings 1 x glass of bubbles / or coffee Individual grazing box / fruit cup</p>
                     <div className="pages__eventdetail_body_sideright_line"></div>
                     <div className="pages__eventdetail_body_sideright_actions">
-                        <span>1x Ticket(s)</span>
-                        <span className="pages__eventdetail_body_sideright_actions_total">AUD $0.00</span>
+                        <span>{quantity}x Ticket(s)</span>
+                        <span className="pages__eventdetail_body_sideright_actions_total">AUD ${totalMoney}</span>
                     </div>
                     <button className="pages__eventdetail_body_sideright_book">Book Now</button>
                 </div>
@@ -184,7 +190,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
             <div className="pages__eventdetail_relate">
                 <h2>More Events</h2>
                 <div className="pages__eventdetail_relate_list">
-                    {event?.map((events) => (
+                    {slicedEvents?.map((events) => (
                         <div
                             onClick={() =>
                                 router.push({ pathname: routes.CLIENT.EVENT_DETAILS.href, query: { id: events._id } }, undefined, {
@@ -197,8 +203,8 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                             <img src={events.image} alt={events?.name} />
                             <h3>{events?.name}</h3>
                             <div className="pages__eventdetail_relate_list_card_infor">
-                                <p className="pages__eventdetail_relate_list_card_infor_price">{events?.price}</p>
-                                <p className="pages__eventdetail_relate_list_card_infor_date">{events?.day_start}</p>
+                                <p className="pages__eventdetail_relate_list_card_infor_price">{events?.price} $</p>
+                                <p className="pages__eventdetail_relate_list_card_infor_date">{formattedDayEnd}</p>
                             </div>
                         </div>
                     ))}
