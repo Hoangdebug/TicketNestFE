@@ -20,3 +20,9 @@ export enum EVENTTICKET {
     MEDIUM = '60',
     LARGE = '70',
 }
+
+export enum STATUS_ORGANIZER_REQUEST {
+    PROCESSING = 'Processing',
+    ACCEPT = 'Accepted',
+    REJECTED = 'Rejected',
+}

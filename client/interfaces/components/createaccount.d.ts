@@ -1,9 +1,10 @@
 interface ICreateAccountComponent<P = {}> extends IBaseComp<P> {}
 
-interface ICreateAccountComponentProps extends IBaseCompProps {
-    account?: IAccountDataApi;
-}
+interface ICreateAccountComponentProps extends IBaseCompProps {}
 
 interface ICreateAccountComponentState {
-    accountAdd?: IAccountDataApi;
+    email?: string;
+    password?: string;
+    role?: string;
+    username?: string;
 }

@@ -168,6 +168,17 @@ const ADMIN_BAN_CUSTOMER_API: IRouteConstant = {
     href: '/user/ban',
 };
 
+const ADMIN_LIST_CUSTOMER_REQUEST_API: IRouteConstant = {
+    href: '/',
+};
+
+const ADMIN_UPDATE_ORGANIZER_API: IRouteConstant = {
+    href: '/role',
+};
+const ADMIN_CREATE_ACCOUNT_BY_ADMIN_API: IRouteConstant = {
+    href: '/user/create-account-by-admin',
+};
+
 export const API = {
     LOGIN: LOGIN_API,
     REGISTER: REGISTER_API,
@@ -184,4 +195,7 @@ export const API = {
     // admin
     ADMIN_LIST_CUSTOMER: ADMIN_LIST_CUSTOMER_API,
     ADMIN_BAN_CUSTOMER: ADMIN_BAN_CUSTOMER_API,
+    ADMIN_LIST_CUSTOMER_REQUEST: ADMIN_LIST_CUSTOMER_REQUEST_API,
+    ADMIN_UPDATE_ORGANIZER: ADMIN_UPDATE_ORGANIZER_API,
+    ADMIN_CREATE_ACCOUNT_BY_ADMIN: ADMIN_CREATE_ACCOUNT_BY_ADMIN_API,
 };

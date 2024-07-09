@@ -8,4 +8,5 @@ interface ICustomerRequestPageState {
     customers?: IEditUserProfileDataAPI[];
     ids?: string[];
     total?: number;
+    organizerRequest?: string;
 }

@@ -251,7 +251,7 @@ export const fetchListEvent = async (callBack?: (result: IEventDataApiListRes | 
 };
 
 export const fetchListEventOrganizer = async (
-    callBack?: (result: IEventDataApiListRes | IErrorAPIRes | null) => void,
+    callBack?: (result: IEventByOrganizerDataApiRes | IErrorAPIRes | null) => void,
     isLoad: boolean = true,
 ) => {
     return async (dispatch: Dispatch) => {
@@ -338,6 +338,37 @@ export const fetchListAdminCustomer = async (
     };
 };
 
+export const fetchUpdateOrganizerByAdmin = async (
+    id: string,
+    data: IEditUserProfileDataAPI,
+    callBack?: (result: IAdminUpdateOrganizerAPIRes | IErrorAPIRes | null) => void,
+    isLoad: boolean = true,
+) => {
+    return async (dispatch: Dispatch) => {
+        if (isLoad) {
+            dispatch(setLoader(true));
+        }
+
+        try {
+            const res = await apiHelper.updateOrganizerByAdmin(id, data);
+            if (callBack) {
+                callBack(res?.data);
+            }
+        } catch (err) {
+            if (!(err instanceof Error)) {
+                const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+                if (callBack) {
+                    callBack(res?.data);
+                }
+            }
+        }
+
+        if (isLoad) {
+            dispatch(setLoader(false));
+        }
+    };
+};
+
 export const fetchBanCustomerByAdmin = async (
     id: string,
     callBack?: (result: IAdminCustomerBanAPIRes | IErrorAPIRes | null) => void,
@@ -350,6 +381,36 @@ export const fetchBanCustomerByAdmin = async (
 
         try {
             const res = await apiHelper.adminBanCustomer(id);
+            if (callBack) {
+                callBack(res?.data);
+            }
+        } catch (err) {
+            if (!(err instanceof Error)) {
+                const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+                if (callBack) {
+                    callBack(res?.data);
+                }
+            }
+        }
+
+        if (isLoad) {
+            dispatch(setLoader(false));
+        }
+    };
+};
+
+export const fetchCreateAccountByAdmin = (
+    data: IRegisterDataApi,
+    callBack?: (result: IRegisterDataApiRes | IErrorAPIRes | null) => void,
+    isLoad: boolean = true,
+) => {
+    return async (dispatch: Dispatch) => {
+        if (isLoad) {
+            dispatch(setLoader(true));
+        }
+
+        try {
+            const res = await apiHelper.createAccountByAdmin(data);
             if (callBack) {
                 callBack(res?.data);
             }
