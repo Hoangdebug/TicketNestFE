@@ -1,28 +1,34 @@
 import { useState, useEffect } from 'react';
-import { differenceInSeconds, parse } from 'date-fns';
+import moment from 'moment';
 
 const Countdown: ICountdownComponent<ICountdownComponentProps> = ({ dayEnd }) => {
-    const calculateTimeLeft = () => {
-        const end = parse(dayEnd, 'yyyy-MM-dd HH:mm:ss', new Date());
-        const now = new Date();
-        const timeDiff = differenceInSeconds(end, now);
-
-        const days = Math.floor(timeDiff / (60 * 60 * 24));
-        const hours = Math.floor((timeDiff % (60 * 60 * 24)) / (60 * 60));
-        const minutes = Math.floor((timeDiff % (60 * 60)) / 60);
-        const seconds = Math.floor(timeDiff % 60);
-
-        return { days, hours, minutes, seconds };
-    };
-
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+    const [timeLeft, setTimeLeft] = useState({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+    });
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            setTimeLeft(calculateTimeLeft());
+        const intervalId = setInterval(() => {
+            const endTime = moment(dayEnd);
+            const now = moment();
+            const difference = moment.duration(endTime.diff(now));
+
+            if (difference.asMilliseconds() >= 0) {
+                setTimeLeft({
+                    days: difference.days(),
+                    hours: difference.hours(),
+                    minutes: difference.minutes(),
+                    seconds: difference.seconds(),
+                });
+            } else {
+                clearInterval(intervalId);
+                setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+            }
         }, 1000);
 
-        return () => clearInterval(timer);
+        return () => clearInterval(intervalId);
     }, [dayEnd]);
 
     return (
