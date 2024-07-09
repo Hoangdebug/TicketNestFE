@@ -9,6 +9,7 @@ import { SlCalender } from 'react-icons/sl';
 import { useDispatch } from 'react-redux';
 import { fetchDetailsEvent, fetchListEvent } from '@redux/actions/api';
 import { http, routes } from '@utils/constants';
+import Countdown from '@components/commons/Countdown';
 
 const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
     const router = useRouter();
@@ -32,7 +33,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
         }
     };
 
-    const handleDetialsEvent = async () => {
+    const handleDetailsEvent = async () => {
         dispatch(
             await fetchDetailsEvent(id?.toString() ?? '', (res: IEventDataApiRes | IErrorAPIRes | null) => {
                 if (res && res.code === http.SUCCESS_CODE) {
@@ -50,7 +51,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
         dispatch(
             await fetchListEvent((res: IEventDataApiListRes | IErrorAPIRes | null) => {
                 if (res && res?.code === http.SUCCESS_CODE) {
-                    const data = (res as IEventDataApiListRes).result;
+                    const data = (res as IEventDataApiListRes).result?.dataEvent;
                     setState((prevState) => ({
                         ...prevState,
                         event: data,
@@ -61,7 +62,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
     };
 
     useEffect(() => {
-        handleDetialsEvent();
+        handleDetailsEvent();
         handleFetchListEvents();
     }, []);
 
@@ -76,14 +77,13 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                     <h2>{eventDetails?.name}</h2>
                     <div className="pages__eventdetail_headers_sideright_param">
                         <IoLocationOutline />
-                        {/* <p>
-                            {' '}
-                            {eventData.destination}
+                        <p>
+                            {eventDetails?.location}
                             <span className="pages__eventdetail_headers_sideright_param_separator">•</span>
-                            {eventData.date}
+                            {eventDetails?.day_start}
                             <span className="pages__eventdetail_headers_sideright_param_separator">•</span>
-                            {eventData.time}h
-                        </p> */}
+                            {/* {eventDetails?.time}h */}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -102,18 +102,8 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                         </button>
                     </div>
                     <div className="pages__eventdetail_body_sideleft_description">
-                        {/* {eventData.description} */}
                         <h2>About This Event</h2>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dolor justo, sodales mattis orci et, mattis
-                            faucibus est. Nulla semper consectetur sapien a tempor. Ut vel lacus lorem. Nulla mauris massa, pharetra a mi
-                            ut, mattis euismod libero. Ut pretium bibendum urna nec egestas. Etiam tempor vehicula libero. Aenean cursus
-                            venenatis orci, ac porttitor leo porta sit amet. Nulla eleifend mollis enim sed rutrum. Nunc cursus ex a ligula
-                            consequat aliquet. Donec semper tellus ac ante vestibulum, vitae varius leo mattis. In vestibulum blandit
-                            tempus. Etiam elit turpis, volutpat hendrerit varius ut, posuere a sapien. Maecenas molestie bibendum finibus.
-                            Nulla euismod neque vel sem hendrerit faucibus. Nam sit amet metus sollicitudin, luctus eros at, consectetur
-                            libero.
-                        </p>
+                        <p>{eventDetails?.description}</p>
                     </div>
                 </div>
 
@@ -124,24 +114,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
 
                     <div className="pages__eventdetail_body_sideright_line"></div>
 
-                    <div className="pages__eventdetail_body_sideright_count">
-                        <div className="pages__eventdetail_body_sideright_count_item">
-                            <span className="pages__eventdetail_body_sideright_count_item_value">{eventDetails?.day_start}</span>
-                            <span className="pages__eventdetail_body_sideright_count_item_label">DAYS</span>
-                        </div>
-                        <div className="pages__eventdetail_body_sideright_count_item">
-                            <span className="pages__eventdetail_body_sideright_count_item_value">{eventDetails?.day_start}</span>
-                            <span className="pages__eventdetail_body_sideright_count_item_label">HOURS</span>
-                        </div>
-                        <div className="pages__eventdetail_body_sideright_count_item">
-                            <span className="pages__eventdetail_body_sideright_count_item_value">{eventDetails?.day_start}</span>
-                            <span className="pages__eventdetail_body_sideright_count_item_label">MINUTES</span>
-                        </div>
-                        <div className="pages__eventdetail_body_sideright_count_item">
-                            <span className="pages__eventdetail_body_sideright_count_item_value">{eventDetails?.day_start}</span>
-                            <span className="pages__eventdetail_body_sideright_count_item_label">SECONDS</span>
-                        </div>
-                    </div>
+                    <Countdown dayEnd={eventDetails?.day_end ?? ''} />
 
                     <div className="pages__eventdetail_body_sideright_infor">
                         <div className="pages__eventdetail_body_sideright_infor_item">
@@ -160,9 +133,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                                 <SlCalender className="pages__eventdetail_body_sideright_infor_item_sec_icon col-md-2" />
                                 <div className="pages__eventdetail_body_sideright_infor_item_sec_text col-md-10">
                                     <span className="pages__eventdetail_body_sideright_infor_item_sec_label">Date and Time</span>
-                                    <span className="pages__eventdetail_body_sideright_infor_item_sec_value">
-                                        Sat, Apr 30, 2022 11:30 AM
-                                    </span>
+                                    <span className="pages__eventdetail_body_sideright_infor_item_sec_value">{eventDetails?.day_end}</span>
                                     <a href="#" className="pages__eventdetail_body_sideright_infor_item_sec_link">
                                         Add to Calendar
                                     </a>

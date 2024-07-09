@@ -18,5 +18,13 @@ interface IEventDataApiRes extends IBaseAPIRes {
 
 interface IEventDataApiListRes extends IBaseAPIRes {
     code: number;
-    result?: IEventDataApi[];
+    result?: {
+        metadata?: {
+            pages?: number;
+            pageSize?: number;
+            currentPage?: number;
+            totalItems?: number;
+        };
+        dataEvent?: IEventDataApi[];
+    };
 }
