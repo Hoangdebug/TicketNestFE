@@ -5,25 +5,24 @@ import { validateHelper } from '@utils/helpers';
 import Input from '@components/commons/Input';
 import Select from '@components/commons/Select';
 import Button from '@components/commons/Button';
-import { enums, http, routes } from '@utils/constants';
+import { enums, http, images, routes } from '@utils/constants';
 import { useDispatch } from 'react-redux';
-import { fetchAddAccount, fetchUpdateAccount } from '@redux/actions/api';
+import { fetchCreateAccountByAdmin } from '@redux/actions/api';
+import { setModal } from '@redux/actions';
+import Img from 'react-cool-img';
 
-const CreateAccountForm: ICreateAccountComponent<ICreateAccountComponentProps> = (props) => {
-    const { account } = props;
-
+const CreateAccountForm: ICreateAccountComponent<ICreateAccountComponentProps> = () => {
     const dispatch = useDispatch();
     const router = useRouter();
-    const { query } = router;
-    const { id } = query;
 
     const [state, setState] = useState<ICreateAccountComponentState>({
-        accountAdd: {
-            ...(account ?? {}),
-        },
+        email: '',
+        password: '',
+        role: '',
+        username: '',
     });
 
-    const { accountAdd } = state;
+    const { email, password, role, username } = state;
 
     const emailValidatorRef = createRef<IValidatorComponentHandle>();
     const passwordValidatorRef = createRef<IValidatorComponentHandle>();
@@ -33,62 +32,87 @@ const CreateAccountForm: ICreateAccountComponent<ICreateAccountComponentProps> =
     const handleOnChange = (field: string, value: string | number | boolean) => {
         setState((prevState) => ({
             ...prevState,
-            accountAdd: {
-                ...prevState.accountAdd,
-                [field]: value,
-            },
+            [field]: value,
         }));
+    };
+
+    const handleBeforeUnload = () => {
+        setState({
+            email: '',
+            password: '',
+            role: enums.ROLE.ADMIN,
+            username: '',
+        });
     };
 
     useEffect(() => {
-        setState((prevState) => ({
-            ...prevState,
-            accountAdd: {
-                ...prevState.accountAdd,
-                email: account?.email ?? '',
-                password: account?.password ?? '',
-                role: account?.role ?? enums.ROLE.USER,
-                username: account?.username ?? '',
-            },
-        }));
-    }, [account]);
+        handleBeforeUnload();
+        window.addEventListener('beforeunload', handleBeforeUnload);
 
-    const hanldeCancelBack = () => {
-        router.back();
-    };
-
-    const handleSubmitUpdateAccount = async () => {
-        // dispatch(
-        //     await fetchUpdateAccount(id?.toString() ?? '', accountAdd ?? {}, (res: IAccountDataApiRes | IErrorAPIRes | null) => {
-        //         if (res?.code === http.SUCCESS_CODE) {
-        //             router.push(routes.CLIENT.ACCOUNT_LIST.href, undefined, { scroll: false });
-        //         } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
-        //             alert(res?.mes);
-        //         }
-        //     }),
-        // );
-    };
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
 
     const handleSubmitAddAccount = async () => {
-        // dispatch(
-        //     await fetchAddAccount(accountAdd ?? {}, (res: IAccountDataApiRes | IErrorAPIRes | null) => {
-        //         if (res?.code === http.SUCCESS_CODE) {
-        //             router.push(routes.CLIENT.ACCOUNT_LIST.href, undefined, { scroll: false });
-        //         } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
-        //             alert(res?.mes);
-        //         }
-        //     }),
-        // );
+        dispatch(
+            await fetchCreateAccountByAdmin({ email, password, role, username }, (res: IRegisterDataApiRes | IErrorAPIRes | null) => {
+                if (res?.code === http.SUCCESS_CODE) {
+                    dispatch(
+                        setModal({
+                            isShow: true,
+                            content: (
+                                <>
+                                    <div className="text-center bases__margin--bottom31">
+                                        <Img src={images.ICON_TIMES} className="bases__width--90 bases__height--75" />
+                                    </div>
+                                    <div className="bases__text--bold bases__font--14 text-center">Create Success! </div>
+                                </>
+                            ),
+                            button: (
+                                <Button
+                                    className="bases__margin--right32"
+                                    fontSize="14"
+                                    textColor="white"
+                                    buttonText="List User"
+                                    background="blue"
+                                    onClick={() => {
+                                        router.push(routes.CLIENT.ADMIN_LIST_CUSTOMER_PAGE.href, undefined, { scroll: false });
+                                        dispatch(
+                                            setModal({
+                                                isShow: false,
+                                            }),
+                                        );
+                                    }}
+                                />
+                            ),
+                        }),
+                    );
+                } else {
+                    setModal({
+                        isShow: true,
+                        content: (
+                            <>
+                                <div className="text-center bases__margin--bottom31">
+                                    <Img src={images.ICON_TIMES} className="bases__width--90 bases__height--75" />
+                                </div>
+                                <div className="bases__text--bold bases__font--14 text-center">Has been Error!</div>
+                            </>
+                        ),
+                    });
+                }
+            }),
+        );
     };
 
     const handleSubmit = async () => {
         let isValidate = true;
 
         const validator = [
-            { ref: emailValidatorRef, value: accountAdd?.email, message: 'Email Is Not Empty!' },
-            { ref: passwordValidatorRef, value: accountAdd?.password, message: 'Password Is Not Empty!' },
-            { ref: roleValidatorRef, value: accountAdd?.role, message: 'Role Is Not Empty!' },
-            { ref: usernameValidatorRef, value: accountAdd?.username, message: 'Username Is Not Empty!' },
+            { ref: emailValidatorRef, value: email, message: 'Email Is Not Empty!' },
+            { ref: passwordValidatorRef, value: password, message: 'Password Is Not Empty!' },
+            { ref: roleValidatorRef, value: role, message: 'Role Is Not Empty!' },
+            { ref: usernameValidatorRef, value: username, message: 'Username Is Not Empty!' },
         ];
 
         validator.forEach(({ ref, value, message }) => {
@@ -103,11 +127,7 @@ const CreateAccountForm: ICreateAccountComponent<ICreateAccountComponentProps> =
         });
 
         if (isValidate) {
-            if (id) {
-                await handleSubmitUpdateAccount();
-            } else {
-                await handleSubmitAddAccount();
-            }
+            await handleSubmitAddAccount();
         }
     };
 
@@ -137,8 +157,8 @@ const CreateAccountForm: ICreateAccountComponent<ICreateAccountComponentProps> =
                             </label>
                             <Validator ref={emailValidatorRef}>
                                 <Input
-                                    type="email"
-                                    value={accountAdd?.email}
+                                    type="text"
+                                    value={email}
                                     onChange={(value: string) => handleOnChange('email', value)}
                                     id="email"
                                     name="email"
@@ -153,7 +173,7 @@ const CreateAccountForm: ICreateAccountComponent<ICreateAccountComponentProps> =
                             <Validator ref={passwordValidatorRef}>
                                 <Input
                                     type="password"
-                                    value={accountAdd?.password}
+                                    value={password ?? ''}
                                     onChange={(value: string) => handleOnChange('password', value)}
                                     id="password"
                                     name="password"
@@ -169,7 +189,7 @@ const CreateAccountForm: ICreateAccountComponent<ICreateAccountComponentProps> =
                             </label>
                             <Validator ref={roleValidatorRef}>
                                 <Select
-                                    value={accountAdd?.role}
+                                    value={role}
                                     onChange={(value: string) => handleOnChange('role', value)}
                                     options={renderRoleOptions()}
                                 />
@@ -182,7 +202,7 @@ const CreateAccountForm: ICreateAccountComponent<ICreateAccountComponentProps> =
                             <Validator ref={usernameValidatorRef}>
                                 <Input
                                     type="text"
-                                    value={accountAdd?.username}
+                                    value={username}
                                     onChange={(value: string) => handleOnChange('username', value)}
                                     id="username"
                                     name="username"
@@ -194,7 +214,7 @@ const CreateAccountForm: ICreateAccountComponent<ICreateAccountComponentProps> =
                 </div>
                 <div className="d-flex flex-row-reverse gap-2">
                     <Button buttonText="Register" onClick={handleSubmit} background="green" fontSize="14" />
-                    <Button buttonText="Clear" onClick={() => setState({ accountAdd: {} })} fontSize="14" />
+                    <Button buttonText="Clear" onClick={() => handleBeforeUnload} fontSize="14" />
                 </div>
             </div>
         </div>

@@ -183,8 +183,14 @@ const CustomerBanList: IAdminCustomerBanPage<IAdminCustomerBanPageProps> = () =>
                 <SideBar />
             </div>
             <div className="pages__organizer-table col-md-9">
-                <h2 className="fw-bold mb-4 text-center">Customer List Ban</h2>
-                <Table ref={tableRef} heads={tableEventRender.heads} body={tableEventRender.body} total={customers?.length} />
+                {customers && customers.length > 0 ? (
+                    <>
+                        <h2 className="fw-bold mb-4 text-center">Customer List Ban</h2>
+                        <Table ref={tableRef} heads={tableEventRender.heads} body={tableEventRender.body} total={customers?.length} />
+                    </>
+                ) : (
+                    <div className="text-center fw-bolder pt-5">No Customer Ban</div>
+                )}
             </div>
         </div>
     );

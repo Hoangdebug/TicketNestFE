@@ -5,7 +5,9 @@ interface IRegisterDataApi {
     phone?: string;
     confirmPassword?: string;
     dob?: string;
+    role?: string;
 }
+
 interface ICurrentUserAPIRes {
     result?: IRegisterDataApi;
 }

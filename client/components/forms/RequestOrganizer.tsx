@@ -20,7 +20,7 @@ const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponen
     });
 
     const { organizer } = state;
-    console.log(organizer?.phone);
+
     const organizationNameValidatorRef = createRef<IValidatorComponentHandle>();
     const descriptionValidatorRef = createRef<IValidatorComponentHandle>();
     const contactEmailValidatorRef = createRef<IValidatorComponentHandle>();

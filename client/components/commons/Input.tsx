@@ -171,7 +171,8 @@ const Input = forwardRef<any, IInputComponentProps>((props, ref) => {
                 (type === 'number' && !validateHelper.isNumber(eventValue)) ||
                 (type === 'float-number' && !validateHelper.isFloatNumber(eventValue)) ||
                 (isBlockSpecial && validateHelper.isSpecialCharacter(stringHelper.formatHalfWidthText(eventValue))) ||
-                (type === 'signed-number' && !validateHelper.isSignedNumber(eventValue))
+                (type === 'signed-number' && !validateHelper.isSignedNumber(eventValue)) ||
+                (type === 'email' && validateHelper.isEmail(eventValue))
             ) {
                 isValidValue = false;
             }

@@ -24,6 +24,11 @@ interface IEventDataApiRes extends IBaseAPIRes {
     result?: IEventDataApi;
 }
 
+interface IEventByOrganizerDataApiRes extends IBaseAPIRes {
+    code: number;
+    result?: IEventDataApi[];
+}
+
 interface IEventDataApiListRes extends IBaseAPIRes {
     code: number;
     result?: {

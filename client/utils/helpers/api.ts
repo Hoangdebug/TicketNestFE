@@ -109,7 +109,7 @@ export const listEvent = async () => {
 
 export const listEventOrganizer = async () => {
     try {
-        return await axios.get<IEventDataApiListRes>(`${routes.API.ORGANIZER_LIST_EVENT.href}`);
+        return await axios.get<IEventByOrganizerDataApiRes>(`${routes.API.ORGANIZER_LIST_EVENT.href}`);
     } catch (err) {
         throw err;
     }
@@ -150,6 +150,14 @@ export const updateOrganizerByAdmin = async (id: string, data: IEditUserProfileD
 export const adminBanCustomer = async (id: string) => {
     try {
         return await axios.put<IAdminCustomerBanAPIRes>(`${routes.API.ADMIN_BAN_CUSTOMER.href}/${id}`);
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const createAccountByAdmin = async (data: IRegisterDataApi) => {
+    try {
+        return await axios.post<IRegisterDataApiRes>(`${routes.API.ADMIN_CREATE_ACCOUNT_BY_ADMIN.href}`, data);
     } catch (err) {
         throw err;
     }

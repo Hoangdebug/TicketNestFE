@@ -1,5 +1,5 @@
 interface IInputComponentProps extends IBaseCompProps {
-    type?: 'text' | 'textarea' | 'password' | 'number' | 'float-number' | 'signed-number';
+    type?: 'text' | 'textarea' | 'password' | 'number' | 'float-number' | 'signed-number' | 'email';
     name?: string;
     id?: string;
     value?: string | number;
