@@ -36,7 +36,7 @@ const HomePage: IHomePage<IHomePageProps> = () => {
         dispatch(
             await fetchListEvent((res: IEventDataApiListRes | IErrorAPIRes | null) => {
                 if (res && res?.code === http.SUCCESS_CODE) {
-                    const data = (res as IEventDataApiListRes).result;
+                    const data = (res as IEventDataApiListRes).result?.dataEvent;
                     setState((prevState) => ({
                         ...prevState,
                         event: data,
