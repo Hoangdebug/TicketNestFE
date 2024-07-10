@@ -4,6 +4,7 @@ interface ITableHeadItem {
     isSort?: boolean;
     isCheckbox?: boolean;
     dataCheckbox?: IChoiceComponentProps[];
+    subHead?: ITableHeadItem[];
     onClick?: () => void;
 }
 
@@ -15,12 +16,30 @@ interface ITableBodyColumnItem {
     isLink?: boolean;
     isSelect?: boolean;
     isButton?: boolean;
+    isDatepicker?: boolean;
+    isDropdown?: boolean;
     className?: string;
 }
 
 interface ITableBodyItem {
     columns?: ITableBodyColumnItem[];
     rows?: any[];
+}
+
+interface ITableCheckboxItem {
+    type?: string;
+    checked?: string[];
+    items?: {
+        value: string;
+        onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    }[];
+}
+
+interface IDropdownItems {
+    id?: number;
+    value?: string;
+    text?: string;
+    disabled?: boolean;
 }
 
 interface ITableComponentProps extends IBaseCompProps {
@@ -34,15 +53,18 @@ interface ITableComponentProps extends IBaseCompProps {
     body?: ITableBodyItem;
     btn?: JSX.Element;
     total?: number;
-    isStickyColumn?: boolean;
     onChangeCheckList?: (value: string[]) => void;
-    onChangePage?: (page: number) => void;
+    isStickyColumn?: boolean;
+    classNameWrapper?: string;
+    page?: number;
+    limit?: number;
+    onChangePage?: (value: number) => void;
 }
 
 interface ITableComponentState {
     checkedValue?: string[];
     isScrollLeftEnd?: boolean;
-    page?: number;
+    subHead?: ITableSubHeadItem[];
 }
 
 interface ITableComponentHandle {
