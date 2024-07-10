@@ -27,7 +27,7 @@ const EventPageOrganizer: IEventListPage<IEventListPageProps> = () => {
         dispatch(
             await fetchListEventOrganizer((res: IEventByOrganizerDataApiRes | IErrorAPIRes | null) => {
                 if (res && res?.code === http.SUCCESS_CODE) {
-                    const data = (res as IEventByOrganizerDataApiRes).result;
+                    const data = (res as IEventByOrganizerDataApiRes).result?.dataEvent;
                     setState((prevState) => ({
                         ...prevState,
                         events: data,
@@ -140,10 +140,11 @@ const EventPageOrganizer: IEventListPage<IEventListPageProps> = () => {
                 <SideBar />
             </div>
             <div className="pages__organizer-table">
+                <h2 className="text-center">Event Manager</h2>
                 {events && events?.length > 0 ? (
                     <Table ref={tableRef} heads={tableEventRender.heads} body={tableEventRender.body} total={totalItems} />
                 ) : (
-                    <div className="text-center bases__font--16 fw-bolder">No events</div>
+                    <div className="text-center pt-2 bases__font--16 fw-bolder">No events</div>
                 )}
             </div>
         </div>

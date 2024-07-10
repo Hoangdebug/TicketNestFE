@@ -1,17 +1,26 @@
 interface IChoiceItem {
     id?: string;
-    label?: string;
     value?: string;
+    name?: string;
+    text?: string;
+    onChange?: (event?: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 interface IChoiceComponentProps extends IBaseCompProps {
-    data: IChoiceItem[];
+    items?: IChoiceItem[];
+    type?: 'checkbox' | 'radio' | 'radio-number';
     className?: string;
-    onChange?: (value: string[]) => void;
-    type?: 'radio' | 'checkbox';
-    viewMode?: 'horizontal' | 'vertical';
+    classNameWrapper?: string;
+    classNameInput?: string;
+    classNameLabel?: string;
+    classNameLabelWrapper?: string;
     checked?: string[];
-    id?: string;
+    disabled?: string[];
+    fontSize?: string;
+    text?: string;
+    onChange?: (value: string[]) => void;
 }
 
-interface IChoiceComponent<P = {}> extends IBaseComp<P> {}
+interface IChoiceComponentState {
+    dataChecked?: string[];
+}

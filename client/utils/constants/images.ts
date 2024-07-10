@@ -32,3 +32,4 @@ export const BG_ABOUT = '/assets/icons/bgabout.svg';
 export const ICON_CALENDAR = '/assets/icons/icon-calendar.svg';
 export const ICON_CLOCK = '/assets/icons/icon-clock.svg';
 export const ICON_TIMES = '/assets/icons/icon-times.svg';
+export const ICON_DROPDOWN = '/assets/icons/icon-dropdown.svg';

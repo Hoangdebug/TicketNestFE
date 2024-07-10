@@ -1,77 +1,95 @@
-const Choice: IChoiceComponent<IChoiceComponentProps> = (props) => {
-    const { data, onChange, className, type, checked, viewMode, id } = props;
+import { forwardRef } from 'react';
 
-    const onChangeCheckboxValues = (value: string) => {
-        const valueChecked = checked ?? [];
+const Choice = forwardRef<HTMLInputElement, IChoiceComponentProps>((props, ref) => {
+    const {
+        items,
+        type,
+        className,
+        classNameWrapper,
+        classNameInput,
+        classNameLabel,
+        classNameLabelWrapper,
+        checked,
+        disabled,
+        fontSize,
+        onChange,
+    } = props;
 
-        const existedIndex = valueChecked.indexOf(value);
-        if (existedIndex >= 0) {
-            valueChecked.splice(existedIndex, 1);
+    const handleOnChange = (item: IChoiceItem, event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.currentTarget.value;
+        let checkedValue = checked ?? [];
+        if (type === 'checkbox') {
+            const checkedIndex = checked?.indexOf(value) ?? -1;
+            if (checkedIndex >= 0) {
+                checkedValue?.splice(checkedIndex, 1);
+            } else {
+                checkedValue?.push(value);
+            }
         } else {
-            valueChecked.push(value);
+            checkedValue = [value];
         }
 
         if (onChange) {
-            onChange(valueChecked);
+            onChange(checkedValue ?? []);
+        }
+        if (item.onChange) {
+            item.onChange(event);
         }
     };
 
-    if (type === 'checkbox') {
-        return (
-            <div className={`components__choice ${viewMode === 'horizontal' ? 'd-flex align-items-center flex-wrap' : ''} ${className}`}>
-                {data.map((item, index) => (
-                    <div
-                        key={index}
-                        className={`${
-                            item.label ? (viewMode === 'horizontal' ? 'bases__margin--right16' : 'bases__margin--vertical16') : ''
-                        } d-flex align-items-center`}
-                    >
-                        <input
-                            className={`${item.label ? 'bases__margin--right4' : ''}`}
-                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeCheckboxValues(event.target.value)}
-                            type="checkbox"
-                            value={item.value}
-                            id={`${id}_${item.id}`}
-                            checked={checked && checked?.includes(item.value ?? '')}
-                        />
-                        <label htmlFor={`${id}_${item.id}`}>{item.label}</label>
-                    </div>
-                ))}
-            </div>
-        );
-    }
-
     return (
-        <div className={`components__choice ${viewMode === 'horizontal' ? 'd-flex align-items-center flex-wrap' : ''} ${className}`}>
-            {data.map((item, index) => (
-                <div
-                    key={index}
-                    className={`${
-                        item.label ? (viewMode === 'horizontal' ? 'bases__margin--right16' : 'bases__margin--vertical16') : ''
-                    } d-flex align-items-center`}
-                >
-                    <input
-                        className={`${item.label ? 'bases__margin--right4' : ''}`}
-                        type="radio"
-                        value={item.value}
-                        name={id}
-                        id={`${id}_${item.id}`}
-                        checked={checked && checked?.includes(item.value ?? '')}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => (onChange ? onChange([event.target.value]) : {})}
-                    />
-                    <label htmlFor={`${id}_${item.id}`}>{item.label}</label>
-                </div>
-            ))}
+        <div className={`components__choice ${className}`}>
+            {items?.length ? (
+                items?.map((item, index) => {
+                    return (
+                        <span
+                            key={index}
+                            className={`${item.text ? 'components__choice-wrap d-inline-flex align-items-center' : ''} ${classNameWrapper}`}
+                        >
+                            <label className={`m-0 p-0 d-flex align-items-center ${classNameLabelWrapper}`}>
+                                <input
+                                    ref={ref}
+                                    id={item.id}
+                                    type={type === 'checkbox' ? 'checkbox' : 'radio'}
+                                    value={item.value}
+                                    name={item.name}
+                                    disabled={disabled?.includes(item?.value?.toString() ?? '') ?? false}
+                                    checked={checked?.includes(item?.value?.toString() ?? '') ?? false}
+                                    className={`components__choice--${type === 'checkbox' ? 'checkbox' : 'radio'} ${classNameInput} ${
+                                        type === 'radio-number' ? 'd-none' : ''
+                                    }`}
+                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleOnChange(item, event)}
+                                />
+                                {type === 'radio-number' && (
+                                    <div className={`components__choice-wrap--number ${item.text ? '' : 'me-0'}`}>{index + 1}</div>
+                                )}
+                            </label>
+                            {item.text ? (
+                                <label htmlFor={item.id} className={`bases__font--${fontSize} ${classNameLabel}`}>
+                                    {item.text}
+                                </label>
+                            ) : (
+                                <></>
+                            )}
+                        </span>
+                    );
+                })
+            ) : (
+                <span>
+                    <input ref={ref} type={type === 'checkbox' ? 'checkbox' : 'radio'} className={`components__choice--${type}`} />
+                </span>
+            )}
         </div>
     );
-};
+});
 
 Choice.defaultProps = {
+    fontSize: '14',
     className: '',
-    type: 'radio',
-    checked: [],
-    viewMode: 'horizontal',
-    id: 'choice',
+    classNameLabel: '',
+    classNameInput: '',
+    classNameWrapper: '',
+    classNameLabelWrapper: '',
 };
 
 export default Choice;

@@ -37,9 +37,10 @@ const HomePage: IHomePage<IHomePageProps> = () => {
             await fetchListEvent((res: IEventDataApiListRes | IErrorAPIRes | null) => {
                 if (res && res?.code === http.SUCCESS_CODE) {
                     const data = (res as IEventDataApiListRes).result?.dataEvent;
+                    const dataFilter = data?.filter((event) => event.status === enums.EventStatus.SUCCESSED);
                     setState((prevState) => ({
                         ...prevState,
-                        event: data,
+                        event: dataFilter,
                     }));
                 }
             }),

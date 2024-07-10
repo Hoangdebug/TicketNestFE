@@ -39,6 +39,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
     const formattedDayEnd = moment(eventDetails?.day_end).format('MMM DD, YYYY HH:mm:ss');
     const dayStart = moment(formattedDayEnd).format('DD');
     const monthStart = moment(formattedDayEnd).format('MMM');
+
     const handleDetailsEvent = async () => {
         dispatch(
             await fetchDetailsEvent(id?.toString() ?? '', (res: IEventDataApiRes | IErrorAPIRes | null) => {
