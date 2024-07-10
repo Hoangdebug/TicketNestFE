@@ -1,0 +1,98 @@
+.components {
+    &__createAcc {
+        padding: 0px 60.5px;
+        @media screen and (max-width: 768px) {
+            padding: 0px;
+        }
+        &-form {
+            padding: 1.5rem;
+            background: #fff;
+            border-radius: 0.25rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            .row {
+                display: flex;
+                flex-wrap: wrap;
+                margin: 0 -0.5rem;
+                .col-md-6 {
+                    flex: 0 0 50%;
+                    max-width: 50%;
+                    padding: 0 0.5rem;
+                    .form-group {
+                        margin-bottom: 1.5rem;
+                        label {
+                            display: inline-block;
+                            margin-bottom: 0.5rem;
+                            font-weight: 600;
+                        }
+                        input,
+                        select {
+                            display: block;
+                            width: 100%;
+                            padding: 0.375rem 0.75rem;
+                            font-size: 1rem;
+                            line-height: 1.5;
+                            color: #495057;
+                            background-color: #fff;
+                            background-clip: padding-box;
+                            border: 1px solid #ced4da;
+                            border-radius: 0.25rem;
+                            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+                            &:focus {
+                                border-color: #80bdff;
+                                outline: 0;
+                                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+                            }
+                        }
+                    }
+                }
+            }
+            .d-flex {
+                display: flex;
+                &.flex-row-reverse {
+                    flex-direction: row-reverse;
+                    gap: 0.5rem;
+                }
+                .gap-2 {
+                    gap: 0.5rem;
+                }
+                button {
+                    &.btn {
+                        display: inline-block;
+                        font-weight: 400;
+                        text-align: center;
+                        white-space: nowrap;
+                        vertical-align: middle;
+                        user-select: none;
+                        border: 1px solid transparent;
+                        padding: 0.375rem 0.75rem;
+                        font-size: 1rem;
+                        line-height: 1.5;
+                        border-radius: 0.25rem;
+                        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+                            box-shadow 0.15s ease-in-out;
+                        &-green {
+                            color: #fff;
+                            background-color: #28a745;
+                            border-color: #28a745;
+                            &:hover {
+                                color: #fff;
+                                background-color: #218838;
+                                border-color: #1e7e34;
+                            }
+                        }
+                        &-clear {
+                            color: #fff;
+                            background-color: #6c757d;
+                            border-color: #6c757d;
+                            &:hover {
+                                color: #fff;
+                                background-color: #5a6268;
+                                border-color: #545b62;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
