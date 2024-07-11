@@ -1,20 +1,19 @@
 interface IButtonComponentProps extends IBaseCompProps {
-    borderColor?: string;
     background?: string;
     textColor?: string;
+    iconColor?: string;
+    fontWeight?: string;
     className?: string;
     fontSize?: string;
     disabled?: boolean;
     startIcon?: string;
     endIcon?: string;
     buttonText?: string;
-    onClick?: () => void;
-    onEndIconClick?: () => void;
+    borderColor?: string;
     fontWeight?: string;
-    iconColor?: string;
-    textClassName?: string;
-    iconSize?: number;
-    contentMode?: 'wrap' | 'nowrap';
+    width?: string;
+    height?: string;
+    onClick?: () => void;
 }
 
 interface IButtonComponent<P = {}> extends IBaseComp<P> {}

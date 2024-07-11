@@ -200,7 +200,7 @@ const CustomerRequestPage: ICustomerRequestPage<ICustomerRequestPageProps> = () 
             ) : (
                 <div className="col-md-9 pt-5">
                     <h2 className="fw-bold mb-4 text-center">Customer Request Organizer</h2>
-                    <div className="text-center bases__font--16 fw-bold bases__text--red"> No Request Organizer By Customer </div>
+                    <div className="text-center pt-3 bases__font--16 fw-bold bases__text--red"> No Request Organizer By Customer </div>
                 </div>
             )}
         </div>

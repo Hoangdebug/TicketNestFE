@@ -17,6 +17,7 @@ interface IEventDataApi {
         contact_phone?: string;
         sponsor_by?: string;
     };
+    status?: string;
 }
 
 interface IEventDataApiRes extends IBaseAPIRes {
@@ -26,7 +27,15 @@ interface IEventDataApiRes extends IBaseAPIRes {
 
 interface IEventByOrganizerDataApiRes extends IBaseAPIRes {
     code: number;
-    result?: IEventDataApi[];
+    result?: {
+        metadata?: {
+            pages?: number;
+            pageSize?: number;
+            currentPage?: number;
+            totalItems?: number;
+        };
+        dataEvent?: IEventDataApi[];
+    };
 }
 
 interface IEventDataApiListRes extends IBaseAPIRes {
