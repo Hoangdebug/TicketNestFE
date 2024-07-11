@@ -22,7 +22,15 @@ interface IEventDataApi {
 
 interface IEventDataApiRes extends IBaseAPIRes {
     code: number;
-    result?: IEventDataApi;
+    result?: {
+        metadata?: {
+            pages?: number;
+            pageSize?: number;
+            currentPage?: number;
+            totalItems?: number;
+        };
+        dataEvent?: IEventDataApi;
+    };
 }
 
 interface IEventByOrganizerDataApiRes extends IBaseAPIRes {

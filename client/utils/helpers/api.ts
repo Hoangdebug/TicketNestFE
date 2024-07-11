@@ -162,3 +162,11 @@ export const createAccountByAdmin = async (data: IRegisterDataApi) => {
         throw err;
     }
 };
+
+export const updateEventsStatusByAdmin = async (id: string, status: string) => {
+    try {
+        return await axios.put<IEventDataApiRes>(`${routes.API.ADMIN_UPDATE_STATUS_EVENT.href}/${id}`, status);
+    } catch (err) {
+        throw err;
+    }
+};
