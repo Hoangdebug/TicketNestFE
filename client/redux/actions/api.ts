@@ -134,8 +134,8 @@ export const fetchEditUserProfile = async (
 };
 
 export const fetchRequestOrganizer = async (
-    data: IEditUserProfileDataAPI,
-    callBack?: (result: IEditUserProfileAPIRes | IErrorAPIRes | null) => void,
+    data: IRequestOrganizeDataAPI,
+    callBack?: (result: IRequestOrganizeAPIRes | IErrorAPIRes | null) => void,
     isLoad: boolean = true,
 ) => {
     return async (dispatch: Dispatch) => {
@@ -432,7 +432,7 @@ export const fetchCreateAccountByAdmin = async (
 export const fetchUpdateStatusEventByAdmin = async (
     id: string,
     status: string,
-    callBack?: (result: IEventDataApiRes | IErrorAPIRes | null) => void,
+    callBack?: (result: IEventUpdateByAdmin | IErrorAPIRes | null) => void,
     isLoad: boolean = true,
 ) => {
     return async (dispatch: Dispatch) => {

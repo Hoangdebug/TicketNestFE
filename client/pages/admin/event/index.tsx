@@ -51,8 +51,8 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
 
     const handleUpdateStatusEventByAdmin = async () => {
         dispatch(
-            await fetchUpdateStatusEventByAdmin(ids?.toString() ?? '', status ?? '', (res: IEventDataApiRes | IErrorAPIRes | null) => {
-                if (res && res?.code === http.SUCCESS_CODE) {
+            await fetchUpdateStatusEventByAdmin(ids?.toString() ?? '', status ?? '', (res: IEventUpdateByAdmin | IErrorAPIRes | null) => {
+                if (res?.code === http.SUCCESS_CODE) {
                     handleFetchListEvents();
                 } else {
                     dispatch(
@@ -61,7 +61,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                             content: (
                                 <>
                                     <div className="text-center bases__margin--bottom31">
-                                        <Img src={images.ICON_TIMES} className="bases__width--90 bases__height--75" />
+                                        <Img src={images.ICON_CLOSE} className="bases__width--90 bases__height--75" />
                                     </div>
                                     <div className="bases__text--bold bases__font--14 text-center">Error While Update Status Event</div>
                                 </>
@@ -105,6 +105,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                         <div className="bases__text--bold bases__font--14 text-center">Do You Want To Accpet This Event?</div>
                         <div className="pt-3">
                             <Select
+                                className="p-2"
                                 value={status}
                                 onChange={(value: string) => handleOnChange('status', value)}
                                 options={renderEventTypeOptions()}
@@ -228,6 +229,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
             rows: renderData,
         },
     };
+
     return (
         <div className="row">
             <div className="col-md-2">
@@ -242,12 +244,12 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                         body={tableEventRender.body}
                         total={totalItems}
                         page={pages}
-                        onChangePage={(page) => {
-                            setState((prevState) => ({
-                                ...prevState,
-                                pages: page,
-                            }));
-                        }}
+                        // onChangePage={(page) => {
+                        //     setState((prevState) => ({
+                        //         ...prevState,
+                        //         pages: page,
+                        //     }));
+                        // }}
                     />
                 ) : (
                     <div className="text-center pt-5 fw-bold bases__text--red">No Event Need To Accept</div>

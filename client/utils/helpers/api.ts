@@ -123,9 +123,9 @@ export const detailsEvent = async (id: string) => {
     }
 };
 
-export const requestOrganizer = async (data: IEditUserProfileDataAPI) => {
+export const requestOrganizer = async (data: IRequestOrganizeDataAPI) => {
     try {
-        return await axios.put<IEditUserProfileAPIRes>(`${routes.API.REQUEST_ORGANIZER.href}`, { data });
+        return await axios.post<IRequestOrganizeAPIRes>(`${routes.API.REQUEST_ORGANIZER.href}`, data);
     } catch (err) {
         throw err;
     }
@@ -141,7 +141,7 @@ export const adminListCustomer = async () => {
 
 export const updateOrganizerByAdmin = async (id: string, data: IEditUserProfileDataAPI) => {
     try {
-        return await axios.put<IAdminUpdateOrganizerAPIRes>(`${routes.API.ADMIN_LIST_CUSTOMER.href}/${id}`, data);
+        return await axios.put<IAdminUpdateOrganizerAPIRes>(`${routes.API.ADMIN_LIST_CUSTOMER.href}/role/${id}`, data);
     } catch (err) {
         throw err;
     }
@@ -165,7 +165,7 @@ export const createAccountByAdmin = async (data: IRegisterDataApi) => {
 
 export const updateEventsStatusByAdmin = async (id: string, status: string) => {
     try {
-        return await axios.put<IEventDataApiRes>(`${routes.API.ADMIN_UPDATE_STATUS_EVENT.href}/${id}`, status);
+        return await axios.put<IEventUpdateByAdmin>(`${routes.API.ADMIN_UPDATE_STATUS_EVENT.href}/${id}`, status);
     } catch (err) {
         throw err;
     }

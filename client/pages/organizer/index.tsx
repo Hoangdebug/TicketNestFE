@@ -144,7 +144,7 @@ const EventPageOrganizer: IEventListPage<IEventListPageProps> = () => {
                 {events && events?.length > 0 ? (
                     <Table ref={tableRef} heads={tableEventRender.heads} body={tableEventRender.body} total={totalItems} />
                 ) : (
-                    <div className="text-center pt-2 bases__font--16 fw-bolder">No events</div>
+                    <div className="text-center pt-2 bases__font--16 fw-bolder bases__text--red">No events</div>
                 )}
             </div>
         </div>
