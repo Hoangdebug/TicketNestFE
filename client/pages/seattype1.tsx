@@ -37,9 +37,9 @@ const SeatType1Page: ISeatType1Page<ISeatType1PageProps> = () => {
 
     console.log(eventDetails);
     useEffect(() => {
-        if (!token) {
-            router.push(routes.CLIENT.LOGIN_PAGE.href, undefined, { scroll: false });
-        }
+        // if (!token) {
+        //     router.push(routes.CLIENT.LOGIN_PAGE.href, undefined, { scroll: false });
+        // }
         handleDetialsEvent();
     }, []);
 
