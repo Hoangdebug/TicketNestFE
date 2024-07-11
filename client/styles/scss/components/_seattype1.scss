@@ -6,8 +6,25 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 20px;
         padding-top: 50px; // Added padding to create space from the top
+
+        &-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.25rem; // equivalent to gap-5
+            margin-bottom: 0.5rem; // equivalent to mb-2
+            margin-top: 3rem; // equivalent to mt-10
+            margin-left: 0; // equivalent to mx-0
+            margin-right: 0; // equivalent to mx-0
+            animation: marquee-right-to-left 10s linear infinite;
+            white-space: nowrap;
+
+            span {
+                font-size: 1.25rem; // equivalent to text-xl
+                color: white; // equivalent to text-white
+            }
+        }
 
         &-screen {
             height: 50px;
@@ -139,4 +156,13 @@
             border-radius: 5px;
         }
     }
+}
+
+@keyframes marquee-right-to-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }

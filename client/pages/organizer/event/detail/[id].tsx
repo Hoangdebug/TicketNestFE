@@ -184,7 +184,18 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                         <span>{quantity}x Ticket(s)</span>
                         <span className="pages__eventdetail_body_sideright_actions_total">AUD ${totalMoney}</span>
                     </div>
-                    <button className="pages__eventdetail_body_sideright_book">Book Now</button>
+                    <button
+                        className="pages__eventdetail_body_sideright_book"
+                        onClick={() =>
+                            router.push(
+                                { pathname: routes.CLIENT.EVENT_DETAILS_PAGES_ORDER.href, query: { id:id } },
+                                undefined,
+                                { scroll: false },
+                            )
+                        }
+                    >
+                        Book Now
+                    </button>
                 </div>
             </div>
 

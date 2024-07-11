@@ -65,7 +65,14 @@ const SeatType1 = () => {
     }, [selectedSeat, ticketPrice]);
 
     return (
-        <div className="components__seattype1">
+        <div style={{
+            backgroundColor: 'black',
+            width: '100%',
+            height: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+        }}>
             <div>
                 <ul className="components__seattype1-seattitle">
                     <li className="components__seattype1-row text-white">
@@ -101,9 +108,8 @@ const SeatType1 = () => {
                                     return (
                                         <div
                                             key={seatNum}
-                                            className={`components__seattype1-seat ${
-                                                isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
-                                            }`}
+                                            className={`components__seattype1-seat ${isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
+                                                }`}
                                             onClick={() => toggleSeat(row, seatNum)}
                                         >
                                             {isSelected ? seatId : ''}
@@ -128,9 +134,8 @@ const SeatType1 = () => {
                                     return (
                                         <div
                                             key={seatNum}
-                                            className={`components__seattype1-seat ${
-                                                isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
-                                            }`}
+                                            className={`components__seattype1-seat ${isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
+                                                }`}
                                             onClick={() => toggleSeat(row, seatNum)}
                                         >
                                             {isSelected ? seatId : ''}
@@ -142,11 +147,12 @@ const SeatType1 = () => {
                     ))}
                 </div>
             </div>
-            {selectedSeat && (
-                <div className="components__seattype1-info">
-                    Ghế {selectedSeat} đang được chọn - Với giá: {ticketPrice} VND
-                </div>
-            )}
+            <div className="components__seattype1-info">
+                Bạn đang chọn ghế {selectedSeat} - Với giá: {ticketPrice} VND
+            </div>
+            <button>
+                Tiếp tục
+            </button>
         </div>
     );
 };

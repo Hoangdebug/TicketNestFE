@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { fetchDetailsEvent } from '@redux/actions/api';
+import moment from 'moment';
 
 const SeatType1Page: ISeatType1Page<ISeatType1PageProps> = () => {
     const router = useRouter();
@@ -20,6 +21,7 @@ const SeatType1Page: ISeatType1Page<ISeatType1PageProps> = () => {
     });
 
     const { eventDetails, event } = state;
+    const formattedDayEnd = moment(eventDetails?.day_end).format('MMM DD, YYYY HH:mm:ss');
 
     const handleDetialsEvent = async () => {
         dispatch(
@@ -37,15 +39,20 @@ const SeatType1Page: ISeatType1Page<ISeatType1PageProps> = () => {
 
     console.log(eventDetails);
     useEffect(() => {
-        // if (!token) {
-        //     router.push(routes.CLIENT.LOGIN_PAGE.href, undefined, { scroll: false });
-        // }
+        if (!token) {
+            router.push(routes.CLIENT.LOGIN_PAGE.href, undefined, { scroll: false });
+        }
         handleDetialsEvent();
     }, []);
 
     return (
         <>
-            <div className="components__app">
+            <div className="components__seattype1">
+                <div className="components__seattype1-details">
+                    <span>Event: {eventDetails?.name}</span>                    
+                    <span>Location: {eventDetails?.location}</span>
+                    <span>Time: {formattedDayEnd}</span>
+                </div>
                 <SeatType1 />
             </div>
         </>

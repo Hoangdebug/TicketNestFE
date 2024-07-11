@@ -34,6 +34,10 @@ const EVENT_DETAILS_PAGES: IRouteConstant = {
     href: 'organizer/event/detail/[id]',
 };
 
+const EVENT_DETAILS_PAGES_ORDER: IRouteConstant = {
+    href: '/seattype1',
+};
+
 const ERROR404: IRouteConstant = {
     href: '/404',
 };
@@ -122,6 +126,7 @@ export const CLIENT = {
     ADMIN_LIST_CUSTOMER_REQUEST_PAGE: ADMIN_LIST_CUSTOMER_REQUEST,
     ADMIN_MANAGER_EVENT_PAGE: ADMIN_MANAGER_EVENT,
     ADMIN_CREATE_ACCOUNT_PAGE: ADMIN_CREATE_ACCOUNT,
+    EVENT_DETAILS_PAGES_ORDER: EVENT_DETAILS_PAGES_ORDER,
 };
 
 const LOGIN_API: IRouteConstant = {
