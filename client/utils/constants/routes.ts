@@ -137,7 +137,7 @@ const CURRENT_USER_API: IRouteConstant = {
 };
 
 const REQUEST_ORGANIZER_API: IRouteConstant = {
-    href: '/user/request-organizer',
+    href: '/user/be-organizer',
 };
 
 const FORGOTPASSWORD_API: IRouteConstant = {
@@ -175,8 +175,13 @@ const ADMIN_LIST_CUSTOMER_REQUEST_API: IRouteConstant = {
 const ADMIN_UPDATE_ORGANIZER_API: IRouteConstant = {
     href: '/role',
 };
+
 const ADMIN_CREATE_ACCOUNT_BY_ADMIN_API: IRouteConstant = {
     href: '/user/create-account-by-admin',
+};
+
+const ADMIN_UPDATE_STATUS_EVENT_API: IRouteConstant = {
+    href: 'event/update-status',
 };
 
 export const API = {
@@ -198,4 +203,5 @@ export const API = {
     ADMIN_LIST_CUSTOMER_REQUEST: ADMIN_LIST_CUSTOMER_REQUEST_API,
     ADMIN_UPDATE_ORGANIZER: ADMIN_UPDATE_ORGANIZER_API,
     ADMIN_CREATE_ACCOUNT_BY_ADMIN: ADMIN_CREATE_ACCOUNT_BY_ADMIN_API,
+    ADMIN_UPDATE_STATUS_EVENT: ADMIN_UPDATE_STATUS_EVENT_API,
 };

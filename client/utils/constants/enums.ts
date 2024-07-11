@@ -30,5 +30,5 @@ export enum STATUS_ORGANIZER_REQUEST {
 export enum EventStatus {
     CANCELLED = 'Cancelled',
     PENDING = 'Pending',
-    SUCCESSED = 'Successed',
+    ACCEPTED = 'Successed',
 }

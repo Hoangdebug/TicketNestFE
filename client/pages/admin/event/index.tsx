@@ -1,9 +1,9 @@
-import { Button, Img, Table } from '@components/index';
+import { Button, Img, Select, Table } from '@components/index';
 import SideBar from '@components/layouts/admin/Sidebar';
 import { IEventManagerAcceptPage, IEventManagerAcceptPageProps, IEventManagerAcceptPageState } from '@interfaces/pages/eventaccept';
 import { setModal } from '@redux/actions';
-import { fetchListEvent } from '@redux/actions/api';
-import { enums, http, images, routes } from '@utils/constants';
+import { fetchListEvent, fetchUpdateStatusEventByAdmin } from '@redux/actions/api';
+import { enums, http, images } from '@utils/constants';
 import { useRouter } from 'next/router';
 import React, { createRef, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -19,11 +19,18 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
         ids: [],
     });
 
-    const { event, totalItems, pages, ids } = state;
+    const { event, totalItems, pages, ids, status } = state;
 
     useEffect(() => {
         handleFetchListEvents();
     }, []);
+
+    const handleOnChange = (field: string, value: string | number | boolean) => {
+        setState((prevState) => ({
+            ...prevState,
+            [field]: value,
+        }));
+    };
 
     const handleFetchListEvents = async () => {
         dispatch(
@@ -41,6 +48,50 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
             }),
         );
     };
+
+    const handleUpdateStatusEventByAdmin = async () => {
+        dispatch(
+            await fetchUpdateStatusEventByAdmin(ids?.toString() ?? '', status ?? '', (res: IEventUpdateByAdmin | IErrorAPIRes | null) => {
+                if (res?.code === http.SUCCESS_CODE) {
+                    handleFetchListEvents();
+                } else {
+                    dispatch(
+                        setModal({
+                            isShow: true,
+                            content: (
+                                <>
+                                    <div className="text-center bases__margin--bottom31">
+                                        <Img src={images.ICON_CLOSE} className="bases__width--90 bases__height--75" />
+                                    </div>
+                                    <div className="bases__text--bold bases__font--14 text-center">Error While Update Status Event</div>
+                                </>
+                            ),
+                        }),
+                    );
+                }
+            }),
+        );
+    };
+
+    const renderEventTypeOptions = () => {
+        const eventTypeOptions = [
+            {
+                value: enums.EventStatus.PENDING,
+                label: enums.EventStatus.PENDING,
+            },
+            {
+                value: enums.EventStatus.CANCELLED,
+                label: enums.EventStatus.CANCELLED,
+            },
+            {
+                value: enums.EventStatus.ACCEPTED,
+                label: enums.EventStatus.ACCEPTED,
+            },
+        ];
+
+        return eventTypeOptions;
+    };
+
     const handleConfirmUpdate = async (id: string) => {
         setState((prevState) => ({ ...prevState, ids: [id] }));
         dispatch(
@@ -51,7 +102,15 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                         <div className="text-center bases__margin--bottom31">
                             <Img src={images.ICON_TIMES} className="bases__width--90 bases__height--75" />
                         </div>
-                        <div className="bases__text--bold bases__font--14 text-center">Do you want to delete this user</div>
+                        <div className="bases__text--bold bases__font--14 text-center">Do You Want To Accpet This Event?</div>
+                        <div className="pt-3">
+                            <Select
+                                className="p-2"
+                                value={status}
+                                onChange={(value: string) => handleOnChange('status', value)}
+                                options={renderEventTypeOptions()}
+                            />
+                        </div>
                     </>
                 ),
                 button: (
@@ -62,7 +121,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                         buttonText="OK"
                         background="blue"
                         onClick={() => {
-                            // handleFetchDeleteUser();
+                            handleUpdateStatusEventByAdmin();
                             dispatch(
                                 setModal({
                                     isShow: false,
@@ -74,6 +133,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
             }),
         );
     };
+
     const renderData = event?.map((item) => {
         const editBtn = {
             export: {
@@ -169,6 +229,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
             rows: renderData,
         },
     };
+
     return (
         <div className="row">
             <div className="col-md-2">
@@ -183,12 +244,12 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                         body={tableEventRender.body}
                         total={totalItems}
                         page={pages}
-                        onChangePage={(page) => {
-                            setState((prevState) => ({
-                                ...prevState,
-                                pages: page,
-                            }));
-                        }}
+                        // onChangePage={(page) => {
+                        //     setState((prevState) => ({
+                        //         ...prevState,
+                        //         pages: page,
+                        //     }));
+                        // }}
                     />
                 ) : (
                     <div className="text-center pt-5 fw-bold bases__text--red">No Event Need To Accept</div>

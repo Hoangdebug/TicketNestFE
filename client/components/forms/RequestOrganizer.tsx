@@ -8,14 +8,16 @@ import { fetchRequestOrganizer } from '@redux/actions/api';
 import Button from '@components/commons/Button';
 import Input from '@components/commons/Input';
 
-const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponentProps> = (props) => {
-    const { organizerRequest } = props;
+const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponentProps> = () => {
     const router = useRouter();
     const dispatch = useDispatch();
 
     const [state, setState] = useState<IRequestOrganizerComponentState>({
         organizer: {
-            ...organizerRequest,
+            name: '',
+            description: '',
+            contact_email: '',
+            contact_phone: '',
         },
     });
 
@@ -40,10 +42,10 @@ const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponen
         let isValidate = true;
 
         const validatorText = [
-            { ref: organizationNameValidatorRef, value: organizer?.organizerName, message: 'Organization Name Is Not Empty!' },
-            { ref: descriptionValidatorRef, value: organizer?.organizerDescription, message: 'Description Is Not Empty!' },
-            { ref: contactEmailValidatorRef, value: organizer?.mailOrganizerName, message: 'Contact Email Is Not Empty!' },
-            { ref: contactPhoneValidatorRef, value: organizer?.phone, message: 'Contact Phone Is Not Empty!' },
+            { ref: organizationNameValidatorRef, value: organizer?.name, message: 'Organization Name Is Not Empty!' },
+            { ref: descriptionValidatorRef, value: organizer?.description, message: 'Description Is Not Empty!' },
+            { ref: contactEmailValidatorRef, value: organizer?.contact_email, message: 'Contact Email Is Not Empty!' },
+            { ref: contactPhoneValidatorRef, value: organizer?.contact_phone, message: 'Contact Phone Is Not Empty!' },
         ];
 
         validatorText.forEach(({ ref, value, message }) => {
@@ -57,14 +59,14 @@ const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponen
             }
         });
 
-        if (!validateHelper.isEmail(organizer?.mailOrganizerName ?? '')) {
+        if (!validateHelper.isEmail(organizer?.contact_email ?? '')) {
             contactEmailValidatorRef.current?.onValidateMessage('Enter a valid email address');
             isValidate = false;
         }
 
         if (isValidate) {
             dispatch(
-                await fetchRequestOrganizer(organizer ?? {}, (res) => {
+                await fetchRequestOrganizer(organizer ?? {}, (res: IAdminRequestCustomerAcceptApiRes | IErrorAPIRes | null) => {
                     if (res?.code === http.SUCCESS_CODE) {
                         router.push(routes.CLIENT.HOME_PAGE.href);
                     } else if (res?.code === 500) {
@@ -91,8 +93,8 @@ const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponen
                                     type="text"
                                     className="form-control"
                                     id="organizationName"
-                                    value={organizer?.organizerName}
-                                    onChange={(value: string) => handleOnChange('organizerName', value)}
+                                    value={organizer?.name}
+                                    onChange={(value: string) => handleOnChange('name', value)}
                                     name="organizationName"
                                     placeholder="Enter Your Organization Name"
                                     isBlockSpecial={true}
@@ -109,8 +111,8 @@ const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponen
                                     type="textarea"
                                     className="form-control"
                                     id="description"
-                                    value={organizer?.organizerDescription}
-                                    onChange={(value: string) => handleOnChange('organizerDescription', value)}
+                                    value={organizer?.description}
+                                    onChange={(value: string) => handleOnChange('description', value)}
                                     name="description"
                                     placeholder="Enter Description of Your Organization"
                                 />
@@ -128,8 +130,8 @@ const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponen
                                     type="text"
                                     className="form-control"
                                     id="contactEmail"
-                                    value={organizer?.mailOrganizerName}
-                                    onChange={(value: string) => handleOnChange('mailOrganizerName', value)}
+                                    value={organizer?.contact_email}
+                                    onChange={(value: string) => handleOnChange('contact_email', value)}
                                     name="contactEmail"
                                     placeholder="Enter Contact Email"
                                 />
@@ -146,8 +148,8 @@ const RequestOrganizerForm: IRequestOrganizerComponent<IRequestOrganizerComponen
                                     className="form-control"
                                     id="contactPhone"
                                     maxLength={10}
-                                    value={organizer?.phone ?? ''}
-                                    onChange={(value: string) => handleOnChange('phone', value)}
+                                    value={organizer?.contact_phone}
+                                    onChange={(value: string) => handleOnChange('contact_phone', value)}
                                     name="contactPhone"
                                     placeholder="Enter Contact Phone"
                                     isBlockSpecial={true}

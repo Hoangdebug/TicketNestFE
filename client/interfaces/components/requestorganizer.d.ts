@@ -1,9 +1,7 @@
-interface IRequestOrganizerComponentProps extends IBaseCompProps {
-    organizerRequest?: IEditUserProfileDataAPI;
-}
+interface IRequestOrganizerComponentProps extends IBaseCompProps {}
 
 interface IRequestOrganizerComponent<P = {}> extends IBaseComp<P> {}
 
 interface IRequestOrganizerComponentState {
-    organizer?: IEditUserProfileDataAPI;
+    organizer?: IRequestOrganizeDataAPI;
 }

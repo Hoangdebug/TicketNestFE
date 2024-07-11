@@ -44,7 +44,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
         dispatch(
             await fetchDetailsEvent(id?.toString() ?? '', (res: IEventDataApiRes | IErrorAPIRes | null) => {
                 if (res && res.code === http.SUCCESS_CODE) {
-                    const event = (res as IEventDataApiRes).result;
+                    const event = (res as IEventDataApiRes).result?.dataEvent;
                     setState((prevState) => ({
                         ...prevState,
                         eventDetails: event,

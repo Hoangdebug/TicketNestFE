@@ -9,4 +9,5 @@ interface ICustomerRequestPageState {
     ids?: string[];
     total?: number;
     organizerRequest?: string;
+    organizerDetials?: IRequestOrganizeDataAPI;
 }

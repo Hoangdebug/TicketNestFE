@@ -43,6 +43,22 @@ const CustomerBanList: IAdminCustomerBanPage<IAdminCustomerBanPageProps> = () =>
             await fetchBanCustomerByAdmin(ids?.toString() ?? '', (res: IAdminCustomerBanAPIRes | IErrorAPIRes | null) => {
                 if (res && res?.code === http.SUCCESS_CODE) {
                     handleFetchListCus();
+                } else {
+                    dispatch(
+                        setModal({
+                            isShow: true,
+                            content: (
+                                <>
+                                    <div className="text-center bases__margin--bottom31">
+                                        <Img src={images.ICON_CLOSE} className="bases__width--90 bases__height--75" />
+                                    </div>
+                                    <div className="bases__text--bold bases__font--14 text-center">
+                                        Error While Ban Customer. Please Try Again!!!
+                                    </div>
+                                </>
+                            ),
+                        }),
+                    );
                 }
             }),
         );
@@ -178,7 +194,7 @@ const CustomerBanList: IAdminCustomerBanPage<IAdminCustomerBanPageProps> = () =>
         },
     };
     return (
-        <div className="row">
+        <div className="row pt-5">
             <div className="pages__listCustomer-leftSide col-md-2">
                 <SideBar />
             </div>

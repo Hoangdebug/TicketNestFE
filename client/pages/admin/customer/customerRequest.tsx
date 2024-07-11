@@ -1,4 +1,4 @@
-import { Button, Img, Table } from '@components/index';
+import { Button, Img, Select, Table } from '@components/index';
 import SideBar from '@components/layouts/admin/Sidebar';
 import { ICustomerRequestPage, ICustomerRequestPageProps, ICustomerRequestPageState } from '@interfaces/pages/customerreuqest';
 import { setModal } from '@redux/actions';
@@ -10,19 +10,27 @@ import { useDispatch } from 'react-redux';
 const CustomerRequestPage: ICustomerRequestPage<ICustomerRequestPageProps> = () => {
     const dispatch = useDispatch();
     const tableRef = createRef<ITableComponentHandle>();
+    const tableRefRequest = createRef<ITableComponentHandle>();
 
     const [state, setState] = useState<ICustomerRequestPageState>({
         customers: [],
         ids: [],
         total: 0,
-        organizerRequest: '',
+        organizerDetials: undefined,
     });
 
-    const { customers, ids, organizerRequest } = state;
+    const { customers, ids, organizerRequest, organizerDetials } = state;
 
     useEffect(() => {
         handleFetchListCus();
     }, []);
+
+    const handleOnChange = (field: string, value: string | number | boolean) => {
+        setState((prevState) => ({
+            ...prevState,
+            [field]: value,
+        }));
+    };
 
     const handleFetchListCus = async () => {
         dispatch(
@@ -59,6 +67,25 @@ const CustomerRequestPage: ICustomerRequestPage<ICustomerRequestPageProps> = () 
         );
     };
 
+    const renderRoleOptions = () => {
+        const roleOptions = [
+            {
+                value: enums.STATUS_ORGANIZER_REQUEST.PROCESSING,
+                label: enums.STATUS_ORGANIZER_REQUEST.PROCESSING,
+            },
+            {
+                value: enums.STATUS_ORGANIZER_REQUEST.ACCEPT,
+                label: enums.STATUS_ORGANIZER_REQUEST.ACCEPT,
+            },
+            {
+                value: enums.STATUS_ORGANIZER_REQUEST.REJECTED,
+                label: enums.STATUS_ORGANIZER_REQUEST.REJECTED,
+            },
+        ];
+
+        return roleOptions;
+    };
+
     const handleConfirmUpdateRole = async (id: string) => {
         setState((prevState) => ({ ...prevState, ids: [id] }));
         dispatch(
@@ -67,8 +94,14 @@ const CustomerRequestPage: ICustomerRequestPage<ICustomerRequestPageProps> = () 
                 content: (
                     <>
                         <div className="text-center bases__margin--bottom31">
-                            <Img src={images.ICON_TIMES} className="bases__width--90 bases__height--75" />
+                            <Table ref={tableRefRequest} heads={tableRequest.heads} body={tableRequest.body} />
                         </div>
+                        <Select
+                            className="p-2"
+                            value={organizerRequest}
+                            onChange={(value: string) => handleOnChange('organizerRequest', value)}
+                            options={renderRoleOptions()}
+                        />
                         <div className="bases__text--bold bases__font--14 text-center">Do you want to update this account</div>
                     </>
                 ),
@@ -92,6 +125,7 @@ const CustomerRequestPage: ICustomerRequestPage<ICustomerRequestPageProps> = () 
             }),
         );
     };
+
     const renderData = customers?.map((item) => {
         const editBtn = {
             export: {
@@ -122,35 +156,83 @@ const CustomerRequestPage: ICustomerRequestPage<ICustomerRequestPageProps> = () 
         };
     });
 
+    const tableRequest: ITableComponentProps = {
+        heads: [
+            {
+                title: 'Name Organizer',
+                className: 'text-center',
+            },
+            {
+                title: 'Mail Organizer',
+                className: 'text-center',
+            },
+            {
+                title: 'Descriptions Organizer',
+                className: 'text-center',
+            },
+            {
+                title: 'Phone Organizer',
+                className: 'text-center',
+            },
+        ],
+        body: {
+            columns: [
+                {
+                    field: 'name',
+                    className: 'text-center',
+                },
+                {
+                    field: 'contact_email',
+                    className: 'text-center',
+                },
+                {
+                    field: 'description',
+                    className: 'text-center',
+                },
+                {
+                    field: 'contact_phone',
+                    className: 'text-center',
+                },
+            ],
+        },
+    };
+
     const tableEventRender: ITableComponentProps = {
         heads: [
             {
                 title: 'Update Role',
                 isSort: false,
+                className: 'text-center',
             },
             {
                 title: 'Users Name',
                 isSort: false,
+                className: 'text-center',
             },
             {
                 title: 'Days Of Birth',
                 isSort: true,
+                className: 'text-center',
             },
             {
                 title: 'Gender',
                 isSort: true,
+                className: 'text-center',
             },
             {
                 title: 'Phone',
                 isSort: true,
+                className: 'text-center',
             },
             {
                 title: 'Address',
                 isSort: true,
+                className: 'text-center',
             },
             {
                 title: 'Permission ',
                 isSort: true,
+                className: 'text-center',
             },
         ],
         body: {
@@ -158,6 +240,7 @@ const CustomerRequestPage: ICustomerRequestPage<ICustomerRequestPageProps> = () 
                 {
                     field: 'export',
                     isButton: true,
+                    className: 'd-flex justify-content-center',
                 },
                 {
                     field: 'username',
@@ -188,7 +271,7 @@ const CustomerRequestPage: ICustomerRequestPage<ICustomerRequestPageProps> = () 
         },
     };
     return (
-        <div className="row">
+        <div className="pages__custommerRequest row">
             <div className="col-md-2">
                 <SideBar />
             </div>
