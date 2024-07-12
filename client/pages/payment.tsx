@@ -15,58 +15,70 @@ const PaymentPage = () => {
   });
 
   return (
-    <div className="payment-container">
-      <div className="payment-header">
+    <div className="components__payment">
+      <div className="components__payment-header">
         <h1>THANH TOÁN</h1>
         <p>{ticketInfo.eventLocation}</p>
         <p>{ticketInfo.eventTime}</p>
       </div>
-      <div className="payment-content">
-        <div className="ticket-info">
-          <h2>Thông tin đặt vé</h2>
-          <div className="ticket-details">
-            <span>Loại vé</span>
-            <span>{ticketInfo.ticketType}</span>
+      <div className="components__payment-content">
+        <div className="components__payment-content-left">
+          <div className="components__payment-content-info">
+            <h2>Thông tin nhận vé</h2>
+            <div className="components__payment-content-ticket-info">
+              <p>{ticketInfo.name}</p>
+              <p>{ticketInfo.phone}</p>
+              <p>{ticketInfo.email}</p>
+            </div>
           </div>
-          <div className="ticket-details">
-            <span>Số lượng</span>
-            <span>{ticketInfo.quantity}</span>
-          </div>
-          <div className="ticket-details">
-            <span>Ghế</span>
-            <span>{ticketInfo.seatNumber}</span>
-          </div>
-          <div className="ticket-details">
-            <span>Tạm tính</span>
-            <span>{ticketInfo.ticketPrice} đ</span>
-          </div>
-        </div>
-        <div className="payment-method">
-          <h2>Phương thức thanh toán</h2>
-          <div>
-            <input type="radio" id="momo" name="payment" />
-            <label htmlFor="momo">Ví Momo</label>
-          </div>
-          <div>
-            <input type="radio" id="credit-card" name="payment" />
-            <label htmlFor="credit-card">Thẻ thanh toán quốc tế</label>
-          </div>
-          <div>
-            <input type="radio" id="atm" name="payment" />
-            <label htmlFor="atm">Thẻ ATM/Internet Banking</label>
+          <div className="components__payment-content-info">
+            <h2>Thông tin đặt vé</h2>
+            <div className="components__payment-content-ticket-details">
+              <span>Loại vé</span>
+              <span>{ticketInfo.ticketType}</span>
+            </div>
+            <div className="components__payment-content-ticket-details">
+              <span>Số lượng</span>
+              <span>{ticketInfo.quantity}</span>
+            </div>
+            <div className="components__payment-content-ticket-details">
+              <span>Ghế</span>
+              <span>{ticketInfo.seatNumber}</span>
+            </div>
+            <div className="components__payment-content-ticket-details">
+              <span>Tạm tính</span>
+              <span>{ticketInfo.ticketPrice} đ</span>
+            </div>
           </div>
         </div>
-        <div className="order-info">
-          <h2>Thông tin đơn hàng</h2>
-          <div className="order-details">
-            <span>Tạm tính</span>
-            <span>{ticketInfo.ticketPrice} đ</span>
+        <div className="components__payment-content-right">
+          <div className="components__payment-content-method">
+            <h2>Phương thức thanh toán</h2>
+            <div>
+              <input type="radio" id="momo" name="payment" />
+              <label htmlFor="momo">Ví Momo</label>
+            </div>
+            <div>
+              <input type="radio" id="credit-card" name="payment" />
+              <label htmlFor="credit-card">Thẻ thanh toán quốc tế</label>
+            </div>
+            <div>
+              <input type="radio" id="atm" name="payment" />
+              <label htmlFor="atm">Thẻ ATM/Internet Banking</label>
+            </div>
           </div>
-          <div className="order-total">
-            <span>Tổng tiền</span>
-            <span>{ticketInfo.ticketPrice} đ</span>
+          <div className="components__payment-content-order-info">
+            <h2>Thông tin đơn hàng</h2>
+            <div className="components__payment-content-order-details">
+              <span>Tạm tính</span>
+              <span>{ticketInfo.ticketPrice} đ</span>
+            </div>
+            <div className="components__payment-content-order-total">
+              <span>Tổng tiền</span>
+              <span>{ticketInfo.ticketPrice} đ</span>
+            </div>
+            <button className="components__payment-content-button">Thanh toán</button>
           </div>
-          <button className="payment-button">Thanh toán</button>
         </div>
       </div>
     </div>

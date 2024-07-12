@@ -1,0 +1,105 @@
+.components {
+    &__payment {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+
+        &-header {
+            text-align: center;
+            margin-bottom: 20px;
+
+            h1 {
+                font-size: 24px;
+                margin-bottom: 10px;
+                color: #28a745;
+            }
+
+            p {
+                font-size: 16px;
+                margin: 5px 0;
+            }
+        }
+
+        &-content {
+            display: flex;
+            gap: 20px;
+            flex-direction: column;
+
+            &-left,
+            &-right {
+                padding: 20px;
+                border-radius: 8px;
+
+                h2 {
+                    font-size: 20px;
+                    margin-bottom: 10px;
+                }
+
+                &-info {
+                    margin-bottom: 20px;
+
+                    &-ticket-info {
+                        background-color: #333;
+                        color: #fff;
+                        padding: 15px;
+                        border-radius: 8px;
+
+                        p {
+                            margin: 5px 0;
+                        }
+                    }
+
+                    &-ticket-details,
+                    &-order-details,
+                    &-order-total {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 10px;
+
+                        span {
+                            font-size: 16px;
+                        }
+                    }
+
+                    .order-total {
+                        font-weight: bold;
+
+                        span {
+                            font-size: 18px;
+                        }
+                    }
+
+                    input[type="radio"] {
+                        margin-right: 10px;
+                    }
+                }
+            }
+
+            &-left {
+                background-color: #1a1a1a;
+                color: #fff;
+            }
+
+            &-right {
+                background-color: #fff;
+                color: #000;
+
+                &-method {
+                    margin-bottom: 20px;
+                }
+
+                &-button {
+                    background-color: #28a745;
+                    color: #fff;
+                    border: none;
+                    padding: 10px 20px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    border-radius: 4px;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
