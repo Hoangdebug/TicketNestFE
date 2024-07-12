@@ -66,6 +66,14 @@ export const editUserProfile = async (data: IEditUserProfileDataAPI) => {
     }
 };
 
+export const forgotPassword = async (query: string = '') => {
+    try {
+        return await axios.get<IEditUserProfileAPIRes>(`${routes.API.FORGOTPASSWORD.href}/${query}`);
+    } catch (err) {
+        throw err;
+    }
+};
+
 export const uploadImg = async (formData: FormData, config?: AxiosRequestConfig) => {
     try {
         const accessTokenConfig = checkAccessTokenAndParams({ token: authHelper.accessToken() });
