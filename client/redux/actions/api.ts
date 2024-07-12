@@ -48,7 +48,7 @@ export const fetchLogin = async (
     };
 };
 
-export const fetchRegister = (
+export const fetchRegister = async (
     data: IRegisterDataApi,
     callBack?: (result: IRegisterDataApiRes | IErrorAPIRes | null) => void,
     isLoad: boolean = true,
@@ -60,6 +60,36 @@ export const fetchRegister = (
 
         try {
             const res = await apiHelper.register(data);
+            if (callBack) {
+                callBack(res?.data);
+            }
+        } catch (err) {
+            if (!(err instanceof Error)) {
+                const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+                if (callBack) {
+                    callBack(res?.data);
+                }
+            }
+        }
+
+        if (isLoad) {
+            dispatch(setLoader(false));
+        }
+    };
+};
+
+export const fetchForgotPassword = async (
+    query: string,
+    callBack?: (result: IEditUserProfileAPIRes | IErrorAPIRes | null) => void,
+    isLoad: boolean = true,
+) => {
+    return async (dispatch: Dispatch) => {
+        if (isLoad) {
+            dispatch(setLoader(true));
+        }
+
+        try {
+            const res = await apiHelper.forgotPassword(query);
             if (callBack) {
                 callBack(res?.data);
             }
@@ -134,8 +164,8 @@ export const fetchEditUserProfile = async (
 };
 
 export const fetchRequestOrganizer = async (
-    data: IEditUserProfileDataAPI,
-    callBack?: (result: IEditUserProfileAPIRes | IErrorAPIRes | null) => void,
+    data: IRequestOrganizeDataAPI,
+    callBack?: (result: IRequestOrganizeAPIRes | IErrorAPIRes | null) => void,
     isLoad: boolean = true,
 ) => {
     return async (dispatch: Dispatch) => {
@@ -399,7 +429,7 @@ export const fetchBanCustomerByAdmin = async (
     };
 };
 
-export const fetchCreateAccountByAdmin = (
+export const fetchCreateAccountByAdmin = async (
     data: IRegisterDataApi,
     callBack?: (result: IRegisterDataApiRes | IErrorAPIRes | null) => void,
     isLoad: boolean = true,
@@ -411,6 +441,37 @@ export const fetchCreateAccountByAdmin = (
 
         try {
             const res = await apiHelper.createAccountByAdmin(data);
+            if (callBack) {
+                callBack(res?.data);
+            }
+        } catch (err) {
+            if (!(err instanceof Error)) {
+                const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+                if (callBack) {
+                    callBack(res?.data);
+                }
+            }
+        }
+
+        if (isLoad) {
+            dispatch(setLoader(false));
+        }
+    };
+};
+
+export const fetchUpdateStatusEventByAdmin = async (
+    id: string,
+    status: string,
+    callBack?: (result: IEventUpdateByAdmin | IErrorAPIRes | null) => void,
+    isLoad: boolean = true,
+) => {
+    return async (dispatch: Dispatch) => {
+        if (isLoad) {
+            dispatch(setLoader(true));
+        }
+
+        try {
+            const res = await apiHelper.updateEventsStatusByAdmin(id, status);
             if (callBack) {
                 callBack(res?.data);
             }

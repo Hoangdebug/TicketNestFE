@@ -43,6 +43,22 @@ const CustomerBanList: IAdminCustomerBanPage<IAdminCustomerBanPageProps> = () =>
             await fetchBanCustomerByAdmin(ids?.toString() ?? '', (res: IAdminCustomerBanAPIRes | IErrorAPIRes | null) => {
                 if (res && res?.code === http.SUCCESS_CODE) {
                     handleFetchListCus();
+                } else {
+                    dispatch(
+                        setModal({
+                            isShow: true,
+                            content: (
+                                <>
+                                    <div className="text-center bases__margin--bottom31">
+                                        <Img src={images.ICON_CLOSE} className="bases__width--90 bases__height--75" />
+                                    </div>
+                                    <div className="bases__text--bold bases__font--14 text-center">
+                                        Error While Ban Customer. Please Try Again!!!
+                                    </div>
+                                </>
+                            ),
+                        }),
+                    );
                 }
             }),
         );
@@ -178,18 +194,18 @@ const CustomerBanList: IAdminCustomerBanPage<IAdminCustomerBanPageProps> = () =>
         },
     };
     return (
-        <div className="row">
+        <div className="row pt-5">
             <div className="pages__listCustomer-leftSide col-md-2">
                 <SideBar />
             </div>
             <div className="pages__organizer-table col-md-9">
+                <h2 className="fw-bold mb-4 text-center">Customer List Ban</h2>
                 {customers && customers.length > 0 ? (
                     <>
-                        <h2 className="fw-bold mb-4 text-center">Customer List Ban</h2>
                         <Table ref={tableRef} heads={tableEventRender.heads} body={tableEventRender.body} total={customers?.length} />
                     </>
                 ) : (
-                    <div className="text-center fw-bolder pt-5">No Customer Ban</div>
+                    <div className="text-center fw-bolder pt-2 bases__text--red">No Customer Ban</div>
                 )}
             </div>
         </div>

@@ -8,6 +8,7 @@ interface IRequestOrganizeDataAPI {
 interface IRequestOrganizeAPIRes extends IBaseAPIRes {
     code: number;
     mes: string;
+    results: IRequestOrganizeDataAPI;
 }
 
 interface IAdminRequestCustomerAcceptApiRes extends IBaseAPIRes {

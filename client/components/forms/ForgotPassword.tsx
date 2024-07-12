@@ -1,25 +1,31 @@
 import { createRef, useState } from 'react';
 import Validator from '@components/commons/Validator';
 import { validateHelper } from '@utils/helpers';
-import { routes } from '@utils/constants';
+import { http, images, routes } from '@utils/constants';
 import { useRouter } from 'next/router';
+import Input from '@components/commons/Input';
+import { useDispatch } from 'react-redux';
+import { fetchForgotPassword } from '@redux/actions/api';
+import { setModal } from '@redux/actions';
+import Img from '@components/commons/Img';
+import Button from '@components/commons/Button';
 
 const ForgotPasswordForm: IForgotPasswordComponent<IForgotPasswordComponentProps> = () => {
-    const navigate = useRouter();
-
-    const handlePrevPage = () => {
-        navigate.push(routes.CLIENT.LOGIN_PAGE.href);
-    };
-
-    const handleNextPage = () => {
-        navigate.push(routes.CLIENT.POST_FORGOT_PASSWORD_PAGE.href);
-    };
+    const router = useRouter();
+    const dispatch = useDispatch();
 
     const [state, setState] = useState<IForgotPasswordComponentState>({
         email: '',
     });
-
     const { email } = state;
+
+    const handlePrevPage = () => {
+        router.back();
+    };
+
+    const handleNextPage = () => {
+        router.push(routes.CLIENT.CHANGE_PASSWORD_PAGE.href);
+    };
 
     const emailValidatorRef = createRef<IValidatorComponentHandle>();
 
@@ -48,7 +54,60 @@ const ForgotPasswordForm: IForgotPasswordComponent<IForgotPasswordComponentProps
 
         // call api
         if (isValidate) {
-            // logic call api
+            dispatch(
+                await fetchForgotPassword(email?.toString() ?? '', (res: IEditUserProfileAPIRes | IErrorAPIRes | null) => {
+                    if (res?.code === http.SUCCESS_CODE) {
+                        dispatch(
+                            setModal({
+                                isShow: true,
+                                content: (
+                                    <>
+                                        <div className="text-center bases__margin--bottom31">
+                                            <Img src={images.ICON_SUCCESS} className="bases__width--90 bases__height--75" />
+                                        </div>
+                                        <div className="bases__text--bold bases__font--14 text-center">
+                                            Reset Password Link Has Been Sent!
+                                        </div>
+                                    </>
+                                ),
+                                button: (
+                                    <>
+                                        <Button
+                                            textColor="white"
+                                            background="blue"
+                                            buttonText="Continue"
+                                            onClick={() => {
+                                                handleNextPage();
+                                                dispatch(
+                                                    setModal({
+                                                        isShow: false,
+                                                    }),
+                                                );
+                                            }}
+                                        />
+                                    </>
+                                ),
+                            }),
+                        );
+                    } else {
+                        dispatch(
+                            setModal({
+                                isShow: true,
+                                content: (
+                                    <>
+                                        <div className="text-center bases__margin--bottom31">
+                                            <Img src={images.ICON_TIMES} className="bases__width--90 bases__height--75" />
+                                        </div>
+                                        <div className="bases__text--bold bases__font--14 text-center">
+                                            Email Not Exist. Please Try Again!!
+                                        </div>
+                                    </>
+                                ),
+                            }),
+                        );
+                    }
+                }),
+            );
         }
     };
 
@@ -60,13 +119,13 @@ const ForgotPasswordForm: IForgotPasswordComponent<IForgotPasswordComponentProps
                 <div className="form-group">
                     <label htmlFor="username">Mail</label>
                     <Validator ref={emailValidatorRef}>
-                        <input
-                            type="email"
+                        <Input
+                            type="text"
                             className="form-control"
                             id="username"
                             name="username"
                             value={email ?? ''}
-                            onChange={(e) => handleOnChange('email', e.target.value)}
+                            onChange={(value: string) => handleOnChange('email', value)}
                             placeholder="Enter Mail to reset password"
                         />
                     </Validator>

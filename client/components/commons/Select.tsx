@@ -1,62 +1,70 @@
 import { forwardRef } from 'react';
-import ReactSelect from 'react-select';
-
-import { useTrans } from '@utils/hooks';
+import ReactSelect, { createFilter, MultiValue } from 'react-select';
 
 const Select = forwardRef<HTMLSelectElement, ISelectComponentProps>((props, ref) => {
-    const trans = useTrans();
-    const { className, options, onBlur, onChange, value, isFilter } = props;
+    const { className, options, onBlur, onChange, value, isMulti, isBlankValue, disabled, hidenOption } = props;
 
-    if (isFilter) {
+    const handleMultiSelectValue = () => {
+        return options?.filter((option) => (value?.indexOf(option.value ?? '') ?? -1) >= 0);
+    };
+
+    const handleChangeMultiSelect = (data: MultiValue<ISelectItem>) => {
+        const selectedOptions = data.map((data) => data.value ?? '');
+        if (onChange) {
+            onChange(selectedOptions.join(','));
+        }
+    };
+
+    if (isMulti) {
         return (
-            <ReactSelect<ISelectItem>
-                className={`components__select ${className}`}
+            <ReactSelect
+                value={handleMultiSelectValue()}
+                className={`bases__text--dark-gray bases__font--14 components__select-multi w-100 ${className}`}
                 onBlur={(event: React.ChangeEvent<HTMLInputElement>) => (onBlur ? onBlur(event.target.value) : {})}
-                defaultValue={options?.filter((option) => option.value === value)[0]}
-                value={options?.filter((option) => option.value === value)[0]}
-                onChange={(data, _actionMeta) => (onChange ? onChange(data?.value?.toString() ?? '') : {})}
+                onChange={(data, _actionMeta) => handleChangeMultiSelect(data)}
                 options={options}
+                isMulti={isMulti}
+                closeMenuOnSelect={false}
+                blurInputOnSelect={false}
+                filterOption={createFilter({ matchFrom: 'start' })}
                 isSearchable={true}
                 isClearable={false}
                 placeholder=""
-                noOptionsMessage={() => trans.common.no_options}
-                menuPortalTarget={document.body}
-                styles={{
-                    menuPortal: (base) => ({ ...base, zIndex: 99999 }),
-                    option: (provided, state) => ({
-                        ...provided,
-                        color: state.isFocused || state.isSelected ? 'white' : 'black',
-                        background: state.isFocused || state.isSelected ? '#0d6efd' : 'white',
-                    }),
-                }}
-                menuShouldBlockScroll={true}
             />
         );
-    } else {
-        return (
-            <select
-                ref={ref}
-                className={`components__select bases__padding--horizontal8 ${className}`}
-                onBlur={(event: React.ChangeEvent<HTMLSelectElement>) => (onBlur ? onBlur(event.target.value) : {})}
-                onChange={(event: React.ChangeEvent<HTMLSelectElement>) => (onChange ? onChange(event.target.value) : {})}
-                value={value ? value : options && options?.length ? options[0].value : undefined}
-            >
-                {value === '' ? <option /> : <></>}
-                {options?.map(
-                    (item, index) =>
-                        item.value && (
-                            <option key={index} value={item.value}>
-                                {item.label}
-                            </option>
-                        ),
-                )}
-            </select>
-        );
     }
+
+    return (
+        <select
+            ref={ref}
+            className={`bases__text--dark-gray bases__font--14 components__select ${className}`}
+            onBlur={(event: React.ChangeEvent<HTMLSelectElement>) => (onBlur ? onBlur(event.currentTarget.value) : {})}
+            onChange={(event: React.ChangeEvent<HTMLSelectElement>) => (onChange ? onChange(event.currentTarget.value) : {})}
+            value={value}
+            disabled={disabled}
+        >
+            {options?.map((item, index) => {
+                return (
+                    <option
+                        key={index}
+                        disabled={(index === 0 && isBlankValue && !item.value) || item.disabled}
+                        value={item.value}
+                        hidden={hidenOption?.includes(item?.value?.toString() ?? '') ?? false}
+                        selected={item.value === value}
+                    >
+                        {item.label}
+                    </option>
+                );
+            })}
+        </select>
+    );
 });
 
 Select.defaultProps = {
     className: '',
+    isMulti: false,
+    isBlankValue: false,
+    disabled: false,
 };
 
 export default Select;

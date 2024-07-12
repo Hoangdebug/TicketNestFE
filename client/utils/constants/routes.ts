@@ -34,6 +34,10 @@ const EVENT_DETAILS_PAGES: IRouteConstant = {
     href: 'organizer/event/detail/[id]',
 };
 
+const EVENT_DETAILS_PAGES_ORDER: IRouteConstant = {
+    href: '/seattype1',
+};
+
 const ERROR404: IRouteConstant = {
     href: '/404',
 };
@@ -96,6 +100,10 @@ const CONTACT: IRouteConstant = {
     href: '/contact',
 };
 
+const ORDER_PAGE: IRouteConstant = {
+    href: '/order',
+};
+
 export const CLIENT = {
     LOGIN_PAGE: LOGIN,
     REGISTER_PAGE: REGISTER,
@@ -122,6 +130,8 @@ export const CLIENT = {
     ADMIN_LIST_CUSTOMER_REQUEST_PAGE: ADMIN_LIST_CUSTOMER_REQUEST,
     ADMIN_MANAGER_EVENT_PAGE: ADMIN_MANAGER_EVENT,
     ADMIN_CREATE_ACCOUNT_PAGE: ADMIN_CREATE_ACCOUNT,
+    EVENT_DETAILS_PAGES_ORDER: EVENT_DETAILS_PAGES_ORDER,   
+    ORDER_PAGES: ORDER_PAGE, 
 };
 
 const LOGIN_API: IRouteConstant = {
@@ -137,15 +147,11 @@ const CURRENT_USER_API: IRouteConstant = {
 };
 
 const REQUEST_ORGANIZER_API: IRouteConstant = {
-    href: '/user/request-organizer',
+    href: '/user/be-organizer',
 };
 
 const FORGOTPASSWORD_API: IRouteConstant = {
     href: '/user/forgotpassword',
-};
-
-const POSTFORGOTPASSWORD_API: IRouteConstant = {
-    href: '/user/postforgotpassword',
 };
 
 const CHANGEPASSWORD_API: IRouteConstant = {
@@ -175,8 +181,13 @@ const ADMIN_LIST_CUSTOMER_REQUEST_API: IRouteConstant = {
 const ADMIN_UPDATE_ORGANIZER_API: IRouteConstant = {
     href: '/role',
 };
+
 const ADMIN_CREATE_ACCOUNT_BY_ADMIN_API: IRouteConstant = {
     href: '/user/create-account-by-admin',
+};
+
+const ADMIN_UPDATE_STATUS_EVENT_API: IRouteConstant = {
+    href: 'event/update-status',
 };
 
 export const API = {
@@ -184,7 +195,6 @@ export const API = {
     REGISTER: REGISTER_API,
     CURRENT_USER: CURRENT_USER_API,
     FORGOTPASSWORD: FORGOTPASSWORD_API,
-    POSTFORGOTPASSWORD: POSTFORGOTPASSWORD_API,
     CHANGEPASSWORD: CHANGEPASSWORD_API,
     REQUEST_ORGANIZER: REQUEST_ORGANIZER_API,
 
@@ -198,4 +208,5 @@ export const API = {
     ADMIN_LIST_CUSTOMER_REQUEST: ADMIN_LIST_CUSTOMER_REQUEST_API,
     ADMIN_UPDATE_ORGANIZER: ADMIN_UPDATE_ORGANIZER_API,
     ADMIN_CREATE_ACCOUNT_BY_ADMIN: ADMIN_CREATE_ACCOUNT_BY_ADMIN_API,
+    ADMIN_UPDATE_STATUS_EVENT: ADMIN_UPDATE_STATUS_EVENT_API,
 };

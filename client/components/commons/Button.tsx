@@ -6,19 +6,17 @@ const Button: IButtonComponent<IButtonComponentProps> = (props) => {
         buttonText,
         className,
         onClick,
-        onEndIconClick,
         disabled,
         fontSize,
         background,
         textColor,
+        fontWeight,
+        borderColor,
         endIcon,
         startIcon,
-        borderColor,
+        width,
+        height,
         iconColor,
-        textClassName,
-        fontWeight,
-        iconSize,
-        contentMode,
     } = props;
     const btn = createRef<HTMLButtonElement>();
 
@@ -49,51 +47,33 @@ const Button: IButtonComponent<IButtonComponentProps> = (props) => {
     return (
         <button
             ref={btn}
-            className={`bases__border--${borderColor} components__button bases__font--${fontSize} bases__background--${background} bases__text--${textColor} ${className} ${
-                disabled ? 'components__button_disable' : ''
-            } ${contentMode === 'wrap' ? 'components__button_content-wrap' : ''}`}
+            className={`components__button bases__font--${fontSize} bases__background--${background} bases__text--${textColor} bases__text--${fontWeight} bases__border--${borderColor} ${
+                width ? `bases__width--${width}` : ''
+            } ${height ? `bases__height--${height}` : ''} ${className}`}
             onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleClickButton(event)}
             disabled={disabled}
         >
             {startIcon ? (
-                <Img
-                    width={iconSize}
-                    height={iconSize}
-                    className={`${buttonText ? 'components__button-icon--start' : ''} bases__filter--${iconColor ? iconColor : textColor}`}
-                    src={startIcon}
-                />
+                <Img className={`components__button-icon--start bases__filter--${iconColor ? iconColor : textColor}`} src={startIcon} />
             ) : (
                 <></>
             )}
-            <div className={`${textClassName} bases__text--${fontWeight} components__button-text`}>{buttonText}</div>
-            {endIcon ? (
-                <Img
-                    onClick={() => (onEndIconClick ? onEndIconClick() : {})}
-                    width={iconSize}
-                    className={`${buttonText ? 'components__button-icon--end' : ''} bases__filter--${iconColor ? iconColor : textColor}`}
-                    src={endIcon}
-                />
-            ) : (
-                <></>
-            )}
+            {buttonText}
+            {endIcon ? <Img className={`components__button-icon--end bases__filter--${textColor}`} src={endIcon} /> : <></>}
         </button>
     );
 };
 
 Button.defaultProps = {
     className: '',
-    fontSize: '18',
-    background: 'red',
+    buttonText: '',
+    fontSize: '14',
+    background: 'blue',
+    borderColor: 'none',
     textColor: 'white',
     disabled: false,
-    onClick: () => {},
-    onEndIconClick: () => {},
-    borderColor: 'none',
-    textClassName: '',
     fontWeight: 'bold',
-    buttonText: '',
-    iconSize: 17,
-    contentMode: 'nowrap',
+    onClick: () => {},
 };
 
 export default Button;

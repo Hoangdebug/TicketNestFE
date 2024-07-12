@@ -1,14 +1,17 @@
-import { createRef, forwardRef, useImperativeHandle, useState } from 'react';
+import { createRef, forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 
 import Input from '@components/commons/Input';
 import Choice from '@components/commons/Choice';
 import Button from '@components/commons/Button';
 import Select from '@components/commons/Select';
+import Datepicker from '@components/commons/Datepicker';
 import Img from '@components/commons/Img';
-import Pagination from '@components/layouts/Pagination';
+import Dropdown from '@components/commons/Dropdown';
 
 import { useTrans } from '@utils/hooks';
 import { images } from '@utils/constants';
+
+import Pagination from '@components/layouts/Pagination';
 
 const Table = forwardRef<ITableComponentHandle, ITableComponentProps>((props, ref) => {
     const trans = useTrans();
@@ -23,16 +26,19 @@ const Table = forwardRef<ITableComponentHandle, ITableComponentProps>((props, re
         body,
         btn,
         total,
-        isStickyColumn,
         onChangeCheckList,
+        isStickyColumn,
+        classNameWrapper,
+        page,
+        limit,
         onChangePage,
     } = props;
     const [state, setState] = useState<ITableComponentState>({
         checkedValue: [],
         isScrollLeftEnd: true,
-        page: 1,
+        subHead: [],
     });
-    const { checkedValue, isScrollLeftEnd, page } = state;
+    const { checkedValue, isScrollLeftEnd, subHead } = state;
     const tableWrapperRef = createRef<HTMLDivElement>();
 
     useImperativeHandle(ref, () => ({
@@ -47,54 +53,74 @@ const Table = forwardRef<ITableComponentHandle, ITableComponentProps>((props, re
         },
     }));
 
+    useEffect(() => {
+        let subHead: ITableHeadItem[] = [];
+        heads?.map((head) => {
+            if (head.subHead && head.subHead.length > 0) {
+                subHead = [...subHead, ...(head.subHead ?? [])];
+            }
+        });
+        setState((prevState) => ({
+            ...prevState,
+            subHead,
+        }));
+    }, []);
+
     const handleCheckList = (checked: string[], isHead: boolean = false) => {
-        const checkedValue: string[] = [];
-        const checkedList: string[] = [];
+        const newCheckedValue: string[] = checkedValue ?? [];
 
         if (isHead) {
-            checked.forEach((value) => {
-                if (value === 'all') {
-                    checkedValue.push('all');
-                    body?.rows?.forEach((itemRow) => {
-                        body?.columns?.forEach((itemColumn) => {
-                            if (itemColumn.isCheckbox) {
-                                const item = itemRow[itemColumn?.field ?? ''][0].data[0];
-                                checkedValue.push(item?.value ?? '');
-                                checkedList.push(item?.value ?? '');
-                            }
-                        });
-                    });
-                } else {
-                    checkedValue.length = 0;
+            if (checked.includes('all')) {
+                if (!newCheckedValue?.includes('all')) {
+                    newCheckedValue?.push('all');
                 }
-            });
+                body?.rows?.forEach((itemRow) => {
+                    const itemColumn = body?.columns?.find((itemColumn) => itemColumn.isCheckbox);
+                    const item = itemRow[itemColumn?.field ?? ''][0].items[0];
+
+                    if (!itemRow[itemColumn?.field ?? ''][0].disabled) {
+                        if (!newCheckedValue.includes(item?.value ?? '')) {
+                            newCheckedValue?.push(item?.value ?? '');
+                        }
+                    }
+                });
+            } else {
+                newCheckedValue.length = 0;
+            }
         } else {
-            checked.forEach((value) => {
-                checkedValue?.push(value);
-                if (value !== 'all') {
-                    checkedList.push(value);
+            const checkedValue = checked[0] ?? '';
+            if (checkedValue !== '' && !newCheckedValue.includes(checkedValue)) {
+                newCheckedValue?.push(checkedValue);
+            }
+
+            const currentCheckedList: string[] = [];
+            body?.rows?.forEach((itemRow) => {
+                const itemColumn = body?.columns?.find((itemColumn) => itemColumn.isCheckbox);
+                const item = itemRow[itemColumn?.field ?? ''][0].items[0];
+                if (newCheckedValue.includes(item.value)) {
+                    currentCheckedList.push(item.value);
                 }
             });
 
             const allCheckIndex = checked.indexOf('all');
-            if (checkedList.length === (body?.rows?.length ?? 0)) {
+            if (currentCheckedList.length === (body?.rows?.length ?? 0)) {
                 if (allCheckIndex < 0) {
-                    checkedValue?.push('all');
+                    newCheckedValue?.push('all');
                 }
             } else {
                 if (allCheckIndex >= 0) {
-                    checkedValue?.splice(allCheckIndex, 1);
+                    newCheckedValue?.splice(allCheckIndex, 1);
                 }
             }
         }
 
         if (onChangeCheckList) {
-            onChangeCheckList(checkedList);
+            onChangeCheckList(newCheckedValue.filter((value) => value !== 'all'));
         }
 
         setState((prevState) => ({
             ...prevState,
-            checkedValue,
+            checkedValue: newCheckedValue,
         }));
     };
 
@@ -107,26 +133,48 @@ const Table = forwardRef<ITableComponentHandle, ITableComponentProps>((props, re
         }
     };
 
-    const handleChanePage = (page: number) => {
-        setState((prevState) => ({
-            ...prevState,
-            page,
-        }));
+    const handleChangePage = (page: number) => {
         if (onChangePage) {
+            window.scrollTo({
+                top: (tableWrapperRef.current?.offsetTop ?? 0) - 150,
+                behavior: 'auto',
+            });
             onChangePage(page);
         }
     };
 
-    const renderHeads = () => {
+    const renderCheckedAll = () => {
+        let countCheckedItem = 0;
+        body?.rows?.forEach((itemRow) => {
+            const itemColumn = body?.columns?.find((itemColumn) => itemColumn.isCheckbox);
+            if (itemColumn) {
+                const item = itemRow[itemColumn?.field ?? ''][0].items[0];
+                if (checkedValue?.includes(item.value ?? '')) {
+                    countCheckedItem++;
+                }
+            }
+        });
+
+        if ((body?.rows?.length ?? 0) > 0 && countCheckedItem === (body?.rows?.length ?? 0)) {
+            return ['all'];
+        }
+
+        return [];
+    };
+
+    const renderHeads = (isSub: boolean = false) => {
+        const headData = isSub ? subHead : heads;
         return (
             <tr className={classNameTr}>
-                {heads?.map((head, index) => {
+                {headData?.map((head, index) => {
                     if (Object.keys(head).length === 0) {
                         return;
                     }
 
                     return (
                         <th
+                            rowSpan={!isSub && !head.subHead && subHead?.length ? 2 : undefined}
+                            colSpan={!isSub && head.subHead ? head.subHead?.length : undefined}
                             key={index}
                             className={`bases__text--bold bases__font--14 ${classNameTh} ${head?.className ?? ''} ${
                                 head.isSort ? 'bases__p--cursor' : ''
@@ -136,9 +184,10 @@ const Table = forwardRef<ITableComponentHandle, ITableComponentProps>((props, re
                             {head.isCheckbox ? (
                                 <Choice
                                     type="checkbox"
-                                    checked={checkedValue ?? []}
-                                    data={(head?.dataCheckbox ?? [])[0]?.data}
-                                    className="justify-content-center"
+                                    classNameLabelWrapper="justify-content-center"
+                                    checked={renderCheckedAll()}
+                                    items={(head?.dataCheckbox ?? [])[0]?.items}
+                                    className="text-center"
                                     onChange={(value: string[]) => handleCheckList(value, true)}
                                 />
                             ) : (
@@ -189,6 +238,7 @@ const Table = forwardRef<ITableComponentHandle, ITableComponentProps>((props, re
                                         itemRow[itemColumn?.field ?? ''] && (
                                             <Input
                                                 value={itemRow[itemColumn?.field ?? ''][0].value}
+                                                rawValue={itemRow[itemColumn?.field ?? ''][0].rawValue}
                                                 name={itemRow[itemColumn?.field ?? ''][0].name}
                                                 id={itemRow[itemColumn?.field ?? ''][0].id}
                                                 disabled={itemRow[itemColumn?.field ?? ''][0].disabled}
@@ -207,9 +257,11 @@ const Table = forwardRef<ITableComponentHandle, ITableComponentProps>((props, re
                                         itemRow[itemColumn?.field ?? ''] && (
                                             <Choice
                                                 type="checkbox"
+                                                classNameLabelWrapper="justify-content-center"
                                                 checked={itemRow[itemColumn?.field ?? ''][0].checked ?? checkedValue}
-                                                data={itemRow[itemColumn?.field ?? ''][0].data}
-                                                className="justify-content-center"
+                                                items={itemRow[itemColumn?.field ?? ''][0].items}
+                                                disabled={itemRow[itemColumn?.field ?? ''][0].disabled}
+                                                className="text-center"
                                                 onChange={(value: string[]) => handleCheckList(value)}
                                             />
                                         )
@@ -217,9 +269,9 @@ const Table = forwardRef<ITableComponentHandle, ITableComponentProps>((props, re
                                         itemRow[itemColumn?.field ?? ''] && (
                                             <Choice
                                                 type="radio"
-                                                checked={itemRow[itemColumn?.field ?? ''][0].checked ?? checkedValue}
-                                                data={itemRow[itemColumn?.field ?? ''][0].data}
-                                                className="justify-content-center"
+                                                checked={itemRow[itemColumn?.field ?? ''][0].checked}
+                                                items={itemRow[itemColumn?.field ?? ''][0].items}
+                                                className="text-center"
                                             />
                                         )
                                     ) : itemColumn.isSelect ? (
@@ -230,14 +282,65 @@ const Table = forwardRef<ITableComponentHandle, ITableComponentProps>((props, re
                                                 options={itemRow[itemColumn?.field ?? '']['list']}
                                                 value={itemRow[itemColumn?.field ?? '']['selected']}
                                                 onChange={itemRow[itemColumn?.field ?? '']['onChange']}
+                                                hidenOption={itemRow[itemColumn?.field ?? '']['hidenOption']}
                                             />
                                         )
                                     ) : itemColumn.isButton ? (
                                         <Button
                                             startIcon={itemRow[itemColumn?.field ?? '']['srcIcon']}
-                                            className="components__table-btn w-100"
+                                            className="components__table-btn_detail"
                                             background={itemRow[itemColumn?.field ?? '']['background'] ?? 'green'}
+                                            width="42"
+                                            height="28"
                                             onClick={itemRow[itemColumn?.field ?? '']['onClick'] ?? {}}
+                                        />
+                                    ) : itemColumn.isDropdown ? (
+                                        itemRow[itemColumn?.field ?? ''] &&
+                                        Object.keys(itemRow[itemColumn?.field ?? '']).length > 0 && (
+                                            <Dropdown
+                                                toggle={
+                                                    <div className="bases__background--dark-gray bases__border--radius5">
+                                                        <Img src={images.ICON_DROPDOWN} className="bases__filter--white" />
+                                                    </div>
+                                                }
+                                                menu={
+                                                    <div className="components__table-dropdown">
+                                                        {itemRow[itemColumn?.field ?? '']['dropdownItems']?.map(
+                                                            (item: IDropdownItems, index: number) => {
+                                                                return (
+                                                                    <div
+                                                                        className={`components__table-dropdown_items${
+                                                                            item.disabled ? '-disabled' : ''
+                                                                        }`}
+                                                                        key={index}
+                                                                    >
+                                                                        <Button
+                                                                            buttonText={item.text ?? ''}
+                                                                            disabled={item.disabled}
+                                                                            background="transparent"
+                                                                            textColor="black"
+                                                                            className="components__table-dropdown_button"
+                                                                            height="30"
+                                                                            onClick={() =>
+                                                                                itemRow[itemColumn?.field ?? '']['onClick'](item.value) ??
+                                                                                {}
+                                                                            }
+                                                                        />
+                                                                    </div>
+                                                                );
+                                                            },
+                                                        )}
+                                                    </div>
+                                                }
+                                            />
+                                        )
+                                    ) : itemColumn.isDatepicker ? (
+                                        <Datepicker
+                                            value={itemRow[itemColumn?.field ?? ''][0].value}
+                                            showTimeInput={true}
+                                            width={itemRow[itemColumn?.field ?? ''][0].width ?? 163}
+                                            height={itemRow[itemColumn?.field ?? ''][0].height ?? 32}
+                                            onChange={itemRow[itemColumn?.field ?? ''][0].onChange}
                                         />
                                     ) : (
                                         <span className={itemColumn?.isLink ? 'components__table-link' : ''}>
@@ -253,15 +356,24 @@ const Table = forwardRef<ITableComponentHandle, ITableComponentProps>((props, re
         );
     };
 
+    const renderTopTable = (button?: JSX.Element) => {
+        return (
+            <>
+                <span className="bases__font--14">
+                    {total ?? 0}
+                    The item was found to be relevant.
+                </span>
+                {button}
+            </>
+        );
+    };
+
     return (
         <div className={`components__table ${className}`}>
-            <div className="d-flex align-items-center bases__margin--bottom12">
-                <span className={`bases__font--14 bases__text--dark-gray`}>{trans.common.table.total(total ?? 0)}</span>
-                {btn}
-            </div>
+            {btn && <div className="d-flex align-items-center bases__margin--bottom12">{renderTopTable(btn)}</div>}
             <div
                 ref={tableWrapperRef}
-                className="components__table-wrapper bases__padding--bottom20"
+                className={`components__table-wrapper bases__padding--bottom20 ${classNameWrapper}`}
                 onScroll={() => handleScrollHorizontal()}
             >
                 <table
@@ -269,16 +381,18 @@ const Table = forwardRef<ITableComponentHandle, ITableComponentProps>((props, re
                         isStickyColumn && !isScrollLeftEnd ? 'components__table-sticky-border' : ''
                     } ${classNameTable}`}
                 >
-                    <thead>{renderHeads()}</thead>
+                    <thead>
+                        {renderHeads()}
+                        {renderHeads(true)}
+                    </thead>
                     <tbody>{renderRows()}</tbody>
                 </table>
-                <Pagination
-                    current={page}
-                    onPageChange={(page: number) => handleChanePage(page)}
-                    className="bases__margin--top24"
-                    totalPage={parseInt(((total ?? 0) / 20 + 0.5).toFixed())}
-                />
             </div>
+            {total && page ? (
+                <Pagination current={page} totalPage={Math.ceil(total / (limit ?? 10))} onPageChange={(page) => handleChangePage(page)} />
+            ) : (
+                <></>
+            )}
         </div>
     );
 });
@@ -291,6 +405,7 @@ Table.defaultProps = {
     classNameThIcon: '',
     classNameTd: '',
     isStickyColumn: false,
+    limit: 100,
 };
 
 export default Table;
