@@ -4,17 +4,7 @@ import { useRouter } from 'next/router';
 import { fetchDetailsEvent } from '@redux/actions/api';
 import { useDispatch } from 'react-redux';
 
-interface ISeatType1ComponentState {
-    rows: string[];
-    numSeatOfRowLeft: number[];
-    numSeatOfRowRight: number[];
-    vipRows: string[];
-    selectedSeats: string[];
-    orderedSeats: string[];
-    ticketPrice: number;
-}
-
-const SeatType1 = () => {
+const SeatType1: ISeatType1Component<ISeatType1ComponentProps> = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const { id, quantity } = router.query;
@@ -24,28 +14,28 @@ const SeatType1 = () => {
         numSeatOfRowLeft: [1, 2, 3, 4],
         numSeatOfRowRight: [5, 6, 7, 8],
         vipRows: ['A', 'B'],
-        selectedSeats: [],
+        selectedSeat: [],
         orderedSeats: ['A1', 'C1', 'C2'],
         ticketPrice: 0,
     });
 
-    const { rows, numSeatOfRowLeft, numSeatOfRowRight, vipRows, selectedSeats, orderedSeats, ticketPrice } = state;
+    const { rows, numSeatOfRowLeft, numSeatOfRowRight, vipRows, selectedSeat, orderedSeats, ticketPrice } = state;
 
     const toggleSeat = (row: string, seatNum: number) => {
         const seatId = `${row}${seatNum}`;
-        if (orderedSeats.includes(seatId)) return;
+        if (orderedSeats?.includes(seatId)) return;
 
         setState((prev) => {
-            let newSelectedSeats = [...prev.selectedSeats];
-            let newTicketPrice = prev.ticketPrice;
+            let newSelectedSeats = [...(prev.selectedSeat ?? [])];
+            let newTicketPrice = prev.ticketPrice ?? 0;
 
             if (newSelectedSeats.includes(seatId)) {
                 newSelectedSeats = newSelectedSeats.filter(seat => seat !== seatId);
-                newTicketPrice -= vipRows.includes(row) ? 100000 : 75000;
+                newTicketPrice -= vipRows?.includes(row) ? 100000 : 75000;
             } else {
                 if (newSelectedSeats.length < maxSeats) {
                     newSelectedSeats.push(seatId);
-                    newTicketPrice += vipRows.includes(row) ? 100000 : 75000;
+                    newTicketPrice += vipRows?.includes(row) ? 100000 : 75000;
                 }
             }
 
@@ -70,15 +60,15 @@ const SeatType1 = () => {
     }, []);
 
     useEffect(() => {
-        if (selectedSeats.length > 0) {
-            localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
+        if (selectedSeat.length > 0) {
+            localStorage.setItem('selectedSeats', JSON.stringify(selectedSeat));
             localStorage.setItem('ticketPrice', ticketPrice.toString());
         } else {
             localStorage.removeItem('selectedSeats');
             localStorage.removeItem('ticketPrice');
         }
         handleDetialsEvent();
-    }, [selectedSeats, ticketPrice]);
+    }, [selectedSeat, ticketPrice]);
 
     const handleDetialsEvent = async () => {
         dispatch(
@@ -126,15 +116,15 @@ const SeatType1 = () => {
             <div className="components__seattype1-screen">Screen</div>
             <div className="components__seattype1-container">
                 <div className="components__seattype1-column">
-                    {rows.map((row) => (
+                    {rows?.map((row) => (
                         <div key={row} className="components__seattype1-row">
                             <div className="components__seattype1-row-label">{row}</div>
                             <div className="components__seattype1-row-seats">
-                                {numSeatOfRowLeft.map((seatNum) => {
+                                {numSeatOfRowLeft?.map((seatNum) => {
                                     const seatId = `${row}${seatNum}`;
-                                    const isVIP = vipRows.includes(row);
-                                    const isSelected = selectedSeats.includes(seatId);
-                                    const isOrdered = orderedSeats.includes(seatId);
+                                    const isVIP = vipRows?.includes(row);
+                                    const isSelected = selectedSeat?.includes(seatId);
+                                    const isOrdered = orderedSeats?.includes(seatId);
                                     return (
                                         <div
                                             key={seatNum}
@@ -152,15 +142,15 @@ const SeatType1 = () => {
                 </div>
                 <div className="components__seattype1-stage">Stage</div>
                 <div className="components__seattype1-column">
-                    {rows.map((row) => (
+                    {rows?.map((row) => (
                         <div key={row} className="components__seattype1-row">
                             <div className="components__seattype1-row-label">{row}</div>
                             <div className="components__seattype1-row-seats">
-                                {numSeatOfRowRight.map((seatNum) => {
+                                {numSeatOfRowRight?.map((seatNum) => {
                                     const seatId = `${row}${seatNum}`;
-                                    const isVIP = vipRows.includes(row);
-                                    const isSelected = selectedSeats.includes(seatId);
-                                    const isOrdered = orderedSeats.includes(seatId);
+                                    const isVIP = vipRows?.includes(row);
+                                    const isSelected = selectedSeat?.includes(seatId);
+                                    const isOrdered = orderedSeats?.includes(seatId);
                                     return (
                                         <div
                                             key={seatNum}
@@ -178,11 +168,11 @@ const SeatType1 = () => {
                 </div>
             </div>
             <div className="components__seattype1-info">
-                Bạn đang chọn ghế {selectedSeats.join(', ')} - Với giá: {ticketPrice} VND
+                Bạn đang chọn ghế {selectedSeat.join(', ')} - Với giá: {ticketPrice} VND
             </div>
             <button onClick={() =>
                 router.push(
-                    { pathname: routes.CLIENT.ORDER_PAGES.href, query: { id:id, seatDetails: JSON.stringify(selectedSeats), ticketPrice: ticketPrice } },
+                    { pathname: routes.CLIENT.ORDER_PAGES.href, query: { id: id, seatDetails: JSON.stringify(selectedSeat), ticketPrice: ticketPrice } },
                     undefined,
                     { scroll: false },
                 )
