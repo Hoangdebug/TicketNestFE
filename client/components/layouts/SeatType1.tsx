@@ -1,68 +1,98 @@
 import { useState, useEffect } from 'react';
+import { http, routes } from '@utils/constants';
+import { useRouter } from 'next/router';
+import { fetchDetailsEvent } from '@redux/actions/api';
+import { useDispatch } from 'react-redux';
 
 interface ISeatType1ComponentState {
     rows: string[];
     numSeatOfRowLeft: number[];
     numSeatOfRowRight: number[];
     vipRows: string[];
-    selectedSeat: string | null;
+    selectedSeats: string[];
     orderedSeats: string[];
     ticketPrice: number;
 }
 
 const SeatType1 = () => {
+    const router = useRouter();
+    const dispatch = useDispatch();
+    const { id, quantity } = router.query;
+    const maxSeats = parseInt(quantity as string, 10) || 0;
     const [state, setState] = useState<ISeatType1ComponentState>({
         rows: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
         numSeatOfRowLeft: [1, 2, 3, 4],
         numSeatOfRowRight: [5, 6, 7, 8],
         vipRows: ['A', 'B'],
-        selectedSeat: null,
+        selectedSeats: [],
         orderedSeats: ['A1', 'C1', 'C2'],
         ticketPrice: 0,
     });
 
-    const { rows, numSeatOfRowLeft, numSeatOfRowRight, vipRows, selectedSeat, orderedSeats, ticketPrice } = state;
+    const { rows, numSeatOfRowLeft, numSeatOfRowRight, vipRows, selectedSeats, orderedSeats, ticketPrice } = state;
 
     const toggleSeat = (row: string, seatNum: number) => {
         const seatId = `${row}${seatNum}`;
         if (orderedSeats.includes(seatId)) return;
 
-        if (selectedSeat === seatId) {
-            setState((prev) => ({
+        setState((prev) => {
+            let newSelectedSeats = [...prev.selectedSeats];
+            let newTicketPrice = prev.ticketPrice;
+
+            if (newSelectedSeats.includes(seatId)) {
+                newSelectedSeats = newSelectedSeats.filter(seat => seat !== seatId);
+                newTicketPrice -= vipRows.includes(row) ? 100000 : 75000;
+            } else {
+                if (newSelectedSeats.length < maxSeats) {
+                    newSelectedSeats.push(seatId);
+                    newTicketPrice += vipRows.includes(row) ? 100000 : 75000;
+                }
+            }
+
+            return {
                 ...prev,
-                selectedSeat: null,
-                ticketPrice: 0,
-            }));
-        } else {
-            setState((prev) => ({
-                ...prev,
-                selectedSeat: seatId,
-                ticketPrice: vipRows.includes(row) ? 100000 : 75000,
-            }));
-        }
+                selectedSeats: newSelectedSeats,
+                ticketPrice: newTicketPrice,
+            };
+        });
     };
 
     useEffect(() => {
-        const savedSeat = localStorage.getItem('selectedSeat');
+        const savedSeats = localStorage.getItem('selectedSeats');
         const savedPrice = localStorage.getItem('ticketPrice');
-        if (savedSeat && savedPrice) {
+        if (savedSeats && savedPrice) {
             setState((prev) => ({
                 ...prev,
-                selectedSeat: savedSeat,
+                selectedSeats: JSON.parse(savedSeats),
                 ticketPrice: +savedPrice,
             }));
         }
     }, []);
 
     useEffect(() => {
-        if (selectedSeat) {
-            localStorage.setItem('selectedSeat', selectedSeat);
+        if (selectedSeats.length > 0) {
+            localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
             localStorage.setItem('ticketPrice', ticketPrice.toString());
         } else {
-            localStorage.removeItem('selectedSeat');
+            localStorage.removeItem('selectedSeats');
             localStorage.removeItem('ticketPrice');
         }
-    }, [selectedSeat, ticketPrice]);
+        handleDetialsEvent();
+    }, [selectedSeats, ticketPrice]);
+
+    const handleDetialsEvent = async () => {
+        dispatch(
+            await fetchDetailsEvent(id?.toString() ?? '', (res: IEventDataApiRes | IErrorAPIRes | null) => {
+                if (res && res.code === http.SUCCESS_CODE) {
+                    const event = (res as IEventDataApiRes).result;
+                    setState((prevState) => ({
+                        ...prevState,
+                        eventDetails: event,
+                    }));
+                }
+            }),
+        );
+    };
 
     return (
         <div style={{
@@ -103,7 +133,7 @@ const SeatType1 = () => {
                                 {numSeatOfRowLeft.map((seatNum) => {
                                     const seatId = `${row}${seatNum}`;
                                     const isVIP = vipRows.includes(row);
-                                    const isSelected = selectedSeat === seatId;
+                                    const isSelected = selectedSeats.includes(seatId);
                                     const isOrdered = orderedSeats.includes(seatId);
                                     return (
                                         <div
@@ -129,7 +159,7 @@ const SeatType1 = () => {
                                 {numSeatOfRowRight.map((seatNum) => {
                                     const seatId = `${row}${seatNum}`;
                                     const isVIP = vipRows.includes(row);
-                                    const isSelected = selectedSeat === seatId;
+                                    const isSelected = selectedSeats.includes(seatId);
                                     const isOrdered = orderedSeats.includes(seatId);
                                     return (
                                         <div
@@ -148,9 +178,15 @@ const SeatType1 = () => {
                 </div>
             </div>
             <div className="components__seattype1-info">
-                Bạn đang chọn ghế {selectedSeat} - Với giá: {ticketPrice} VND
+                Bạn đang chọn ghế {selectedSeats.join(', ')} - Với giá: {ticketPrice} VND
             </div>
-            <button>
+            <button onClick={() =>
+                router.push(
+                    { pathname: routes.CLIENT.ORDER_PAGES.href, query: { id:id, seatDetails: JSON.stringify(selectedSeats), ticketPrice: ticketPrice } },
+                    undefined,
+                    { scroll: false },
+                )
+            }>
                 Tiếp tục
             </button>
         </div>
