@@ -148,7 +148,7 @@ const LoginForm: ILoginComponent<ILoginComponentProps> = () => {
                         <input className="danger" type="checkbox" />
                         <label htmlFor="danger">Remember me</label>
                     </div>
-                    <a href="" className="text-decoration-none">
+                    <a href={routes.CLIENT.FORGOT_PASSWORD_PAGE.href} className="text-decoration-none">
                         Forgot password?
                     </a>
                 </div>
