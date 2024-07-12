@@ -73,7 +73,7 @@ const RegisterForm: IRegisterComponent<IRegisterComponentProps> = () => {
 
         if (isValidate) {
             dispatch(
-                fetchRegister(
+                await fetchRegister(
                     { confirmPassword, dob, email, password, phone, username },
                     (result: IRegisterDataApiRes | IErrorAPIRes | null) => {
                         if (result?.code === 200) {
