@@ -49,7 +49,7 @@ const SeatType1Page: ISeatType1Page<ISeatType1PageProps> = () => {
         <>
             <div className="components__seattype1">
                 <div className="components__seattype1-details">
-                    <span>Event: {eventDetails?.name}</span>                    
+                    <span>Event: {eventDetails?.name}</span>
                     <span>Location: {eventDetails?.location}</span>
                     <span>Time: {formattedDayEnd}</span>
                 </div>

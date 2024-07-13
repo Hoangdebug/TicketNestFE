@@ -78,6 +78,37 @@ export const fetchRegister = async (
     };
 };
 
+export const verifyOtp = async (
+    email: string,
+    data: IOtpVerifyDataApi,
+    callBack?: (result: IOtpVerifyDataApiRes | IErrorAPIRes | null) => void,
+    isLoad: boolean = true,
+) => {
+    return async (dispatch: Dispatch) => {
+        if (isLoad) {
+            dispatch(setLoader(true));
+        }
+
+        try {
+            const res = await apiHelper.verify_register(email, data);
+            if (callBack) {
+                callBack(res?.data);
+            }
+        } catch (err) {
+            if (!(err instanceof Error)) {
+                const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+                if (callBack) {
+                    callBack(res?.data);
+                }
+            }
+        }
+
+        if (isLoad) {
+            dispatch(setLoader(false));
+        }
+    };
+};
+
 export const fetchForgotPassword = async (
     query: string,
     callBack?: (result: IEditUserProfileAPIRes | IErrorAPIRes | null) => void,
@@ -90,6 +121,37 @@ export const fetchForgotPassword = async (
 
         try {
             const res = await apiHelper.forgotPassword(query);
+            if (callBack) {
+                callBack(res?.data);
+            }
+        } catch (err) {
+            if (!(err instanceof Error)) {
+                const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+                if (callBack) {
+                    callBack(res?.data);
+                }
+            }
+        }
+
+        if (isLoad) {
+            dispatch(setLoader(false));
+        }
+    };
+};
+
+export const verifyOtpForgot = async (
+    email: string,
+    data: IOtpVerifyDataApi,
+    callBack?: (result: IOtpVerifyDataApiRes | IErrorAPIRes | null) => void,
+    isLoad: boolean = true,
+) => {
+    return async (dispatch: Dispatch) => {
+        if (isLoad) {
+            dispatch(setLoader(true));
+        }
+
+        try {
+            const res = await apiHelper.verify_forgot(email, data);
             if (callBack) {
                 callBack(res?.data);
             }
