@@ -170,6 +170,9 @@ const CHANGEPASSWORD_API: IRouteConstant = {
 const EVENT_API: IRouteConstant = {
     href: 'event/',
 };
+const EVENT_UPLOAD_IMG_API: IRouteConstant = {
+    href: 'event/upload-image',
+};
 
 const EVENT_LIST_ORGANIZER_API: IRouteConstant = {
     href: 'event/get-event',
@@ -220,6 +223,7 @@ export const API = {
     // organizer
     EVENT: EVENT_API,
     ORGANIZER_LIST_EVENT: EVENT_LIST_ORGANIZER_API,
+    EVENT_UPLOAD_IMG: EVENT_UPLOAD_IMG_API,
 
     // admin
     ADMIN_LIST_CUSTOMER: ADMIN_LIST_CUSTOMER_API,

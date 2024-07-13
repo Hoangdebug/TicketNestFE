@@ -108,6 +108,24 @@ export const uploadImg = async (formData: FormData, config: AxiosRequestConfig) 
     }
 };
 
+export const uploadImgEvent = async (id: string, formData: FormData, config: AxiosRequestConfig) => {
+    try {
+        const accessTokenConfig = checkAccessTokenAndParams({ token: authHelper.accessToken() });
+        const finalConfig: AxiosRequestConfig = {
+            ...accessTokenConfig,
+            ...config,
+            headers: {
+                ...accessTokenConfig?.headers,
+                ...config?.headers,
+                'Content-Type': 'multipart/form-data',
+            },
+        };
+        return await axios.put<IEventUpdateByAdmin>(`${routes.API.EVENT_UPLOAD_IMG.href}/${id}`, formData, finalConfig);
+    } catch (err) {
+        throw err;
+    }
+};
+
 export const addEvent = async (data: IEventDataApi) => {
     try {
         return await axios.post<IEventDataApiRes>(`${routes.API.EVENT.href}`, data);
