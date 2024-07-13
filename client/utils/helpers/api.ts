@@ -50,6 +50,14 @@ export const register = async (data: IRegisterDataApi) => {
     }
 };
 
+export const verify_register = async (email: string, data: IOtpVerifyDataApi) => {
+    try {
+        return await axios.post<IOtpVerifyDataApiRes>(`${routes.API.OTP_REGISTER.href}/${email}`, data);
+    } catch (err) {
+        throw err;
+    }
+};
+
 export const getCurrentUser = async () => {
     try {
         return await axios.get<ICurrentUserAPIRes>(`${routes.API.CURRENT_USER.href}`);
@@ -69,6 +77,14 @@ export const editUserProfile = async (data: IEditUserProfileDataAPI) => {
 export const forgotPassword = async (data: IEditUserProfileDataAPI) => {
     try {
         return await axios.post<IEditUserProfileAPIRes>(`${routes.API.FORGOTPASSWORD.href}`, data);
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const verify_forgot = async (email: string, data: IOtpVerifyDataApi) => {
+    try {
+        return await axios.post<IOtpVerifyDataApiRes>(`${routes.API.OTP_FORGOTPASS.href}/${email}`, data);
     } catch (err) {
         throw err;
     }

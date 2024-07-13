@@ -71,22 +71,24 @@ const OrderPage: ISeatType1Page<ISeatType1PageProps> = () => {
                         <h2 className="components__order-form-title">BẢNG CÂU HỎI</h2>
                         <form>
                             <label className="components__order-form-label">* Họ tên của bạn là gì?</label>
-                            <input className="components__order-form-input"/>
+                            <input className="components__order-form-input" />
 
-                            <label className="components__order-form-label" >* Email của bạn là gì?</label>
-                            <input className="components__order-form-input"/>
+                            <label className="components__order-form-label">* Email của bạn là gì?</label>
+                            <input className="components__order-form-input" />
 
                             <label className="components__order-form-checkbox-label">
-                                <input className="components__order-form-checkbox" type="checkbox"/>
+                                <input className="components__order-form-checkbox" type="checkbox" />
                                 Tôi đồng ý với các điều khoản
                             </label>
 
                             <label className="components__order-form-checkbox-label">
-                                <input className="components__order-form-checkbox" type="checkbox"/>
+                                <input className="components__order-form-checkbox" type="checkbox" />
                                 Tôi đồng ý nhận các thông tin và ưu đãi qua email và điện thoại
                             </label>
 
-                            <label className="components__order-form-label" htmlFor="phone">* Số điện thoại của bạn là gì?</label>
+                            <label className="components__order-form-label" htmlFor="phone">
+                                * Số điện thoại của bạn là gì?
+                            </label>
                             <input className="components__order-form-input" type="tel" id="phone" name="phone" required />
                         </form>
                     </div>
@@ -108,7 +110,9 @@ const OrderPage: ISeatType1Page<ISeatType1PageProps> = () => {
                             <label className="components__order-ticket-label">Tạm tính {seatCount} ghế</label>
                             <span className="components__order-ticket-value">{ticketPrice} đ</span>
                         </div>
-                        <button className="components__order-form-button" type="button">Tiếp tục</button>
+                        <button className="components__order-form-button" type="button">
+                            Tiếp tục
+                        </button>
                     </div>
                 </div>
             </div>

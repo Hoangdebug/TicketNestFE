@@ -25,12 +25,12 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                 previewUrl = '';
             }
         }
-    
+
         return {
             curentProfile: {
                 ...(currentUser ?? {}),
             },
-            previewUrl: previewUrl,
+            previewUrl,
         };
     });
 
@@ -44,7 +44,7 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
 
     const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        console.log(file)
+        console.log(file);
         if (file) {
             setState((prev) => ({
                 ...prev,
@@ -58,10 +58,12 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
         setState((prev) => ({
             ...prev,
             previewUrl: undefined,
-            curentProfile: prev.curentProfile ? {
-                ...prev.curentProfile,
-                images: undefined
-            } : undefined
+            curentProfile: prev.curentProfile
+                ? {
+                      ...prev.curentProfile,
+                      images: undefined,
+                  }
+                : undefined,
         }));
     };
 
@@ -80,14 +82,14 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
         formData.append('images', file);
 
         dispatch(
-            await fetchUploadImages({ images: formData }, (res) =>{
-                if (res?.code === http.SUCCESS_CODE){
-                    const upload = (res as IEditUserProfileAPIRes).data?.userData?.images
+            await fetchUploadImages({ images: formData }, (res) => {
+                if (res?.code === http.SUCCESS_CODE) {
+                    const upload = (res as IEditUserProfileAPIRes).data?.userData?.images;
                     setState((prev) => ({
                         ...prev,
                         curentProfile: {
                             ...prev.curentProfile,
-                            images: upload
+                            images: upload,
                         },
                     }));
                 } else {
@@ -102,12 +104,12 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                                     <div className="bases__text--bold bases__font--14 text-center">Error while you upload image!!!</div>
                                 </>
                             ),
-                        })
-                    )
+                        }),
+                    );
                 }
-            })
-        )
-    }
+            }),
+        );
+    };
 
     const submitForm = async () => {
         let isValidate = true;
@@ -148,7 +150,7 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
                                     <div className="bases__text--bold bases__font--14 text-center">Profile updated successfully!</div>
                                 </>
                             ),
-                        })
+                        });
                     }
                 }),
             );
@@ -159,21 +161,15 @@ const EditUserProFileForm: IEditUserProfileComponent<IEditUserProfileComponentPr
         <div className="components___edituserprofile">
             <div className="components___edituserprofile-form bases__width1500px p-3">
                 <h2 className="fw-bold mb-4 text-center">Edit Profile</h2>
-                <div className='row gap-5'>
+                <div className="row gap-5">
                     <div className="form-group d-flex justify-content-center align-items-center col-md-4">
                         {!(previewUrl || curentProfile?.images) && (
-                            <label htmlFor='avatar' className='components___edituserprofile--imgUpload'>
+                            <label htmlFor="avatar" className="components___edituserprofile--imgUpload">
                                 <img src={images.ICON_FILE_UPLOAD} alt="" />
                             </label>
                         )}
                         <div className="d-flex align-items-center">
-                            <input
-                                type="file"
-                                className="form-control d-none"
-                                id="avatar"
-                                name="avatar"
-                                onChange={handleAvatarChange}
-                            />
+                            <input type="file" className="form-control d-none" id="avatar" name="avatar" onChange={handleAvatarChange} />
                             {(previewUrl || curentProfile?.images) && (
                                 <div className="ms-3 position-relative">
                                     <img
