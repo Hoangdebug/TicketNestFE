@@ -40,15 +40,7 @@ interface IEventUpdateByAdmin extends IBaseAPIRes {
 
 interface IEventByOrganizerDataApiRes extends IBaseAPIRes {
     code: number;
-    result?: {
-        metadata?: {
-            pages?: number;
-            pageSize?: number;
-            currentPage?: number;
-            totalItems?: number;
-        };
-        dataEvent?: IEventDataApi[];
-    };
+    result?: IEventDataApi[];
 }
 
 interface IEventDataApiListRes extends IBaseAPIRes {

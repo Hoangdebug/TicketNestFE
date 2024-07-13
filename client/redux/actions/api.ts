@@ -110,7 +110,7 @@ export const verifyOtp = async (
 };
 
 export const fetchForgotPassword = async (
-    query: string,
+    data: IEditUserProfileDataAPI,
     callBack?: (result: IEditUserProfileAPIRes | IErrorAPIRes | null) => void,
     isLoad: boolean = true,
 ) => {
@@ -120,7 +120,51 @@ export const fetchForgotPassword = async (
         }
 
         try {
-            const res = await apiHelper.forgotPassword(query);
+            const res = await apiHelper.forgotPassword(data);
+            if (callBack) {
+                callBack(res?.data);
+            }
+        } catch (err) {
+            if (!(err instanceof Error)) {
+                const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+                if (callBack) {
+                    callBack(res?.data);
+                }
+            }
+        }
+
+        if (isLoad) {
+            dispatch(setLoader(false));
+        }
+    };
+};
+
+export const fetchUploadImages = async (
+    data: IEditUserProfileDataAPI,
+    callBack?: (result: IEditUserProfileAPIRes | IErrorAPIRes | null) => void,
+    isLoad: boolean = true,
+) => {
+    return async (dispatch: Dispatch) => {
+        if (isLoad) {
+            dispatch(setLoader(true));
+        }
+
+        try {
+            let formData: FormData;
+            if (data.images instanceof FormData) {
+                formData = data.images;
+            } else {
+                formData = new FormData();
+                formData.append('images', data.images || '');
+            }
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${authHelper.accessToken()}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+            };
+            const res = await apiHelper.uploadImg(formData, config);
             if (callBack) {
                 callBack(res?.data);
             }

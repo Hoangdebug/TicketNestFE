@@ -1,11 +1,12 @@
 interface IEditUserProfileDataAPI {
     _id?: string;
     username?: string;
+    email?: string;
     dob?: string;
     gender?: string;
     phone?: string;
     address?: string;
-    images?: string;
+    images?: string | FormData;
     isBlocked?: boolean;
     type?: string;
     role?: string;

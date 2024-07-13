@@ -159,6 +159,10 @@ const FORGOTPASSWORD_API: IRouteConstant = {
     href: '/user/forgotpassword',
 };
 
+const UPLOAD_IMG_API: IRouteConstant = {
+    href: '/user/upload-image',
+};
+
 const CHANGEPASSWORD_API: IRouteConstant = {
     href: '/user/changepassword',
 };
@@ -212,7 +216,7 @@ export const API = {
     OTP_FORGOTPASS: OTP_VERIFY_FORGOTPASS_API,
     CHANGEPASSWORD: CHANGEPASSWORD_API,
     REQUEST_ORGANIZER: REQUEST_ORGANIZER_API,
-
+    UPLOAD_IMG: UPLOAD_IMG_API,
     // organizer
     EVENT: EVENT_API,
     ORGANIZER_LIST_EVENT: EVENT_LIST_ORGANIZER_API,

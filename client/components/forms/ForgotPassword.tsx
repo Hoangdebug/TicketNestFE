@@ -55,7 +55,7 @@ const ForgotPasswordForm: IForgotPasswordComponent<IForgotPasswordComponentProps
         // call api
         if (isValidate) {
             dispatch(
-                await fetchForgotPassword(email?.toString() ?? '', (res: IEditUserProfileAPIRes | IErrorAPIRes | null) => {
+                await fetchForgotPassword({ email }, (res: IEditUserProfileAPIRes | IErrorAPIRes | null) => {
                     if (res?.code === http.SUCCESS_CODE) {
                         dispatch(
                             setModal({
