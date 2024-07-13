@@ -6,10 +6,12 @@ import { validateHelper } from '@utils/helpers';
 import Input from '@components/commons/Input';
 import DateTimePicker from '@components/commons/DateTimePicker';
 import { useDispatch } from 'react-redux';
-import { fetchAddEvent, fetchUpdateEvent } from '@redux/actions/api';
-import { enums, http, routes } from '@utils/constants';
+import { fetchAddEvent, fetchUpdateEvent, fetchUploadImagesEvent } from '@redux/actions/api';
+import { enums, http, images, routes } from '@utils/constants';
 import Select from '@components/commons/Select';
 import Button from '@components/commons/Button';
+import Img from '@components/commons/Img';
+import { setModal } from '@redux/actions';
 
 const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     const { event } = props;
@@ -19,14 +21,26 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     const { query } = router;
     const { id } = query;
 
-    const [state, setState] = useState<IAddEventComponentState>({
-        isValidateStartDateTime: true,
-        isValidateEndDateTime: true,
-        eventAdd: {
-            ...(event ?? {}),
-        },
+    const [state, setState] = useState<IAddEventComponentState>(() => {
+        let previewUrl = '';
+        if (event?.image) {
+            if (typeof event.image === 'string') {
+                previewUrl = event.image;
+            } else if (event.image instanceof FormData) {
+                previewUrl = '';
+            }
+        }
+
+        return {
+            isValidateStartDateTime: true,
+            isValidateEndDateTime: true,
+            eventAdd: {
+                ...(event ?? {}),
+            },
+            previewUrl,
+        };
     });
-    const { eventAdd, isValidateStartDateTime, isValidateEndDateTime } = state;
+    const { eventAdd, isValidateStartDateTime, isValidateEndDateTime, previewUrl } = state;
 
     const titleValidatorRef = createRef<IValidatorComponentHandle>();
     const descriptionValidatorRef = createRef<IValidatorComponentHandle>();
@@ -66,6 +80,65 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
             },
         }));
     }, [event]);
+
+    const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        console.log(file);
+        if (file) {
+            setState((prev) => ({
+                ...prev,
+                previewUrl: URL.createObjectURL(file),
+            }));
+            await handleUploadImages(file);
+        }
+    };
+
+    const handleDeleteAvatar = () => {
+        setState((prev) => ({
+            ...prev,
+            previewUrl: undefined,
+            curentProfile: prev.eventAdd
+                ? {
+                      ...prev.eventAdd,
+                      images: undefined,
+                  }
+                : undefined,
+        }));
+    };
+
+    const handleUploadImages = async (file: File) => {
+        const formData = new FormData();
+        formData.append('images', file);
+
+        dispatch(
+            await fetchUploadImagesEvent(id?.toString() ?? '', { image: formData }, (res) => {
+                if (res?.code === http.SUCCESS_CODE) {
+                    const upload = (res as IEditUserProfileAPIRes).data?.userData?.images;
+                    setState((prev) => ({
+                        ...prev,
+                        eventAdd: {
+                            ...prev.eventAdd,
+                            images: upload,
+                        },
+                    }));
+                } else {
+                    dispatch(
+                        setModal({
+                            isShow: true,
+                            content: (
+                                <>
+                                    <div className="text-center bases__margin--bottom31">
+                                        <Img src={images.ICON_TIMES} className="bases__width--90 bases__height--75" />
+                                    </div>
+                                    <div className="bases__text--bold bases__font--14 text-center">Error while you upload image!!!</div>
+                                </>
+                            ),
+                        }),
+                    );
+                }
+            }),
+        );
+    };
 
     useEffect(() => {
         const handleBeforeUnload = () => {
@@ -340,20 +413,44 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                             </Validator>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="banner" className="pb-2">
-                                Banner<span className="text-danger">*</span>{' '}
-                            </label>
-                            <Validator ref={bannerValidatorRef}>
-                                <input
-                                    type="file"
-                                    value={eventAdd?.image}
-                                    onChange={(e) => handleOnChange('image', e.target.value)}
-                                    id="event-image"
-                                    name="event-image"
-                                    accept="image/*"
-                                    placeholder="Import event banner"
-                                />
-                            </Validator>
+                            {/* <Validator ref={bannerValidatorRef}> */}
+                            <div className="form-group d-flex justify-content-center align-items-center col-md-12">
+                                {!(previewUrl || eventAdd?.image) && (
+                                    <label
+                                        htmlFor="avatar"
+                                        style={{ cursor: 'pointer', padding: '70px', border: '1px solid #ffbdbd', borderRadius: '10px' }}
+                                    >
+                                        <img src={images.ICON_FILE_UPLOAD} alt="" />
+                                    </label>
+                                )}
+                                <div className="d-flex align-items-center">
+                                    <input
+                                        type="file"
+                                        className="form-control d-none"
+                                        id="avatar"
+                                        name="avatar"
+                                        onChange={handleAvatarChange}
+                                    />
+                                    {(previewUrl || eventAdd?.image) && (
+                                        <div className="ms-3 position-relative">
+                                            <img
+                                                src={typeof previewUrl === 'string' ? previewUrl : ''}
+                                                alt="Avatar"
+                                                className="img-thumbnail"
+                                                style={{ width: '1050px', height: '350px', objectFit: 'cover' }}
+                                            />
+                                            <button
+                                                type="button"
+                                                className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                                onClick={handleDeleteAvatar}
+                                            >
+                                                X
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                            {/* </Validator> */}
                         </div>
                     </div>
                 </div>

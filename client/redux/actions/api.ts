@@ -183,6 +183,51 @@ export const fetchUploadImages = async (
     };
 };
 
+export const fetchUploadImagesEvent = async (
+    id: string,
+    data: IEventDataApi,
+    callBack?: (result: IEventUpdateByAdmin | IErrorAPIRes | null) => void,
+    isLoad: boolean = true,
+) => {
+    return async (dispatch: Dispatch) => {
+        if (isLoad) {
+            dispatch(setLoader(true));
+        }
+
+        try {
+            let formData: FormData;
+            if (data.image instanceof FormData) {
+                formData = data.image;
+            } else {
+                formData = new FormData();
+                formData.append('image', data.image || '');
+            }
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${authHelper.accessToken()}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+            };
+            const res = await apiHelper.uploadImgEvent(id, formData, config);
+            if (callBack) {
+                callBack(res?.data);
+            }
+        } catch (err) {
+            if (!(err instanceof Error)) {
+                const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+                if (callBack) {
+                    callBack(res?.data);
+                }
+            }
+        }
+
+        if (isLoad) {
+            dispatch(setLoader(false));
+        }
+    };
+};
+
 export const verifyOtpForgot = async (
     email: string,
     data: IOtpVerifyDataApi,
