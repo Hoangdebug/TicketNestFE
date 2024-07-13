@@ -1,4 +1,3 @@
-import OrderForm from '@components/forms/Order';
 import { ISeatType1Page, ISeatType1PageProps } from '@interfaces/pages/seattype1';
 import { IEventDetailPageState } from '@interfaces/pages/eventdetail';
 import { http, routes } from '@utils/constants';
@@ -23,7 +22,7 @@ const OrderPage: ISeatType1Page<ISeatType1PageProps> = () => {
     const { eventDetails, event } = state;
     const formattedDayEnd = moment(eventDetails?.day_end).format('MMM DD, YYYY HH:mm:ss');
 
-    const handleDetailsEvent = async () => {
+    const handleDetialsEvent = async () => {
         dispatch(
             await fetchDetailsEvent(id?.toString() ?? '', (res: IEventDataApiRes | IErrorAPIRes | null) => {
                 if (res && res.code === http.SUCCESS_CODE) {
@@ -41,7 +40,7 @@ const OrderPage: ISeatType1Page<ISeatType1PageProps> = () => {
         if (!token) {
             router.push(routes.CLIENT.LOGIN_PAGE.href, undefined, { scroll: false });
         }
-        handleDetailsEvent();
+        handleDetialsEvent();
     }, []);
 
     let parsedSeatDetails: string[] = [];
@@ -71,18 +70,18 @@ const OrderPage: ISeatType1Page<ISeatType1PageProps> = () => {
                         <h2 className="components__order-form-title">BẢNG CÂU HỎI</h2>
                         <form>
                             <label className="components__order-form-label">* Họ tên của bạn là gì?</label>
-                            <input className="components__order-form-input"/>
+                            <input className="components__order-form-input" />
 
                             <label className="components__order-form-label" >* Email của bạn là gì?</label>
-                            <input className="components__order-form-input"/>
+                            <input className="components__order-form-input" />
 
                             <label className="components__order-form-checkbox-label">
-                                <input className="components__order-form-checkbox" type="checkbox"/>
+                                <input className="components__order-form-checkbox" type="checkbox" />
                                 Tôi đồng ý với các điều khoản
                             </label>
 
                             <label className="components__order-form-checkbox-label">
-                                <input className="components__order-form-checkbox" type="checkbox"/>
+                                <input className="components__order-form-checkbox" type="checkbox" />
                                 Tôi đồng ý nhận các thông tin và ưu đãi qua email và điện thoại
                             </label>
 
@@ -108,7 +107,14 @@ const OrderPage: ISeatType1Page<ISeatType1PageProps> = () => {
                             <label className="components__order-ticket-label">Tạm tính {seatCount} ghế</label>
                             <span className="components__order-ticket-value">{ticketPrice} đ</span>
                         </div>
-                        <button className="components__order-form-button" type="button">Tiếp tục</button>
+                        <button className="components__order-form-button"
+                            onClick={() =>
+                                router.push(
+                                    { pathname: routes.CLIENT.PAYMENT_PAGE.href, query: { id, seatCount, formattedSeatDetails, seatDetails, ticketPrice } },
+                                    undefined,
+                                    { scroll: false },
+                                )
+                            }>Tiếp tục</button>
                     </div>
                 </div>
             </div>

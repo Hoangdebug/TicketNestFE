@@ -13,12 +13,13 @@ const SeatType1: ISeatType1Component<ISeatType1ComponentProps> = () => {
         rows: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
         numSeatOfRowLeft: [1, 2, 3, 4],
         numSeatOfRowRight: [5, 6, 7, 8],
-        vipRows: ['A', 'B'],        
+        vipRows: ['A', 'B'],
+        selectedSeat: [],
         orderedSeats: ['A1', 'C1', 'C2'],
         ticketPrice: 0,
     });
 
-    const { rows, numSeatOfRowLeft, numSeatOfRowRight, vipRows, selectedSeat = [], orderedSeats, ticketPrice } = state;
+    const { rows, numSeatOfRowLeft, numSeatOfRowRight, vipRows, selectedSeat = [], orderedSeats, ticketPrice = 0 } = state;
 
     const toggleSeat = (row: string, seatNum: number) => {
         const seatId = `${row}${seatNum}`;
@@ -40,7 +41,7 @@ const SeatType1: ISeatType1Component<ISeatType1ComponentProps> = () => {
 
             return {
                 ...prev,
-                selectedSeats: newSelectedSeats,
+                selectedSeat: newSelectedSeats,
                 ticketPrice: newTicketPrice,
             };
         });
@@ -52,7 +53,7 @@ const SeatType1: ISeatType1Component<ISeatType1ComponentProps> = () => {
         if (savedSeats && savedPrice) {
             setState((prev) => ({
                 ...prev,
-                selectedSeats: JSON.parse(savedSeats),
+                selectedSeat: JSON.parse(savedSeats),
                 ticketPrice: +savedPrice,
             }));
         }

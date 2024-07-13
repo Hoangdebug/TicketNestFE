@@ -104,6 +104,10 @@ const ORDER_PAGE: IRouteConstant = {
     href: '/order',
 };
 
+const PAYMENT_PAGE: IRouteConstant = {
+    href: '/payment',
+};
+
 export const CLIENT = {
     LOGIN_PAGE: LOGIN,
     REGISTER_PAGE: REGISTER,
@@ -132,6 +136,7 @@ export const CLIENT = {
     ADMIN_CREATE_ACCOUNT_PAGE: ADMIN_CREATE_ACCOUNT,
     EVENT_DETAILS_PAGES_ORDER: EVENT_DETAILS_PAGES_ORDER,   
     ORDER_PAGES: ORDER_PAGE, 
+    PAYMENT_PAGE: PAYMENT_PAGE,
 };
 
 const LOGIN_API: IRouteConstant = {

@@ -1,88 +1,156 @@
-import { useState } from 'react';
+import { ISeatType1Page, ISeatType1PageProps } from '@interfaces/pages/seattype1';
+import { IEventDetailPageState } from '@interfaces/pages/eventdetail';
+import { http, routes } from '@utils/constants';
+import { authHelper } from '@utils/helpers';
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { fetchDetailsEvent } from '@redux/actions/api';
 import moment from 'moment';
 
-const PaymentPage = () => {
-  const [ticketInfo, setTicketInfo] = useState({
-    name: 'Nguyễn Trần Thế Anh',
-    phone: '+84358446865',
-    email: 'theanhntp@gmail.com',
-    eventLocation: '36 Lê Quý Đôn, Phường 06, Quận 3, Thành Phố Hồ Chí Minh',
-    eventTime: moment('2024-07-13T16:30:00').format('HH:mm, DD MMMM, YYYY'),
-    ticketType: 'Sương Sớm',
-    ticketPrice: 260000,
-    seatNumber: 'E-21',
-    quantity: 1,
-  });
+const Payment = () => {
+  const router = useRouter();
+  const { id, seatDetails, ticketPrice } = router.query;
+  const token = authHelper.accessToken();
+  const dispatch = useDispatch();
+
+  const [state, setState] = useState<IEventDetailPageState>({
+    eventDetails: undefined,
+    event: [],
+});
+
+  const [countdown, setCountdown] = useState(30);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const { eventDetails, event } = state;
+  const formattedDayEnd = moment(eventDetails?.day_end).format('MMM DD, YYYY HH:mm:ss');
+
+  const handleDetialsEvent = async () => {
+    dispatch(
+        await fetchDetailsEvent(id?.toString() ?? '', (res: IEventDataApiRes | IErrorAPIRes | null) => {
+            if (res && res.code === http.SUCCESS_CODE) {
+                const event = (res as IEventDataApiRes).result;
+                setState((prevState) => ({
+                    ...prevState,
+                    eventDetails: event,
+                }));
+            }
+        }),
+    );
+};
+
+  useEffect(() => {
+    if (!token) {
+      router.push(routes.CLIENT.LOGIN_PAGE.href, undefined, { scroll: false });
+    }
+    handleDetialsEvent();
+  }, []);
+
+  useEffect(() => {
+    if (countdown > 0) {
+      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setIsDisabled(true);
+      setShowPopup(true);
+    }
+  }, [countdown]);
+
+  let parsedSeatDetails = [];
+
+  if (seatDetails) {
+    try {
+      parsedSeatDetails = Array.isArray(seatDetails) ? seatDetails : JSON.parse(seatDetails);
+    } catch (error) {
+      console.error('Error parsing seat details:', error);
+    }
+  }
+
+  const formattedSeatDetails = parsedSeatDetails.join(', ');
+  const seatCount = parsedSeatDetails.length;
+
+  const handleClose = () => {
+    setShowPopup(false);
+    // Redirect to rebook tickets
+    router.push(
+      { pathname: routes.CLIENT.ORDER_PAGES.href, query: { id, seatCount, formattedSeatDetails, seatDetails, ticketPrice } },
+      undefined,
+      { scroll: false },
+  )
+  };
 
   return (
     <div className="components__payment">
       <div className="components__payment-header">
-        <h1>THANH TOÁN</h1>
-        <p>{ticketInfo.eventLocation}</p>
-        <p>{ticketInfo.eventTime}</p>
+        <h1>{eventDetails?.name}</h1>
+        <p>{eventDetails?.event_type}</p>
+        <p>{eventDetails?.location}</p>
+        <p>{formattedDayEnd}</p>
       </div>
-      <div className="components__payment-content">
-        <div className="components__payment-content-left">
-          <div className="components__payment-content-info">
+      <div className="components__payment-timer">
+        <span>Hoàn tất đặt vé trong</span>
+        <div className="components__payment-timer--countdown">
+          <span>{String(Math.floor(countdown / 60)).padStart(2, '0')}</span>
+          <span>:</span>
+          <span>{String(countdown % 60).padStart(2, '0')}</span>
+        </div>
+      </div>
+      <div className="components__payment-paymentSection">
+        <div className="components__payment-paymentSection-left">
+          <div className="components__payment-paymentSection-ticketInfo">
             <h2>Thông tin nhận vé</h2>
-            <div className="components__payment-content-ticket-info">
-              <p>{ticketInfo.name}</p>
-              <p>{ticketInfo.phone}</p>
-              <p>{ticketInfo.email}</p>
-            </div>
+            <p>Nguyễn Trần Thế Anh +84358446665</p>
+            <p>theanhntp@gmail.com</p>
           </div>
-          <div className="components__payment-content-info">
-            <h2>Thông tin đặt vé</h2>
-            <div className="components__payment-content-ticket-details">
-              <span>Loại vé</span>
-              <span>{ticketInfo.ticketType}</span>
+          <div className="components__payment-paymentSection-paymentMethods">
+            <h2>Phương thức thanh toán</h2>
+            <div className="components__payment-paymentSection-method">
+              <input type="radio" id="momo" name="payment" value="momo" />
+              <label>Ví Momo</label>
             </div>
-            <div className="components__payment-content-ticket-details">
-              <span>Số lượng</span>
-              <span>{ticketInfo.quantity}</span>
+            <div className="components__payment-paymentSection-method">
+              <input type="radio" id="visa" name="payment" value="visa" />
+              <label>Thẻ thanh toán quốc tế</label>
             </div>
-            <div className="components__payment-content-ticket-details">
-              <span>Ghế</span>
-              <span>{ticketInfo.seatNumber}</span>
-            </div>
-            <div className="components__payment-content-ticket-details">
-              <span>Tạm tính</span>
-              <span>{ticketInfo.ticketPrice} đ</span>
+            <div className="components__payment-paymentSection-method">
+              <input type="radio" id="atm" name="payment" value="atm" />
+              <label>Thẻ ATM/ Internet Banking</label>
             </div>
           </div>
         </div>
-        <div className="components__payment-content-right">
-          <div className="components__payment-content-method">
-            <h2>Phương thức thanh toán</h2>
-            <div>
-              <input type="radio" id="momo" name="payment" />
-              <label htmlFor="momo">Ví Momo</label>
-            </div>
-            <div>
-              <input type="radio" id="credit-card" name="payment" />
-              <label htmlFor="credit-card">Thẻ thanh toán quốc tế</label>
-            </div>
-            <div>
-              <input type="radio" id="atm" name="payment" />
-              <label htmlFor="atm">Thẻ ATM/Internet Banking</label>
-            </div>
+        <div className="components__payment-paymentSection-right">
+          <div className="components__payment-paymentSection-orderInfo">
+            <h2>Thông tin đặt vé</h2>
+            <p>Ghế: {formattedSeatDetails}</p>
+            <p>Số lượng: {seatCount}</p>
+            <p>Giá: {ticketPrice}</p>
           </div>
-          <div className="components__payment-content-order-info">
+          <div className="components__payment-paymentSection-promotion">
+            <input type="text" placeholder="MÃ GIẢM GIÁ" />
+            <button>Áp dụng</button>
+          </div>
+          <div className="components__payment-paymentSection-total">
             <h2>Thông tin đơn hàng</h2>
-            <div className="components__payment-content-order-details">
-              <span>Tạm tính</span>
-              <span>{ticketInfo.ticketPrice} đ</span>
-            </div>
-            <div className="components__payment-content-order-total">
-              <span>Tổng tiền</span>
-              <span>{ticketInfo.ticketPrice} đ</span>
-            </div>
-            <button className="components__payment-content-button">Thanh toán</button>
+            <p>Tạm tính: {ticketPrice}</p>
+            <p>Tổng tiền: {ticketPrice}</p>
           </div>
+          <button className="components__payment-paymentSection-payButton" disabled={isDisabled}>Thanh toán</button>
         </div>
       </div>
+
+      {showPopup && (
+        <div className="popup-modal">
+          <div className="popup-modal-content">
+            <span className="popup-modal-close" onClick={handleClose}>&times;</span>
+            <h2>Hết thời gian giữ vé!</h2>
+            <p>Đã hết thời gian giữ vé. Vui lòng đặt lại vé mới.</p>
+            <button onClick={handleClose}>Đặt vé mới</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default PaymentPage;
+export default Payment;
