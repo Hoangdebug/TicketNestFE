@@ -1,12 +1,19 @@
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { createRef, useState } from 'react';
+import { createRef, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { validateHelper } from '@utils/helpers';
-import { routes } from '@utils/constants';
+import { http, routes } from '@utils/constants';
 import Validator from '@components/commons/Validator';
+import Input from '@components/commons/Input';
+import { verifyOtpForgot } from '@redux/actions/api';
+import { useDispatch } from 'react-redux';
 
 const ChangePasswordForm: IChangePasswordComponent<IChangePasswordComponentProps> = () => {
+    const navigate = useRouter();
+    const dispatch = useDispatch();
+    const { query } = navigate;
+
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showReNewPassword, setShowReNewPassword] = useState(false);
 
@@ -18,8 +25,6 @@ const ChangePasswordForm: IChangePasswordComponent<IChangePasswordComponentProps
         setShowReNewPassword(!showReNewPassword);
     };
 
-    const navigate = useRouter();
-
     const handlePrevPage = () => {
         navigate.push(routes.CLIENT.LOGIN_PAGE.href);
     };
@@ -29,12 +34,14 @@ const ChangePasswordForm: IChangePasswordComponent<IChangePasswordComponentProps
     };
 
     const [state, setState] = useState<IChangePasswordComponentState>({
+        email: '',
+        otp: '',
         newPassword: '',
         reNewPassword: '',
     });
 
-    const { newPassword, reNewPassword } = state;
-
+    const { email, otp, newPassword, reNewPassword } = state;
+    const otpValidatorRef = createRef<IValidatorComponentHandle>();
     const newPasswordValidatorRef = createRef<IValidatorComponentHandle>();
     const reNewPasswordValidatorRef = createRef<IValidatorComponentHandle>();
 
@@ -45,10 +52,35 @@ const ChangePasswordForm: IChangePasswordComponent<IChangePasswordComponentProps
         }));
     };
 
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const emailParam = params.get('email');
+
+        if (emailParam) {
+            setState((prevState) => ({
+                ...prevState,
+                email: emailParam,
+            }));
+        }
+    }, [query]);
+
+    const handleVerifyOtpForgot = async () => {
+        console.log('handleVerifyOtp called with:', { email, otp });
+        dispatch(
+            await verifyOtpForgot(email, { otp, newPassword }, (res: IOtpVerifyDataApiRes | IErrorAPIRes | null) => {
+                console.log('API response:', res);
+                if (res && 'code' in res && res.code === http.SUCCESS_CODE) {
+                    navigate.push(routes.CLIENT.POST_FORGOT_PASSWORD_PAGE.href, undefined, { scroll: false });
+                }
+            }),
+        );
+    };
+
     const submitForm = async () => {
         let isValidate = true;
 
         const validatorText = [
+            { ref: otpValidatorRef, value: otp, message: 'Your New Password Is Not Empty!' },
             { ref: newPasswordValidatorRef, value: newPassword, message: 'Your New Password Is Not Empty!' },
             { ref: reNewPasswordValidatorRef, value: reNewPassword, message: 'Your Re New Password Is Not Empty!' },
         ];
@@ -71,13 +103,30 @@ const ChangePasswordForm: IChangePasswordComponent<IChangePasswordComponentProps
 
         // call api
         if (isValidate) {
-            // logic call api
+            console.log('handleVerifyOtpForgot called');
+            await handleVerifyOtpForgot();
         }
     };
     return (
         <div className="components__changepw">
             <div className="components__changepw-form p-4 ">
                 <h2 className="fw-bold text-center">Change Password</h2>
+                <div className="form-group position-relative">
+                    <label htmlFor="text">
+                        OTP
+                        <span className="text-danger">*</span>
+                    </label>
+                    <Validator ref={otpValidatorRef}>
+                        <Input
+                            type="text"
+                            value={otp}
+                            onChange={(value: string) => handleOnChange('otp', value)}
+                            id="otp"
+                            name="otp"
+                            placeholder="Enter OTP"
+                        />
+                    </Validator>
+                </div>
                 <div className="form-group position-relative">
                     <label htmlFor="password">
                         New Password
