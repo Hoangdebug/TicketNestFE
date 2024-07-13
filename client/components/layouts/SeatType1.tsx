@@ -30,8 +30,8 @@ const SeatType1: ISeatType1Component<ISeatType1ComponentProps> = () => {
             let newTicketPrice = prev.ticketPrice ?? 0;
 
             if (newSelectedSeats.includes(seatId)) {
-                newSelectedSeats = newSelectedSeats.filter(seat => seat !== seatId);
-                newTicketPrice -= vipRows?.includes(row) ? 100000 : 75000;
+                newSelectedSeats = newSelectedSeats.filter((seat) => seat !== seatId);
+                newTicketPrice -= vipRows.includes(row) ? 100000 : 75000;
             } else {
                 if (newSelectedSeats.length < maxSeats) {
                     newSelectedSeats.push(seatId);
@@ -85,14 +85,16 @@ const SeatType1: ISeatType1Component<ISeatType1ComponentProps> = () => {
     };
 
     return (
-        <div style={{
-            backgroundColor: 'black',
-            width: '100%',
-            height: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-        }}>
+        <div
+            style={{
+                backgroundColor: 'black',
+                width: '100%',
+                height: '100vh',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}
+        >
             <div>
                 <ul className="components__seattype1-seattitle">
                     <li className="components__seattype1-row text-white">
@@ -128,8 +130,9 @@ const SeatType1: ISeatType1Component<ISeatType1ComponentProps> = () => {
                                     return (
                                         <div
                                             key={seatNum}
-                                            className={`components__seattype1-seat ${isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
-                                                }`}
+                                            className={`components__seattype1-seat ${
+                                                isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
+                                            }`}
                                             onClick={() => toggleSeat(row, seatNum)}
                                         >
                                             {isSelected ? seatId : ''}
@@ -154,8 +157,9 @@ const SeatType1: ISeatType1Component<ISeatType1ComponentProps> = () => {
                                     return (
                                         <div
                                             key={seatNum}
-                                            className={`components__seattype1-seat ${isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
-                                                }`}
+                                            className={`components__seattype1-seat ${
+                                                isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
+                                            }`}
                                             onClick={() => toggleSeat(row, seatNum)}
                                         >
                                             {isSelected ? seatId : ''}
@@ -170,14 +174,18 @@ const SeatType1: ISeatType1Component<ISeatType1ComponentProps> = () => {
             <div className="components__seattype1-info">
                 Bạn đang chọn ghế {selectedSeat.join(', ')} - Với giá: {ticketPrice} VND
             </div>
-            <button onClick={() =>
-                router.push(
-                    { pathname: routes.CLIENT.ORDER_PAGES.href, query: { id: id, seatDetails: JSON.stringify(selectedSeat), ticketPrice: ticketPrice } },
-                    undefined,
-                    { scroll: false },
-                )
-            }>
-                Tiếp tục
+            <button
+                onClick={() =>
+                    router.push(
+                        {
+                            pathname: routes.CLIENT.ORDER_PAGES.href,
+                            query: { id: id, seatDetails: JSON.stringify(selectedSeat), ticketPrice: ticketPrice },
+                        },
+                        undefined,
+                        { scroll: false },
+                    )
+                }
+            >      Tiếp tục
             </button>
         </div>
     );

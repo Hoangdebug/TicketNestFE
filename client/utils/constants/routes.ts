@@ -26,6 +26,10 @@ const CHANGE_PASSWORD_SUCCESS: IRouteConstant = {
     href: '/forgotpassword/change_password_success',
 };
 
+const OTP_VERIFY: IRouteConstant = {
+    href: '/otpverify',
+};
+
 const REGISTERSUCCESS: IRouteConstant = {
     href: '/registersuccess',
 };
@@ -111,6 +115,7 @@ const PAYMENT_PAGE: IRouteConstant = {
 export const CLIENT = {
     LOGIN_PAGE: LOGIN,
     REGISTER_PAGE: REGISTER,
+    OTP_VERIFY_PAGE: OTP_VERIFY,
     REGISTERSUCCESS_PAGE: REGISTERSUCCESS,
     ERROR404_PAGE: ERROR404,
     ERROR500_PAGE: ERROR500,
@@ -159,12 +164,19 @@ const FORGOTPASSWORD_API: IRouteConstant = {
     href: '/user/forgotpassword',
 };
 
+const UPLOAD_IMG_API: IRouteConstant = {
+    href: '/user/upload-image',
+};
+
 const CHANGEPASSWORD_API: IRouteConstant = {
     href: '/user/changepassword',
 };
 
 const EVENT_API: IRouteConstant = {
     href: 'event/',
+};
+const EVENT_UPLOAD_IMG_API: IRouteConstant = {
+    href: 'event/upload-image',
 };
 
 const EVENT_LIST_ORGANIZER_API: IRouteConstant = {
@@ -195,17 +207,28 @@ const ADMIN_UPDATE_STATUS_EVENT_API: IRouteConstant = {
     href: 'event/update-status',
 };
 
+const OTP_VERIFY_REGISTER_API: IRouteConstant = {
+    href: '/user/verify-register',
+};
+
+const OTP_VERIFY_FORGOTPASS_API: IRouteConstant = {
+    href: '/user/verify-forgot-pass',
+};
+
 export const API = {
     LOGIN: LOGIN_API,
     REGISTER: REGISTER_API,
+    OTP_REGISTER: OTP_VERIFY_REGISTER_API,
     CURRENT_USER: CURRENT_USER_API,
     FORGOTPASSWORD: FORGOTPASSWORD_API,
+    OTP_FORGOTPASS: OTP_VERIFY_FORGOTPASS_API,
     CHANGEPASSWORD: CHANGEPASSWORD_API,
     REQUEST_ORGANIZER: REQUEST_ORGANIZER_API,
-
+    UPLOAD_IMG: UPLOAD_IMG_API,
     // organizer
     EVENT: EVENT_API,
     ORGANIZER_LIST_EVENT: EVENT_LIST_ORGANIZER_API,
+    EVENT_UPLOAD_IMG: EVENT_UPLOAD_IMG_API,
 
     // admin
     ADMIN_LIST_CUSTOMER: ADMIN_LIST_CUSTOMER_API,

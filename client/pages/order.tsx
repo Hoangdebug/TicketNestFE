@@ -85,8 +85,10 @@ const OrderPage: ISeatType1Page<ISeatType1PageProps> = () => {
                                 Tôi đồng ý nhận các thông tin và ưu đãi qua email và điện thoại
                             </label>
 
-                            <label className="components__order-form-label" htmlFor="phone">* Số điện thoại của bạn là gì?</label>
-                            <input className="components__order-form-input" type="tel" id="phone" name="phone" required />
+                            <label className="components__order-form-label" htmlFor="phone">
+                                * Số điện thoại của bạn là gì?
+                            </label>
+                            <input className="components__order-form-input"/>
                         </form>
                     </div>
                     <div className="components__order-ticket-info">

@@ -8,4 +8,6 @@ interface IAddEventComponentState {
     isValidateStartDateTime?: boolean;
     isValidateEndDateTime?: boolean;
     eventAdd?: IEventDataApi;
+    previewUrl?: string;
+    ids?: string[];
 }

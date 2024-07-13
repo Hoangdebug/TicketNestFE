@@ -188,7 +188,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                         className="pages__eventdetail_body_sideright_book"
                         onClick={() =>
                             router.push(
-                                { pathname: routes.CLIENT.EVENT_DETAILS_PAGES_ORDER.href, query: { id:id, quantity: quantity } },
+                                { pathname: routes.CLIENT.EVENT_DETAILS_PAGES_ORDER.href, query: { id: id, quantity: quantity } },
                                 undefined,
                                 { scroll: false },
                             )
