@@ -1,8 +1,8 @@
 interface IUploadImgDataAPI {
-    images?: string
+    images?: string;
 }
 
 interface IUploadImgDataAPIRes extends IBaseAPIRes {
-    code?: number,
-    result?: IUploadImgDataAPI
+    code?: number;
+    result?: IUploadImgDataAPI;
 }
