@@ -198,7 +198,7 @@
         }
     }
     &__padding {
-        @for $i from 2 through 40 {
+        @for $i from 2 through 1000 {
             &--left#{$i} {
                 padding-left: #{$i}px !important;
             }
@@ -239,7 +239,7 @@
         }
     }
     &__width {
-        @for $i from 0 through 200 {
+        @for $i from 0 through 2000 {
             &#{$i} {
                 width: #{$i * 1%} !important;
             }

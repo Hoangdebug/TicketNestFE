@@ -27,7 +27,7 @@ const EventPageOrganizer: IEventListPage<IEventListPageProps> = () => {
         dispatch(
             await fetchListEventOrganizer((res: IEventByOrganizerDataApiRes | IErrorAPIRes | null) => {
                 if (res && res?.code === http.SUCCESS_CODE) {
-                    const data = (res as IEventByOrganizerDataApiRes).result?.dataEvent;
+                    const data = (res as IEventByOrganizerDataApiRes).result;
                     setState((prevState) => ({
                         ...prevState,
                         events: data,

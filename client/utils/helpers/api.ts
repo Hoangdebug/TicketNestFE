@@ -66,15 +66,15 @@ export const editUserProfile = async (data: IEditUserProfileDataAPI) => {
     }
 };
 
-export const forgotPassword = async (query: string = '') => {
+export const forgotPassword = async (data: IEditUserProfileDataAPI) => {
     try {
-        return await axios.get<IEditUserProfileAPIRes>(`${routes.API.FORGOTPASSWORD.href}/${query}`);
+        return await axios.post<IEditUserProfileAPIRes>(`${routes.API.FORGOTPASSWORD.href}`, data);
     } catch (err) {
         throw err;
     }
 };
 
-export const uploadImg = async (formData: FormData, config?: AxiosRequestConfig) => {
+export const uploadImg = async (formData: FormData, config: AxiosRequestConfig) => {
     try {
         const accessTokenConfig = checkAccessTokenAndParams({ token: authHelper.accessToken() });
         const finalConfig: AxiosRequestConfig = {
@@ -86,7 +86,7 @@ export const uploadImg = async (formData: FormData, config?: AxiosRequestConfig)
                 'Content-Type': 'multipart/form-data',
             },
         };
-        return await axios.post<IEditUserProfileAPIRes>(`${routes.API.LOGIN.href}`, formData, finalConfig);
+        return await axios.put<IEditUserProfileAPIRes>(`${routes.API.UPLOAD_IMG.href}`, formData, finalConfig);
     } catch (err) {
         throw err;
     }
