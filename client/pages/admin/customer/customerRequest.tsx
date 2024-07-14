@@ -14,12 +14,12 @@ const CustomerRequestPage: ICustomerRequestPage<ICustomerRequestPageProps> = () 
 
     const [state, setState] = useState<ICustomerRequestPageState>({
         customers: [],
-        ids: [],
         total: 0,
         organizerDetials: undefined,
+        organizerRequest: enums.STATUS_ORGANIZER_REQUEST.ACCEPT,
     });
 
-    const { customers, ids, organizerRequest, organizerDetials } = state;
+    const { customers, organizerRequest } = state;
 
     useEffect(() => {
         handleFetchListCus();
@@ -53,10 +53,10 @@ const CustomerRequestPage: ICustomerRequestPage<ICustomerRequestPageProps> = () 
         );
     };
 
-    const handleUpdateOrganizerByAdmin = async () => {
+    const handleUpdateOrganizerByAdmin = async (idsToUpdate: string[]) => {
         dispatch(
             await fetchUpdateOrganizerByAdmin(
-                ids?.toString() ?? '',
+                idsToUpdate?.join(','),
                 { organizerRequest },
                 (res: IAdminUpdateOrganizerAPIRes | IErrorAPIRes | null) => {
                     if (res && res?.code === http.SUCCESS_CODE) {
@@ -87,15 +87,14 @@ const CustomerRequestPage: ICustomerRequestPage<ICustomerRequestPageProps> = () 
     };
 
     const handleConfirmUpdateRole = async (id: string) => {
-        setState((prevState) => ({ ...prevState, ids: [id] }));
         dispatch(
             setModal({
                 isShow: true,
                 content: (
                     <>
-                        <div className="text-center bases__margin--bottom31">
+                        {/* <div className="text-center bases__margin--bottom31">
                             <Table ref={tableRefRequest} heads={tableRequest.heads} body={tableRequest.body} />
-                        </div>
+                        </div> */}
                         <Select
                             className="p-2"
                             value={organizerRequest}
@@ -113,7 +112,7 @@ const CustomerRequestPage: ICustomerRequestPage<ICustomerRequestPageProps> = () 
                         buttonText="OK"
                         background="blue"
                         onClick={() => {
-                            handleUpdateOrganizerByAdmin();
+                            handleUpdateOrganizerByAdmin([id]);
                             dispatch(
                                 setModal({
                                     isShow: false,
@@ -129,7 +128,7 @@ const CustomerRequestPage: ICustomerRequestPage<ICustomerRequestPageProps> = () 
     const renderData = customers?.map((item) => {
         const editBtn = {
             export: {
-                srcIcon: images.ICON_DELETE,
+                srcIcon: images.ICON_DETAIL,
                 onClick: () => handleConfirmUpdateRole(item?._id ?? ''),
             },
         };

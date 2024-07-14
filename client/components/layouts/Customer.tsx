@@ -3,7 +3,7 @@ import Table from '@components/commons/Table';
 import { setModal } from '@redux/actions';
 import { fetchBanCustomerByAdmin } from '@redux/actions/api';
 import { http, images } from '@utils/constants';
-import React, { createRef, useState } from 'react';
+import React, { createRef } from 'react';
 import Img from 'react-cool-img';
 import { useDispatch } from 'react-redux';
 
@@ -11,16 +11,9 @@ const AdminListCustomerComponents: IAdminListCustomerComponents<IAdminListCustom
     const { customers, updateCustomers } = props;
     const dispatch = useDispatch();
 
-    const [state, setState] = useState<IAdminListCustomerComponentsState>({
-        ids: [],
-    });
-
-    const { ids } = state;
-
     const tableRef = createRef<ITableComponentHandle>();
 
-    const handleConfirmDelete = async (id: string) => {
-        setState((prevState) => ({ ...prevState, ids: [id] }));
+    const handleConfirmDelete = (id: string) => {
         dispatch(
             setModal({
                 isShow: true,
@@ -29,7 +22,7 @@ const AdminListCustomerComponents: IAdminListCustomerComponents<IAdminListCustom
                         <div className="text-center bases__margin--bottom31">
                             <Img src={images.ICON_TIMES} className="bases__width--90 bases__height--75" />
                         </div>
-                        <div className="bases__text--bold bases__font--14 text-center">Do you want to delete this user</div>
+                        <div className="bases__text--bold bases__font--14 text-center">Do you want to ban this user</div>
                     </>
                 ),
                 button: (
@@ -40,7 +33,7 @@ const AdminListCustomerComponents: IAdminListCustomerComponents<IAdminListCustom
                         buttonText="OK"
                         background="blue"
                         onClick={() => {
-                            handleFetchDeleteUser();
+                            handleFetchDeleteUser([id]);
                             dispatch(
                                 setModal({
                                     isShow: false,
@@ -52,14 +45,14 @@ const AdminListCustomerComponents: IAdminListCustomerComponents<IAdminListCustom
             }),
         );
     };
-    const handleFetchDeleteUser = async () => {
+    
+    const handleFetchDeleteUser = async (idsToDelete: string[]) => {
         dispatch(
-            await fetchBanCustomerByAdmin(ids?.toString() ?? '', (res: IAdminCustomerBanAPIRes | IErrorAPIRes | null) => {
+            await fetchBanCustomerByAdmin(idsToDelete.join(','), (res: IAdminCustomerBanAPIRes | IErrorAPIRes | null) => {
                 if (res && res?.code === http.SUCCESS_CODE) {
-                    const updatedCustomers = customers?.filter((customer) => !ids?.includes(customer?._id ?? ''));
+                    const updatedCustomers = customers?.filter((customer) => !idsToDelete.includes(customer?._id ?? ''));
                     if (Array.isArray(updatedCustomers)) {
                         updateCustomers(updatedCustomers);
-                        setState((prevState) => ({ ...prevState, ids: [] }));
                     }
                 }
             }),
@@ -99,32 +92,39 @@ const AdminListCustomerComponents: IAdminListCustomerComponents<IAdminListCustom
     const tableEventRender: ITableComponentProps = {
         heads: [
             {
-                title: 'Update Role',
+                title: 'Ban User',
                 isSort: false,
+                className: 'text-center',
             },
             {
                 title: 'Users Name',
                 isSort: false,
+                className: 'text-center',
             },
             {
                 title: 'Days Of Birth',
                 isSort: true,
+                className: 'text-center',
             },
             {
                 title: 'Gender',
                 isSort: true,
+                className: 'text-center',
             },
             {
                 title: 'Phone',
                 isSort: true,
+                className: 'text-center',
             },
             {
                 title: 'Address',
                 isSort: true,
+                className: 'text-center',
             },
             {
                 title: 'Permission ',
                 isSort: true,
+                className: 'text-center',
             },
         ],
         body: {
@@ -132,6 +132,7 @@ const AdminListCustomerComponents: IAdminListCustomerComponents<IAdminListCustom
                 {
                     field: 'export',
                     isButton: true,
+                    className: 'd-flex justify-content-center',
                 },
                 {
                     field: 'username',
