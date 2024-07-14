@@ -9,35 +9,35 @@ import Earnings from '@components/layouts/admin/Earnings';
 import Conversions from '@components/layouts/admin/Conversions';
 import Enterprise_Clients from '@components/layouts/admin/Enterprise_Clients';
 import Rightside_Content from '@components/layouts/Rightside_content';
-import { useSelector } from 'react-redux';
-import { ReduxStates } from '@redux/reducers';
-import { useEffect, useState } from 'react';
-import { enums, routes } from '@utils/constants';
-import { useRouter } from 'next/router';
+// import { useSelector } from 'react-redux';
+// import { ReduxStates } from '@redux/reducers';
+// import { useEffect, useState } from 'react';
+// import { enums, routes } from '@utils/constants';
+// import { useRouter } from 'next/router';
 
 const AdminPages: IAdminPage<IAdminPageProps> = () => {
-    const { profile } = useSelector((states: ReduxStates) => states);
-    const router = useRouter();
-    const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+    // const { profile } = useSelector((states: ReduxStates) => states);
+    // const router = useRouter();
+    // const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
 
-    useEffect(() => {
-        if (profile !== undefined) {
-            const isAdminOrOrganizer = profile?.type === enums.TYPES.ADMIN || profile?.type === enums.TYPES.ORGANIZER;
-            setIsAuthorized(isAdminOrOrganizer);
+    // useEffect(() => {
+    //     if (profile !== undefined) {
+    //         const isAdminOrOrganizer = profile?.type === enums.TYPES.ADMIN || profile?.type === enums.TYPES.ORGANIZER;
+    //         setIsAuthorized(isAdminOrOrganizer);
 
-            if (!isAdminOrOrganizer) {
-                router.push(routes.CLIENT.ERROR403_PAGE.href, undefined, { scroll: false });
-            }
-        }
-    }, [profile, router]);
+    //         if (!isAdminOrOrganizer) {
+    //             router.push(routes.CLIENT.ERROR403_PAGE.href, undefined, { scroll: false });
+    //         }
+    //     }
+    // }, [profile, router]);
 
-    if (isAuthorized === null) {
-        return <div>Loading...</div>;
-    }
+    // if (isAuthorized === null) {
+    //     return <div>Loading...</div>;
+    // }
 
-    if (isAuthorized === false) {
-        return null;
-    }
+    // if (isAuthorized === false) {
+    //     return null;
+    // }
 
     return (
         <div className="pages__admin row">

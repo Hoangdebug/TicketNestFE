@@ -183,7 +183,7 @@ export const adminListCustomer = async () => {
 
 export const updateOrganizerByAdmin = async (id: string, data: IEditUserProfileDataAPI) => {
     try {
-        return await axios.put<IAdminUpdateOrganizerAPIRes>(`${routes.API.ADMIN_LIST_CUSTOMER.href}/role/${id}`, data);
+        return await axios.put<IAdminUpdateOrganizerAPIRes>(`${routes.API.ADMIN_UPDATE_ORGANIZER.href}/${id}`, data);
     } catch (err) {
         throw err;
     }

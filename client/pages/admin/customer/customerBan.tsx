@@ -12,11 +12,10 @@ const CustomerBanList: IAdminCustomerBanPage<IAdminCustomerBanPageProps> = () =>
     const dispatch = useDispatch();
     const [state, setState] = useState<IAdminCustomerBanPageState>({
         customers: [],
-        ids: [],
         total: 0,
     });
-
-    const { customers, ids } = state;
+    
+    const { customers } = state;
     const tableRef = createRef<ITableComponentHandle>();
     useEffect(() => {
         handleFetchListCus();
@@ -38,9 +37,9 @@ const CustomerBanList: IAdminCustomerBanPage<IAdminCustomerBanPageProps> = () =>
         );
     };
 
-    const handleFetchDeleteUser = async () => {
+    const handleFetchDeleteUser = async (idsToDelete: string[]) => {
         dispatch(
-            await fetchBanCustomerByAdmin(ids?.toString() ?? '', (res: IAdminCustomerBanAPIRes | IErrorAPIRes | null) => {
+            await fetchBanCustomerByAdmin(idsToDelete.join(','), (res: IAdminCustomerBanAPIRes | IErrorAPIRes | null) => {
                 if (res && res?.code === http.SUCCESS_CODE) {
                     handleFetchListCus();
                 } else {
@@ -64,8 +63,7 @@ const CustomerBanList: IAdminCustomerBanPage<IAdminCustomerBanPageProps> = () =>
         );
     };
 
-    const handleConfirmDelete = async (id: string) => {
-        setState((prevState) => ({ ...prevState, ids: [id] }));
+    const handleConfirmDelete = (id: string) => {
         dispatch(
             setModal({
                 isShow: true,
@@ -74,7 +72,7 @@ const CustomerBanList: IAdminCustomerBanPage<IAdminCustomerBanPageProps> = () =>
                         <div className="text-center bases__margin--bottom31">
                             <Img src={images.ICON_TIMES} className="bases__width--90 bases__height--75" />
                         </div>
-                        <div className="bases__text--bold bases__font--14 text-center">Do you want to delete this user</div>
+                        <div className="bases__text--bold bases__font--14 text-center">Do you want to Un Ban this user</div>
                     </>
                 ),
                 button: (
@@ -85,7 +83,7 @@ const CustomerBanList: IAdminCustomerBanPage<IAdminCustomerBanPageProps> = () =>
                         buttonText="OK"
                         background="blue"
                         onClick={() => {
-                            handleFetchDeleteUser();
+                            handleFetchDeleteUser([id]);
                             dispatch(
                                 setModal({
                                     isShow: false,
@@ -131,32 +129,39 @@ const CustomerBanList: IAdminCustomerBanPage<IAdminCustomerBanPageProps> = () =>
     const tableEventRender: ITableComponentProps = {
         heads: [
             {
-                title: 'Update Role',
+                title: 'Un Ban',
                 isSort: false,
+                className: 'text-center',
             },
             {
                 title: 'Users Name',
                 isSort: false,
+                className: 'text-center',
             },
             {
                 title: 'Days Of Birth',
                 isSort: true,
+                className: 'text-center',
             },
             {
                 title: 'Gender',
                 isSort: true,
+                className: 'text-center',
             },
             {
                 title: 'Phone',
                 isSort: true,
+                className: 'text-center',
             },
             {
                 title: 'Address',
                 isSort: true,
+                className: 'text-center',
             },
             {
                 title: 'Permission ',
                 isSort: true,
+                className: 'text-center',
             },
         ],
         body: {
@@ -164,6 +169,7 @@ const CustomerBanList: IAdminCustomerBanPage<IAdminCustomerBanPageProps> = () =>
                 {
                     field: 'export',
                     isButton: true,
+                    className: 'd-flex justify-content-center',
                 },
                 {
                     field: 'username',
