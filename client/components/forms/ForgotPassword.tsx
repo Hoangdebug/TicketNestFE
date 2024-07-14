@@ -25,7 +25,7 @@ const ForgotPasswordForm: IForgotPasswordComponent<IForgotPasswordComponentProps
 
     const handleNextPage = () => {
         router.push({
-            pathname: routes?.CLIENT?.CHANGE_PASSWORD_SUCCESS_PAGE?.href,
+            pathname: routes?.CLIENT?.CHANGE_PASSWORD_PAGE?.href,
             query: { email },
         });
     };
