@@ -2,7 +2,7 @@ interface IEventDataApi {
     _id?: string;
     name?: string;
     description?: string;
-    image?: string | FormData;
+    images?: string | FormData | undefined;
     day_start?: string;
     day_end?: string;
     event_type?: string;
