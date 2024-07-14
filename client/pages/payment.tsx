@@ -19,7 +19,7 @@ const Payment = () => {
         event: [],
     });
 
-    const [countdown, setCountdown] = useState(300);
+    const [countdown, setCountdown] = useState(30);
     const [isDisabled, setIsDisabled] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
 
