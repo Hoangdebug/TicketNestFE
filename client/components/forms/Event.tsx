@@ -40,6 +40,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
             previewUrl,
         };
     });
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const { eventAdd, isValidateStartDateTime, isValidateEndDateTime, previewUrl } = state;
 
     const titleValidatorRef = createRef<IValidatorComponentHandle>();
@@ -85,11 +86,11 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
         const file = e.target.files?.[0];
         console.log(file);
         if (file) {
+            setSelectedFile(file);
             setState((prev) => ({
                 ...prev,
                 previewUrl: URL.createObjectURL(file),
             }));
-            await handleUploadImages(file);
         }
     };
 
@@ -97,7 +98,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
         setState((prev) => ({
             ...prev,
             previewUrl: undefined,
-            curentProfile: prev.eventAdd
+            eventAdd: prev.eventAdd
                 ? {
                       ...prev.eventAdd,
                       images: undefined,
@@ -106,12 +107,12 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
         }));
     };
 
-    const handleUploadImages = async (file: File) => {
+    const handleUploadImages = async (eventId: string, file: File) => {
         const formData = new FormData();
         formData.append('images', file);
 
         dispatch(
-            await fetchUploadImagesEvent(id?.toString() ?? '', { image: formData }, (res) => {
+            await fetchUploadImagesEvent(eventId, { image: formData }, (res) => {
                 if (res?.code === http.SUCCESS_CODE) {
                     const upload = (res as IEditUserProfileAPIRes).data?.userData?.images;
                     setState((prev) => ({
@@ -238,16 +239,24 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
         );
     };
 
-    const handleSubmitAddEvent = async () => {
-        dispatch(
-            await fetchAddEvent(eventAdd ?? {}, (res: IEventDataApiRes | IErrorAPIRes | null) => {
-                if (res?.code === http.SUCCESS_CODE) {
-                    router.push(routes.CLIENT.ORGANIZER_LIST_EVENT.href, undefined, { scroll: false });
-                } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
-                    alert(res?.mes);
-                }
-            }),
-        );
+    const handleSubmitAddEvent = async (): Promise<string | null> => {
+        return new Promise((resolve) => {
+            dispatch(
+                fetchAddEvent(eventAdd ?? {}, async (res: IEventDataApiRes | IErrorAPIRes | null) => {
+                    if (res?.code === http.SUCCESS_CODE) {
+                        const eventId = (res as IEventDataApiRes).result?.dataEvent?._id ?? null;
+                        resolve(eventId);
+                        // Điều hướng sau khi tạo sự kiện thành công
+                        router.push(routes.CLIENT.ORGANIZER_LIST_EVENT.href, undefined, { scroll: false });
+                    } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
+                        alert(res?.mes);
+                        resolve(null);
+                    } else {
+                        resolve(null);
+                    }
+                }),
+            );
+        });
     };
 
     const handleSubmit = async () => {
