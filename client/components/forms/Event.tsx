@@ -46,7 +46,6 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
 
     const titleValidatorRef = createRef<IValidatorComponentHandle>();
     const descriptionValidatorRef = createRef<IValidatorComponentHandle>();
-    const bannerValidatorRef = createRef<IValidatorComponentHandle>();
     const startDateValidatorRef = createRef<IValidatorComponentHandle>();
     const endDateValidatorRef = createRef<IValidatorComponentHandle>();
     const locationValidatorRef = createRef<IValidatorComponentHandle>();
@@ -79,7 +78,6 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                 location: event?.location ?? '',
                 price: event?.price ?? 0,
                 ticket_number: event?.ticket_number ?? enums.EVENTTICKET.BASE,
-                image: event?.image ?? '',
             },
         }));
     }, [event]);
@@ -92,10 +90,6 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
             setState((prev) => ({
                 ...prev,
                 previewUrl: URL.createObjectURL(file),
-                eventAdd: {
-                    ...prev.eventAdd,
-                    image: file,
-                },
             }));
         }
     };
@@ -105,10 +99,6 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
         setState((prev) => ({
             ...prev,
             previewUrl: undefined,
-            eventAdd: {
-                ...prev.eventAdd,
-                image: '',
-            },
         }));
     };
 
@@ -236,7 +226,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     const handleSubmitUpdateEvent = async () => {
         console.log('handleSubmitUpdateEvent called with:', eventAdd);
         dispatch(
-            fetchUpdateEvent(id?.toString() ?? '', eventAdd ?? {}, (res: IEventDataApiRes | IErrorAPIRes | null) => {
+            await fetchUpdateEvent(id?.toString() ?? '', eventAdd ?? {}, (res: IEventDataApiRes | IErrorAPIRes | null) => {
                 console.log('API response:', res);
                 if (res?.code === http.SUCCESS_CODE) {
                     router.push(routes.CLIENT.ORGANIZER_LIST_EVENT.href, undefined, { scroll: false });
@@ -275,7 +265,6 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
         const validator = [
             { ref: titleValidatorRef, value: eventAdd?.name, message: 'Title Is Not Empty!' },
             { ref: descriptionValidatorRef, value: eventAdd?.description, message: 'Description Is Not Empty!' },
-            { ref: bannerValidatorRef, value: eventAdd?.image, message: 'Banner Is Not Empty!' },
             { ref: startDateValidatorRef, value: eventAdd?.day_start, message: 'Start Date Is Not Empty!' },
             { ref: endDateValidatorRef, value: eventAdd?.day_end, message: 'End Date Is Not Empty!' },
             { ref: locationValidatorRef, value: eventAdd?.location, message: 'Location Is Not Empty!' },
@@ -305,6 +294,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                 console.log('vao day chuaw');
                 const eventId = await handleSubmitAddEvent();
                 if (eventId && selectedFile) {
+                    console.log('vao day upload image');
                     await handleUploadImages(eventId, selectedFile);
                 }
             }
@@ -440,7 +430,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                         </div>
                         <div className="form-group">
                             <div className="form-group d-flex justify-content-center align-items-center col-md-12">
-                                {!(previewUrl || eventAdd?.image) && (
+                                {!previewUrl && (
                                     <label
                                         htmlFor="avatar"
                                         style={{ cursor: 'pointer', padding: '70px', border: '1px solid #ffbdbd', borderRadius: '10px' }}
@@ -456,10 +446,10 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                                         name="avatar"
                                         onChange={handleAvatarChange}
                                     />
-                                    {(previewUrl || eventAdd?.image) && (
+                                    {previewUrl && (
                                         <div className="ms-3 position-relative">
                                             <img
-                                                src={typeof previewUrl === 'string' ? previewUrl : ''}
+                                                src={previewUrl}
                                                 alt="Avatar"
                                                 className="img-thumbnail"
                                                 style={{ width: '1050px', height: '350px', objectFit: 'cover' }}
