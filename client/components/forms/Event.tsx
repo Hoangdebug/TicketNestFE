@@ -40,6 +40,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
             previewUrl,
         };
     });
+
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const { eventAdd, isValidateStartDateTime, isValidateEndDateTime, previewUrl } = state;
 
@@ -78,6 +79,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                 location: event?.location ?? '',
                 price: event?.price ?? 0,
                 ticket_number: event?.ticket_number ?? enums.EVENTTICKET.BASE,
+                image: event?.image ?? '',
             },
         }));
     }, [event]);
@@ -90,20 +92,23 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
             setState((prev) => ({
                 ...prev,
                 previewUrl: URL.createObjectURL(file),
+                eventAdd: {
+                    ...prev.eventAdd,
+                    image: file,
+                },
             }));
         }
     };
 
     const handleDeleteAvatar = () => {
+        setSelectedFile(null);
         setState((prev) => ({
             ...prev,
             previewUrl: undefined,
-            eventAdd: prev.eventAdd
-                ? {
-                      ...prev.eventAdd,
-                      images: undefined,
-                  }
-                : undefined,
+            eventAdd: {
+                ...prev.eventAdd,
+                image: '',
+            },
         }));
     };
 
@@ -112,7 +117,8 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
         formData.append('images', file);
 
         dispatch(
-            await fetchUploadImagesEvent(eventId, { image: formData }, (res) => {
+            fetchUploadImagesEvent(eventId, { image: formData }, (res) => {
+                console.log(eventId);
                 if (res?.code === http.SUCCESS_CODE) {
                     const upload = (res as IEditUserProfileAPIRes).data?.userData?.images;
                     setState((prev) => ({
@@ -228,8 +234,10 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     };
 
     const handleSubmitUpdateEvent = async () => {
+        console.log('handleSubmitUpdateEvent called with:', eventAdd);
         dispatch(
-            await fetchUpdateEvent(id?.toString() ?? '', eventAdd ?? {}, (res: IEventDataApiRes | IErrorAPIRes | null) => {
+            fetchUpdateEvent(id?.toString() ?? '', eventAdd ?? {}, (res: IEventDataApiRes | IErrorAPIRes | null) => {
+                console.log('API response:', res);
                 if (res?.code === http.SUCCESS_CODE) {
                     router.push(routes.CLIENT.ORGANIZER_LIST_EVENT.href, undefined, { scroll: false });
                 } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
@@ -240,13 +248,14 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     };
 
     const handleSubmitAddEvent = async (): Promise<string | null> => {
+        console.log('handleSubmitAddEvent called with:', eventAdd);
         return new Promise((resolve) => {
             dispatch(
                 fetchAddEvent(eventAdd ?? {}, async (res: IEventDataApiRes | IErrorAPIRes | null) => {
+                    console.log('API response:', res);
                     if (res?.code === http.SUCCESS_CODE) {
                         const eventId = (res as IEventDataApiRes).result?.dataEvent?._id ?? null;
                         resolve(eventId);
-                        // Điều hướng sau khi tạo sự kiện thành công
                         router.push(routes.CLIENT.ORGANIZER_LIST_EVENT.href, undefined, { scroll: false });
                     } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
                         alert(res?.mes);
@@ -260,6 +269,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     };
 
     const handleSubmit = async () => {
+        console.log('vao day r nef');
         let isValidate = true;
 
         const validator = [
@@ -278,30 +288,37 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
             ref.current?.onValidateMessage('');
             if (validateHelper.isEmpty(String(value ?? ''))) {
                 ref.current?.onValidateMessage(message);
+                console.log(`Validation failed for: ${message}`);
                 isValidate = false;
             } else if (validateHelper.isCharacters(String(value ?? ''))) {
                 ref.current?.onValidateMessage(`Your ${message} Cannot Be Less Than 2 Characters`);
+                console.log(`Validation failed for: ${message} - Less than 2 characters`);
                 isValidate = false;
             }
         });
 
+        console.log('Validation result:', isValidate);
         if (isValidate) {
             if (id) {
                 await handleSubmitUpdateEvent();
             } else {
-                await handleSubmitAddEvent();
+                console.log('vao day chuaw');
+                const eventId = await handleSubmitAddEvent();
+                if (eventId && selectedFile) {
+                    await handleUploadImages(eventId, selectedFile);
+                }
             }
         }
     };
 
     return (
-        <div className="components__addevent ">
+        <div className="components__addevent">
             <div className="components__addevent-form p-3">
                 <div className="row">
-                    <div className="col-md-6 gap-4 d-flex flex-column ">
+                    <div className="col-md-6 gap-4 d-flex flex-column">
                         <div className="form-group">
                             <label htmlFor="title" className="pb-2">
-                                Title <span className="text-danger">*</span>{' '}
+                                Title <span className="text-danger">*</span>
                             </label>
                             <Validator ref={titleValidatorRef}>
                                 <Input
@@ -364,10 +381,10 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                             </Validator>
                         </div>
                     </div>
-                    <div className="col-md-6 gap-4 d-flex flex-column ">
+                    <div className="col-md-6 gap-4 d-flex flex-column">
                         <div className="form-group">
                             <label htmlFor="location" className="pb-2">
-                                Location<span className="text-danger">*</span>{' '}
+                                Location<span className="text-danger">*</span>
                             </label>
                             <Validator ref={locationValidatorRef}>
                                 <Input
@@ -382,7 +399,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                         </div>
                         <div className="form-group">
                             <label htmlFor="ticketType" className="pb-2">
-                                Ticket Type<span className="text-danger">*</span>{' '}
+                                Ticket Type<span className="text-danger">*</span>
                             </label>
                             <Validator ref={ticketTypeValidatorRef}>
                                 <Select
@@ -394,7 +411,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                         </div>
                         <div className="form-group">
                             <label htmlFor="ticketPrice" className="pb-2">
-                                Ticket Price<span className="text-danger">*</span>{' '}
+                                Ticket Price<span className="text-danger">*</span>
                             </label>
                             <Validator ref={ticketPriceValidatorRef}>
                                 <Input
@@ -411,7 +428,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                         </div>
                         <div className="form-group">
                             <label htmlFor="ticketquantity" className="pb-2">
-                                Ticket Quantity<span className="text-danger">*</span>{' '}
+                                Ticket Quantity<span className="text-danger">*</span>
                             </label>
                             <Validator ref={ticketQuantityValidatorRef}>
                                 <Select
@@ -422,7 +439,6 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                             </Validator>
                         </div>
                         <div className="form-group">
-                            {/* <Validator ref={bannerValidatorRef}> */}
                             <div className="form-group d-flex justify-content-center align-items-center col-md-12">
                                 {!(previewUrl || eventAdd?.image) && (
                                     <label
@@ -459,7 +475,6 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                                     )}
                                 </div>
                             </div>
-                            {/* </Validator> */}
                         </div>
                     </div>
                 </div>

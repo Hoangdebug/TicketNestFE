@@ -185,7 +185,9 @@ const SeatType1: ISeatType1Component<ISeatType1ComponentProps> = () => {
                         { scroll: false },
                     )
                 }
-            >      Tiếp tục
+            >
+                {' '}
+                Tiếp tục
             </button>
         </div>
     );
