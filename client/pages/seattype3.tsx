@@ -1,5 +1,5 @@
-import SeatType2 from '@components/layouts/SeatType2';
-import { ISeatType2Page, ISeatType2PageProps } from '@interfaces/pages/seattype2';
+import SeatType3 from '@components/layouts/SeatType3';
+import { ISeatType3Page, ISeatType3PageProps } from '@interfaces/pages/seattype3';
 import { IEventDetailPageState } from '@interfaces/pages/eventdetail';
 import { http, routes } from '@utils/constants';
 import { authHelper } from '@utils/helpers';
@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { fetchDetailsEvent } from '@redux/actions/api';
 import moment from 'moment';
 
-const SeatType2Page: ISeatType2Page<ISeatType2PageProps> = () => {
+const SeatType3Page: ISeatType3Page<ISeatType3PageProps> = () => {
     const router = useRouter();
     const { id } = router.query;
     const token = authHelper.accessToken();
@@ -47,16 +47,16 @@ const SeatType2Page: ISeatType2Page<ISeatType2PageProps> = () => {
 
     return (
         <>
-            <div className="components__seattype2">
-                <div className="components__seattype2-details">
+            <div className="components__seattype3">
+                <div className="components__seattype3-details">
                     <span>Event: {eventDetails?.name}</span>
                     <span>Location: {eventDetails?.location}</span>
                     <span>Time: {formattedDayEnd}</span>
                 </div>
-                <SeatType2 />
+                <SeatType3 />
             </div>
         </>
     );
 };
 
-export default SeatType2Page;
+export default SeatType3Page;

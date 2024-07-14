@@ -11,7 +11,7 @@ import axios from 'axios';
 
 const Payment = () => {
     const router = useRouter();
-    const { id, seatDetails, ticketPrice } = router.query;
+    const { id, seatDetails, ticketPrice, yourName, yourEmail, yourPhone } = router.query;
     const token = authHelper.accessToken();
     const dispatch = useDispatch();
 
@@ -20,7 +20,7 @@ const Payment = () => {
         event: [],
     });
 
-    const [countdown, setCountdown] = useState(30);
+    const [countdown, setCountdown] = useState(90);
     const [isDisabled, setIsDisabled] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
 
@@ -147,8 +147,9 @@ const Payment = () => {
                 <div className="components__payment-paymentSection-left">
                     <div className="components__payment-paymentSection-ticketInfo">
                         <h2>Thông tin nhận vé</h2>
-                        <p>Nguyễn Trần Thế Anh +84358446665</p>
-                        <p>theanhntp@gmail.com</p>
+                        <p>Họ tên: {yourName}</p>
+                        <p>Số điện thoại: {yourPhone}</p>
+                        <p>Email: {yourEmail}</p>
                     </div>
                     <div className="components__payment-paymentSection-paymentMethods">
                         <h2>Phương thức thanh toán</h2>

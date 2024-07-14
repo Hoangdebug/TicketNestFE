@@ -8,7 +8,7 @@ const SeatType2: ISeatType2Component<ISeatType2ComponentProps> = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const { id, quantity } = router.query;
-    const maxSeats = parseInt(quantity as string, 20) || 0;
+    const maxSeats = parseInt(quantity as string, 10) || 0;
     const [state, setState] = useState<ISeatType2ComponentState>({
         rows: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'],
         numSeatOfRowLeft: [5, 4, 3, 2, 1],
@@ -31,11 +31,11 @@ const SeatType2: ISeatType2Component<ISeatType2ComponentProps> = () => {
 
             if (newSelectedSeats.includes(seatId)) {
                 newSelectedSeats = newSelectedSeats.filter((seat) => seat !== seatId);
-                newTicketPrice -= vipRows?.includes(row) ? 200000 : 75000;
+                newTicketPrice -= vipRows?.includes(row) ? 100000 : 75000;
             } else {
                 if (newSelectedSeats.length < maxSeats) {
                     newSelectedSeats.push(seatId);
-                    newTicketPrice += vipRows?.includes(row) ? 200000 : 75000;
+                    newTicketPrice += vipRows?.includes(row) ? 100000 : 75000;
                 }
             }
 
@@ -116,26 +116,38 @@ const SeatType2: ISeatType2Component<ISeatType2ComponentProps> = () => {
                 </ul>
             </div>
             <div className="components__seattype2-screen">Screen</div>
-            <div className="components__seattype2-container">
+            <div className="components__seattype1-container">
+                {/* Left half of the seats */}
                 <div className="components__seattype2-column">
-                    {rows?.map((row) => (
-                        <div key={row} className="components__seattype2-row">
-                            <div className="components__seattype2-row-label">{row}</div>
+                    {rows?.map((row, index) => (
+                        <div
+                            key={row}
+                            className={`components__seattype2-row ${index === 8 ? "components__seattype2-row--margin" : ""}`}
+                        >
+                            <span className="components__seattype2-row-label">{row}</span>
                             <div className="components__seattype2-row-seats">
                                 {numSeatOfRowLeft?.map((seatNum) => {
                                     const seatId = `${row}${seatNum}`;
                                     const isVIP = vipRows?.includes(row);
                                     const isSelected = selectedSeat?.includes(seatId);
                                     const isOrdered = orderedSeats?.includes(seatId);
+                                    const seatClass = `components__seattype2-seat ${isSelected
+                                            ? "selected"
+                                            : isOrdered
+                                                ? "ordered"
+                                                : isVIP
+                                                    ? "vip"
+                                                    : "empty"
+                                        } ${seatNum <= 5 ? "components__seattype2-seat-left" : ""} ${["I", "J", "K", "L"].includes(row) ? "components__seattype2-seat-straight" : ""}`;
                                     return (
                                         <div
                                             key={seatNum}
-                                            className={`components__seattype2-seat ${
-                                                isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
-                                            }`}
+                                            className={seatClass}
                                             onClick={() => toggleSeat(row, seatNum)}
                                         >
-                                            {isSelected ? seatId : ''}
+                                            {isSelected && (
+                                                <div className={`components__seattype2-seat-text-left ${["I", "J", "K", "L"].includes(row) ? "components__seattype2-seat-text-straight" : ""}`}>{seatId}</div>
+                                            )}
                                         </div>
                                     );
                                 })}
@@ -143,26 +155,41 @@ const SeatType2: ISeatType2Component<ISeatType2ComponentProps> = () => {
                         </div>
                     ))}
                 </div>
+
+                {/* Stage */}
                 <div className="components__seattype2-stage">Stage</div>
+
+                {/* Right half of the seats */}
                 <div className="components__seattype2-column">
-                    {rows?.map((row) => (
-                        <div key={row} className="components__seattype2-row">
-                            <div className="components__seattype2-row-label">{row}</div>
+                    {rows?.map((row, index) => (
+                        <div
+                            key={row}
+                            className={`components__seattype2-row ${index === 8 ? "components__seattype2-row--margin" : ""}`}
+                        >
+                            <span className="components__seattype2-row-label">{row}</span>
                             <div className="components__seattype2-row-seats">
                                 {numSeatOfRowRight?.map((seatNum) => {
                                     const seatId = `${row}${seatNum}`;
                                     const isVIP = vipRows?.includes(row);
                                     const isSelected = selectedSeat?.includes(seatId);
                                     const isOrdered = orderedSeats?.includes(seatId);
+                                    const seatClass = `components__seattype2-seat ${isSelected
+                                            ? "selected"
+                                            : isOrdered
+                                                ? "ordered"
+                                                : isVIP
+                                                    ? "vip"
+                                                    : "empty"
+                                        } ${seatNum > 5 ? "components__seattype2-seat-right" : ""} ${["I", "J", "K", "L"].includes(row) ? "components__seattype2-seat-straight" : ""}`;
                                     return (
                                         <div
                                             key={seatNum}
-                                            className={`components__seattype2-seat ${
-                                                isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
-                                            }`}
+                                            className={seatClass}
                                             onClick={() => toggleSeat(row, seatNum)}
                                         >
-                                            {isSelected ? seatId : ''}
+                                            {isSelected && (
+                                                <div className={`components__seattype2-seat-text-right ${["I", "J", "K", "L"].includes(row) ? "components__seattype2-seat-text-straight" : ""}`}>{seatId}</div>
+                                            )}
                                         </div>
                                     );
                                 })}
@@ -179,6 +206,7 @@ const SeatType2: ISeatType2Component<ISeatType2ComponentProps> = () => {
                     router.push(
                         {
                             pathname: routes.CLIENT.ORDER_PAGES.href,
+                            query: { id: id, seatDetails: JSON.stringify(selectedSeat), ticketPrice: ticketPrice },
                         },
                         undefined,
                         { scroll: false },
