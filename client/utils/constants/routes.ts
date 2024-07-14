@@ -197,7 +197,7 @@ const ADMIN_LIST_CUSTOMER_REQUEST_API: IRouteConstant = {
 };
 
 const ADMIN_UPDATE_ORGANIZER_API: IRouteConstant = {
-    href: '/role',
+    href: '/user/role',
 };
 
 const ADMIN_CREATE_ACCOUNT_BY_ADMIN_API: IRouteConstant = {

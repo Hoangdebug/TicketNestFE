@@ -12,5 +12,20 @@ import LoginForm from './forms/Login';
 import EditUserProFileForm from './forms/EditUserProfile';
 import RequestOrganizerForm from './forms/RequestOrganizer';
 import SeatType1 from './layouts/SeatType1';
+import SeatType2 from './layouts/SeatType2';
 
-export { Button, Img, Input, Select, Choice, Table, App, LoginForm, EventList, EditUserProFileForm, RequestOrganizerForm, SeatType1 };
+export {
+    Button,
+    Img,
+    Input,
+    Select,
+    Choice,
+    Table,
+    App,
+    LoginForm,
+    EventList,
+    EditUserProFileForm,
+    RequestOrganizerForm,
+    SeatType1,
+    SeatType2,
+};
