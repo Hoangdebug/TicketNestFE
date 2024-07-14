@@ -40,7 +40,7 @@ const SeatType1 = () => {
             let newTicketPrice = prev.ticketPrice;
 
             if (newSelectedSeats.includes(seatId)) {
-                newSelectedSeats = newSelectedSeats.filter(seat => seat !== seatId);
+                newSelectedSeats = newSelectedSeats.filter((seat) => seat !== seatId);
                 newTicketPrice -= vipRows.includes(row) ? 100000 : 75000;
             } else {
                 if (newSelectedSeats.length < maxSeats) {
@@ -95,14 +95,16 @@ const SeatType1 = () => {
     };
 
     return (
-        <div style={{
-            backgroundColor: 'black',
-            width: '100%',
-            height: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-        }}>
+        <div
+            style={{
+                backgroundColor: 'black',
+                width: '100%',
+                height: '100vh',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}
+        >
             <div>
                 <ul className="components__seattype1-seattitle">
                     <li className="components__seattype1-row text-white">
@@ -138,8 +140,9 @@ const SeatType1 = () => {
                                     return (
                                         <div
                                             key={seatNum}
-                                            className={`components__seattype1-seat ${isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
-                                                }`}
+                                            className={`components__seattype1-seat ${
+                                                isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
+                                            }`}
                                             onClick={() => toggleSeat(row, seatNum)}
                                         >
                                             {isSelected ? seatId : ''}
@@ -164,8 +167,9 @@ const SeatType1 = () => {
                                     return (
                                         <div
                                             key={seatNum}
-                                            className={`components__seattype1-seat ${isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
-                                                }`}
+                                            className={`components__seattype1-seat ${
+                                                isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
+                                            }`}
                                             onClick={() => toggleSeat(row, seatNum)}
                                         >
                                             {isSelected ? seatId : ''}
@@ -180,13 +184,18 @@ const SeatType1 = () => {
             <div className="components__seattype1-info">
                 Bạn đang chọn ghế {selectedSeats.join(', ')} - Với giá: {ticketPrice} VND
             </div>
-            <button onClick={() =>
-                router.push(
-                    { pathname: routes.CLIENT.ORDER_PAGES.href, query: { id:id, seatDetails: JSON.stringify(selectedSeats), ticketPrice: ticketPrice } },
-                    undefined,
-                    { scroll: false },
-                )
-            }>
+            <button
+                onClick={() =>
+                    router.push(
+                        {
+                            pathname: routes.CLIENT.ORDER_PAGES.href,
+                            query: { id: id, seatDetails: JSON.stringify(selectedSeats), ticketPrice: ticketPrice },
+                        },
+                        undefined,
+                        { scroll: false },
+                    )
+                }
+            >
                 Tiếp tục
             </button>
         </div>

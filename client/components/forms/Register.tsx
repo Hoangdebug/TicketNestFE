@@ -75,9 +75,12 @@ const RegisterForm: IRegisterComponent<IRegisterComponentProps> = () => {
             dispatch(
                 await fetchRegister(
                     { confirmPassword, dob, email, password, phone, username },
-                    (result: IRegisterDataApiRes | IErrorAPIRes | null) => {
+                    (result: IOtpVerifyDataApiRes | IErrorAPIRes | null) => {
                         if (result?.code === 200) {
-                            navigate.push(routes?.CLIENT?.REGISTERSUCCESS_PAGE?.href);
+                            navigate.push({
+                                pathname: routes?.CLIENT?.OTP_VERIFY_PAGE?.href,
+                                query: { email },
+                            });
                         } else if (result?.code === 400) {
                             alert('Invalid');
                         }

@@ -8,6 +8,7 @@ export const ICON_SUCCESS = '/assets/icons/icon-success.svg';
 export const ICON_WARNING = '/assets/icons/icon-warning.svg';
 export const ICON_FALSE = '/assets/icons/icon-false.svg';
 export const ICON_ERROR = '/assets/icons/icon-error.svg';
+export const ICON_FILE_UPLOAD = '/assets/icons/icon-file.svg';
 export const ICON_RIGHT_ARROW = '/assets/icons/right-arrow.svg';
 export const ICON_LEFT_ARROW = '/assets/icons/left-arrow.svg';
 export const LOGIN_LOGO = '/assets/icons/react.svg';
