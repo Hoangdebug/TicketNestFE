@@ -7,7 +7,7 @@ interface ISeatType1ComponentState {
     numSeatOfRowLeft?: number[];
     numSeatOfRowRight?: number[];
     vipRows?: string[];
-    selectedSeat?: string | null;
+    selectedSeat?: string[];
     orderedSeats?: string[];
     ticketPrice?: number;
 }

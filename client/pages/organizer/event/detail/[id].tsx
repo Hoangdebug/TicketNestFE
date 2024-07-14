@@ -40,11 +40,11 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
     const dayStart = moment(formattedDayEnd).format('DD');
     const monthStart = moment(formattedDayEnd).format('MMM');
 
-    const handleDetailsEvent = async () => {
+    const handleDetialsEvent = async () => {
         dispatch(
             await fetchDetailsEvent(id?.toString() ?? '', (res: IEventDataApiRes | IErrorAPIRes | null) => {
                 if (res && res.code === http.SUCCESS_CODE) {
-                    const event = (res as IEventDataApiRes).result?.dataEvent;
+                    const event = (res as IEventDataApiRes).result;
                     setState((prevState) => ({
                         ...prevState,
                         eventDetails: event,
@@ -69,7 +69,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
     };
 
     useEffect(() => {
-        handleDetailsEvent();
+        handleDetialsEvent();
         handleFetchListEvents();
     }, []);
 
@@ -188,7 +188,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                         className="pages__eventdetail_body_sideright_book"
                         onClick={() =>
                             router.push(
-                                { pathname: routes.CLIENT.EVENT_DETAILS_PAGES.href, query: { id: id, quantity: quantity } },
+                                { pathname: routes.CLIENT.EVENT_DETAILS_PAGES_ORDER.href, query: { id: id, quantity: quantity } },
                                 undefined,
                                 { scroll: false },
                             )
