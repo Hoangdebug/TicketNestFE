@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { fetchDetailsEvent } from '@redux/actions/api';
 import moment from 'moment';
+import axios from 'axios';
 
 const Payment = () => {
     const router = useRouter();
@@ -80,6 +81,52 @@ const Payment = () => {
         );
     };
 
+    const getCookie = (name: string): string | undefined => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) {
+            return parts.pop()?.split(';').shift();
+        }
+        return undefined;
+    };
+
+    const handlePayment = async () => {
+        try {
+            const token = getCookie('token');
+
+            if (!token) {
+                console.error('Token not found in cookies');
+                return;
+            }
+
+            const response = await axios.post(
+                `http://localhost:5000/api/order/${id}`,
+                {
+                    seatcode: formattedSeatDetails,
+                    totalmoney: ticketPrice,
+                    paymentCode: 'somePaymentCode',
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+
+            console.log(token);
+            const data = response.data;
+            if (data.status === true) {
+                const paymentUrl = data.paymentUrl;
+                window.location.href = paymentUrl;
+            } else {
+                console.error('Failed to create order', data.message);
+            }
+        } catch (error) {
+            console.error('Error during payment', error);
+        }
+    };
+
     return (
         <div className="components__payment">
             <div className="components__payment-header">
@@ -135,7 +182,7 @@ const Payment = () => {
                         <p>Tạm tính: {ticketPrice}</p>
                         <p>Tổng tiền: {ticketPrice}</p>
                     </div>
-                    <button className="components__payment-paymentSection-payButton" disabled={isDisabled}>
+                    <button className="components__payment-paymentSection-payButton" disabled={isDisabled} onClick={handlePayment}>
                         Thanh toán
                     </button>
                 </div>

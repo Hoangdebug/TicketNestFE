@@ -14,7 +14,7 @@ const CustomerBanList: IAdminCustomerBanPage<IAdminCustomerBanPageProps> = () =>
         customers: [],
         total: 0,
     });
-    
+
     const { customers } = state;
     const tableRef = createRef<ITableComponentHandle>();
     useEffect(() => {

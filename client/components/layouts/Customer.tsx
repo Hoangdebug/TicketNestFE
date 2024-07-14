@@ -45,7 +45,7 @@ const AdminListCustomerComponents: IAdminListCustomerComponents<IAdminListCustom
             }),
         );
     };
-    
+
     const handleFetchDeleteUser = async (idsToDelete: string[]) => {
         dispatch(
             await fetchBanCustomerByAdmin(idsToDelete.join(','), (res: IAdminCustomerBanAPIRes | IErrorAPIRes | null) => {

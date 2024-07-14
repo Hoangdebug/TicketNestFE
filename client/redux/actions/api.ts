@@ -195,12 +195,9 @@ export const fetchUploadImagesEvent = async (
         }
 
         try {
-            let formData: FormData;
-            if (data.image instanceof FormData) {
-                formData = data.image;
-            } else {
-                formData = new FormData();
-                formData.append('image', data.image || '');
+            const formData = new FormData();
+            if (data.images instanceof File) {
+                formData.append('images', data.images); // Ensure the field name matches what the backend expects
             }
 
             const config = {
@@ -344,32 +341,25 @@ export const fetchRequestOrganizer = async (
     };
 };
 
-export const fetchAddEvent = async (
-    data: IEventDataApi,
-    callBack?: (result: IEventDataApiRes | IErrorAPIRes | null) => void,
-    isLoad: boolean = true,
-) => {
-    return async (dispatch: Dispatch) => {
+export const fetchAddEvent = (data: IEventDataApi, isLoad: boolean = true): any => {
+    return async (dispatch: Dispatch): Promise<IEventDataApiRes | IErrorAPIRes | null> => {
         if (isLoad) {
             dispatch(setLoader(true));
         }
 
         try {
-            const res = await apiHelper.addEvent(data);
-            if (callBack) {
-                callBack(res?.data);
-            }
+            const res: AxiosResponse<IEventDataApiRes> = await apiHelper.addEvent(data);
+            return res.data;
         } catch (err) {
             if (!(err instanceof Error)) {
                 const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
-                if (callBack) {
-                    callBack(res?.data);
-                }
+                return res.data;
             }
-        }
-
-        if (isLoad) {
-            dispatch(setLoader(false));
+            return { code: 500, mes: err.message };
+        } finally {
+            if (isLoad) {
+                dispatch(setLoader(false));
+            }
         }
     };
 };
