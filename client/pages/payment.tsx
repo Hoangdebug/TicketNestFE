@@ -26,11 +26,11 @@ const Payment = () => {
     const { eventDetails, event } = state;
     const formattedDayEnd = moment(eventDetails?.day_end).format('MMM DD, YYYY HH:mm:ss');
 
-    const handleDetialsEvent = async () => {
+    const handleDetailsEvent = async () => {
         dispatch(
             await fetchDetailsEvent(id?.toString() ?? '', (res: IEventDataApiRes | IErrorAPIRes | null) => {
                 if (res && res.code === http.SUCCESS_CODE) {
-                    const event = (res as IEventDataApiRes).result;
+                    const event = (res as IEventDataApiRes).result?.dataEvent;
                     setState((prevState) => ({
                         ...prevState,
                         eventDetails: event,
@@ -44,7 +44,7 @@ const Payment = () => {
         if (!token) {
             router.push(routes.CLIENT.LOGIN_PAGE.href, undefined, { scroll: false });
         }
-        handleDetialsEvent();
+        handleDetailsEvent();
     }, []);
 
     useEffect(() => {
