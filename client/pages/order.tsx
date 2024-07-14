@@ -72,7 +72,7 @@ const OrderPage: ISeatType1Page<ISeatType1PageProps> = () => {
                             <label className="components__order-form-label">* Họ tên của bạn là gì?</label>
                             <input className="components__order-form-input" />
 
-                            <label className="components__order-form-label" >* Email của bạn là gì?</label>
+                            <label className="components__order-form-label">* Email của bạn là gì?</label>
                             <input className="components__order-form-input" />
 
                             <label className="components__order-form-checkbox-label">
@@ -88,7 +88,7 @@ const OrderPage: ISeatType1Page<ISeatType1PageProps> = () => {
                             <label className="components__order-form-label" htmlFor="phone">
                                 * Số điện thoại của bạn là gì?
                             </label>
-                            <input className="components__order-form-input"/>
+                            <input className="components__order-form-input" />
                         </form>
                     </div>
                     <div className="components__order-ticket-info">
@@ -109,14 +109,21 @@ const OrderPage: ISeatType1Page<ISeatType1PageProps> = () => {
                             <label className="components__order-ticket-label">Tạm tính {seatCount} ghế</label>
                             <span className="components__order-ticket-value">{ticketPrice} đ</span>
                         </div>
-                        <button className="components__order-form-button"
+                        <button
+                            className="components__order-form-button"
                             onClick={() =>
                                 router.push(
-                                    { pathname: routes.CLIENT.PAYMENT_PAGE.href, query: { id, seatCount, formattedSeatDetails, seatDetails, ticketPrice } },
+                                    {
+                                        pathname: routes.CLIENT.PAYMENT_PAGE.href,
+                                        query: { id, seatCount, formattedSeatDetails, seatDetails, ticketPrice },
+                                    },
                                     undefined,
                                     { scroll: false },
                                 )
-                            }>Tiếp tục</button>
+                            }
+                        >
+                            Tiếp tục
+                        </button>
                     </div>
                 </div>
             </div>
