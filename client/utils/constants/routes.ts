@@ -38,8 +38,16 @@ const EVENT_DETAILS_PAGES: IRouteConstant = {
     href: 'organizer/event/detail/[id]',
 };
 
-const EVENT_DETAILS_PAGES_ORDER: IRouteConstant = {
+const EVENT_DETAILS_PAGES_ORDER_TYPE1: IRouteConstant = {
     href: '/seattype1',
+};
+
+const EVENT_DETAILS_PAGES_ORDER_TYPE2: IRouteConstant = {
+    href: '/seattype2',
+};
+
+const EVENT_DETAILS_PAGES_ORDER_TYPE3: IRouteConstant = {
+    href: '/seattype3',
 };
 
 const ERROR404: IRouteConstant = {
@@ -139,9 +147,11 @@ export const CLIENT = {
     ADMIN_LIST_CUSTOMER_REQUEST_PAGE: ADMIN_LIST_CUSTOMER_REQUEST,
     ADMIN_MANAGER_EVENT_PAGE: ADMIN_MANAGER_EVENT,
     ADMIN_CREATE_ACCOUNT_PAGE: ADMIN_CREATE_ACCOUNT,
-    EVENT_DETAILS_PAGES: EVENT_DETAILS_PAGES_ORDER,
-    ORDER_PAGES: ORDER_PAGE,
-    PAYMENT_PAGES: PAYMENT_PAGE,
+    EVENT_DETAILS_PAGES_ORDER_TYPE1: EVENT_DETAILS_PAGES_ORDER_TYPE1,
+    EVENT_DETAILS_PAGES_ORDER_TYPE2: EVENT_DETAILS_PAGES_ORDER_TYPE2,
+    EVENT_DETAILS_PAGES_ORDER_TYPE3: EVENT_DETAILS_PAGES_ORDER_TYPE3,  
+    ORDER_PAGES: ORDER_PAGE, 
+    PAYMENT_PAGE: PAYMENT_PAGE,
 };
 
 const LOGIN_API: IRouteConstant = {
@@ -175,7 +185,6 @@ const CHANGEPASSWORD_API: IRouteConstant = {
 const EVENT_API: IRouteConstant = {
     href: 'event/',
 };
-
 const EVENT_UPLOAD_IMG_API: IRouteConstant = {
     href: 'event/upload-image',
 };
@@ -197,7 +206,7 @@ const ADMIN_LIST_CUSTOMER_REQUEST_API: IRouteConstant = {
 };
 
 const ADMIN_UPDATE_ORGANIZER_API: IRouteConstant = {
-    href: '/user/role',
+    href: '/role',
 };
 
 const ADMIN_CREATE_ACCOUNT_BY_ADMIN_API: IRouteConstant = {

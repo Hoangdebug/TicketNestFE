@@ -186,15 +186,29 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                     </div>
                     <button
                         className="pages__eventdetail_body_sideright_book"
-                        onClick={() =>
-                            router.push(
-                                { pathname: routes.CLIENT.EVENT_DETAILS_PAGES.href, query: { id: id, quantity: quantity } },
-                                undefined,
-                                { scroll: false },
-                            )
-                        }
+                        onClick={() => {
+                            if (eventDetails?.event_type === "Music") {
+                                router.push(
+                                    { pathname: routes.CLIENT.EVENT_DETAILS_PAGES_ORDER_TYPE1.href, query: { id: id, quantity: quantity } },
+                                    undefined,
+                                    { scroll: false }
+                                );
+                            } else if (eventDetails?.event_type === "Dramatic") {
+                                router.push(
+                                    { pathname: routes.CLIENT.EVENT_DETAILS_PAGES_ORDER_TYPE2.href, query: { id: id, quantity: quantity } },
+                                    undefined,
+                                    { scroll: false }
+                                );
+                            } else if (eventDetails?.event_type === "Workshop") {
+                                router.push(
+                                    { pathname: routes.CLIENT.EVENT_DETAILS_PAGES_ORDER_TYPE3.href, query: { id: id, quantity: quantity } },
+                                    undefined,
+                                    { scroll: false }
+                                );
+                            }
+                        }}
                     >
-                        Book Now
+                        Book now
                     </button>
                 </div>
             </div>

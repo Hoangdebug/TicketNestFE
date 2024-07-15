@@ -13,6 +13,7 @@ import EditUserProFileForm from './forms/EditUserProfile';
 import RequestOrganizerForm from './forms/RequestOrganizer';
 import SeatType1 from './layouts/SeatType1';
 import SeatType2 from './layouts/SeatType2';
+import SeatType3 from './layouts/SeatType3';
 
 export {
     Button,
@@ -28,4 +29,5 @@ export {
     RequestOrganizerForm,
     SeatType1,
     SeatType2,
+    SeatType3,
 };
