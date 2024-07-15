@@ -10,7 +10,7 @@ const SeatType3: ISeatType3Component<ISeatType3ComponentProps> = () => {
     const { id, quantity } = router.query;
     const maxSeats = parseInt(quantity as string, 10) || 0;
     const [state, setState] = useState<ISeatType3ComponentState>({
-        rows: ["A", "B", "C", "D", "E", "F", "G", "H"],
+        rows: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
         numSeatOfRow: [1, 2, 3, 4, 5, 6, 7, 8],
         vipRows: ['A', 'B'],
         selectedSeat: [],
@@ -117,9 +117,7 @@ const SeatType3: ISeatType3Component<ISeatType3ComponentProps> = () => {
             <div className="components__seattype3-screen">Screen</div>
             <div className="components__seattype3-column">
                 {rows?.map((row) => (
-                    <div
-                        key={row}
-                        className="components__seattype3-row">
+                    <div key={row} className="components__seattype3-row">
                         <span className="components__seattype3-row-label">{row}</span>
                         <div className="components__seattype3-row-seats">
                             {numSeatOfRow?.map((seatNum) => {
@@ -130,8 +128,9 @@ const SeatType3: ISeatType3Component<ISeatType3ComponentProps> = () => {
                                 return (
                                     <div
                                         key={seatNum}
-                                        className={`components__seattype3-seat ${isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
-                                            }`}
+                                        className={`components__seattype3-seat ${
+                                            isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
+                                        }`}
                                         onClick={() => toggleSeat(row, seatNum)}
                                     >
                                         {isSelected ? seatId : ''}

@@ -16,6 +16,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
 
     const [state, setState] = useState<IEventManagerAcceptPageState>({
         event: [],
+        status: enums.EventStatus.ACCEPTED,
     });
 
     const { event, totalItems, pages, status } = state;
