@@ -16,10 +16,9 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
 
     const [state, setState] = useState<IEventManagerAcceptPageState>({
         event: [],
-        ids: [],
     });
 
-    const { event, totalItems, pages, ids, status } = state;
+    const { event, totalItems, pages, status } = state;
 
     useEffect(() => {
         handleFetchListEvents();
@@ -49,9 +48,9 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
         );
     };
 
-    const handleUpdateStatusEventByAdmin = async () => {
+    const handleUpdateStatusEventByAdmin = async (idsToUpdate: string[]) => {
         dispatch(
-            await fetchUpdateStatusEventByAdmin(ids?.toString() ?? '', status ?? '', (res: IEventUpdateByAdmin | IErrorAPIRes | null) => {
+            await fetchUpdateStatusEventByAdmin(idsToUpdate.join(','), { status }, (res: IEventUpdateByAdmin | IErrorAPIRes | null) => {
                 if (res?.code === http.SUCCESS_CODE) {
                     handleFetchListEvents();
                 } else {
@@ -93,7 +92,6 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
     };
 
     const handleConfirmUpdate = async (id: string) => {
-        setState((prevState) => ({ ...prevState, ids: [id] }));
         dispatch(
             setModal({
                 isShow: true,
@@ -121,7 +119,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                         buttonText="OK"
                         background="blue"
                         onClick={() => {
-                            handleUpdateStatusEventByAdmin();
+                            handleUpdateStatusEventByAdmin([id]);
                             dispatch(
                                 setModal({
                                     isShow: false,
