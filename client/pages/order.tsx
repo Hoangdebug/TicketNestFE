@@ -74,26 +74,26 @@ const OrderPage: ISeatType1Page<ISeatType1PageProps> = () => {
                         <h2 className="components__order-form-title">Question Table</h2>
                         <form>
                             <label className="components__order-form-label">Your Name?</label>
-                            <input 
-                                className="components__order-form-input" 
-                                value={yourName} 
-                                onChange={(e) => setYourName(e.target.value)} 
+                            <input
+                                className="components__order-form-input"
+                                value={yourName}
+                                onChange={(e) => setYourName(e.target.value)}
                             />
 
                             <label className="components__order-form-label">Your email?</label>
-                            <input 
-                                className="components__order-form-input" 
-                                value={yourEmail} 
-                                onChange={(e) => setYourEmail(e.target.value)} 
+                            <input
+                                className="components__order-form-input"
+                                value={yourEmail}
+                                onChange={(e) => setYourEmail(e.target.value)}
                             />
-                            
+
                             <label className="components__order-form-label" htmlFor="phone">
                                 Your Phone
                             </label>
-                            <input 
-                                className="components__order-form-input" 
-                                value={yourPhone} 
-                                onChange={(e) => setYourPhone(e.target.value)} 
+                            <input
+                                className="components__order-form-input"
+                                value={yourPhone}
+                                onChange={(e) => setYourPhone(e.target.value)}
                             />
                         </form>
                     </div>
@@ -121,14 +121,14 @@ const OrderPage: ISeatType1Page<ISeatType1PageProps> = () => {
                                 router.push(
                                     {
                                         pathname: routes.CLIENT.PAYMENT_PAGE.href,
-                                        query: { 
-                                            id, 
-                                            seatCount, 
-                                            seatDetails, 
+                                        query: {
+                                            id,
+                                            seatCount,
+                                            seatDetails,
                                             ticketPrice,
                                             yourName,
                                             yourEmail,
-                                            yourPhone 
+                                            yourPhone,
                                         },
                                     },
                                     undefined,
