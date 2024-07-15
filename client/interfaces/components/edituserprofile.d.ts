@@ -6,4 +6,5 @@ interface IEditUserProfileComponent<P = {}> extends IBaseComp<P> {}
 
 interface IEditUserProfileComponentState {
     curentProfile?: IEditUserProfileDataAPI;
+    previewUrl?: string;
 }

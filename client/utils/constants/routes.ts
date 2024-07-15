@@ -26,12 +26,28 @@ const CHANGE_PASSWORD_SUCCESS: IRouteConstant = {
     href: '/forgotpassword/change_password_success',
 };
 
+const OTP_VERIFY: IRouteConstant = {
+    href: '/otpverify',
+};
+
 const REGISTERSUCCESS: IRouteConstant = {
     href: '/registersuccess',
 };
 
 const EVENT_DETAILS_PAGES: IRouteConstant = {
     href: 'organizer/event/detail/[id]',
+};
+
+const EVENT_DETAILS_PAGES_ORDER_TYPE1: IRouteConstant = {
+    href: '/seattype1',
+};
+
+const EVENT_DETAILS_PAGES_ORDER_TYPE2: IRouteConstant = {
+    href: '/seattype2',
+};
+
+const EVENT_DETAILS_PAGES_ORDER_TYPE3: IRouteConstant = {
+    href: '/seattype3',
 };
 
 const ERROR404: IRouteConstant = {
@@ -96,9 +112,18 @@ const CONTACT: IRouteConstant = {
     href: '/contact',
 };
 
+const ORDER_PAGE: IRouteConstant = {
+    href: '/order',
+};
+
+const PAYMENT_PAGE: IRouteConstant = {
+    href: '/payment',
+};
+
 export const CLIENT = {
     LOGIN_PAGE: LOGIN,
     REGISTER_PAGE: REGISTER,
+    OTP_VERIFY_PAGE: OTP_VERIFY,
     REGISTERSUCCESS_PAGE: REGISTERSUCCESS,
     ERROR404_PAGE: ERROR404,
     ERROR500_PAGE: ERROR500,
@@ -122,6 +147,11 @@ export const CLIENT = {
     ADMIN_LIST_CUSTOMER_REQUEST_PAGE: ADMIN_LIST_CUSTOMER_REQUEST,
     ADMIN_MANAGER_EVENT_PAGE: ADMIN_MANAGER_EVENT,
     ADMIN_CREATE_ACCOUNT_PAGE: ADMIN_CREATE_ACCOUNT,
+    EVENT_DETAILS_PAGES_ORDER_TYPE1: EVENT_DETAILS_PAGES_ORDER_TYPE1,
+    EVENT_DETAILS_PAGES_ORDER_TYPE2: EVENT_DETAILS_PAGES_ORDER_TYPE2,
+    EVENT_DETAILS_PAGES_ORDER_TYPE3: EVENT_DETAILS_PAGES_ORDER_TYPE3,  
+    ORDER_PAGES: ORDER_PAGE, 
+    PAYMENT_PAGE: PAYMENT_PAGE,
 };
 
 const LOGIN_API: IRouteConstant = {
@@ -144,12 +174,19 @@ const FORGOTPASSWORD_API: IRouteConstant = {
     href: '/user/forgotpassword',
 };
 
+const UPLOAD_IMG_API: IRouteConstant = {
+    href: '/user/upload-image',
+};
+
 const CHANGEPASSWORD_API: IRouteConstant = {
     href: '/user/changepassword',
 };
 
 const EVENT_API: IRouteConstant = {
     href: 'event/',
+};
+const EVENT_UPLOAD_IMG_API: IRouteConstant = {
+    href: 'event/upload-image',
 };
 
 const EVENT_LIST_ORGANIZER_API: IRouteConstant = {
@@ -180,17 +217,28 @@ const ADMIN_UPDATE_STATUS_EVENT_API: IRouteConstant = {
     href: '/event/update-status',
 };
 
+const OTP_VERIFY_REGISTER_API: IRouteConstant = {
+    href: '/user/verify-register',
+};
+
+const OTP_VERIFY_FORGOTPASS_API: IRouteConstant = {
+    href: '/user/verify-forgot-pass',
+};
+
 export const API = {
     LOGIN: LOGIN_API,
     REGISTER: REGISTER_API,
+    OTP_REGISTER: OTP_VERIFY_REGISTER_API,
     CURRENT_USER: CURRENT_USER_API,
     FORGOTPASSWORD: FORGOTPASSWORD_API,
+    OTP_FORGOTPASS: OTP_VERIFY_FORGOTPASS_API,
     CHANGEPASSWORD: CHANGEPASSWORD_API,
     REQUEST_ORGANIZER: REQUEST_ORGANIZER_API,
-
+    UPLOAD_IMG: UPLOAD_IMG_API,
     // organizer
     EVENT: EVENT_API,
     ORGANIZER_LIST_EVENT: EVENT_LIST_ORGANIZER_API,
+    EVENT_UPLOAD_IMG: EVENT_UPLOAD_IMG_API,
 
     // admin
     ADMIN_LIST_CUSTOMER: ADMIN_LIST_CUSTOMER_API,

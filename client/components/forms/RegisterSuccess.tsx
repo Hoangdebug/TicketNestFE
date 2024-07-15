@@ -15,8 +15,7 @@ const RegisterSuccessForm: IRegisterSuccessComponent<IRegisterSuccessComponentPr
                 <h1 className="components__registersuccess-form-firsttext text-center">Success!</h1>
                 <h5 className="components__registersuccess-form-secondtext text-center p-4">
                     {' '}
-                    A email has been send to your email@domain.com. Please check for an email from company and click on the included link to
-                    reset your password
+                    Congratulations, you have successfully authenticated. Please return to the login page!!!!
                 </h5>
                 <button onClick={handleNextPage} type="button" className="components__registersuccess-form-secondbutton  btn-large-font ">
                     {' '}

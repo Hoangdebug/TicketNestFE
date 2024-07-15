@@ -6,10 +6,13 @@ import { validateHelper } from '@utils/helpers';
 import Input from '@components/commons/Input';
 import DateTimePicker from '@components/commons/DateTimePicker';
 import { useDispatch } from 'react-redux';
-import { fetchAddEvent, fetchUpdateEvent } from '@redux/actions/api';
-import { enums, http, routes } from '@utils/constants';
+import { fetchAddEvent, fetchUpdateEvent, fetchUploadImagesEvent } from '@redux/actions/api';
+import { enums, http, images, routes } from '@utils/constants';
 import Select from '@components/commons/Select';
 import Button from '@components/commons/Button';
+import Img from '@components/commons/Img';
+import { setModal } from '@redux/actions';
+import axios from 'axios';
 
 const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     const { event } = props;
@@ -19,18 +22,31 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     const { query } = router;
     const { id } = query;
 
-    const [state, setState] = useState<IAddEventComponentState>({
-        isValidateStartDateTime: true,
-        isValidateEndDateTime: true,
-        eventAdd: {
-            ...(event ?? {}),
-        },
+    const [state, setState] = useState<IAddEventComponentState>(() => {
+        let previewUrl = '';
+        if (event?.images) {
+            if (typeof event.images === 'string') {
+                previewUrl = event.images;
+            } else if (event.images instanceof FormData) {
+                previewUrl = '';
+            }
+        }
+
+        return {
+            isValidateStartDateTime: true,
+            isValidateEndDateTime: true,
+            eventAdd: {
+                ...(event ?? {}),
+            },
+            previewUrl,
+        };
     });
-    const { eventAdd, isValidateStartDateTime, isValidateEndDateTime } = state;
+
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const { eventAdd, isValidateStartDateTime, isValidateEndDateTime, previewUrl } = state;
 
     const titleValidatorRef = createRef<IValidatorComponentHandle>();
     const descriptionValidatorRef = createRef<IValidatorComponentHandle>();
-    const bannerValidatorRef = createRef<IValidatorComponentHandle>();
     const startDateValidatorRef = createRef<IValidatorComponentHandle>();
     const endDateValidatorRef = createRef<IValidatorComponentHandle>();
     const locationValidatorRef = createRef<IValidatorComponentHandle>();
@@ -67,6 +83,110 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
         }));
     }, [event]);
 
+    const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            console.log('File selected:', file);
+            setSelectedFile(file);
+            setState((prev) => ({
+                ...prev,
+                previewUrl: URL.createObjectURL(file),
+            }));
+        }
+    };
+
+    const handleDeleteAvatar = () => {
+        setSelectedFile(null);
+        setState((prev) => ({
+            ...prev,
+            previewUrl: undefined,
+        }));
+    };
+
+    const getCookie = (name: string): string | undefined => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) {
+            return parts.pop()?.split(';').shift();
+        }
+        return undefined;
+    };
+
+    const handleUploadImages = async (eventId: string, file: File) => {
+        const formData = new FormData();
+        formData.append('images', file);
+
+        try {
+            const token = getCookie('token');
+
+            if (!token) {
+                console.error('Token not found in cookies');
+                return;
+            }
+
+            const res = await axios.put(`http://localhost:5000/api/event/upload-image/${eventId}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (res.data?.code === http.SUCCESS_CODE) {
+                const upload = res.data.data?.userData?.images;
+                setState((prev) => ({
+                    ...prev,
+                    eventAdd: {
+                        ...prev.eventAdd,
+                        images: upload,
+                    },
+                }));
+
+                // Show success modal
+                dispatch(
+                    setModal({
+                        isShow: true,
+                        content: (
+                            <>
+                                <div className="text-center bases__margin--bottom31">
+                                    <Img src={images.ICON_CHECK} className="bases__width--90 bases__height--75" />
+                                </div>
+                                <div className="bases__text--bold bases__font--14 text-center">Create New Event Successfully</div>
+                            </>
+                        ),
+                    }),
+                );
+            } else {
+                dispatch(
+                    setModal({
+                        isShow: true,
+                        content: (
+                            <>
+                                <div className="text-center bases__margin--bottom31">
+                                    <Img src={images.ICON_TIMES} className="bases__width--90 bases__height--75" />
+                                </div>
+                                <div className="bases__text--bold bases__font--14 text-center">Error while you upload image!!!</div>
+                            </>
+                        ),
+                    }),
+                );
+            }
+        } catch (error) {
+            console.error('Error during image upload', error);
+            dispatch(
+                setModal({
+                    isShow: true,
+                    content: (
+                        <>
+                            <div className="text-center bases__margin--bottom31">
+                                <Img src={images.ICON_TIMES} className="bases__width--90 bases__height--75" />
+                            </div>
+                            <div className="bases__text--bold bases__font--14 text-center">Error while you upload image!!!</div>
+                        </>
+                    ),
+                }),
+            );
+        }
+    };
     useEffect(() => {
         const handleBeforeUnload = () => {
             setState({
@@ -154,8 +274,10 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     };
 
     const handleSubmitUpdateEvent = async () => {
+        console.log('handleSubmitUpdateEvent called with:', eventAdd);
         dispatch(
             await fetchUpdateEvent(id?.toString() ?? '', eventAdd ?? {}, (res: IEventDataApiRes | IErrorAPIRes | null) => {
+                console.log('API response:', res);
                 if (res?.code === http.SUCCESS_CODE) {
                     router.push(routes.CLIENT.ORGANIZER_LIST_EVENT.href, undefined, { scroll: false });
                 } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
@@ -165,25 +287,33 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
         );
     };
 
-    const handleSubmitAddEvent = async () => {
-        dispatch(
-            await fetchAddEvent(eventAdd ?? {}, (res: IEventDataApiRes | IErrorAPIRes | null) => {
-                if (res?.code === http.SUCCESS_CODE) {
-                    router.push(routes.CLIENT.ORGANIZER_LIST_EVENT.href, undefined, { scroll: false });
-                } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
-                    alert(res?.mes);
-                }
-            }),
-        );
+    const handleSubmitAddEvent = async (): Promise<string | null> => {
+        const res: IEventDataApiRes | IErrorAPIRes | null = await dispatch(fetchAddEvent(eventAdd ?? {}));
+        console.log('API response:', res);
+
+        if (res?.code === http.SUCCESS_CODE) {
+            const eventId = res.result?._id ?? null;
+            console.log('Event added successfully, eventId:', eventId);
+
+            if (eventId) {
+                router.push(routes.CLIENT.ORGANIZER_LIST_EVENT.href, undefined, { scroll: false });
+            }
+            return eventId;
+        } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
+            alert(res?.mes);
+            return null;
+        } else {
+            return null;
+        }
     };
 
     const handleSubmit = async () => {
+        console.log('handleSubmit called with eventAdd:', eventAdd);
         let isValidate = true;
 
         const validator = [
             { ref: titleValidatorRef, value: eventAdd?.name, message: 'Title Is Not Empty!' },
             { ref: descriptionValidatorRef, value: eventAdd?.description, message: 'Description Is Not Empty!' },
-            { ref: bannerValidatorRef, value: eventAdd?.image, message: 'Banner Is Not Empty!' },
             { ref: startDateValidatorRef, value: eventAdd?.day_start, message: 'Start Date Is Not Empty!' },
             { ref: endDateValidatorRef, value: eventAdd?.day_end, message: 'End Date Is Not Empty!' },
             { ref: locationValidatorRef, value: eventAdd?.location, message: 'Location Is Not Empty!' },
@@ -196,30 +326,38 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
             ref.current?.onValidateMessage('');
             if (validateHelper.isEmpty(String(value ?? ''))) {
                 ref.current?.onValidateMessage(message);
+                console.log(`Validation failed for: ${message}`);
                 isValidate = false;
             } else if (validateHelper.isCharacters(String(value ?? ''))) {
                 ref.current?.onValidateMessage(`Your ${message} Cannot Be Less Than 2 Characters`);
+                console.log(`Validation failed for: ${message} - Less than 2 characters`);
                 isValidate = false;
             }
         });
 
+        console.log('Validation result:', isValidate);
         if (isValidate) {
             if (id) {
                 await handleSubmitUpdateEvent();
             } else {
-                await handleSubmitAddEvent();
+                console.log('Starting to add event');
+                const eventId = await handleSubmitAddEvent();
+                console.log(eventId);
+                if (eventId && selectedFile) {
+                    console.log('Uploading image for eventId:', eventId);
+                    await handleUploadImages(eventId, selectedFile);
+                }
             }
         }
     };
-
     return (
-        <div className="components__addevent ">
+        <div className="components__addevent">
             <div className="components__addevent-form p-3">
                 <div className="row">
-                    <div className="col-md-6 gap-4 d-flex flex-column ">
+                    <div className="col-md-6 gap-4 d-flex flex-column">
                         <div className="form-group">
                             <label htmlFor="title" className="pb-2">
-                                Title <span className="text-danger">*</span>{' '}
+                                Title <span className="text-danger">*</span>
                             </label>
                             <Validator ref={titleValidatorRef}>
                                 <Input
@@ -282,10 +420,10 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                             </Validator>
                         </div>
                     </div>
-                    <div className="col-md-6 gap-4 d-flex flex-column ">
+                    <div className="col-md-6 gap-4 d-flex flex-column">
                         <div className="form-group">
                             <label htmlFor="location" className="pb-2">
-                                Location<span className="text-danger">*</span>{' '}
+                                Location<span className="text-danger">*</span>
                             </label>
                             <Validator ref={locationValidatorRef}>
                                 <Input
@@ -300,7 +438,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                         </div>
                         <div className="form-group">
                             <label htmlFor="ticketType" className="pb-2">
-                                Ticket Type<span className="text-danger">*</span>{' '}
+                                Ticket Type<span className="text-danger">*</span>
                             </label>
                             <Validator ref={ticketTypeValidatorRef}>
                                 <Select
@@ -312,7 +450,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                         </div>
                         <div className="form-group">
                             <label htmlFor="ticketPrice" className="pb-2">
-                                Ticket Price<span className="text-danger">*</span>{' '}
+                                Ticket Price<span className="text-danger">*</span>
                             </label>
                             <Validator ref={ticketPriceValidatorRef}>
                                 <Input
@@ -329,7 +467,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                         </div>
                         <div className="form-group">
                             <label htmlFor="ticketquantity" className="pb-2">
-                                Ticket Quantity<span className="text-danger">*</span>{' '}
+                                Ticket Quantity<span className="text-danger">*</span>
                             </label>
                             <Validator ref={ticketQuantityValidatorRef}>
                                 <Select
@@ -340,20 +478,42 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                             </Validator>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="banner" className="pb-2">
-                                Banner<span className="text-danger">*</span>{' '}
-                            </label>
-                            <Validator ref={bannerValidatorRef}>
-                                <input
-                                    type="file"
-                                    value={eventAdd?.image}
-                                    onChange={(e) => handleOnChange('image', e.target.value)}
-                                    id="event-image"
-                                    name="event-image"
-                                    accept="image/*"
-                                    placeholder="Import event banner"
-                                />
-                            </Validator>
+                            <div className="form-group d-flex justify-content-center align-items-center col-md-12">
+                                {!previewUrl && (
+                                    <label
+                                        htmlFor="avatar"
+                                        style={{ cursor: 'pointer', padding: '70px', border: '1px solid #ffbdbd', borderRadius: '10px' }}
+                                    >
+                                        <img src={images.ICON_FILE_UPLOAD} alt="" />
+                                    </label>
+                                )}
+                                <div className="d-flex align-items-center">
+                                    <input
+                                        type="file"
+                                        className="form-control d-none"
+                                        id="avatar"
+                                        name="avatar"
+                                        onChange={handleAvatarChange}
+                                    />
+                                    {previewUrl && (
+                                        <div className="ms-3 position-relative">
+                                            <img
+                                                src={previewUrl}
+                                                alt="Avatar"
+                                                className="img-thumbnail"
+                                                style={{ width: '1050px', height: '350px', objectFit: 'cover' }}
+                                            />
+                                            <button
+                                                type="button"
+                                                className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                                onClick={handleDeleteAvatar}
+                                            >
+                                                X
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

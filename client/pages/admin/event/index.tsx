@@ -98,7 +98,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                 content: (
                     <>
                         <div className="text-center bases__margin--bottom31">
-                            <Img src={images.ICON_TIMES} className="bases__width--90 bases__height--75" />
+                            <Img src={images.ICON_WARNING_MODEL} className="bases__width--90 bases__height--75" />
                         </div>
                         <div className="bases__text--bold bases__font--14 text-center">Do You Want To Accpet This Event?</div>
                         <div className="pt-3">

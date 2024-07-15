@@ -102,7 +102,7 @@ const Datepicker: IDatepickerComponent<IDatepickerComponentProps> = (props) => {
         <div
             className={`components__datepicker ${
                 showTimeInput ? '' : 'position-relative'
-            } bases__width--${width} bases__height--${height} ${className}`}
+            } bases__width${width} bases__height${height} ${className}`}
         >
             <DatePicker
                 ref={dateRef}

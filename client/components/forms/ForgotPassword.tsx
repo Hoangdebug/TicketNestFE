@@ -24,7 +24,10 @@ const ForgotPasswordForm: IForgotPasswordComponent<IForgotPasswordComponentProps
     };
 
     const handleNextPage = () => {
-        router.push(routes.CLIENT.CHANGE_PASSWORD_PAGE.href);
+        router.push({
+            pathname: routes?.CLIENT?.CHANGE_PASSWORD_SUCCESS_PAGE?.href,
+            query: { email },
+        });
     };
 
     const emailValidatorRef = createRef<IValidatorComponentHandle>();
@@ -55,7 +58,7 @@ const ForgotPasswordForm: IForgotPasswordComponent<IForgotPasswordComponentProps
         // call api
         if (isValidate) {
             dispatch(
-                await fetchForgotPassword(email?.toString() ?? '', (res: IEditUserProfileAPIRes | IErrorAPIRes | null) => {
+                await fetchForgotPassword({ email }, (res: IEditUserProfileAPIRes | IErrorAPIRes | null) => {
                     if (res?.code === http.SUCCESS_CODE) {
                         dispatch(
                             setModal({

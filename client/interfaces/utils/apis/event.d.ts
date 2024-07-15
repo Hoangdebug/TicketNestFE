@@ -2,7 +2,7 @@ interface IEventDataApi {
     _id?: string;
     name?: string;
     description?: string;
-    image?: string;
+    images?: string | FormData | undefined;
     day_start?: string;
     day_end?: string;
     event_type?: string;
@@ -40,15 +40,7 @@ interface IEventUpdateByAdmin extends IBaseAPIRes {
 
 interface IEventByOrganizerDataApiRes extends IBaseAPIRes {
     code: number;
-    result?: {
-        metadata?: {
-            pages?: number;
-            pageSize?: number;
-            currentPage?: number;
-            totalItems?: number;
-        };
-        dataEvent?: IEventDataApi[];
-    };
+    result?: IEventDataApi[];
 }
 
 interface IEventDataApiListRes extends IBaseAPIRes {

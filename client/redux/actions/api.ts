@@ -78,8 +78,39 @@ export const fetchRegister = async (
     };
 };
 
+export const verifyOtp = async (
+    email: string,
+    data: IOtpVerifyDataApi,
+    callBack?: (result: IOtpVerifyDataApiRes | IErrorAPIRes | null) => void,
+    isLoad: boolean = true,
+) => {
+    return async (dispatch: Dispatch) => {
+        if (isLoad) {
+            dispatch(setLoader(true));
+        }
+
+        try {
+            const res = await apiHelper.verify_register(email, data);
+            if (callBack) {
+                callBack(res?.data);
+            }
+        } catch (err) {
+            if (!(err instanceof Error)) {
+                const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+                if (callBack) {
+                    callBack(res?.data);
+                }
+            }
+        }
+
+        if (isLoad) {
+            dispatch(setLoader(false));
+        }
+    };
+};
+
 export const fetchForgotPassword = async (
-    query: string,
+    data: IEditUserProfileDataAPI,
     callBack?: (result: IEditUserProfileAPIRes | IErrorAPIRes | null) => void,
     isLoad: boolean = true,
 ) => {
@@ -89,7 +120,124 @@ export const fetchForgotPassword = async (
         }
 
         try {
-            const res = await apiHelper.forgotPassword(query);
+            const res = await apiHelper.forgotPassword(data);
+            if (callBack) {
+                callBack(res?.data);
+            }
+        } catch (err) {
+            if (!(err instanceof Error)) {
+                const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+                if (callBack) {
+                    callBack(res?.data);
+                }
+            }
+        }
+
+        if (isLoad) {
+            dispatch(setLoader(false));
+        }
+    };
+};
+
+export const fetchUploadImages = async (
+    data: IEditUserProfileDataAPI,
+    callBack?: (result: IEditUserProfileAPIRes | IErrorAPIRes | null) => void,
+    isLoad: boolean = true,
+) => {
+    return async (dispatch: Dispatch) => {
+        if (isLoad) {
+            dispatch(setLoader(true));
+        }
+
+        try {
+            let formData: FormData;
+            if (data.images instanceof FormData) {
+                formData = data.images;
+            } else {
+                formData = new FormData();
+                formData.append('images', data.images || '');
+            }
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${authHelper.accessToken()}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+            };
+            const res = await apiHelper.uploadImg(formData, config);
+            if (callBack) {
+                callBack(res?.data);
+            }
+        } catch (err) {
+            if (!(err instanceof Error)) {
+                const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+                if (callBack) {
+                    callBack(res?.data);
+                }
+            }
+        }
+
+        if (isLoad) {
+            dispatch(setLoader(false));
+        }
+    };
+};
+
+export const fetchUploadImagesEvent = async (
+    id: string,
+    data: IEventDataApi,
+    callBack?: (result: IEventUpdateByAdmin | IErrorAPIRes | null) => void,
+    isLoad: boolean = true,
+) => {
+    return async (dispatch: Dispatch) => {
+        if (isLoad) {
+            dispatch(setLoader(true));
+        }
+
+        try {
+            const formData = new FormData();
+            if (data.images instanceof File) {
+                formData.append('images', data.images); // Ensure the field name matches what the backend expects
+            }
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${authHelper.accessToken()}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+            };
+            const res = await apiHelper.uploadImgEvent(id, formData, config);
+            if (callBack) {
+                callBack(res?.data);
+            }
+        } catch (err) {
+            if (!(err instanceof Error)) {
+                const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
+                if (callBack) {
+                    callBack(res?.data);
+                }
+            }
+        }
+
+        if (isLoad) {
+            dispatch(setLoader(false));
+        }
+    };
+};
+
+export const verifyOtpForgot = async (
+    email: string,
+    data: IOtpVerifyDataApi,
+    callBack?: (result: IOtpVerifyDataApiRes | IErrorAPIRes | null) => void,
+    isLoad: boolean = true,
+) => {
+    return async (dispatch: Dispatch) => {
+        if (isLoad) {
+            dispatch(setLoader(true));
+        }
+
+        try {
+            const res = await apiHelper.verify_forgot(email, data);
             if (callBack) {
                 callBack(res?.data);
             }
@@ -193,32 +341,25 @@ export const fetchRequestOrganizer = async (
     };
 };
 
-export const fetchAddEvent = async (
-    data: IEventDataApi,
-    callBack?: (result: IEventDataApiRes | IErrorAPIRes | null) => void,
-    isLoad: boolean = true,
-) => {
-    return async (dispatch: Dispatch) => {
+export const fetchAddEvent = (data: IEventDataApi, isLoad: boolean = true): any => {
+    return async (dispatch: Dispatch): Promise<IEventDataApiRes | IErrorAPIRes | null> => {
         if (isLoad) {
             dispatch(setLoader(true));
         }
 
         try {
-            const res = await apiHelper.addEvent(data);
-            if (callBack) {
-                callBack(res?.data);
-            }
+            const res: AxiosResponse<IEventDataApiRes> = await apiHelper.addEvent(data);
+            return res.data;
         } catch (err) {
             if (!(err instanceof Error)) {
                 const res = err as AxiosResponse<IErrorAPIRes, AxiosError>;
-                if (callBack) {
-                    callBack(res?.data);
-                }
+                return res.data;
             }
-        }
-
-        if (isLoad) {
-            dispatch(setLoader(false));
+            return { code: 500, mes: err.message };
+        } finally {
+            if (isLoad) {
+                dispatch(setLoader(false));
+            }
         }
     };
 };

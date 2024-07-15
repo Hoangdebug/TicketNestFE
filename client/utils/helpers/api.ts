@@ -50,6 +50,14 @@ export const register = async (data: IRegisterDataApi) => {
     }
 };
 
+export const verify_register = async (email: string, data: IOtpVerifyDataApi) => {
+    try {
+        return await axios.post<IOtpVerifyDataApiRes>(`${routes.API.OTP_REGISTER.href}/${email}`, data);
+    } catch (err) {
+        throw err;
+    }
+};
+
 export const getCurrentUser = async () => {
     try {
         return await axios.get<ICurrentUserAPIRes>(`${routes.API.CURRENT_USER.href}`);
@@ -66,15 +74,23 @@ export const editUserProfile = async (data: IEditUserProfileDataAPI) => {
     }
 };
 
-export const forgotPassword = async (query: string = '') => {
+export const forgotPassword = async (data: IEditUserProfileDataAPI) => {
     try {
-        return await axios.get<IEditUserProfileAPIRes>(`${routes.API.FORGOTPASSWORD.href}/${query}`);
+        return await axios.post<IEditUserProfileAPIRes>(`${routes.API.FORGOTPASSWORD.href}`, data);
     } catch (err) {
         throw err;
     }
 };
 
-export const uploadImg = async (formData: FormData, config?: AxiosRequestConfig) => {
+export const verify_forgot = async (email: string, data: IOtpVerifyDataApi) => {
+    try {
+        return await axios.post<IOtpVerifyDataApiRes>(`${routes.API.OTP_FORGOTPASS.href}/${email}`, data);
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const uploadImg = async (formData: FormData, config: AxiosRequestConfig) => {
     try {
         const accessTokenConfig = checkAccessTokenAndParams({ token: authHelper.accessToken() });
         const finalConfig: AxiosRequestConfig = {
@@ -86,7 +102,25 @@ export const uploadImg = async (formData: FormData, config?: AxiosRequestConfig)
                 'Content-Type': 'multipart/form-data',
             },
         };
-        return await axios.post<IEditUserProfileAPIRes>(`${routes.API.LOGIN.href}`, formData, finalConfig);
+        return await axios.put<IEditUserProfileAPIRes>(`${routes.API.UPLOAD_IMG.href}`, formData, finalConfig);
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const uploadImgEvent = async (id: string, formData: FormData, config: AxiosRequestConfig) => {
+    try {
+        const accessTokenConfig = checkAccessTokenAndParams({ token: authHelper.accessToken() });
+        const finalConfig: AxiosRequestConfig = {
+            ...accessTokenConfig,
+            ...config,
+            headers: {
+                ...accessTokenConfig?.headers,
+                ...config?.headers,
+                'Content-Type': 'multipart/form-data',
+            },
+        };
+        return await axios.put<IEventUpdateByAdmin>(`${routes.API.EVENT_UPLOAD_IMG.href}/${id}`, formData, finalConfig);
     } catch (err) {
         throw err;
     }
@@ -149,7 +183,7 @@ export const adminListCustomer = async () => {
 
 export const updateOrganizerByAdmin = async (id: string, data: IEditUserProfileDataAPI) => {
     try {
-        return await axios.put<IAdminUpdateOrganizerAPIRes>(`${routes.API.ADMIN_LIST_CUSTOMER.href}/role/${id}`, data);
+        return await axios.put<IAdminUpdateOrganizerAPIRes>(`${routes.API.ADMIN_UPDATE_ORGANIZER.href}/${id}`, data);
     } catch (err) {
         throw err;
     }
