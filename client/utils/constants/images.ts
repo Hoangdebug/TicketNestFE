@@ -6,6 +6,7 @@ export const ICON_CLOCK = '/assets/icons/icon-clock.svg';
 export const ICON_TIMES = '/assets/icons/icon-times.svg';
 export const ICON_SUCCESS = '/assets/icons/icon-success.svg';
 export const ICON_WARNING = '/assets/icons/icon-warning.svg';
+export const ICON_WARNING_MODEL = '/assets/icons/icon-warning-model.svg';
 export const ICON_FALSE = '/assets/icons/icon-false.svg';
 export const ICON_ERROR = '/assets/icons/icon-error.svg';
 export const ICON_FILE_UPLOAD = '/assets/icons/icon-file.svg';

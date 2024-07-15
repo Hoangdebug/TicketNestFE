@@ -7,10 +7,11 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { fetchDetailsEvent } from '@redux/actions/api';
 import moment from 'moment';
+import axios from 'axios';
 
 const Payment = () => {
     const router = useRouter();
-    const { id, seatDetails, ticketPrice } = router.query;
+    const { id, seatDetails, ticketPrice, yourName, yourEmail, yourPhone } = router.query;
     const token = authHelper.accessToken();
     const dispatch = useDispatch();
 
@@ -19,7 +20,7 @@ const Payment = () => {
         event: [],
     });
 
-    const [countdown, setCountdown] = useState(30);
+    const [countdown, setCountdown] = useState(90);
     const [isDisabled, setIsDisabled] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
 
@@ -80,6 +81,52 @@ const Payment = () => {
         );
     };
 
+    const getCookie = (name: string): string | undefined => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) {
+            return parts.pop()?.split(';').shift();
+        }
+        return undefined;
+    };
+
+    const handlePayment = async () => {
+        try {
+            const token = getCookie('token');
+
+            if (!token) {
+                console.error('Token not found in cookies');
+                return;
+            }
+
+            const response = await axios.post(
+                `http://localhost:5000/api/order/${id}`,
+                {
+                    seatcode: formattedSeatDetails,
+                    totalmoney: ticketPrice,
+                    paymentCode: 'somePaymentCode',
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+
+            console.log(token);
+            const data = response.data;
+            if (data.status === true) {
+                const paymentUrl = data.paymentUrl;
+                window.location.href = paymentUrl;
+            } else {
+                console.error('Failed to create order', data.message);
+            }
+        } catch (error) {
+            console.error('Error during payment', error);
+        }
+    };
+
     return (
         <div className="components__payment">
             <div className="components__payment-header">
@@ -100,8 +147,9 @@ const Payment = () => {
                 <div className="components__payment-paymentSection-left">
                     <div className="components__payment-paymentSection-ticketInfo">
                         <h2>Thông tin nhận vé</h2>
-                        <p>Nguyễn Trần Thế Anh +84358446665</p>
-                        <p>theanhntp@gmail.com</p>
+                        <p>Họ tên: {yourName}</p>
+                        <p>Số điện thoại: {yourPhone}</p>
+                        <p>Email: {yourEmail}</p>
                     </div>
                     <div className="components__payment-paymentSection-paymentMethods">
                         <h2>Phương thức thanh toán</h2>
@@ -135,7 +183,7 @@ const Payment = () => {
                         <p>Tạm tính: {ticketPrice}</p>
                         <p>Tổng tiền: {ticketPrice}</p>
                     </div>
-                    <button className="components__payment-paymentSection-payButton" disabled={isDisabled}>
+                    <button className="components__payment-paymentSection-payButton" disabled={isDisabled} onClick={handlePayment}>
                         Thanh toán
                     </button>
                 </div>

@@ -22,6 +22,10 @@ const OrderPage: ISeatType1Page<ISeatType1PageProps> = () => {
     const { eventDetails, event } = state;
     const formattedDayEnd = moment(eventDetails?.day_end).format('MMM DD, YYYY HH:mm:ss');
 
+    const [yourName, setYourName] = useState('');
+    const [yourEmail, setYourEmail] = useState('');
+    const [yourPhone, setYourPhone] = useState('');
+
     const handleDetialsEvent = async () => {
         dispatch(
             await fetchDetailsEvent(id?.toString() ?? '', (res: IEventDataApiRes | IErrorAPIRes | null) => {
@@ -67,46 +71,48 @@ const OrderPage: ISeatType1Page<ISeatType1PageProps> = () => {
                 </div>
                 <div className="components__order-form-and-ticket-info">
                     <div className="components__order-form-container">
-                        <h2 className="components__order-form-title">BẢNG CÂU HỎI</h2>
+                        <h2 className="components__order-form-title">Question Table</h2>
                         <form>
-                            <label className="components__order-form-label">* Họ tên của bạn là gì?</label>
-                            <input className="components__order-form-input" />
+                            <label className="components__order-form-label">Your Name?</label>
+                            <input 
+                                className="components__order-form-input" 
+                                value={yourName} 
+                                onChange={(e) => setYourName(e.target.value)} 
+                            />
 
-                            <label className="components__order-form-label">* Email của bạn là gì?</label>
-                            <input className="components__order-form-input" />
-
-                            <label className="components__order-form-checkbox-label">
-                                <input className="components__order-form-checkbox" type="checkbox" />
-                                Tôi đồng ý với các điều khoản
-                            </label>
-
-                            <label className="components__order-form-checkbox-label">
-                                <input className="components__order-form-checkbox" type="checkbox" />
-                                Tôi đồng ý nhận các thông tin và ưu đãi qua email và điện thoại
-                            </label>
-
+                            <label className="components__order-form-label">Your email?</label>
+                            <input 
+                                className="components__order-form-input" 
+                                value={yourEmail} 
+                                onChange={(e) => setYourEmail(e.target.value)} 
+                            />
+                            
                             <label className="components__order-form-label" htmlFor="phone">
-                                * Số điện thoại của bạn là gì?
+                                Your Phone
                             </label>
-                            <input className="components__order-form-input" />
+                            <input 
+                                className="components__order-form-input" 
+                                value={yourPhone} 
+                                onChange={(e) => setYourPhone(e.target.value)} 
+                            />
                         </form>
                     </div>
                     <div className="components__order-ticket-info">
-                        <h2 className="components__order-ticket-title">Thông tin đặt vé</h2>
+                        <h2 className="components__order-ticket-title">Ticket information</h2>
                         <div className="components__order-ticket-item">
-                            <label className="components__order-ticket-label">Loại vé</label>
+                            <label className="components__order-ticket-label">Ticket type</label>
                             <span className="components__order-ticket-value">{eventDetails?.event_type}</span>
                         </div>
                         <div className="components__order-ticket-item">
-                            <label className="components__order-ticket-label">Số lượng</label>
+                            <label className="components__order-ticket-label">Number</label>
                             <span className="components__order-ticket-value">{seatCount}</span>
                         </div>
                         <div className="components__order-ticket-item">
-                            <label className="components__order-ticket-label">Ghế</label>
+                            <label className="components__order-ticket-label">Seat</label>
                             <span className="components__order-ticket-value">{formattedSeatDetails}</span>
                         </div>
                         <div className="components__order-ticket-item">
-                            <label className="components__order-ticket-label">Tạm tính {seatCount} ghế</label>
+                            <label className="components__order-ticket-label">The money of {seatCount} seat</label>
                             <span className="components__order-ticket-value">{ticketPrice} đ</span>
                         </div>
                         <button
@@ -115,7 +121,15 @@ const OrderPage: ISeatType1Page<ISeatType1PageProps> = () => {
                                 router.push(
                                     {
                                         pathname: routes.CLIENT.PAYMENT_PAGE.href,
-                                        query: { id, seatCount, formattedSeatDetails, seatDetails, ticketPrice },
+                                        query: { 
+                                            id, 
+                                            seatCount, 
+                                            seatDetails, 
+                                            ticketPrice,
+                                            yourName,
+                                            yourEmail,
+                                            yourPhone 
+                                        },
                                     },
                                     undefined,
                                     { scroll: false },

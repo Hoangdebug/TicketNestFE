@@ -12,6 +12,7 @@ import Select from '@components/commons/Select';
 import Button from '@components/commons/Button';
 import Img from '@components/commons/Img';
 import { setModal } from '@redux/actions';
+import axios from 'axios';
 
 const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     const { event } = props;
@@ -23,10 +24,10 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
 
     const [state, setState] = useState<IAddEventComponentState>(() => {
         let previewUrl = '';
-        if (event?.image) {
-            if (typeof event.image === 'string') {
-                previewUrl = event.image;
-            } else if (event.image instanceof FormData) {
+        if (event?.images) {
+            if (typeof event.images === 'string') {
+                previewUrl = event.images;
+            } else if (event.images instanceof FormData) {
                 previewUrl = '';
             }
         }
@@ -46,7 +47,6 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
 
     const titleValidatorRef = createRef<IValidatorComponentHandle>();
     const descriptionValidatorRef = createRef<IValidatorComponentHandle>();
-    const bannerValidatorRef = createRef<IValidatorComponentHandle>();
     const startDateValidatorRef = createRef<IValidatorComponentHandle>();
     const endDateValidatorRef = createRef<IValidatorComponentHandle>();
     const locationValidatorRef = createRef<IValidatorComponentHandle>();
@@ -79,23 +79,18 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                 location: event?.location ?? '',
                 price: event?.price ?? 0,
                 ticket_number: event?.ticket_number ?? enums.EVENTTICKET.BASE,
-                image: event?.image ?? '',
             },
         }));
     }, [event]);
 
     const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        console.log(file);
         if (file) {
+            console.log('File selected:', file);
             setSelectedFile(file);
             setState((prev) => ({
                 ...prev,
                 previewUrl: URL.createObjectURL(file),
-                eventAdd: {
-                    ...prev.eventAdd,
-                    image: file,
-                },
             }));
         }
     };
@@ -105,48 +100,93 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
         setState((prev) => ({
             ...prev,
             previewUrl: undefined,
-            eventAdd: {
-                ...prev.eventAdd,
-                image: '',
-            },
         }));
+    };
+
+    const getCookie = (name: string): string | undefined => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) {
+            return parts.pop()?.split(';').shift();
+        }
+        return undefined;
     };
 
     const handleUploadImages = async (eventId: string, file: File) => {
         const formData = new FormData();
         formData.append('images', file);
 
-        dispatch(
-            fetchUploadImagesEvent(eventId, { image: formData }, (res) => {
-                console.log(eventId);
-                if (res?.code === http.SUCCESS_CODE) {
-                    const upload = (res as IEditUserProfileAPIRes).data?.userData?.images;
-                    setState((prev) => ({
-                        ...prev,
-                        eventAdd: {
-                            ...prev.eventAdd,
-                            images: upload,
-                        },
-                    }));
-                } else {
-                    dispatch(
-                        setModal({
-                            isShow: true,
-                            content: (
-                                <>
-                                    <div className="text-center bases__margin--bottom31">
-                                        <Img src={images.ICON_TIMES} className="bases__width--90 bases__height--75" />
-                                    </div>
-                                    <div className="bases__text--bold bases__font--14 text-center">Error while you upload image!!!</div>
-                                </>
-                            ),
-                        }),
-                    );
-                }
-            }),
-        );
-    };
+        try {
+            const token = getCookie('token');
 
+            if (!token) {
+                console.error('Token not found in cookies');
+                return;
+            }
+
+            const res = await axios.put(`http://localhost:5000/api/event/upload-image/${eventId}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (res.data?.code === http.SUCCESS_CODE) {
+                const upload = res.data.data?.userData?.images;
+                setState((prev) => ({
+                    ...prev,
+                    eventAdd: {
+                        ...prev.eventAdd,
+                        images: upload,
+                    },
+                }));
+
+                // Show success modal
+                dispatch(
+                    setModal({
+                        isShow: true,
+                        content: (
+                            <>
+                                <div className="text-center bases__margin--bottom31">
+                                    <Img src={images.ICON_CHECK} className="bases__width--90 bases__height--75" />
+                                </div>
+                                <div className="bases__text--bold bases__font--14 text-center">Create New Event Successfully</div>
+                            </>
+                        ),
+                    }),
+                );
+            } else {
+                dispatch(
+                    setModal({
+                        isShow: true,
+                        content: (
+                            <>
+                                <div className="text-center bases__margin--bottom31">
+                                    <Img src={images.ICON_TIMES} className="bases__width--90 bases__height--75" />
+                                </div>
+                                <div className="bases__text--bold bases__font--14 text-center">Error while you upload image!!!</div>
+                            </>
+                        ),
+                    }),
+                );
+            }
+        } catch (error) {
+            console.error('Error during image upload', error);
+            dispatch(
+                setModal({
+                    isShow: true,
+                    content: (
+                        <>
+                            <div className="text-center bases__margin--bottom31">
+                                <Img src={images.ICON_TIMES} className="bases__width--90 bases__height--75" />
+                            </div>
+                            <div className="bases__text--bold bases__font--14 text-center">Error while you upload image!!!</div>
+                        </>
+                    ),
+                }),
+            );
+        }
+    };
     useEffect(() => {
         const handleBeforeUnload = () => {
             setState({
@@ -236,7 +276,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     const handleSubmitUpdateEvent = async () => {
         console.log('handleSubmitUpdateEvent called with:', eventAdd);
         dispatch(
-            fetchUpdateEvent(id?.toString() ?? '', eventAdd ?? {}, (res: IEventDataApiRes | IErrorAPIRes | null) => {
+            await fetchUpdateEvent(id?.toString() ?? '', eventAdd ?? {}, (res: IEventDataApiRes | IErrorAPIRes | null) => {
                 console.log('API response:', res);
                 if (res?.code === http.SUCCESS_CODE) {
                     router.push(routes.CLIENT.ORGANIZER_LIST_EVENT.href, undefined, { scroll: false });
@@ -248,34 +288,32 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     };
 
     const handleSubmitAddEvent = async (): Promise<string | null> => {
-        console.log('handleSubmitAddEvent called with:', eventAdd);
-        return new Promise((resolve) => {
-            dispatch(
-                fetchAddEvent(eventAdd ?? {}, async (res: IEventDataApiRes | IErrorAPIRes | null) => {
-                    console.log('API response:', res);
-                    if (res?.code === http.SUCCESS_CODE) {
-                        const eventId = (res as IEventDataApiRes).result?.dataEvent?._id ?? null;
-                        resolve(eventId);
-                        router.push(routes.CLIENT.ORGANIZER_LIST_EVENT.href, undefined, { scroll: false });
-                    } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
-                        alert(res?.mes);
-                        resolve(null);
-                    } else {
-                        resolve(null);
-                    }
-                }),
-            );
-        });
+        const res: IEventDataApiRes | IErrorAPIRes | null = await dispatch(fetchAddEvent(eventAdd ?? {}));
+        console.log('API response:', res);
+
+        if (res?.code === http.SUCCESS_CODE) {
+            const eventId = res.result?._id ?? null;
+            console.log('Event added successfully, eventId:', eventId);
+
+            if (eventId) {
+                router.push(routes.CLIENT.ORGANIZER_LIST_EVENT.href, undefined, { scroll: false });
+            }
+            return eventId;
+        } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
+            alert(res?.mes);
+            return null;
+        } else {
+            return null;
+        }
     };
 
     const handleSubmit = async () => {
-        console.log('vao day r nef');
+        console.log('handleSubmit called with eventAdd:', eventAdd);
         let isValidate = true;
 
         const validator = [
             { ref: titleValidatorRef, value: eventAdd?.name, message: 'Title Is Not Empty!' },
             { ref: descriptionValidatorRef, value: eventAdd?.description, message: 'Description Is Not Empty!' },
-            { ref: bannerValidatorRef, value: eventAdd?.image, message: 'Banner Is Not Empty!' },
             { ref: startDateValidatorRef, value: eventAdd?.day_start, message: 'Start Date Is Not Empty!' },
             { ref: endDateValidatorRef, value: eventAdd?.day_end, message: 'End Date Is Not Empty!' },
             { ref: locationValidatorRef, value: eventAdd?.location, message: 'Location Is Not Empty!' },
@@ -302,15 +340,16 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
             if (id) {
                 await handleSubmitUpdateEvent();
             } else {
-                console.log('vao day chuaw');
+                console.log('Starting to add event');
                 const eventId = await handleSubmitAddEvent();
+                console.log(eventId);
                 if (eventId && selectedFile) {
+                    console.log('Uploading image for eventId:', eventId);
                     await handleUploadImages(eventId, selectedFile);
                 }
             }
         }
     };
-
     return (
         <div className="components__addevent">
             <div className="components__addevent-form p-3">
@@ -440,7 +479,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                         </div>
                         <div className="form-group">
                             <div className="form-group d-flex justify-content-center align-items-center col-md-12">
-                                {!(previewUrl || eventAdd?.image) && (
+                                {!previewUrl && (
                                     <label
                                         htmlFor="avatar"
                                         style={{ cursor: 'pointer', padding: '70px', border: '1px solid #ffbdbd', borderRadius: '10px' }}
@@ -456,10 +495,10 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                                         name="avatar"
                                         onChange={handleAvatarChange}
                                     />
-                                    {(previewUrl || eventAdd?.image) && (
+                                    {previewUrl && (
                                         <div className="ms-3 position-relative">
                                             <img
-                                                src={typeof previewUrl === 'string' ? previewUrl : ''}
+                                                src={previewUrl}
                                                 alt="Avatar"
                                                 className="img-thumbnail"
                                                 style={{ width: '1050px', height: '350px', objectFit: 'cover' }}

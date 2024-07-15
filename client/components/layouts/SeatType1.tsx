@@ -31,7 +31,7 @@ const SeatType1: ISeatType1Component<ISeatType1ComponentProps> = () => {
 
             if (newSelectedSeats.includes(seatId)) {
                 newSelectedSeats = newSelectedSeats.filter((seat) => seat !== seatId);
-                newTicketPrice -= vipRows.includes(row) ? 100000 : 75000;
+                newTicketPrice -= vipRows?.includes(row) ? 100000 : 75000;
             } else {
                 if (newSelectedSeats.length < maxSeats) {
                     newSelectedSeats.push(seatId);
