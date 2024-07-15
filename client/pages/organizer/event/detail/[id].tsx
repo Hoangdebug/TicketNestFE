@@ -187,23 +187,23 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                     <button
                         className="pages__eventdetail_body_sideright_book"
                         onClick={() => {
-                            if (eventDetails?.event_type === "Music") {
+                            if (eventDetails?.event_type === 'Music') {
                                 router.push(
                                     { pathname: routes.CLIENT.EVENT_DETAILS_PAGES_ORDER_TYPE1.href, query: { id: id, quantity: quantity } },
                                     undefined,
-                                    { scroll: false }
+                                    { scroll: false },
                                 );
-                            } else if (eventDetails?.event_type === "Dramatic") {
+                            } else if (eventDetails?.event_type === 'Dramatic') {
                                 router.push(
                                     { pathname: routes.CLIENT.EVENT_DETAILS_PAGES_ORDER_TYPE2.href, query: { id: id, quantity: quantity } },
                                     undefined,
-                                    { scroll: false }
+                                    { scroll: false },
                                 );
-                            } else if (eventDetails?.event_type === "Workshop") {
+                            } else if (eventDetails?.event_type === 'Workshop') {
                                 router.push(
                                     { pathname: routes.CLIENT.EVENT_DETAILS_PAGES_ORDER_TYPE3.href, query: { id: id, quantity: quantity } },
                                     undefined,
-                                    { scroll: false }
+                                    { scroll: false },
                                 );
                             }
                         }}

@@ -205,9 +205,9 @@ export const createAccountByAdmin = async (data: IRegisterDataApi) => {
     }
 };
 
-export const updateEventsStatusByAdmin = async (id: string, status: string) => {
+export const updateEventsStatusByAdmin = async (id: string, data: IEventDataApi) => {
     try {
-        return await axios.put<IEventUpdateByAdmin>(`${routes.API.ADMIN_UPDATE_STATUS_EVENT.href}/${id}`, status);
+        return await axios.put<IEventUpdateByAdmin>(`${routes.API.ADMIN_UPDATE_STATUS_EVENT.href}/${id}`, data);
     } catch (err) {
         throw err;
     }

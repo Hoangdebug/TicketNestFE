@@ -602,7 +602,7 @@ export const fetchCreateAccountByAdmin = async (
 
 export const fetchUpdateStatusEventByAdmin = async (
     id: string,
-    status: string,
+    data: IEventDataApi,
     callBack?: (result: IEventUpdateByAdmin | IErrorAPIRes | null) => void,
     isLoad: boolean = true,
 ) => {
@@ -612,7 +612,7 @@ export const fetchUpdateStatusEventByAdmin = async (
         }
 
         try {
-            const res = await apiHelper.updateEventsStatusByAdmin(id, status);
+            const res = await apiHelper.updateEventsStatusByAdmin(id, data);
             if (callBack) {
                 callBack(res?.data);
             }
