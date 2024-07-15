@@ -214,7 +214,7 @@ const ADMIN_CREATE_ACCOUNT_BY_ADMIN_API: IRouteConstant = {
 };
 
 const ADMIN_UPDATE_STATUS_EVENT_API: IRouteConstant = {
-    href: 'event/update-status',
+    href: '/event/update-status',
 };
 
 const OTP_VERIFY_REGISTER_API: IRouteConstant = {
