@@ -119,6 +119,12 @@ const ORDER_PAGE: IRouteConstant = {
 const PAYMENT_PAGE: IRouteConstant = {
     href: '/payment',
 };
+const PAYMENT_RETURN_PAGE: IRouteConstant = {
+    href: '/payment-return',
+};
+const PAYMENT_SUCCESS_PAGE: IRouteConstant = {
+    href: '/payment-success',
+};
 
 export const CLIENT = {
     LOGIN_PAGE: LOGIN,
@@ -152,6 +158,8 @@ export const CLIENT = {
     EVENT_DETAILS_PAGES_ORDER_TYPE3: EVENT_DETAILS_PAGES_ORDER_TYPE3,
     ORDER_PAGES: ORDER_PAGE,
     PAYMENT_PAGE: PAYMENT_PAGE,
+    PAYMENT_RETURN_PAGE: PAYMENT_RETURN_PAGE,
+    PAYMENT_SUCCESS_PAGE: PAYMENT_SUCCESS_PAGE,
 };
 
 const LOGIN_API: IRouteConstant = {
