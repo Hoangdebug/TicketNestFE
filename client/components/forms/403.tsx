@@ -8,8 +8,8 @@ const ThirdErrorForm: IThirdErrorComponent<IThirdErrorComponentProps> = () => {
     const { profile } = useSelector((states: ReduxStates) => states);
 
     const handleNextPage = () => {
-        if (profile && profile.details) {
-            const userType = profile.details.type;
+        if (profile && profile) {
+            const userType = profile.type;
             if (userType === enums.TYPES.ADMIN) {
                 router.push(routes.CLIENT.ADMIN_PAGE.href, undefined, { scroll: false });
             } else if (userType === enums.TYPES.USER) {

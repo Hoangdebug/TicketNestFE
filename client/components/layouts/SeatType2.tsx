@@ -120,10 +120,7 @@ const SeatType2: ISeatType2Component<ISeatType2ComponentProps> = () => {
                 {/* Left half of the seats */}
                 <div className="components__seattype2-column">
                     {rows?.map((row, index) => (
-                        <div
-                            key={row}
-                            className={`components__seattype2-row ${index === 8 ? "components__seattype2-row--margin" : ""}`}
-                        >
+                        <div key={row} className={`components__seattype2-row ${index === 8 ? 'components__seattype2-row--margin' : ''}`}>
                             <span className="components__seattype2-row-label">{row}</span>
                             <div className="components__seattype2-row-seats">
                                 {numSeatOfRowLeft?.map((seatNum) => {
@@ -131,22 +128,21 @@ const SeatType2: ISeatType2Component<ISeatType2ComponentProps> = () => {
                                     const isVIP = vipRows?.includes(row);
                                     const isSelected = selectedSeat?.includes(seatId);
                                     const isOrdered = orderedSeats?.includes(seatId);
-                                    const seatClass = `components__seattype2-seat ${isSelected
-                                            ? "selected"
-                                            : isOrdered
-                                                ? "ordered"
-                                                : isVIP
-                                                    ? "vip"
-                                                    : "empty"
-                                        } ${seatNum <= 5 ? "components__seattype2-seat-left" : ""} ${["I", "J", "K", "L"].includes(row) ? "components__seattype2-seat-straight" : ""}`;
+                                    const seatClass = `components__seattype2-seat ${
+                                        isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
+                                    } ${seatNum <= 5 ? 'components__seattype2-seat-left' : ''} ${
+                                        ['I', 'J', 'K', 'L'].includes(row) ? 'components__seattype2-seat-straight' : ''
+                                    }`;
                                     return (
-                                        <div
-                                            key={seatNum}
-                                            className={seatClass}
-                                            onClick={() => toggleSeat(row, seatNum)}
-                                        >
+                                        <div key={seatNum} className={seatClass} onClick={() => toggleSeat(row, seatNum)}>
                                             {isSelected && (
-                                                <div className={`components__seattype2-seat-text-left ${["I", "J", "K", "L"].includes(row) ? "components__seattype2-seat-text-straight" : ""}`}>{seatId}</div>
+                                                <div
+                                                    className={`components__seattype2-seat-text-left ${
+                                                        ['I', 'J', 'K', 'L'].includes(row) ? 'components__seattype2-seat-text-straight' : ''
+                                                    }`}
+                                                >
+                                                    {seatId}
+                                                </div>
                                             )}
                                         </div>
                                     );
@@ -162,10 +158,7 @@ const SeatType2: ISeatType2Component<ISeatType2ComponentProps> = () => {
                 {/* Right half of the seats */}
                 <div className="components__seattype2-column">
                     {rows?.map((row, index) => (
-                        <div
-                            key={row}
-                            className={`components__seattype2-row ${index === 8 ? "components__seattype2-row--margin" : ""}`}
-                        >
+                        <div key={row} className={`components__seattype2-row ${index === 8 ? 'components__seattype2-row--margin' : ''}`}>
                             <span className="components__seattype2-row-label">{row}</span>
                             <div className="components__seattype2-row-seats">
                                 {numSeatOfRowRight?.map((seatNum) => {
@@ -173,22 +166,21 @@ const SeatType2: ISeatType2Component<ISeatType2ComponentProps> = () => {
                                     const isVIP = vipRows?.includes(row);
                                     const isSelected = selectedSeat?.includes(seatId);
                                     const isOrdered = orderedSeats?.includes(seatId);
-                                    const seatClass = `components__seattype2-seat ${isSelected
-                                            ? "selected"
-                                            : isOrdered
-                                                ? "ordered"
-                                                : isVIP
-                                                    ? "vip"
-                                                    : "empty"
-                                        } ${seatNum > 5 ? "components__seattype2-seat-right" : ""} ${["I", "J", "K", "L"].includes(row) ? "components__seattype2-seat-straight" : ""}`;
+                                    const seatClass = `components__seattype2-seat ${
+                                        isSelected ? 'selected' : isOrdered ? 'ordered' : isVIP ? 'vip' : 'empty'
+                                    } ${seatNum > 5 ? 'components__seattype2-seat-right' : ''} ${
+                                        ['I', 'J', 'K', 'L'].includes(row) ? 'components__seattype2-seat-straight' : ''
+                                    }`;
                                     return (
-                                        <div
-                                            key={seatNum}
-                                            className={seatClass}
-                                            onClick={() => toggleSeat(row, seatNum)}
-                                        >
+                                        <div key={seatNum} className={seatClass} onClick={() => toggleSeat(row, seatNum)}>
                                             {isSelected && (
-                                                <div className={`components__seattype2-seat-text-right ${["I", "J", "K", "L"].includes(row) ? "components__seattype2-seat-text-straight" : ""}`}>{seatId}</div>
+                                                <div
+                                                    className={`components__seattype2-seat-text-right ${
+                                                        ['I', 'J', 'K', 'L'].includes(row) ? 'components__seattype2-seat-text-straight' : ''
+                                                    }`}
+                                                >
+                                                    {seatId}
+                                                </div>
                                             )}
                                         </div>
                                     );
