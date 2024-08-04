@@ -9,35 +9,50 @@ import Earnings from '@components/layouts/admin/Earnings';
 import Conversions from '@components/layouts/admin/Conversions';
 import Enterprise_Clients from '@components/layouts/admin/Enterprise_Clients';
 import Rightside_Content from '@components/layouts/Rightside_content';
-// import { useSelector } from 'react-redux';
-// import { ReduxStates } from '@redux/reducers';
-// import { useEffect, useState } from 'react';
-// import { enums, routes } from '@utils/constants';
-// import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { ReduxStates } from '@redux/reducers';
+import { useEffect, useState } from 'react';
+import { enums, routes } from '@utils/constants';
+import { useRouter } from 'next/router';
+import { authHelper } from '@utils/helpers';
 
 const AdminPages: IAdminPage<IAdminPageProps> = () => {
-    // const { profile } = useSelector((states: ReduxStates) => states);
-    // const router = useRouter();
-    // const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+    const { profile } = useSelector((states: ReduxStates) => states);
+    const router = useRouter();
+    const [isAuthorized, setIsAuthorized] = useState<boolean | null>(true);
+    const [isAuthorized1, setIsAuthorized1] = useState<boolean | null>(true);
 
-    // useEffect(() => {
-    //     if (profile !== undefined) {
-    //         const isAdminOrOrganizer = profile?.type === enums.TYPES.ADMIN || profile?.type === enums.TYPES.ORGANIZER;
-    //         setIsAuthorized(isAdminOrOrganizer);
+    useEffect(() => {
+        if (profile && authHelper.accessToken()) {
+            const isAdminOrOrganizer = profile?.type === enums.TYPES.ADMIN || profile?.type === enums.TYPES.ORGANIZER;
+            setIsAuthorized1(isAdminOrOrganizer);
 
-    //         if (!isAdminOrOrganizer) {
-    //             router.push(routes.CLIENT.ERROR403_PAGE.href, undefined, { scroll: false });
-    //         }
-    //     }
-    // }, [profile, router]);
+            if (!isAdminOrOrganizer) {
+                setIsAuthorized(false);
+            } else {
+                setIsAuthorized(true);
+            }
+        }
+    }, [profile, router]);
 
-    // if (isAuthorized === null) {
-    //     return <div>Loading...</div>;
-    // }
+    const adminRouters: string[] = [routes.CLIENT.ADMIN_PAGE.href];
+    const userRouters: string[] = [routes.CLIENT.HOME_PAGE.href];
 
-    // if (isAuthorized === false) {
-    //     return null;
-    // }
+    useEffect(() => {
+        if (isAuthorized1 && !isAuthorized && adminRouters.includes(router.pathname)) {
+            router.push(routes.CLIENT.ERROR403_PAGE.href, undefined, { scroll: false });
+        } else if ((isAuthorized1 && !isAuthorized) || (!isAuthorized1 && !isAuthorized && userRouters.includes(router.pathname))) {
+            router.push(routes.CLIENT.ERROR403_PAGE.href, undefined, { scroll: false });
+        }
+    }, [isAuthorized, isAuthorized1]);
+
+    if (isAuthorized === null) {
+        return <div>Loading...</div>;
+    }
+
+    if (isAuthorized === false) {
+        return null;
+    }
 
     return (
         <div className="pages__admin row">

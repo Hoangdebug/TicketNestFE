@@ -6,12 +6,24 @@ import Modal from '@components/layouts/Modal';
 import Header from '@components/layouts/Header';
 import Footer from '@components/layouts/Footer';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLocale, setModal } from '@redux/actions';
-import { http, routes } from '@utils/constants';
+import { enums, http, routes } from '@utils/constants';
+import { ReduxStates } from '@redux/reducers';
 
 const App: IAppComponent<IAppComponentProps> = (props) => {
     const { children, statusCode } = props;
+    const { profile } = useSelector((states: ReduxStates) => states);
+
+    // useEffect(() => {
+    //     if (profile) {
+    //         const isAdminOrOrganizer = profile?.type === enums.TYPES.ADMIN || profile?.type === enums.TYPES.ORGANIZER;
+
+    //         if (!isAdminOrOrganizer) {
+    //             router.push(routes.CLIENT.ERROR403_PAGE.href, undefined, { scroll: false });
+    //         }
+    //     }
+    // }, [profile]);
     const router = useRouter();
     const dispatch = useDispatch();
     const [state, setState] = useState<IAppComponentState>({
