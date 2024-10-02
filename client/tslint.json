@@ -36,6 +36,7 @@
     "jsx-no-lambda": false,
     "no-string-literal": false,
     "radix": false,
-    "no-console": false
+    "no-console": false,
+    "object-literal-shorthand": false
   }
 }

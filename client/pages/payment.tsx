@@ -99,12 +99,14 @@ const Payment = () => {
                 return;
             }
 
+            const selectedPaymentMethod = (document.querySelector('input[name="payment"]:checked') as HTMLInputElement).value;
+
             const response = await axios.post(
                 `http://localhost:5000/api/order/${id}`,
                 {
                     seatcode: formattedSeatDetails,
                     totalmoney: ticketPrice,
-                    paymentCode: 'somePaymentCode',
+                    paymentCode: selectedPaymentMethod,
                 },
                 {
                     headers: {
@@ -114,7 +116,6 @@ const Payment = () => {
                 },
             );
 
-            console.log(token);
             const data = response.data;
             if (data.status === true) {
                 const paymentUrl = data.paymentUrl;
@@ -154,8 +155,8 @@ const Payment = () => {
                     <div className="components__payment-paymentSection-paymentMethods">
                         <h2>Phương thức thanh toán</h2>
                         <div className="components__payment-paymentSection-method">
-                            <input type="radio" id="momo" name="payment" value="momo" />
-                            <label>Ví Momo</label>
+                            <input type="radio" id="paypal" name="payment" value="paypal" />
+                            <label>PayPal</label>
                         </div>
                         <div className="components__payment-paymentSection-method">
                             <input type="radio" id="visa" name="payment" value="visa" />
