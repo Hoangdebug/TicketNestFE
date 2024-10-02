@@ -1,17 +1,13 @@
 import { Button, Img, Select, Table } from '@components/index';
-import SideBar from '@components/layouts/admin/Sidebar';
 import { IEventManagerAcceptPage, IEventManagerAcceptPageProps, IEventManagerAcceptPageState } from '@interfaces/pages/eventaccept';
 import { setModal } from '@redux/actions';
 import { fetchListEvent, fetchUpdateStatusEventByAdmin } from '@redux/actions/api';
 import { enums, http, images } from '@utils/constants';
-import { useRouter } from 'next/router';
 import React, { createRef, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPageProps> = () => {
     const dispatch = useDispatch();
-    const router = useRouter();
-
     const tableRef = createRef<ITableComponentHandle>();
 
     const [state, setState] = useState<IEventManagerAcceptPageState>({
@@ -23,7 +19,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
 
     useEffect(() => {
         handleFetchListEvents();
-    }, []);
+    }, [pages]);
 
     const handleOnChange = (field: string, value: string | number | boolean) => {
         setState((prevState) => ({
@@ -231,9 +227,6 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
 
     return (
         <div className="row">
-            <div className="col-md-2">
-                <SideBar />
-            </div>
             <div className="col-md-9">
                 <h2 className="pt-5 text-center">Event Manager Accept</h2>
                 {event && event.length > 0 ? (

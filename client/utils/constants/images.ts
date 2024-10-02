@@ -39,3 +39,7 @@ export const ABOUT3 = '/assets/icons/about3.svg';
 export const BG_ABOUT = '/assets/icons/bgabout.svg';
 export const ICON_CALENDAR = '/assets/icons/icon-calendar.svg';
 export const ICON_DROPDOWN = '/assets/icons/icon-dropdown.svg';
+
+export const ICON_DASBOARD = '/assets/icons/adminIconUpdate/ic_dashboard.svg';
+export const ICON_LOGO_ADMIN = '/assets/icons/adminIconUpdate/ic_logoAdmin.svg';
+export const ICON_USER = '/assets/icons/adminIconUpdate/ic_user.svg';

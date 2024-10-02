@@ -10,21 +10,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLocale, setModal } from '@redux/actions';
 import { enums, http, routes } from '@utils/constants';
 import { ReduxStates } from '@redux/reducers';
+import AdminSidebarComponents from './admin/SideBarAdmin';
 
 const App: IAppComponent<IAppComponentProps> = (props) => {
     const { children, statusCode } = props;
     const { profile } = useSelector((states: ReduxStates) => states);
-
-    // useEffect(() => {
-    //     if (profile) {
-    //         const isAdminOrOrganizer = profile?.type === enums.TYPES.ADMIN || profile?.type === enums.TYPES.ORGANIZER;
-
-    //         if (!isAdminOrOrganizer) {
-    //             router.push(routes.CLIENT.ERROR403_PAGE.href, undefined, { scroll: false });
-    //         }
-    //     }
-    // }, [profile]);
     const router = useRouter();
+    const isAdminPage = router.pathname.startsWith('/admin');
+    const isAdmin = profile?.role === enums.ROLE.ADMIN;
+
     const dispatch = useDispatch();
     const [state, setState] = useState<IAppComponentState>({
         reloadKey: 0,
@@ -100,7 +94,21 @@ const App: IAppComponent<IAppComponentProps> = (props) => {
             <Loader />
             <Modal />
             <Header isShow={isShowComponent && !noHeaderFooterPath.includes(router.pathname)} />
-            {children}
+            {isAdminPage && isAdmin ? (
+                <>
+                    {/* <div className="w-100">
+                        <AdminNavbarComponents />
+                    </div> */}
+                    <div className="row justify-content-between" style={{ minHeight: '100vh' }}>
+                        <div className="col-xl-3 col-sm-3 p-0">
+                            <AdminSidebarComponents />
+                        </div>
+                        <div className="col-xl-9 col-sm-9">{children}</div>
+                    </div>
+                </>
+            ) : (
+                children
+            )}
             <Footer isShow={isShowComponent && !noHeaderFooterPath.includes(router.pathname)} />
         </div>
     );

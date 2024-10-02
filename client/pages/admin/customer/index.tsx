@@ -1,4 +1,3 @@
-import SideBar from '@components/layouts/admin/Sidebar';
 import AdminListCustomerComponents from '@components/layouts/Customer';
 import { IAdminCustomerPage, IAdminCustomerPageProps, IAdminCustomerPageState } from '@interfaces/pages/admincustomer';
 import { fetchListAdminCustomer } from '@redux/actions/api';
@@ -42,9 +41,7 @@ const CustomerListPageAdmin: IAdminCustomerPage<IAdminCustomerPageProps> = () =>
 
     return (
         <div className="pages__listCustomer py-3 row">
-            <div className="pages__listCustomer-leftSide col-md-2">
-                <SideBar />
-            </div>
+            <div className="pages__listCustomer-leftSide col-md-2">{/* <SideBar /> */}</div>
             <div className=" pages__listCustomer-rightSide justify-content-center col-md-9">
                 <h2 className="fw-bold mb-4 text-center">Customer List</h2>
                 <AdminListCustomerComponents customers={customers} updateCustomers={updateCustomers} />

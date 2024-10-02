@@ -1,0 +1,92 @@
+.components {
+    &__toggle {
+        position: relative;
+        background: $color-white;
+        max-width: 300px;
+        &-collapsed {
+            button.accordion-button {
+                &::after {
+                    content: '';
+                    width: 16px;
+                    height: 16px;
+                    position: absolute;
+                    right: 23.5px;
+                    background: url('/assets/icons/icon-minus.svg') no-repeat center !important;
+                }
+                &.collapsed {
+                    &::after {
+                        background: url('/assets/icons/icon-plus.svg') no-repeat center !important;
+                    }
+                }
+            }
+        }
+        &-link {
+            padding: 15px 0;
+            &:hover {
+                color: $color-royal-purple !important;
+            }
+            &.active {
+                color: $color-royal-purple !important;
+            }
+        }
+        &-icon {
+            right: -23.5px;
+        }
+        div {
+            border: none !important;
+            padding: 0;
+        }
+        a {
+            cursor: pointer;
+        }
+        button {
+            border-radius: none !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            transition: all 0.4s ease;
+            height: 100% !important;
+            padding: 15px 20px !important;
+        }
+        button:not(.collapsed) {
+            background: rgba(127, 86, 216, 0.1) !important;
+            color: $color-royal-purple !important;
+            img {
+                filter: $color-icon-filter;
+            }
+            &::after {
+                filter: $color-icon-filter;
+                background: none;
+            }
+        }
+        button.collapsed {
+            background: $color-white !important;
+            color: $color-royal-purple !important;
+            img {
+                filter: $color-dark-gray-filter;
+            }
+            &::after {
+                filter: $color-dark-gray-filter;
+                background: none;
+            }
+        }
+        .accordion-item.active {
+            button {
+                background: rgba(127, 86, 216, 0.1) !important;
+                img {
+                    filter: $color-icon-filter;
+                }
+                &::after {
+                    filter: $color-icon-filter;
+                    background: none;
+                }
+                & * {
+                    color: $color-royal-purple !important;
+                }
+            }
+        }
+        &-active-text {
+            color: $color-blue !important;
+        }
+    }
+}
