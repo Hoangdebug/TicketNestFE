@@ -227,7 +227,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
 
     return (
         <div className="row">
-            <div className="col-md-9">
+            <div className="col-md-11">
                 <h2 className="pt-5 text-center">Event Manager Accept</h2>
                 {event && event.length > 0 ? (
                     <Table

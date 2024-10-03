@@ -11,6 +11,7 @@ import { setLocale, setModal } from '@redux/actions';
 import { enums, http, routes } from '@utils/constants';
 import { ReduxStates } from '@redux/reducers';
 import AdminSidebarComponents from './admin/SideBarAdmin';
+import HeaderAdminComponents from './admin/HeaderAdmin';
 
 const App: IAppComponent<IAppComponentProps> = (props) => {
     const { children, statusCode } = props;
@@ -96,14 +97,16 @@ const App: IAppComponent<IAppComponentProps> = (props) => {
             <Header isShow={isShowComponent && !noHeaderFooterPath.includes(router.pathname)} />
             {isAdminPage && isAdmin ? (
                 <>
-                    {/* <div className="w-100">
-                        <AdminNavbarComponents />
-                    </div> */}
-                    <div className="row justify-content-between" style={{ minHeight: '100vh' }}>
-                        <div className="col-xl-3 col-sm-3 p-0">
-                            <AdminSidebarComponents />
+                    <div className="row" style={{ minHeight: '100vh' }}>
+                        <div className="col-xl-2 col-sm-2 d-flex flex-row">
+                            <div className="p-0">
+                                <AdminSidebarComponents />
+                            </div>
+                            <div className="">
+                                <HeaderAdminComponents />
+                            </div>
                         </div>
-                        <div className="col-xl-9 col-sm-9">{children}</div>
+                        <div className="col-xl-10 col-sm-10">{children}</div>
                     </div>
                 </>
             ) : (
