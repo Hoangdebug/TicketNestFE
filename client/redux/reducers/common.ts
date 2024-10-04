@@ -1,4 +1,4 @@
-import { SET_LOCALE, SET_MODAL } from '@redux/actions/type';
+import { SET_LOCALE, SET_MODAL, SET_SIDEBAR } from '@redux/actions/type';
 
 const localeReducer = (state: string = 'jp', action: ILocaleReduxAction) => {
     switch (action.type) {
@@ -18,4 +18,12 @@ const modalReducer = (state: IModalReduxData = { isShow: false }, action: IModal
     }
 };
 
-export { localeReducer, modalReducer };
+const sidebarReducer = (state: ISidebarReduxData = { isSidebarShow: false }, action: ISidebarReduxAction) => {
+    switch (action.type) {
+        case SET_SIDEBAR:
+            return action.data;
+        default:
+            return state;
+    }
+};
+export { localeReducer, modalReducer, sidebarReducer };

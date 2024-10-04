@@ -1,5 +1,4 @@
 import { Button, Img, Select, Table } from '@components/index';
-import SideBar from '@components/layouts/admin/Sidebar';
 import { ICustomerRequestPage, ICustomerRequestPageProps, ICustomerRequestPageState } from '@interfaces/pages/customerreuqest';
 import { setModal } from '@redux/actions';
 import { fetchListAdminCustomer, fetchUpdateOrganizerByAdmin } from '@redux/actions/api';
@@ -271,9 +270,6 @@ const CustomerRequestPage: ICustomerRequestPage<ICustomerRequestPageProps> = () 
     };
     return (
         <div className="pages__custommerRequest row">
-            <div className="col-md-2">
-                <SideBar />
-            </div>
             {customers && customers.length > 0 ? (
                 <div className="col-md-9 pt-5">
                     <h2 className="fw-bold mb-4 text-center">Customer Request Organizer</h2>
