@@ -1,4 +1,4 @@
-import { Button, Img, Select, Table } from '@components/index';
+import { Box, Button, Img, Select, Table } from '@components/index';
 import { IEventManagerAcceptPage, IEventManagerAcceptPageProps, IEventManagerAcceptPageState } from '@interfaces/pages/eventaccept';
 import { setModal } from '@redux/actions';
 import { fetchListEvent, fetchUpdateStatusEventByAdmin } from '@redux/actions/api';
@@ -129,120 +129,114 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
         );
     };
 
-    const renderData = event?.map((item) => {
-        const editBtn = {
-            export: {
-                srcIcon: images.ICON_DETAIL,
-                onClick: () => handleConfirmUpdate(item?._id ?? ''),
-            },
-        };
+    // const renderData = event?.map((item) => {
+    //     const editBtn = {
+    //         export: {
+    //             srcIcon: images.ICON_DETAIL,
+    //             onClick: () => handleConfirmUpdate(item?._id ?? ''),
+    //         },
+    //     };
 
-        return {
-            ...item,
-            ...editBtn,
-        };
-    });
+    //     return {
+    //         ...item,
+    //         ...editBtn,
+    //     };
+    // });
 
-    const tableEventRender: ITableComponentProps = {
-        heads: [
-            {
-                title: 'Edit Events',
-                isSort: false,
-            },
-            {
-                title: 'Event Name',
-                isSort: true,
-            },
-            {
-                title: 'Ticket Price',
-                isSort: true,
-            },
-            {
-                title: 'Ticket Quantity',
-                isSort: true,
-            },
-            {
-                title: 'Location',
-                isSort: true,
-            },
-            {
-                title: 'Event Type',
-                isSort: true,
-            },
-            {
-                title: 'Description',
-                isSort: true,
-            },
-            {
-                title: 'Days End',
-                isSort: true,
-            },
-            {
-                title: 'Days Start',
-                isSort: true,
-            },
-        ],
-        body: {
-            columns: [
-                {
-                    field: 'export',
-                    isButton: true,
-                },
-                {
-                    field: 'name',
-                    className: 'text-center',
-                },
-                {
-                    field: 'price',
-                    className: 'text-center',
-                },
-                {
-                    field: 'ticket_number',
-                    className: 'text-center',
-                },
-                {
-                    field: 'location',
-                    className: 'text-center',
-                },
-                {
-                    field: 'event_type',
-                    className: 'text-center',
-                },
-                {
-                    field: 'description',
-                    className: 'text-center',
-                },
-                {
-                    field: 'day_end',
-                    className: 'text-center',
-                },
-                {
-                    field: 'day_start',
-                    className: 'text-center',
-                },
-            ],
-            rows: renderData,
-        },
-    };
+    // const tableEventRender: ITableComponentProps = {
+    //     heads: [
+    //         {
+    //             title: 'Edit Events',
+    //             isSort: false,
+    //         },
+    //         {
+    //             title: 'Event Name',
+    //             isSort: true,
+    //         },
+    //         {
+    //             title: 'Ticket Price',
+    //             isSort: true,
+    //         },
+    //         {
+    //             title: 'Ticket Quantity',
+    //             isSort: true,
+    //         },
+    //         {
+    //             title: 'Location',
+    //             isSort: true,
+    //         },
+    //         {
+    //             title: 'Event Type',
+    //             isSort: true,
+    //         },
+    //         {
+    //             title: 'Description',
+    //             isSort: true,
+    //         },
+    //         {
+    //             title: 'Days End',
+    //             isSort: true,
+    //         },
+    //         {
+    //             title: 'Days Start',
+    //             isSort: true,
+    //         },
+    //     ],
+    //     body: {
+    //         columns: [
+    //             {
+    //                 field: 'export',
+    //                 isButton: true,
+    //             },
+    //             {
+    //                 field: 'name',
+    //                 className: 'text-center',
+    //             },
+    //             {
+    //                 field: 'price',
+    //                 className: 'text-center',
+    //             },
+    //             {
+    //                 field: 'ticket_number',
+    //                 className: 'text-center',
+    //             },
+    //             {
+    //                 field: 'location',
+    //                 className: 'text-center',
+    //             },
+    //             {
+    //                 field: 'event_type',
+    //                 className: 'text-center',
+    //             },
+    //             {
+    //                 field: 'description',
+    //                 className: 'text-center',
+    //             },
+    //             {
+    //                 field: 'day_end',
+    //                 className: 'text-center',
+    //             },
+    //             {
+    //                 field: 'day_start',
+    //                 className: 'text-center',
+    //             },
+    //         ],
+    //         rows: renderData,
+    //     },
+    // };
 
     return (
         <div className="row">
             <div className="col-md-11">
-                <h2 className="pt-5 text-center">Event Manager Accept</h2>
                 {event && event.length > 0 ? (
-                    <Table
-                        ref={tableRef}
-                        heads={tableEventRender.heads}
-                        body={tableEventRender.body}
-                        total={totalItems}
-                        page={pages}
-                        // onChangePage={(page) => {
-                        //     setState((prevState) => ({
-                        //         ...prevState,
-                        //         pages: page,
-                        //     }));
-                        // }}
-                    />
+                    // <Table
+                    //     ref={tableRef}
+                    //     heads={tableEventRender.heads}
+                    //     body={tableEventRender.body}
+                    //     total={totalItems}
+                    //     page={pages}
+                    // />
+                    <Box>Hoom nay hoi den</Box>
                 ) : (
                     <div className="text-center pt-5 fw-bold bases__text--red">No Event Need To Accept</div>
                 )}

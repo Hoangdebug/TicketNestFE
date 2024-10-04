@@ -4,8 +4,23 @@
         height: 100vh;
         transition-timing-function: ease-in;
         transition: 0.25s;
+        position: relative;
         &-body {
             flex: 1;
+        }
+        &--headerAdmin {
+            position: absolute;
+            left: 300px;
+            max-width: 87%;
+            min-width: 87%;
+            width: 100%;
+        }
+        &--children {
+            position: absolute;
+            left: 10px;
+            max-width: 87%;
+            min-width: 87%;
+            width: 100%;
         }
     }
 }
