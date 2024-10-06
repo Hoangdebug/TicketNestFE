@@ -9,6 +9,7 @@ interface IEventDataApi {
     location?: string;
     price?: number;
     ticket_number?: string;
+    createdAt?: string;
     created_by?: {
         _id?: string;
         name?: string;
@@ -54,4 +55,5 @@ interface IEventDataApiListRes extends IBaseAPIRes {
         };
         dataEvent?: IEventDataApi[];
     };
+    totalPage?: number;
 }

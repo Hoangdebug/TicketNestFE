@@ -5,22 +5,39 @@
         transition-timing-function: ease-in;
         transition: 0.25s;
         position: relative;
-        &-body {
-            flex: 1;
-        }
+
         &--headerAdmin {
             position: absolute;
             left: 300px;
-            max-width: 87%;
-            min-width: 87%;
+            max-width: 80%;
+            min-width: 80%;
             width: 100%;
+            z-index: 99;
+            transition: all 0.4s ease;
+
+            &.collapsed {
+                left: 80px;
+                max-width: calc(100% - 80px);
+            }
+
+            @include responsive(max-xxl) {
+                max-width: 100%;
+                min-width: 100%;
+            }
         }
+
         &--children {
             position: absolute;
-            left: 10px;
-            max-width: 87%;
-            min-width: 87%;
+            left: 90px;
+            max-width: 92%;
+            min-width: 92%;
             width: 100%;
+            transition: all 0.4s ease;
+
+            &.collapsed {
+                left: 100px;
+                max-width: calc(100% - 80px);
+            }
         }
     }
 }

@@ -395,14 +395,15 @@ export const fetchUpdateEvent = async (
     };
 };
 
-export const fetchListEvent = async (callBack?: (result: IEventDataApiListRes | IErrorAPIRes | null) => void, isLoad: boolean = true) => {
+export const fetchListEvent = async (query: string, 
+    callBack?: (result: IEventDataApiListRes | IErrorAPIRes | null) => void, isLoad: boolean = true) => {
     return async (dispatch: Dispatch) => {
         if (isLoad) {
             dispatch(setLoader(true));
         }
 
         try {
-            const res = await apiHelper.listEvent();
+            const res = await apiHelper.listEvent(query);
             if (callBack) {
                 callBack(res?.data);
             }

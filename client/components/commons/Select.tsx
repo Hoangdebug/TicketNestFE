@@ -34,6 +34,7 @@ const Select = forwardRef<HTMLSelectElement, ISelectComponentProps>((props, ref)
         );
     }
 
+    
     return (
         <select
             ref={ref}
@@ -45,15 +46,18 @@ const Select = forwardRef<HTMLSelectElement, ISelectComponentProps>((props, ref)
         >
             {options?.map((item, index) => {
                 return (
-                    <option
-                        key={index}
-                        disabled={(index === 0 && isBlankValue && !item.value) || item.disabled}
-                        value={item.value}
-                        hidden={hidenOption?.includes(item?.value?.toString() ?? '') ?? false}
-                        selected={item.value === value}
-                    >
-                        {item.label}
-                    </option>
+                    <>
+                        <option
+                            key={index}
+                            disabled={(index === 0 && isBlankValue && !item.value) || item.disabled}
+                            value={item.value}
+                            hidden={hidenOption?.includes(item?.value?.toString() ?? '') ?? false}
+                            selected={item.value === value}
+                            className={item?.classOption}
+                        >
+                            {item.label}
+                        </option>
+                    </>
                 );
             })}
         </select>

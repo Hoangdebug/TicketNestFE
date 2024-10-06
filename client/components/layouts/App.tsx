@@ -15,7 +15,7 @@ import HeaderAdminComponents from './admin/HeaderAdmin';
 
 const App: IAppComponent<IAppComponentProps> = (props) => {
     const { children, statusCode } = props;
-    const { profile } = useSelector((states: ReduxStates) => states);
+    const { profile, sidebar  } = useSelector((states: ReduxStates) => states);
     const router = useRouter();
     const isAdminPage = router.pathname.startsWith('/admin');
     const isAdmin = profile?.role === enums.ROLE.ADMIN;
@@ -24,8 +24,9 @@ const App: IAppComponent<IAppComponentProps> = (props) => {
     const [state, setState] = useState<IAppComponentState>({
         reloadKey: 0,
         historyPathname: router.pathname,
+        isCollapsed: false
     });
-    const { reloadKey } = state;
+    const { reloadKey, isCollapsed } = state;
     const { locale, pathname } = router;
 
     const noAuthPath = [
@@ -97,15 +98,15 @@ const App: IAppComponent<IAppComponentProps> = (props) => {
             <Header isShow={isShowComponent && !noHeaderFooterPath.includes(router.pathname)} />
             {isAdminPage && isAdmin ? (
                 <>
-                    <div className="row position-relative" style={{ minHeight: '100vh' }}>
+                    <div className="row position-relative bases__background--gray-opacity" style={{ minHeight: '100vh' }}>
                         <div className="col-xl-2 p-0">
                             <AdminSidebarComponents />
                             <div className="components__app--headerAdmin p-0">
                                 <HeaderAdminComponents />
                             </div>
                         </div>
-                        <div className="col-xl-9 bases__width83 p-0 bases__padding--top70 position-relative">
-                            <div className="components__app--children">{children}</div>
+                        <div className={`col-xl-9 bases__width83 p-0 bases__padding--top70 position-relative`}>
+                            <div className={`components__app--children`}>{children}</div>
                         </div>
                     </div>
                 </>

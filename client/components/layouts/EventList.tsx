@@ -7,6 +7,7 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import BookmarkOutlinedIcon from '@mui/icons-material/BookmarkOutlined';
 import { routes } from '@utils/constants';
 import moment from 'moment';
+import Img from '@components/commons/Img';
 
 const EventList: IEventListComponent<IEventListComponentProps> = (props) => {
     const { dataEvent } = props;
@@ -33,6 +34,7 @@ const EventList: IEventListComponent<IEventListComponentProps> = (props) => {
             setState((prevState) => ({ ...prevState, type: 'All' }));
         }
     }, [router.query]);
+
     const formattedDayStart = moment(dataEvent?.[0]?.day_start).format('MMM DD, YYYY');
     const formattedDayEnd = moment(dataEvent?.[0]?.day_end).format('MMM DD, YYYY');
     const listTypeSearch = [
@@ -70,7 +72,7 @@ const EventList: IEventListComponent<IEventListComponentProps> = (props) => {
                         <div className="col-md-3 mb-4" key={index}>
                             <div className="components__event--items-card">
                                 <div className="w-100" style={{ position: 'relative' }}>
-                                    <img src={item?.image} alt={item?.name} className="components__event--items-card-img img-fluid w-100" />
+                                    <Img src={item?.images ?? undefined} alt={item?.name} className="components__event--items-card-img img-fluid w-100" />
                                     <div className="components__event--items-save" onClick={handleClick}>
                                         {isActive ? (
                                             <BookmarkOutlinedIcon sx={{ cursor: 'pointer', color: '#fff', fontSize: '30px' }} />
