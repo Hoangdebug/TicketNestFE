@@ -19,8 +19,9 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
         status: enums.EventStatus.ACCEPTED,
         search: '',
         statusEvent: 'New',
-        currentPage: undefined,
+        currentPage: 1,
         totalPage: 0, 
+        totalItems: undefined
     });
 
     const { event, status, search, statusEvent, currentPage, totalPage } = state;
@@ -94,8 +95,8 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
 
     const processProductQuery = () => {
         return new URLSearchParams({
-            currentPage: (currentPage ?? 1).toString(),
-            pageSize: '2',
+            currentPage: currentPage?.toString() ?? '1',
+            pageSize: '3',
         });
     };
 
@@ -110,7 +111,8 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                         ...prevState,
                         event: data?.dataEvent,
                         totalPage: totalPages,
-                        currentPage: data?.metadata?.currentPage,
+                        currentPage: data?.metadata?.currentPage || 1,
+                        totalItems: data?.metadata?.totalItems
                     }));
                 }
             }),
@@ -206,7 +208,6 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
             return (
                 <div className='d-flex flex-row align-items-center'>
                     <div className='p-3' style={{width: 5, height: 5, borderRadius: 50, background: "green", marginRight: 10}}></div>
-                    <div>{value}</div>
                 </div>
             )
         }else if(value === enums.EventStatus.PENDING){
@@ -293,7 +294,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                                         <h4>{item?.event_type}</h4>
                                     </div>
                                     <div>
-                                        <p className='m-0'>{item?.createdAt}</p>
+                                        <p className='m-0'>{item?.createdAt ?? "--"}</p>
                                     </div>
                                 </div>
                                 <div className=''>

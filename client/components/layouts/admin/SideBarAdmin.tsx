@@ -32,8 +32,16 @@ const AdminSidebarComponents: IAdminSideBarComponents<IAdminSideBarComponentsPro
             icon: images.ICON_USER,
             options: [
                 {
+                    title: 'Customer Page',
+                    href: routes.CLIENT.ADMIN_LIST_CUSTOMER_PAGE.href,
+                },
+                {
                     title: 'Request Page',
                     href: routes.CLIENT.ADMIN_LIST_CUSTOMER_REQUEST_PAGE.href,
+                },
+                {
+                    title: 'Ban User',
+                    href: routes.CLIENT.ADMIN_LIST_CUSTOMER_BAN_PAGE.href,
                 },
             ],
         },
