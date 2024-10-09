@@ -395,8 +395,11 @@ export const fetchUpdateEvent = async (
     };
 };
 
-export const fetchListEvent = async (query: string, 
-    callBack?: (result: IEventDataApiListRes | IErrorAPIRes | null) => void, isLoad: boolean = true) => {
+export const fetchListEvent = async (
+    query: string,
+    callBack?: (result: IEventDataApiListRes | IErrorAPIRes | null) => void,
+    isLoad: boolean = true,
+) => {
     return async (dispatch: Dispatch) => {
         if (isLoad) {
             dispatch(setLoader(true));

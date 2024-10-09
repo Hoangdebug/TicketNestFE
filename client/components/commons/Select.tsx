@@ -34,7 +34,6 @@ const Select = forwardRef<HTMLSelectElement, ISelectComponentProps>((props, ref)
         );
     }
 
-    
     return (
         <select
             ref={ref}

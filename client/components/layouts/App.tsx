@@ -15,7 +15,7 @@ import HeaderAdminComponents from './admin/HeaderAdmin';
 
 const App: IAppComponent<IAppComponentProps> = (props) => {
     const { children, statusCode } = props;
-    const { profile, sidebar  } = useSelector((states: ReduxStates) => states);
+    const { profile, sidebar } = useSelector((states: ReduxStates) => states);
     const router = useRouter();
     const isAdminPage = router.pathname.startsWith('/admin');
     const isAdmin = profile?.role === enums.ROLE.ADMIN;
@@ -24,7 +24,7 @@ const App: IAppComponent<IAppComponentProps> = (props) => {
     const [state, setState] = useState<IAppComponentState>({
         reloadKey: 0,
         historyPathname: router.pathname,
-        isCollapsed: false
+        isCollapsed: false,
     });
     const { reloadKey, isCollapsed } = state;
     const { locale, pathname } = router;

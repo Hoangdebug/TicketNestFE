@@ -1,4 +1,4 @@
-import { Button, Img, Select, Table } from '@components/index';
+import { Box, Button, Img, Select, Table } from '@components/index';
 import { ICustomerRequestPage, ICustomerRequestPageProps, ICustomerRequestPageState } from '@interfaces/pages/customerreuqest';
 import { setModal } from '@redux/actions';
 import { fetchListAdminCustomer, fetchUpdateOrganizerByAdmin } from '@redux/actions/api';
@@ -269,15 +269,15 @@ const CustomerRequestPage: ICustomerRequestPage<ICustomerRequestPageProps> = () 
         },
     };
     return (
-        <div className="pages__custommerRequest row">
+        <div className="pages__custommerRequest row pt-3">
+            <h3 className="pb-3">Users</h3>
             {customers && customers.length > 0 ? (
-                <div className="col-md-9 pt-5">
-                    <h2 className="fw-bold mb-4 text-center">Customer Request Organizer</h2>
+                <Box className="col-md-12 p-3">
+                    <h2 className="fw-bold mb-4 text-start ">Customer Request Organizer</h2>
                     <Table ref={tableRef} heads={tableEventRender.heads} body={tableEventRender.body} total={customers?.length} />
-                </div>
+                </Box>
             ) : (
                 <div className="col-md-9 pt-5">
-                    <h2 className="fw-bold mb-4 text-center">Customer Request Organizer</h2>
                     <div className="text-center pt-3 bases__font--16 fw-bold bases__text--red"> No Request Organizer By Customer </div>
                 </div>
             )}

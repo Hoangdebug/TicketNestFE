@@ -1,4 +1,4 @@
-import { Button, Img, Table } from '@components/index';
+import { Box, Button, Img, Table } from '@components/index';
 import { IAdminCustomerBanPage, IAdminCustomerBanPageProps, IAdminCustomerBanPageState } from '@interfaces/pages/customerbanlist';
 import { setModal } from '@redux/actions';
 import { fetchBanCustomerByAdmin, fetchListAdminCustomer } from '@redux/actions/api';
@@ -199,13 +199,14 @@ const CustomerBanList: IAdminCustomerBanPage<IAdminCustomerBanPageProps> = () =>
         },
     };
     return (
-        <div className="row pt-5">
-            <div className="pages__organizer-table col-md-9">
-                <h2 className="fw-bold mb-4 text-center">Customer List Ban</h2>
+        <div className="row pt-3">
+            <div className="pages__organizer-table col-md-12">
+                <h3 className="pb-3">Users</h3>
                 {customers && customers.length > 0 ? (
-                    <>
+                    <Box className="p-3">
+                        <h2 className="fw-bold mb-4 text-start">Customer List Ban</h2>
                         <Table ref={tableRef} heads={tableEventRender.heads} body={tableEventRender.body} total={customers?.length} />
-                    </>
+                    </Box>
                 ) : (
                     <div className="text-center fw-bolder pt-2 bases__text--red">No Customer Ban</div>
                 )}

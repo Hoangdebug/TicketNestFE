@@ -1,27 +1,27 @@
 .pages {
-    &__events{
-        &--btnSearch{
+    &__events {
+        &--btnSearch {
             position: absolute;
             top: 14px;
             right: 10px;
             cursor: pointer;
         }
-        &--status{
+        &--status {
             padding: 10px;
 
             &.status-new {
                 color: blue;
             }
-        
+
             &.status-ongoing {
                 color: orange;
             }
-        
+
             &.status-resolved {
                 color: green;
             }
         }
-        &--box{
+        &--box {
             border: 1px solid #ccc;
             border-radius: 10px;
         }

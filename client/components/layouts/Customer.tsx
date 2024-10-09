@@ -51,9 +51,22 @@ const AdminListCustomerComponents: IAdminListCustomerComponents<IAdminListCustom
             await fetchBanCustomerByAdmin(idsToDelete.join(','), (res: IAdminCustomerBanAPIRes | IErrorAPIRes | null) => {
                 if (res && res?.code === http.SUCCESS_CODE) {
                     const updatedCustomers = customers?.filter((customer) => !idsToDelete.includes(customer?._id ?? ''));
-                    if (Array.isArray(updatedCustomers)) {
+                    if (Array.isArray(updatedCustomers) && updateCustomers) {
                         updateCustomers(updatedCustomers);
                     }
+                    dispatch(
+                        setModal({
+                            isShow: true,
+                            content: (
+                                <>
+                                    <div className="text-center bases__margin--bottom31">
+                                        <Img src={images.ICON_SUCCESS} className="bases__width--90 bases__height--75" />
+                                    </div>
+                                    <div className="bases__text--bold bases__font--14 text-center">Ban user susscess !</div>
+                                </>
+                            ),
+                        }),
+                    );
                 }
             }),
         );
