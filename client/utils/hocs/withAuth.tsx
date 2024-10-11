@@ -1,4 +1,3 @@
-// hocs/withAuth.tsx
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
@@ -11,48 +10,34 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
         const { profile } = useSelector((states: ReduxStates) => states);
         const router = useRouter();
         const [isLoading, setIsLoading] = useState(true);
-        const [isAuthorized, setIsAuthorized] = useState<boolean | null>(true);
-        const [isAuthorized1, setIsAuthorized1] = useState<boolean | null>(true);
-
-        const adminRouters: string[] = [routes.CLIENT.ADMIN_PAGE.href, routes.CLIENT.ADMIN_CREATE_ACCOUNT_PAGE.href];
-        const userRouters: string[] = [routes.CLIENT.HOME_PAGE.href];
+        const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
         const token = authHelper.accessToken();
-
         useEffect(() => {
-            if (profile && authHelper.accessToken()) {
-                const isAdmin = profile?.role === enums.ROLE.ADMIN;
-                setIsAuthorized1(isAdmin);
-
-                if (!isAdmin) {
-                    setIsAuthorized(false);
-                } else {
-                    setIsAuthorized(true);
-                }
+            if (!profile || !token) {
+                setIsLoading(true);
+                return;
             }
-        }, [profile, router]);
 
-        useEffect(() => {
-            if (isAuthorized1 && !isAuthorized && adminRouters.includes(router.pathname)) {
-                router.push(routes.CLIENT.ERROR403_PAGE.href, undefined, { scroll: false });
-            } else if ((isAuthorized1 && !isAuthorized) || (!isAuthorized1 && !isAuthorized && userRouters.includes(router.pathname))) {
+            const isAdminOrOrganizer = profile.role === enums.ROLE.ADMIN || profile.role === enums.ROLE.ORGANIZER;
+            setIsAuthorized(isAdminOrOrganizer);
+            setIsLoading(false);
+
+            if (!isAdminOrOrganizer) {
                 router.push(routes.CLIENT.ERROR403_PAGE.href, undefined, { scroll: false });
             }
-        }, [isAuthorized, isAuthorized1]);
+        }, [profile, token, router]);
 
         useEffect(() => {
             const checkAuth = async () => {
                 if (!token) {
                     await router.replace(routes.CLIENT.LOGIN_PAGE.href, undefined, { scroll: false });
-                    setIsLoading(false);
                     return;
                 }
-
                 if (profile) {
-                    const isAdmin = profile?.role === enums.ROLE.ADMIN;
-                    setIsAuthorized(isAdmin);
+                    const isAdminOrOrganizer = profile.role === enums.ROLE.ADMIN || profile.role === enums.ROLE.ORGANIZER;
+                    setIsAuthorized(isAdminOrOrganizer);
+                    setIsLoading(false);
                 }
-
-                setIsLoading(false);
             };
 
             checkAuth();
@@ -63,7 +48,6 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
         }
 
         if (isAuthorized === false) {
-            // router.push(routes.CLIENT.NO_ACCESS.href, undefined, {scroll: false});
             return null;
         }
 

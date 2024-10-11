@@ -1,4 +1,4 @@
-import { images, routes } from '@utils/constants';
+import { enums, images, routes } from '@utils/constants';
 import Toggle from '../Toggle';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReduxStates } from '@redux/reducers';
@@ -13,6 +13,7 @@ const AdminSidebarComponents: IAdminSideBarComponents<IAdminSideBarComponentsPro
     const { sidebar, profile } = useSelector((states: ReduxStates) => states);
     const router = useRouter();
     const { pathname } = router;
+    const userType = profile?.type;
 
     const sidebarAdminItem = [
         {
@@ -21,30 +22,52 @@ const AdminSidebarComponents: IAdminSideBarComponents<IAdminSideBarComponentsPro
             icon: images.ICON_DASBOARD,
             options: [],
         },
-        {
-            title: 'Event',
-            href: routes.CLIENT.ADMIN_MANAGER_EVENT_PAGE.href,
-            icon: images.ICON_DASBOARD,
-            options: [],
-        },
-        {
-            title: 'User',
-            icon: images.ICON_USER,
-            options: [
-                {
-                    title: 'Customer Page',
-                    href: routes.CLIENT.ADMIN_LIST_CUSTOMER_PAGE.href,
-                },
-                {
-                    title: 'Request Page',
-                    href: routes.CLIENT.ADMIN_LIST_CUSTOMER_REQUEST_PAGE.href,
-                },
-                {
-                    title: 'Ban User',
-                    href: routes.CLIENT.ADMIN_LIST_CUSTOMER_BAN_PAGE.href,
-                },
-            ],
-        },
+        ...(userType === enums.TYPES.ADMIN
+            ? [
+                  {
+                      title: 'Event',
+                      href: routes.CLIENT.ADMIN_MANAGER_EVENT_PAGE.href,
+                      icon: images.ICON_EVENT,
+                      options: [],
+                  },
+                  {
+                      title: 'User',
+                      icon: images.ICON_USER,
+                      options: [
+                          {
+                              title: 'Customer Page',
+                              href: routes.CLIENT.ADMIN_LIST_CUSTOMER_PAGE.href,
+                          },
+                          {
+                              title: 'Request Page',
+                              href: routes.CLIENT.ADMIN_LIST_CUSTOMER_REQUEST_PAGE.href,
+                          },
+                          {
+                              title: 'Ban User',
+                              href: routes.CLIENT.ADMIN_LIST_CUSTOMER_BAN_PAGE.href,
+                          },
+                      ],
+                  },
+              ]
+            : []),
+        ...(userType === enums.TYPES.ORGANIZER
+            ? [
+                  {
+                      title: 'Event Manager',
+                      icon: images.ICON_DASBOARD,
+                      options: [
+                          {
+                              title: 'Events',
+                              href: routes.CLIENT.ORGANIZER_LIST_EVENT.href,
+                          },
+                          {
+                              title: 'Add Event',
+                              href: routes.CLIENT.ADD_EVENT_PAGE.href,
+                          },
+                      ],
+                  },
+              ]
+            : []),
     ];
 
     const handleGoToHome = () => {

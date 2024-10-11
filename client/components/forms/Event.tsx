@@ -148,7 +148,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                         content: (
                             <>
                                 <div className="text-center bases__margin--bottom31">
-                                    <Img src={images.ICON_CHECK} className="bases__width--90 bases__height--75" />
+                                    <Img src={images.ICON_SUCCESS} className="bases__width--90 bases__height--75" />
                                 </div>
                                 <div className="bases__text--bold bases__font--14 text-center">Create New Event Successfully</div>
                             </>

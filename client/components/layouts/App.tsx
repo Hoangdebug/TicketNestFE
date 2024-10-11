@@ -15,10 +15,11 @@ import HeaderAdminComponents from './admin/HeaderAdmin';
 
 const App: IAppComponent<IAppComponentProps> = (props) => {
     const { children, statusCode } = props;
-    const { profile, sidebar } = useSelector((states: ReduxStates) => states);
+    const { profile } = useSelector((states: ReduxStates) => states);
     const router = useRouter();
     const isAdminPage = router.pathname.startsWith('/admin');
-    const isAdmin = profile?.role === enums.ROLE.ADMIN;
+    const isOrganizerPage = router.pathname.startsWith('/organizer');
+    const isAdmin = profile?.role === enums.ROLE.ADMIN || enums.ROLE.ORGANIZER;
 
     const dispatch = useDispatch();
     const [state, setState] = useState<IAppComponentState>({
@@ -26,7 +27,7 @@ const App: IAppComponent<IAppComponentProps> = (props) => {
         historyPathname: router.pathname,
         isCollapsed: false,
     });
-    const { reloadKey, isCollapsed } = state;
+    const { reloadKey } = state;
     const { locale, pathname } = router;
 
     const noAuthPath = [
@@ -96,7 +97,7 @@ const App: IAppComponent<IAppComponentProps> = (props) => {
             <Loader />
             <Modal />
             <Header isShow={isShowComponent && !noHeaderFooterPath.includes(router.pathname)} />
-            {isAdminPage && isAdmin ? (
+            {isOrganizerPage || (isAdminPage && isAdmin) ? (
                 <>
                     <div className="row position-relative bases__background--gray-opacity" style={{ minHeight: '100vh' }}>
                         <div className="col-xl-2 p-0">

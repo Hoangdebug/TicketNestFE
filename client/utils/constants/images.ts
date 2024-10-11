@@ -43,6 +43,7 @@ export const ICON_DROPDOWN = '/assets/icons/icon-dropdown.svg';
 export const ICON_DASBOARD = '/assets/icons/adminIconUpdate/ic_dashboard.svg';
 export const ICON_LOGO_ADMIN = '/assets/icons/adminIconUpdate/ic_logoAdmin.svg';
 export const ICON_USER = '/assets/icons/adminIconUpdate/ic_user.svg';
+export const ICON_EVENT = '/assets/icons/adminIconUpdate/ic_event.svg';
 export const ICON_MENU_ADMIN = '/assets/icons/adminIconUpdate/ic_menu.svg';
 export const ICON_SEACH = '/assets/icons/adminIconUpdate/ic_search.svg';
 export const ICON_ADD_NEW_EVENT = '/assets/icons/adminIconUpdate/ic_addNewEvent.svg';

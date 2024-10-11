@@ -1,6 +1,7 @@
 export const enum ROLE {
     ADMIN = 'ROLE_ADMIN',
     USER = 'ROLE_USER',
+    ORGANIZER = 'ROLE_ORGANIZER',
 }
 
 export const enum TYPES {

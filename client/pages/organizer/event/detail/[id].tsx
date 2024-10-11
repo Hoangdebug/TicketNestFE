@@ -11,6 +11,7 @@ import { fetchDetailsEvent, fetchListEvent } from '@redux/actions/api';
 import { http, routes } from '@utils/constants';
 import Countdown from '@components/commons/Countdown';
 import moment from 'moment';
+import { Img } from '@components/index';
 
 const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
     const router = useRouter();
@@ -44,7 +45,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
         dispatch(
             await fetchDetailsEvent(id?.toString() ?? '', (res: IEventDataApiRes | IErrorAPIRes | null) => {
                 if (res && res.code === http.SUCCESS_CODE) {
-                    const event = (res as IEventDataApiRes).result;
+                    const event = (res as IEventDataApiRes).result?.dataEvent;
                     setState((prevState) => ({
                         ...prevState,
                         eventDetails: event,
@@ -56,7 +57,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
 
     const handleFetchListEvents = async () => {
         dispatch(
-            await fetchListEvent((res: IEventDataApiListRes | IErrorAPIRes | null) => {
+            await fetchListEvent('', (res: IEventDataApiListRes | IErrorAPIRes | null) => {
                 if (res && res?.code === http.SUCCESS_CODE) {
                     const data = (res as IEventDataApiListRes).result?.dataEvent;
                     setState((prevState) => ({
@@ -97,7 +98,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
             <div className="pages__eventdetail_body">
                 <div className="pages__eventdetail_body_sideleft col-md-8">
                     <div className="pages__eventdetail_body_sideleft_image">
-                        <img src={eventDetails?.image} alt="Event Image" />
+                        <Img src={eventDetails?.images} alt="Event Image" />
                     </div>
                     <div className="pages__eventdetail_body_sideleft_actions">
                         <button className="save-button">
@@ -226,7 +227,7 @@ const EventDetailPage: IEventDetailPage<IEventDetailPageProps> = () => {
                             key={events?._id}
                             className="pages__eventdetail_relate_list_card"
                         >
-                            <img src={events.image} alt={events?.name} />
+                            <Img src={events?.images ?? ''} alt={events?.name} />
                             <h3>{events?.name}</h3>
                             <div className="pages__eventdetail_relate_list_card_infor">
                                 <p className="pages__eventdetail_relate_list_card_infor_price">{events?.price} $</p>
