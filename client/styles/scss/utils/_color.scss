@@ -23,7 +23,9 @@ $color-blue-gray: #6c757d;
 $color-green: #007f09;
 $color-smoke: #c4c4c4;
 $color-blue-dark: #143883;
+$color-yellow-light: #f1f1a0;
 $color-gray: #c7c7c7;
+$color-gray-opacity: rgba(199, 199, 199, 0.2);
 
 $color-yellow: #ffc93f;
 
@@ -38,13 +40,20 @@ $color-japonica: #dc7279;
 $color-danube: #5995cb;
 
 $color-purple-heart: #4e2bdb;
+$color-royal-purple: #7f56d8;
 
+$primary-color: #00535f;
+
+$color-dark-gray-filter: invert(28%) sepia(15%) saturate(15%) hue-rotate(25deg) brightness(99%) contrast(92%);
+$color-white-filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(143deg) brightness(105%) contrast(104%);
 $color-red-filter: invert(20%) sepia(61%) saturate(7360%) hue-rotate(347deg) brightness(84%) contrast(118%);
 $color-white-filter: invert(100%) sepia(3%) saturate(181%) hue-rotate(354deg) brightness(118%) contrast(100%);
 $color-black-filter: invert(0%) sepia(85%) saturate(8%) hue-rotate(30deg) brightness(99%) contrast(100%);
 $color-gray-filter: invert(81%) sepia(0%) saturate(32%) hue-rotate(175deg) brightness(95%) contrast(101%);
 $color-light-green-filter: invert(56%) sepia(89%) saturate(656%) hue-rotate(79deg) brightness(96%) contrast(83%);
+$color-icon-filter: invert(46%) sepia(35%) saturate(6126%) hue-rotate(236deg) brightness(87%) contrast(93%);
 
+$color-shadow: rgba(167, 167, 167, 0.2);
 @function color-shadow($opacity) {
     @return rgba(34, 34, 34, $opacity);
 }

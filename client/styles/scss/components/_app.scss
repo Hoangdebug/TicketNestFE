@@ -4,8 +4,40 @@
         height: 100vh;
         transition-timing-function: ease-in;
         transition: 0.25s;
-        &-body {
-            flex: 1;
+        position: relative;
+
+        &--headerAdmin {
+            position: absolute;
+            left: 300px;
+            max-width: 80%;
+            min-width: 80%;
+            width: 100%;
+            z-index: 99;
+            transition: all 0.4s ease;
+
+            &.collapsed {
+                left: 80px;
+                max-width: calc(100% - 80px);
+            }
+
+            @include responsive(max-xxl) {
+                max-width: 100%;
+                min-width: 100%;
+            }
+        }
+
+        &--children {
+            position: absolute;
+            left: 90px;
+            max-width: 92%;
+            min-width: 92%;
+            width: 100%;
+            transition: all 0.4s ease;
+
+            &.collapsed {
+                left: 100px;
+                max-width: calc(100% - 80px);
+            }
         }
     }
 }

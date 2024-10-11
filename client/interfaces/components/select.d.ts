@@ -2,6 +2,7 @@ interface ISelectItem {
     value?: string;
     label?: string;
     disabled?: boolean;
+    classOption?: string;
 }
 
 interface ISelectComponentProps extends IBaseCompProps {

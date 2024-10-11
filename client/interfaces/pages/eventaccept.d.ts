@@ -11,4 +11,8 @@ interface IEventManagerAcceptPageState {
     pages?: number;
     ids?: string[];
     status?: string;
+    search?: string;
+    currentPage?: number;
+    statusEvent?: string;
+    totalPage?: number;
 }

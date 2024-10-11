@@ -6,17 +6,26 @@ import Modal from '@components/layouts/Modal';
 import Header from '@components/layouts/Header';
 import Footer from '@components/layouts/Footer';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLocale, setModal } from '@redux/actions';
-import { http, routes } from '@utils/constants';
+import { enums, http, routes } from '@utils/constants';
+import { ReduxStates } from '@redux/reducers';
+import AdminSidebarComponents from './admin/SideBarAdmin';
+import HeaderAdminComponents from './admin/HeaderAdmin';
 
 const App: IAppComponent<IAppComponentProps> = (props) => {
     const { children, statusCode } = props;
+    const { profile } = useSelector((states: ReduxStates) => states);
     const router = useRouter();
+    const isAdminPage = router.pathname.startsWith('/admin');
+    const isOrganizerPage = router.pathname.startsWith('/organizer');
+    const isAdmin = profile?.role === enums.ROLE.ADMIN || enums.ROLE.ORGANIZER;
+
     const dispatch = useDispatch();
     const [state, setState] = useState<IAppComponentState>({
         reloadKey: 0,
         historyPathname: router.pathname,
+        isCollapsed: false,
     });
     const { reloadKey } = state;
     const { locale, pathname } = router;
@@ -88,7 +97,23 @@ const App: IAppComponent<IAppComponentProps> = (props) => {
             <Loader />
             <Modal />
             <Header isShow={isShowComponent && !noHeaderFooterPath.includes(router.pathname)} />
-            {children}
+            {isOrganizerPage || (isAdminPage && isAdmin) ? (
+                <>
+                    <div className="row position-relative bases__background--gray-opacity" style={{ minHeight: '100vh' }}>
+                        <div className="col-xl-2 p-0">
+                            <AdminSidebarComponents />
+                            <div className="components__app--headerAdmin p-0">
+                                <HeaderAdminComponents />
+                            </div>
+                        </div>
+                        <div className={`col-xl-9 bases__width83 p-0 bases__padding--top70 position-relative`}>
+                            <div className={`components__app--children`}>{children}</div>
+                        </div>
+                    </div>
+                </>
+            ) : (
+                children
+            )}
             <Footer isShow={isShowComponent && !noHeaderFooterPath.includes(router.pathname)} />
         </div>
     );

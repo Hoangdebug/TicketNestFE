@@ -1,5 +1,4 @@
 import AddEventForm from '@components/forms/Event';
-import SideBar from '@components/layouts/admin/Sidebar';
 import {
     IUpdateEventOrganizerPage,
     IUpdateEventOrganizerPageProps,
@@ -29,7 +28,7 @@ const UpdateEventOrganizer: IUpdateEventOrganizerPage<IUpdateEventOrganizerPageP
         dispatch(
             await fetchDetailsEvent(id?.toString() ?? '', (res: IEventDataApiRes | IErrorAPIRes | null) => {
                 if (res && res.code === http.SUCCESS_CODE) {
-                    const event = (res as IEventDataApiRes).result;
+                    const event = (res as IEventDataApiRes).result?.dataEvent;
                     setState((prevState) => ({
                         ...prevState,
                         event: event,
@@ -41,9 +40,6 @@ const UpdateEventOrganizer: IUpdateEventOrganizerPage<IUpdateEventOrganizerPageP
 
     return (
         <div className="pages__addevent py-3 row">
-            <div className="pages__addevent-leftSide col-md-2">
-                <SideBar />
-            </div>
             <div className=" pages__addevent-rightSide justify-content-center col-md-9">
                 <h2 className="fw-bold mb-4 text-center">Update Event</h2>
                 <AddEventForm event={event} />

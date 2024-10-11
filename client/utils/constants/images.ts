@@ -39,3 +39,15 @@ export const ABOUT3 = '/assets/icons/about3.svg';
 export const BG_ABOUT = '/assets/icons/bgabout.svg';
 export const ICON_CALENDAR = '/assets/icons/icon-calendar.svg';
 export const ICON_DROPDOWN = '/assets/icons/icon-dropdown.svg';
+
+export const ICON_DASBOARD = '/assets/icons/adminIconUpdate/ic_dashboard.svg';
+export const ICON_LOGO_ADMIN = '/assets/icons/adminIconUpdate/ic_logoAdmin.svg';
+export const ICON_USER = '/assets/icons/adminIconUpdate/ic_user.svg';
+export const ICON_EVENT = '/assets/icons/adminIconUpdate/ic_event.svg';
+export const ICON_MENU_ADMIN = '/assets/icons/adminIconUpdate/ic_menu.svg';
+export const ICON_SEACH = '/assets/icons/adminIconUpdate/ic_search.svg';
+export const ICON_ADD_NEW_EVENT = '/assets/icons/adminIconUpdate/ic_addNewEvent.svg';
+export const ICON_FILLTER_ALL_EVENT = '/assets/icons/adminIconUpdate/ic_allEvent.svg';
+export const ICON_FILLTER_NEW_EVENT = '/assets/icons/adminIconUpdate/ic_newEvent.svg';
+export const ICON_FILLTER_ON_GOING_EVENT = '/assets/icons/adminIconUpdate/ic_newEvent.svg';
+export const ICON_FILLTER_RESOLVED_EVENT = '/assets/icons/adminIconUpdate/ic_resolvedEvent.svg';

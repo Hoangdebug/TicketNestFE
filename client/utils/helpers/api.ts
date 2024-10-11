@@ -141,9 +141,9 @@ export const updateEvent = async (id: string, data: IEventDataApi) => {
     }
 };
 
-export const listEvent = async () => {
+export const listEvent = async (query: string) => {
     try {
-        return await axios.get<IEventDataApiListRes>(`${routes.API.EVENT.href}`);
+        return await axios.get<IEventDataApiListRes>(`${routes.API.EVENT.href}/${query}`);
     } catch (err) {
         throw err;
     }
