@@ -1,5 +1,4 @@
-import { Table } from '@components/index';
-import SideBar from '@components/layouts/admin/Sidebar';
+import { Box, Table } from '@components/index';
 import { IEventListPage, IEventListPageProps, IEventListPageState } from '@interfaces/pages/eventpage';
 import { fetchListEventOrganizer } from '@redux/actions/api';
 import { http, images, routes } from '@utils/constants';
@@ -136,13 +135,12 @@ const EventPageOrganizer: IEventListPage<IEventListPageProps> = () => {
     };
     return (
         <div className="pages__organizer pt-5 row">
-            <div className="col-md-2">
-                <SideBar />
-            </div>
             <div className="pages__organizer-table">
-                <h2 className="text-center">Event Manager</h2>
                 {events && events?.length > 0 ? (
-                    <Table ref={tableRef} heads={tableEventRender.heads} body={tableEventRender.body} total={totalItems} />
+                    <Box>
+                        <h2 className="text-start">Event Manager</h2>
+                        <Table ref={tableRef} heads={tableEventRender.heads} body={tableEventRender.body} total={totalItems} />
+                    </Box>
                 ) : (
                     <div className="text-center pt-2 bases__font--16 fw-bolder bases__text--red">No events</div>
                 )}

@@ -2,7 +2,7 @@ interface IImgComponentProps extends IBaseCompProps {
     isBlur?: boolean;
     placeholder?: string;
     className?: string;
-    src: string;
+    src?: string;
     onClick?: () => void;
     width?: number;
     height?: number;

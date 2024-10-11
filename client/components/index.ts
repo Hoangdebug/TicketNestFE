@@ -4,6 +4,7 @@ import Input from './commons/Input';
 import Select from './commons/Select';
 import Choice from './commons/Choice';
 import Table from './commons/Table';
+import Box from './commons/Box';
 
 import App from './layouts/App';
 import EventList from './layouts/EventList';
@@ -23,6 +24,7 @@ export {
     Choice,
     Table,
     App,
+    Box,
     LoginForm,
     EventList,
     EditUserProFileForm,

@@ -7,4 +7,5 @@ interface IAppComponent<P = {}> extends IBaseComp<P> {}
 interface IAppComponentState {
     reloadKey?: number;
     historyPathname?: string;
+    isCollapsed?: boolean;
 }

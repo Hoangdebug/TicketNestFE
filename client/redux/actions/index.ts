@@ -1,5 +1,4 @@
-import { setLocale, setModal } from './common';
-import { fetchLogin } from './api';
-import { fetchEditUserProfile } from './api';
+import { setLocale, setModal, setSidebar } from './common';
+import { fetchLogin, fetchEditUserProfile } from './api';
 
-export { setLocale, setModal, fetchLogin, fetchEditUserProfile };
+export { setLocale, setModal, setSidebar, fetchLogin, fetchEditUserProfile };

@@ -1,4 +1,4 @@
-import SideBar from '@components/layouts/admin/Sidebar';
+import { Box } from '@components/index';
 import AdminListCustomerComponents from '@components/layouts/Customer';
 import { IAdminCustomerPage, IAdminCustomerPageProps, IAdminCustomerPageState } from '@interfaces/pages/admincustomer';
 import { fetchListAdminCustomer } from '@redux/actions/api';
@@ -41,14 +41,16 @@ const CustomerListPageAdmin: IAdminCustomerPage<IAdminCustomerPageProps> = () =>
     };
 
     return (
-        <div className="pages__listCustomer py-3 row">
-            <div className="pages__listCustomer-leftSide col-md-2">
-                <SideBar />
-            </div>
-            <div className=" pages__listCustomer-rightSide justify-content-center col-md-9">
-                <h2 className="fw-bold mb-4 text-center">Customer List</h2>
-                <AdminListCustomerComponents customers={customers} updateCustomers={updateCustomers} />
-            </div>
+        <div className="pages__listCustomer pt-3">
+            <h3 className="pb-3">Users</h3>
+            {customers && customers.length > 0 ? (
+                <Box className=" pages__listCustomer-rightSide justify-content-center col-md-12 p-3">
+                    <h2 className="fw-bold mb-4 text-start">Customer List</h2>
+                    <AdminListCustomerComponents customers={customers} updateCustomers={updateCustomers} />
+                </Box>
+            ) : (
+                <div className="text-center fw-bolder pt-2 bases__text--red">Data not found</div>
+            )}
         </div>
     );
 };
