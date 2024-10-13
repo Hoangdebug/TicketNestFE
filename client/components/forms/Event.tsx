@@ -56,6 +56,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     const startDateTimeValidatorRef = createRef<IValidatorComponentHandle>();
     const endDateTimeValidatorRef = createRef<IValidatorComponentHandle>();
 
+    console.log(event);
     const handleOnChange = (field: string, value: string | number | boolean) => {
         setState((prevState) => ({
             ...prevState,

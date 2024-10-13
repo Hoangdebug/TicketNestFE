@@ -96,7 +96,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
     const processProductQuery = () => {
         return new URLSearchParams({
             currentPage: currentPage?.toString() ?? '1',
-            pageSize: '3',
+            pageSize: '10',
         });
     };
 
@@ -278,8 +278,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                         ))}
                     </div>
                     {event?.map((item, index) => (
-                        <div className="d-flex flex-column p-3 pages__events--box mt-3 gap-4">
-                            <div className="" key={index}>
+                        <div key={index}>
                                 <div className="d-flex flex-row justify-content-between align-items-center">
                                     <div className="pages__events--header-title d-flex flex-row">
                                         <div>{handleChangeText(item?.status ?? '')}</div>
