@@ -278,7 +278,8 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                         ))}
                     </div>
                     {event?.map((item, index) => (
-                        <div key={index}>
+                        <div className='className="d-flex flex-column p-3 pages__events--box mt-3 gap-4' >
+                            <div key={index}>
                                 <div className="d-flex flex-row justify-content-between align-items-center">
                                     <div className="pages__events--header-title d-flex flex-row">
                                         <div>{handleChangeText(item?.status ?? '')}</div>
