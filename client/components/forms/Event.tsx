@@ -99,7 +99,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
         setSelectedFile(null);
         setState((prev) => ({
             ...prev,
-            previewUrl: typeof event?.images === 'string' ? event.images : undefined,
+            previewUrl: undefined,
         }));
     };
 

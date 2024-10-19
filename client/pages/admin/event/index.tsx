@@ -18,17 +18,27 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
         event: [],
         status: enums.EventStatus.ACCEPTED,
         search: '',
-        statusEvent: 'New',
+        statusEvent: 'all',
         currentPage: 1,
         totalPage: 0,
         totalItems: undefined,
     });
 
-    const { event, status, search, statusEvent, currentPage, totalPage } = state;
+    const { event, status, search, statusEvent, currentPage, totalPage, allEvents } = state;
 
     useEffect(() => {
         handleFetchListEvents();
     }, [currentPage]);
+
+    useEffect(() => {
+        const filteredEvents = allEvents?.filter((eventItem) =>
+            status === 'all' ? true : eventItem.status === status
+        );
+        setState((prevState) => ({
+            ...prevState,
+            event: filteredEvents,
+        }));
+    }, [status, allEvents]);
 
     const allItemFillter = [
         {
@@ -59,6 +69,10 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
 
     const renderStatusOptions = () => {
         const statusOptions = [
+            {
+                value: "all",
+                label: "All Events"
+            },
             {
                 value: enums.EventStatus.PENDING,
                 label: 'Events Processing',
@@ -94,11 +108,16 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
     };
 
     const processProductQuery = () => {
-        return new URLSearchParams({
+        const query = new URLSearchParams({
             currentPage: currentPage?.toString() ?? '1',
-            pageSize: '10',
+            pageSize: '10', 
         });
-    };
+    
+        if (status !== 'all') {
+            query.append('status', status ?? '');
+        }
+        return query;
+    };    
 
     const handleFetchListEvents = async () => {
         const query = processProductQuery();
@@ -109,9 +128,9 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                     const totalPages = (res as IEventDataApiListRes).totalPage;
                     setState((prevState) => ({
                         ...prevState,
-                        event: data?.dataEvent,
+                        allEvents: data?.dataEvent,
                         totalPage: totalPages,
-                        currentPage: data?.metadata?.currentPage || 1,
+                        currentPage: data?.metadata?.currentPage,
                         totalItems: data?.metadata?.totalItems,
                     }));
                 }
@@ -243,11 +262,11 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                         <div className="d-flex flex-row gap-4">
                             <Select
                                 options={renderStatusOptions()}
-                                value={statusEvent}
-                                onChange={(value: string) => handleOnChange('statusEvent', value)}
+                                value={status}
+                                onChange={(value: string) => handleOnChange('status', value)}
                             />
 
-                            {profile && profile?.type === enums.TYPES.ADMIN && (
+                            {profile && profile?.type === enums.TYPES.ORGANIZER && (
                                 <Button
                                     className="pages__events--btnAdd w-100 bases__background--color-royal-purple"
                                     buttonText="New Ticket"
@@ -267,11 +286,12 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                                 <Button
                                     buttonText={item.title}
                                     startIcon={item.icon}
-                                    background="white"
-                                    textColor="black"
+                                    background={statusEvent === item.value ? 'color-royal-purple' : 'white'}
+                                    textColor={statusEvent === item.value ? 'white' : 'black'}
+                                    iconColor={statusEvent === item.value ? 'white' : ''}
                                     className={item.class}
                                     onClick={() => {
-                                        router.push('', item.value);
+                                        handleOnChange('statusEvent', item.value);
                                     }}
                                 />
                             </div>
