@@ -13,18 +13,38 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
     const dispatch = useDispatch();
     const router = useRouter();
     const { profile } = useSelector((states: ReduxStates) => states);
+    const pageQuery = parseInt(router.query.page as string) || 1;
 
     const [state, setState] = useState<IEventManagerAcceptPageState>({
         event: [],
-        status: enums.EventStatus.ACCEPTED,
+        status: "all",
         search: '',
         statusEvent: 'all',
-        currentPage: 1,
+        currentPage: pageQuery,
         totalPage: 0,
         totalItems: undefined,
     });
 
     const { event, status, search, statusEvent, currentPage, totalPage, allEvents } = state;
+
+    useEffect(() => {
+        if (currentPage !== pageQuery) {
+            router.push({
+                pathname: router.pathname,
+                query: { ...router.query, page: currentPage },
+            }, undefined, { scroll: false });
+        }
+    }, [currentPage]);
+
+    useEffect(() => {
+        if (pageQuery !== currentPage) {
+            setState((prevState) => ({
+                ...prevState,
+                currentPage: pageQuery,
+            }));
+        }
+    }, [router.query.page]);
+    
 
     useEffect(() => {
         handleFetchListEvents();
@@ -105,12 +125,16 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
             ...prevState,
             currentPage: page,
         }));
+        router.push({
+            pathname: router.pathname,
+            query: { ...router.query, page: page.toString() },
+        }, undefined, { scroll: false });
     };
 
     const processProductQuery = () => {
         const query = new URLSearchParams({
-            currentPage: currentPage?.toString() ?? '1',
-            pageSize: '10', 
+            page: currentPage?.toString() ?? '1',
+            pageSize: '5',
         });
     
         if (status !== 'all') {
@@ -336,7 +360,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                         </div>
                     ))}
                     {totalPage && totalPage > 0 && (
-                        <Pagination current={currentPage} totalPage={totalPage ?? 0} onPageChange={handleChangePage} />
+                        <Pagination current={pageQuery} totalPage={totalPage ?? 0} onPageChange={handleChangePage} />
                     )}
                 </Box>
             </div>
