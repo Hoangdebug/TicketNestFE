@@ -80,13 +80,13 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                 price: event?.price ?? 0,
                 ticket_number: event?.ticket_number ?? enums.EVENTTICKET.BASE,
             },
+            previewUrl: typeof event?.images === 'string' ? event.images : prevState.previewUrl,
         }));
     }, [event]);
 
     const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            console.log('File selected:', file);
             setSelectedFile(file);
             setState((prev) => ({
                 ...prev,
@@ -274,10 +274,8 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     };
 
     const handleSubmitUpdateEvent = async () => {
-        console.log('handleSubmitUpdateEvent called with:', eventAdd);
         dispatch(
             await fetchUpdateEvent(id?.toString() ?? '', eventAdd ?? {}, (res: IEventDataApiRes | IErrorAPIRes | null) => {
-                console.log('API response:', res);
                 if (res?.code === http.SUCCESS_CODE) {
                     router.push(routes.CLIENT.ORGANIZER_LIST_EVENT.href, undefined, { scroll: false });
                 } else if (res?.code === http.ERROR_EXCEPTION_CODE) {
@@ -289,11 +287,9 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
 
     const handleSubmitAddEvent = async (): Promise<string | null> => {
         const res: IEventDataApiRes | IErrorAPIRes | null = await dispatch(fetchAddEvent(eventAdd ?? {}));
-        console.log('API response:', res);
 
         if (res?.code === http.SUCCESS_CODE) {
             const eventId = res.result?._id ?? null;
-            console.log('Event added successfully, eventId:', eventId);
 
             if (eventId) {
                 router.push(routes.CLIENT.ORGANIZER_LIST_EVENT.href, undefined, { scroll: false });
@@ -308,7 +304,6 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     };
 
     const handleSubmit = async () => {
-        console.log('handleSubmit called with eventAdd:', eventAdd);
         let isValidate = true;
 
         const validator = [
@@ -326,25 +321,22 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
             ref.current?.onValidateMessage('');
             if (validateHelper.isEmpty(String(value ?? ''))) {
                 ref.current?.onValidateMessage(message);
-                console.log(`Validation failed for: ${message}`);
                 isValidate = false;
             } else if (validateHelper.isCharacters(String(value ?? ''))) {
                 ref.current?.onValidateMessage(`Your ${message} Cannot Be Less Than 2 Characters`);
-                console.log(`Validation failed for: ${message} - Less than 2 characters`);
                 isValidate = false;
             }
         });
 
-        console.log('Validation result:', isValidate);
         if (isValidate) {
             if (id) {
                 await handleSubmitUpdateEvent();
+                if (id && selectedFile) {
+                    await handleUploadImages(id?.toString() ?? '', selectedFile);
+                }
             } else {
-                console.log('Starting to add event');
                 const eventId = await handleSubmitAddEvent();
-                console.log(eventId);
                 if (eventId && selectedFile) {
-                    console.log('Uploading image for eventId:', eventId);
                     await handleUploadImages(eventId, selectedFile);
                 }
             }
@@ -501,7 +493,7 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                                                 src={previewUrl}
                                                 alt="Avatar"
                                                 className="img-thumbnail"
-                                                style={{ width: '1050px', height: '350px', objectFit: 'cover' }}
+                                                style={{ width: '1050px', height: 'auto', objectFit: 'cover' }}
                                             />
                                             <button
                                                 type="button"

@@ -18,7 +18,7 @@ interface IEventDataApi {
         contact_phone?: string;
         sponsor_by?: string;
     };
-    status?: string;
+    status?: "all" | enums.EventStatus.ACCEPTED | enums.EventStatus.CANCELLED | enums.EventStatus.PENDING | undefined;
 }
 
 interface IEventDataApiRes extends IBaseAPIRes {

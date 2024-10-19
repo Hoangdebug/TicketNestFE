@@ -514,7 +514,7 @@ export const fetchListAdminCustomer = async (
 };
 
 export const fetchUpdateOrganizerByAdmin = async (
-    id: string,
+    _id: string,
     data: IEditUserProfileDataAPI,
     callBack?: (result: IAdminUpdateOrganizerAPIRes | IErrorAPIRes | null) => void,
     isLoad: boolean = true,
@@ -525,7 +525,7 @@ export const fetchUpdateOrganizerByAdmin = async (
         }
 
         try {
-            const res = await apiHelper.updateOrganizerByAdmin(id, data);
+            const res = await apiHelper.updateOrganizerByAdmin(_id, data);
             if (callBack) {
                 callBack(res?.data);
             }
