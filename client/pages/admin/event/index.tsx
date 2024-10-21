@@ -18,6 +18,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
     const [state, setState] = useState<IEventManagerAcceptPageState>({
         event: [],
         status: "all",
+        statusEventFilter: "all",
         search: '',
         statusEvent: 'all',
         currentPage: pageQuery,

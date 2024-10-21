@@ -16,5 +16,6 @@ interface IEventManagerAcceptPageState {
     search?: string;
     currentPage?: number;
     statusEvent?: string;
+    statusEventFilter?: string;
     totalPage?: number;
 }
