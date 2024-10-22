@@ -12,7 +12,7 @@ interface IEventManagerAcceptPageState {
     totalItems?: number;
     pages?: number;
     ids?: string[];
-    status?: "all" | enums.EventStatus.ACCEPTED | enums.EventStatus.CANCELLED | enums.EventStatus.PENDING | undefined;
+    status?: 'all' | enums.EventStatus.ACCEPTED | enums.EventStatus.CANCELLED | enums.EventStatus.PENDING | undefined;
     search?: string;
     currentPage?: number;
     statusEvent?: string;

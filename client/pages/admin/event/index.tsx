@@ -17,7 +17,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
 
     const [state, setState] = useState<IEventManagerAcceptPageState>({
         event: [],
-        status: "all",
+        status: 'all',
         search: '',
         statusEventFilter: enums.EventStatus.PENDING,
         statusEvent: 'all',
@@ -30,10 +30,14 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
 
     useEffect(() => {
         if (currentPage !== pageQuery) {
-            router.push({
-                pathname: router.pathname,
-                query: { ...router.query, page: currentPage },
-            }, undefined, { scroll: false });
+            router.push(
+                {
+                    pathname: router.pathname,
+                    query: { ...router.query, page: currentPage },
+                },
+                undefined,
+                { scroll: false },
+            );
         }
     }, [currentPage]);
 
@@ -45,16 +49,13 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
             }));
         }
     }, [router.query.page]);
-    
 
     useEffect(() => {
         handleFetchListEvents();
     }, [currentPage]);
 
     useEffect(() => {
-        const filteredEvents = allEvents?.filter((eventItem) =>
-            status === 'all' ? true : eventItem.status === status
-        );
+        const filteredEvents = allEvents?.filter((eventItem) => (status === 'all' ? true : eventItem.status === status));
         setState((prevState) => ({
             ...prevState,
             event: filteredEvents,
@@ -91,8 +92,8 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
     const renderStatusOptions = () => {
         const statusOptions = [
             {
-                value: "all",
-                label: "All Events"
+                value: 'all',
+                label: 'All Events',
             },
             {
                 value: enums.EventStatus.PENDING,
@@ -126,10 +127,14 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
             ...prevState,
             currentPage: page,
         }));
-        router.push({
-            pathname: router.pathname,
-            query: { ...router.query, page: page.toString() },
-        }, undefined, { scroll: false });
+        router.push(
+            {
+                pathname: router.pathname,
+                query: { ...router.query, page: page.toString() },
+            },
+            undefined,
+            { scroll: false },
+        );
     };
 
     const processProductQuery = () => {
@@ -137,12 +142,12 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
             page: currentPage?.toString() ?? '1',
             pageSize: '5',
         });
-    
+
         if (status !== 'all') {
             query.append('status', status ?? '');
         }
         return query;
-    };    
+    };
 
     const handleFetchListEvents = async () => {
         const query = processProductQuery();
@@ -164,31 +169,35 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
     };
 
     const handleUpdateStatusEventByAdmin = async (idsToUpdate: string[]) => {
-        console.log(statusEventFilter)
+        console.log(statusEventFilter);
         if (!statusEventFilter || statusEventFilter === 'all') {
             console.error('Invalid status selected for update.');
             return;
         }
         dispatch(
-            await fetchUpdateStatusEventByAdmin(idsToUpdate.join(','), { status: statusEventFilter }, (res: IEventUpdateByAdmin | IErrorAPIRes | null) => {
-                if (res?.code === http.SUCCESS_CODE) {
-                    handleFetchListEvents();
-                } else {
-                    dispatch(
-                        setModal({
-                            isShow: true,
-                            content: (
-                                <>
-                                    <div className="text-center bases__margin--bottom31">
-                                        <Img src={images.ICON_CLOSE} className="bases__width--90 bases__height--75" />
-                                    </div>
-                                    <div className="bases__text--bold bases__font--14 text-center">Error While Update Status Event</div>
-                                </>
-                            ),
-                        }),
-                    );
-                }
-            }),
+            await fetchUpdateStatusEventByAdmin(
+                idsToUpdate.join(','),
+                { status: statusEventFilter },
+                (res: IEventUpdateByAdmin | IErrorAPIRes | null) => {
+                    if (res?.code === http.SUCCESS_CODE) {
+                        handleFetchListEvents();
+                    } else {
+                        dispatch(
+                            setModal({
+                                isShow: true,
+                                content: (
+                                    <>
+                                        <div className="text-center bases__margin--bottom31">
+                                            <Img src={images.ICON_CLOSE} className="bases__width--90 bases__height--75" />
+                                        </div>
+                                        <div className="bases__text--bold bases__font--14 text-center">Error While Update Status Event</div>
+                                    </>
+                                ),
+                            }),
+                        );
+                    }
+                },
+            ),
         );
     };
 
@@ -328,7 +337,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                         ))}
                     </div>
                     {event?.map((item, index) => (
-                        <div className='className="d-flex flex-column p-3 pages__events--box mt-3 gap-4' >
+                        <div className='className="d-flex flex-column p-3 pages__events--box mt-3 gap-4'>
                             <div key={index}>
                                 <div className="d-flex flex-row justify-content-between align-items-center">
                                     <div className="pages__events--header-title d-flex flex-row">

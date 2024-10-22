@@ -42,8 +42,8 @@ const UpdateEventOrganizer: IUpdateEventOrganizerPage<IUpdateEventOrganizerPageP
     return (
         <div className="pages__addevent py-3 row">
             <div className=" pages__addevent-rightSide justify-content-center col-md-12">
-                <Box className='p-3'>
-                    <h2 className="fw-bold mb-4 text-center">Update Event</h2>  
+                <Box className="p-3">
+                    <h2 className="fw-bold mb-4 text-center">Update Event</h2>
                     <AddEventForm event={event} />
                 </Box>
             </div>
