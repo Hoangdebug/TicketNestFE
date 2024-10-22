@@ -18,15 +18,15 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
     const [state, setState] = useState<IEventManagerAcceptPageState>({
         event: [],
         status: "all",
-        statusEventFilter: "all",
         search: '',
+        statusEventFilter: enums.EventStatus.PENDING,
         statusEvent: 'all',
         currentPage: pageQuery,
         totalPage: 0,
         totalItems: undefined,
     });
 
-    const { event, status, search, statusEvent, currentPage, totalPage, allEvents } = state;
+    const { event, status, search, statusEvent, currentPage, totalPage, allEvents, statusEventFilter } = state;
 
     useEffect(() => {
         if (currentPage !== pageQuery) {
@@ -164,8 +164,13 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
     };
 
     const handleUpdateStatusEventByAdmin = async (idsToUpdate: string[]) => {
+        console.log(statusEventFilter)
+        if (!statusEventFilter || statusEventFilter === 'all') {
+            console.error('Invalid status selected for update.');
+            return;
+        }
         dispatch(
-            await fetchUpdateStatusEventByAdmin(idsToUpdate.join(','), { status }, (res: IEventUpdateByAdmin | IErrorAPIRes | null) => {
+            await fetchUpdateStatusEventByAdmin(idsToUpdate.join(','), { status: statusEventFilter }, (res: IEventUpdateByAdmin | IErrorAPIRes | null) => {
                 if (res?.code === http.SUCCESS_CODE) {
                     handleFetchListEvents();
                 } else {
@@ -219,8 +224,8 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                         <div className="pt-3">
                             <Select
                                 className="p-2"
-                                value={status}
-                                onChange={(value: string) => handleOnChange('status', value)}
+                                value={statusEventFilter}
+                                onChange={(value: string) => handleOnChange('statusEventFilter', value)}
                                 options={renderEventTypeOptions()}
                             />
                         </div>
