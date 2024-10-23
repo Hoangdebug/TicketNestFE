@@ -16,6 +16,7 @@ import axios from 'axios';
 
 const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
     const { event } = props;
+    
 
     const dispatch = useDispatch();
     const router = useRouter();
