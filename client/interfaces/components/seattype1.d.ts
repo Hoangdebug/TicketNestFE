@@ -4,8 +4,7 @@ interface ISeatType1Component<P = {}> extends IBaseComp<P> {}
 
 interface ISeatType1ComponentState {
     rows?: string[];
-    numSeatOfRowLeft?: number[];
-    numSeatOfRowRight?: number[];
+    numSeats?: number[];
     vipRows?: string[];
     selectedSeat?: string[];
     orderedSeats?: string[];

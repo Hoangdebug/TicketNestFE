@@ -1,168 +1,150 @@
 .components {
     &__seattype1 {
-        background-color: black;
-        width: 100%;
-        height: 100vh;
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding-top: 50px; // Added padding to create space from the top
+        background-color: black;
+        padding: 20px;
 
-        &-details {
+        &-screen {
+            width: 600px;
+            height: 50px;
+            background-color: #d3d3d3;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: black;
+            padding: 10px;
+            border-radius: 20px; /* Bo tròn sân khấu */
+        }
+
+        &-legend {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1.25rem; // equivalent to gap-5
-            margin-bottom: 0.5rem; // equivalent to mb-2
-            margin-top: 3rem; // equivalent to mt-10
-            margin-left: 0; // equivalent to mx-0
-            margin-right: 0; // equivalent to mx-0
-            animation: marquee-right-to-left 10s linear infinite;
-            white-space: nowrap;
+            justify-content: space-around;
+            width: 400px;
+            margin-bottom: 20px;
+            color: white;
 
-            span {
-                font-size: 1.25rem; // equivalent to text-xl
-                color: white; // equivalent to text-white
+            .legend-item {
+                display: flex;
+                align-items: center;
+            }
+
+            .legend-circle {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+
+            .available {
+                background-color: #89cff0;
+            }
+
+            .selected {
+                background-color: #32cd32;
+            }
+
+            .ordered {
+                background-color: #ff6961;
             }
         }
 
-        &-screen {
-            height: 50px;
-            width: 400px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 20px;
-            margin: 10px 0;
-            background-color: #ffffff;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
-            transform: rotateX(-45deg);
-        }
-
-        &-stage {
-            height: 50px;
-            width: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 20px;
-            margin: 10px 0;
-            background-color: #ffffff;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
-            transform: rotateX(-45deg);
-        }
-
-        &-seattitle {
-            padding-top: 40px;
-            border-radius: 0.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2.5rem;
-            margin-bottom: 20px; // Added margin to create space below
+        &-zoom-controls {
+            margin-bottom: 20px;
+            button {
+                margin: 0 10px;
+                padding: 10px;
+                font-size: 16px;
+                cursor: pointer;
+            }
         }
 
         &-container {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            padding: 10px;
+            background-color: #000; /* Background tổng */
+            border: 2px solid white; /* Viền trắng bao quanh khu vực ghế */
+            gap: 0; /* Loại bỏ khoảng cách giữa các khu vực */
+            overflow: hidden; /* Ẩn các phần bị zoom quá mức */
         }
 
-        &-column {
+        &-section {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 5px; /* Giảm khoảng cách giữa các hàng ghế */
+            padding: 10px;
+            background-color: #89cff0; /* Màu nền riêng cho khu vực bên trái */
+            border: 2px solid white; /* Viền trắng giữa các khu vực */
+
+            &.left,
+            &.middle,
+            &.right {
+                flex-grow: 1; /* Đảm bảo các khu vực có kích thước đồng đều */
+            }
+
+            &.middle {
+                background-color: #e6e6fa; /* Màu nền khu vực giữa */
+            }
+
+            &.right {
+                background-color: #ffb6c1; /* Màu nền khu vực bên phải */
+            }
         }
 
         &-row {
             display: flex;
-            justify-content: center;
+            justify-content: center; /* Canh giữa các hàng ghế để đồng đều */
             align-items: center;
-            gap: 2rem;
+            gap: 5px;
 
-            &-label {
-                width: 30px;
-                text-align: center;
+            &Label {
+                margin-right: 10px;
                 color: white;
-            }
-
-            &-seats {
-                display: flex;
-                gap: 5px;
+                font-size: 16px;
             }
         }
 
         &-seat {
-            width: 35px;
-            height: 35px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 5px;
+            width: 40px;
+            height: 40px;
+            background-color: #00f;
+            border-radius: 50%;
             cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
+            border: 1px solid white;
+            transition: background-color 0.3s ease;
 
-            &.empty {
-                height: 30px;
-                width: 35px;
-                margin: 5px;
-                background-color: #1e293b;
-                border-radius: 0.75rem;
-                border-bottom-left-radius: 0;
-                border-bottom-right-radius: 0;
+            &.available {
+                background-color: #89cff0; /* Màu xanh nhạt cho ghế trống */
             }
-
-            &.vip {
-                background-color: yellow;
-                color: black;
-                height: 30px;
-                width: 35px;
-                margin: 5px;
-                border-radius: 0.75rem;
-                border-bottom-left-radius: 0;
-                border-bottom-right-radius: 0;
-            }
-
             &.selected {
-                background-color: green;
-                color: white;
-                height: 30px;
-                width: 35px;
-                margin: 5px;
-                border-radius: 0.75rem;
-                border-bottom-left-radius: 0;
-                border-bottom-right-radius: 0;
+                background-color: #32cd32; /* Màu xanh lá cho ghế đã chọn */
+            }
+            &.ordered {
+                background-color: #ff6961; /* Màu đỏ cho ghế không chọn được */
+                cursor: not-allowed;
             }
 
-            &.ordered {
-                background-color: white;
-                height: 30px;
-                width: 35px;
-                margin: 5px;
-                border-radius: 0.75rem;
-                border-bottom-left-radius: 0;
-                border-bottom-right-radius: 0;
+            &:hover {
+                opacity: 0.8; /* Hiệu ứng hover nhẹ khi di chuột vào ghế */
             }
         }
 
         &-info {
-            margin-top: 10px;
-            font-size: 1rem;
             color: white;
-            font-weight: bold;
-            padding: 0.5rem 1rem;
-            border: 2px solid white;
-            border-radius: 5px;
+            margin-top: 20px;
         }
-    }
-}
 
-@keyframes marquee-right-to-left {
-    0% {
-        transform: translateX(100%);
-    }
-    100% {
-        transform: translateX(-100%);
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            color: white;
+            background-color: green;
+            border: none;
+            cursor: pointer;
+        }
     }
 }
