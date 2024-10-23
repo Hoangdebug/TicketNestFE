@@ -13,22 +13,54 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
     const dispatch = useDispatch();
     const router = useRouter();
     const { profile } = useSelector((states: ReduxStates) => states);
+    const pageQuery = parseInt(router.query.page as string) || 1;
 
     const [state, setState] = useState<IEventManagerAcceptPageState>({
         event: [],
-        status: enums.EventStatus.ACCEPTED,
+        status: 'all',
         search: '',
-        statusEvent: 'New',
-        currentPage: 1,
+        statusEventFilter: enums.EventStatus.PENDING,
+        statusEvent: 'all',
+        currentPage: pageQuery,
         totalPage: 0,
         totalItems: undefined,
     });
 
-    const { event, status, search, statusEvent, currentPage, totalPage } = state;
+    const { event, status, search, statusEvent, currentPage, totalPage, allEvents, statusEventFilter } = state;
+
+    useEffect(() => {
+        if (currentPage !== pageQuery) {
+            router.push(
+                {
+                    pathname: router.pathname,
+                    query: { ...router.query, page: currentPage },
+                },
+                undefined,
+                { scroll: false },
+            );
+        }
+    }, [currentPage]);
+
+    useEffect(() => {
+        if (pageQuery !== currentPage) {
+            setState((prevState) => ({
+                ...prevState,
+                currentPage: pageQuery,
+            }));
+        }
+    }, [router.query.page]);
 
     useEffect(() => {
         handleFetchListEvents();
     }, [currentPage]);
+
+    useEffect(() => {
+        const filteredEvents = allEvents?.filter((eventItem) => (status === 'all' ? true : eventItem.status === status));
+        setState((prevState) => ({
+            ...prevState,
+            event: filteredEvents,
+        }));
+    }, [status, allEvents]);
 
     const allItemFillter = [
         {
@@ -59,6 +91,10 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
 
     const renderStatusOptions = () => {
         const statusOptions = [
+            {
+                value: 'all',
+                label: 'All Events',
+            },
             {
                 value: enums.EventStatus.PENDING,
                 label: 'Events Processing',
@@ -91,13 +127,26 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
             ...prevState,
             currentPage: page,
         }));
+        router.push(
+            {
+                pathname: router.pathname,
+                query: { ...router.query, page: page.toString() },
+            },
+            undefined,
+            { scroll: false },
+        );
     };
 
     const processProductQuery = () => {
-        return new URLSearchParams({
-            currentPage: currentPage?.toString() ?? '1',
-            pageSize: '3',
+        const query = new URLSearchParams({
+            page: currentPage?.toString() ?? '1',
+            pageSize: '5',
         });
+
+        if (status !== 'all') {
+            query.append('status', status ?? '');
+        }
+        return query;
     };
 
     const handleFetchListEvents = async () => {
@@ -109,9 +158,9 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                     const totalPages = (res as IEventDataApiListRes).totalPage;
                     setState((prevState) => ({
                         ...prevState,
-                        event: data?.dataEvent,
+                        allEvents: data?.dataEvent,
                         totalPage: totalPages,
-                        currentPage: data?.metadata?.currentPage || 1,
+                        currentPage: data?.metadata?.currentPage,
                         totalItems: data?.metadata?.totalItems,
                     }));
                 }
@@ -120,26 +169,35 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
     };
 
     const handleUpdateStatusEventByAdmin = async (idsToUpdate: string[]) => {
+        console.log(statusEventFilter);
+        if (!statusEventFilter || statusEventFilter === 'all') {
+            console.error('Invalid status selected for update.');
+            return;
+        }
         dispatch(
-            await fetchUpdateStatusEventByAdmin(idsToUpdate.join(','), { status }, (res: IEventUpdateByAdmin | IErrorAPIRes | null) => {
-                if (res?.code === http.SUCCESS_CODE) {
-                    handleFetchListEvents();
-                } else {
-                    dispatch(
-                        setModal({
-                            isShow: true,
-                            content: (
-                                <>
-                                    <div className="text-center bases__margin--bottom31">
-                                        <Img src={images.ICON_CLOSE} className="bases__width--90 bases__height--75" />
-                                    </div>
-                                    <div className="bases__text--bold bases__font--14 text-center">Error While Update Status Event</div>
-                                </>
-                            ),
-                        }),
-                    );
-                }
-            }),
+            await fetchUpdateStatusEventByAdmin(
+                idsToUpdate.join(','),
+                { status: statusEventFilter },
+                (res: IEventUpdateByAdmin | IErrorAPIRes | null) => {
+                    if (res?.code === http.SUCCESS_CODE) {
+                        handleFetchListEvents();
+                    } else {
+                        dispatch(
+                            setModal({
+                                isShow: true,
+                                content: (
+                                    <>
+                                        <div className="text-center bases__margin--bottom31">
+                                            <Img src={images.ICON_CLOSE} className="bases__width--90 bases__height--75" />
+                                        </div>
+                                        <div className="bases__text--bold bases__font--14 text-center">Error While Update Status Event</div>
+                                    </>
+                                ),
+                            }),
+                        );
+                    }
+                },
+            ),
         );
     };
 
@@ -175,8 +233,8 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                         <div className="pt-3">
                             <Select
                                 className="p-2"
-                                value={status}
-                                onChange={(value: string) => handleOnChange('status', value)}
+                                value={statusEventFilter}
+                                onChange={(value: string) => handleOnChange('statusEventFilter', value)}
                                 options={renderEventTypeOptions()}
                             />
                         </div>
@@ -243,11 +301,11 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                         <div className="d-flex flex-row gap-4">
                             <Select
                                 options={renderStatusOptions()}
-                                value={statusEvent}
-                                onChange={(value: string) => handleOnChange('statusEvent', value)}
+                                value={status}
+                                onChange={(value: string) => handleOnChange('status', value)}
                             />
 
-                            {profile && profile?.type === enums.TYPES.ADMIN && (
+                            {profile && profile?.type === enums.TYPES.ORGANIZER && (
                                 <Button
                                     className="pages__events--btnAdd w-100 bases__background--color-royal-purple"
                                     buttonText="New Ticket"
@@ -267,19 +325,20 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                                 <Button
                                     buttonText={item.title}
                                     startIcon={item.icon}
-                                    background="white"
-                                    textColor="black"
+                                    background={statusEvent === item.value ? 'color-royal-purple' : 'white'}
+                                    textColor={statusEvent === item.value ? 'white' : 'black'}
+                                    iconColor={statusEvent === item.value ? 'white' : ''}
                                     className={item.class}
                                     onClick={() => {
-                                        router.push('', item.value);
+                                        handleOnChange('statusEvent', item.value);
                                     }}
                                 />
                             </div>
                         ))}
                     </div>
                     {event?.map((item, index) => (
-                        <div className="d-flex flex-column p-3 pages__events--box mt-3 gap-4">
-                            <div className="" key={index}>
+                        <div className='className="d-flex flex-column p-3 pages__events--box mt-3 gap-4'>
+                            <div key={index}>
                                 <div className="d-flex flex-row justify-content-between align-items-center">
                                     <div className="pages__events--header-title d-flex flex-row">
                                         <div>{handleChangeText(item?.status ?? '')}</div>
@@ -316,7 +375,7 @@ const EventManagerAcceptPage: IEventManagerAcceptPage<IEventManagerAcceptPagePro
                         </div>
                     ))}
                     {totalPage && totalPage > 0 && (
-                        <Pagination current={currentPage} totalPage={totalPage ?? 0} onPageChange={handleChangePage} />
+                        <Pagination current={pageQuery} totalPage={totalPage ?? 0} onPageChange={handleChangePage} />
                     )}
                 </Box>
             </div>

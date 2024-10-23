@@ -35,7 +35,7 @@ const REGISTERSUCCESS: IRouteConstant = {
 };
 
 const EVENT_DETAILS_PAGES: IRouteConstant = {
-    href: 'organizer/event/detail/[id]',
+    href: 'user/detail/[id]',
 };
 
 const EVENT_DETAILS_PAGES_ORDER_TYPE1: IRouteConstant = {
@@ -214,7 +214,7 @@ const ADMIN_LIST_CUSTOMER_REQUEST_API: IRouteConstant = {
 };
 
 const ADMIN_UPDATE_ORGANIZER_API: IRouteConstant = {
-    href: '/role',
+    href: '/user/role',
 };
 
 const ADMIN_CREATE_ACCOUNT_BY_ADMIN_API: IRouteConstant = {

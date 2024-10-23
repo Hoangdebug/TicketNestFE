@@ -137,7 +137,7 @@ const EventPageOrganizer: IEventListPage<IEventListPageProps> = () => {
         <div className="pages__organizer pt-5 row">
             <div className="pages__organizer-table">
                 {events && events?.length > 0 ? (
-                    <Box>
+                    <Box className="p-3">
                         <h2 className="text-start">Event Manager</h2>
                         <Table ref={tableRef} heads={tableEventRender.heads} body={tableEventRender.body} total={totalItems} />
                     </Box>

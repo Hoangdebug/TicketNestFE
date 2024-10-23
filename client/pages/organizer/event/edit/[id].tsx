@@ -1,4 +1,5 @@
 import AddEventForm from '@components/forms/Event';
+import { Box } from '@components/index';
 import {
     IUpdateEventOrganizerPage,
     IUpdateEventOrganizerPageProps,
@@ -26,9 +27,9 @@ const UpdateEventOrganizer: IUpdateEventOrganizerPage<IUpdateEventOrganizerPageP
 
     const handleDetialsEvent = async () => {
         dispatch(
-            await fetchDetailsEvent(id?.toString() ?? '', (res: IEventDataApiRes | IErrorAPIRes | null) => {
+            await fetchDetailsEvent(id?.toString() ?? '', (res: IEventUpdateByAdmin | IErrorAPIRes | null) => {
                 if (res && res.code === http.SUCCESS_CODE) {
-                    const event = (res as IEventDataApiRes).result?.dataEvent;
+                    const event = (res as IEventUpdateByAdmin).result;
                     setState((prevState) => ({
                         ...prevState,
                         event: event,
@@ -40,9 +41,11 @@ const UpdateEventOrganizer: IUpdateEventOrganizerPage<IUpdateEventOrganizerPageP
 
     return (
         <div className="pages__addevent py-3 row">
-            <div className=" pages__addevent-rightSide justify-content-center col-md-9">
-                <h2 className="fw-bold mb-4 text-center">Update Event</h2>
-                <AddEventForm event={event} />
+            <div className=" pages__addevent-rightSide justify-content-center col-md-12">
+                <Box className="p-3">
+                    <h2 className="fw-bold mb-4 text-center">Update Event</h2>
+                    <AddEventForm event={event} />
+                </Box>
             </div>
         </div>
     );
