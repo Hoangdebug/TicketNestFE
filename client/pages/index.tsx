@@ -154,7 +154,9 @@ const HomePage: IHomePage<IHomePageProps> = () => {
                 return (
                     <div className="d-flex flex-column pages__home-title">
                         <h3>Step 1</h3>
-                        <h4>Search and Select an Event</h4>
+                        <h4>
+                            Search and Select <br /> an Event
+                        </h4>
                     </div>
                 );
             case 'step2':
