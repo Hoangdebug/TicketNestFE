@@ -1,4 +1,3 @@
-import { ISeatType1Page, ISeatType1PageProps } from '@interfaces/pages/seattype1';
 import { IEventDetailPageState } from '@interfaces/pages/eventdetail';
 import { http, routes } from '@utils/constants';
 import { authHelper } from '@utils/helpers';

@@ -460,38 +460,56 @@ const AddEventForm: IAddEventComponent<IAddEventComponentProps> = (props) => {
                                 />
                             </Validator>
                         </div>
-                        <div
-                            className={`w-100 d-flex flex-wrap components__addevent_picker ${!isValidateStartDateTime || !isValidateEndDateTime ? 'components__addevent_picker_invalid' : ''
-                                }`}
-                        >
-                            <Validator
-                                className="bases__width-percent--40 components__addevent_picker_from"
-                                ref={startDateTimeValidatorRef}
+                        <div className="form-group">
+                            <label htmlFor="location" className="pb-2">
+                                Day Start<span className="text-danger"></span>
+                            </label>
+                            <div
+                                className={`w-100 d-flex flex-wrap components__addevent_picker ${!isValidateStartDateTime || !isValidateEndDateTime ? 'components__addevent_picker_invalid' : ''
+                                    }`}
                             >
-                                <DateTimePicker
-                                    value={eventAdd?.day_start}
-                                    onBlur={() => handleValidateStartDateTime()}
-                                    onChange={(value: string) => handleOnChange('day_start', value)}
-                                    maxDate={null}
-                                    maxTime={null}
-                                    classNameDate="components__addevent_picker-date"
-                                    classNameTime="components__addevent_picker-time"
-                                />
-                            </Validator>
-                            <span className="bases__padding--horizontal10 d-flex align-items-center bases__font--14 components__addevent_picker-center-text">
-                                ~
-                            </span>
-                            <Validator className="bases__width-percent--40 components__addevent_picker_to" ref={endDateTimeValidatorRef}>
-                                <DateTimePicker
-                                    value={eventAdd?.day_end}
-                                    onBlur={() => handleValidateEndDateTime()}
-                                    onChange={(value: string) => handleOnChange('day_end', value)}
-                                    minDate={null}
-                                    minTime={null}
-                                    classNameDate="components__addevent_picker-date"
-                                    classNameTime="components__addevent_picker-time"
-                                />
-                            </Validator>
+                                <Validator
+                                    className="bases__width-percent--40 components__addevent_picker_from"
+                                    ref={startDateTimeValidatorRef}
+                                >
+                                    <DateTimePicker
+                                        value={eventAdd?.day_start}
+                                        onBlur={() => handleValidateStartDateTime()}
+                                        onChange={(value: string) => handleOnChange('day_start', value)}
+                                        maxDate={null}
+                                        maxTime={null}
+                                        classNameDate="components__addevent_picker-date"
+                                        classNameTime="components__addevent_picker-time"
+                                    />
+                                </Validator>
+                                <span className="bases__padding--horizontal10 d-flex align-items-center bases__font--14 components__addevent_picker-center-text">
+                                    ~
+                                </span>
+
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="location" className="pb-2">
+                                Day End<span className="text-danger"></span>
+                            </label>
+                            <div
+                                className={`w-100 d-flex flex-wrap components__addevent_picker ${!isValidateStartDateTime || !isValidateEndDateTime ? 'components__addevent_picker_invalid' : ''
+                                    }`}
+                            >
+                                <Validator className="bases__width-percent--40 components__addevent_picker_to" ref={endDateTimeValidatorRef}>
+                                    <DateTimePicker
+                                        value={eventAdd?.day_end}
+                                        onBlur={() => handleValidateEndDateTime()}
+                                        onChange={(value: string) => handleOnChange('day_end', value)}
+                                        minDate={null}
+                                        minTime={null}
+                                        classNameDate="components__addevent_picker-date"
+                                        classNameTime="components__addevent_picker-time"
+                                    />
+                                </Validator>
+
+                            </div>
+
                         </div>
                         <div className="form-group">
                             <label htmlFor="description" className="pb-2">
