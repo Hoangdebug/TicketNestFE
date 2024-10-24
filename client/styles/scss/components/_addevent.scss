@@ -4,60 +4,64 @@
         @media screen and (max-width: 768px) {
             padding: 0px;
         }
-        &_picker {
-            align-items: start !important;
-            @include responsive(max-md) {
-                justify-content: space-between !important;
-            }
-            &_from {
-                @include responsive(max-md) {
-                    width: 100% !important;
-                }
-            }
-            &_to {
-                @include responsive(max-md) {
-                    width: 100% !important;
-                }
-            }
-            &-date {
-                @include responsive(max-md) {
-                    width: 55% !important;
-                    margin: 0 !important;
-                    padding: 0 !important;
-                }
-            }
-            &-time {
-                @include responsive(max-md) {
-                    width: 40% !important;
-                    margin: 0 !important;
-                    padding: 0 !important;
-                }
-            }
-            &-center-text {
-                height: 46px;
-                @include responsive(max-md) {
-                    width: 100% !important;
-                    padding-left: 56% !important;
-                    margin-bottom: 8px !important;
-                    margin-top: 8px !important;
-                    height: auto !important;
-                }
-            }
-            &_invalid {
-                @include responsive(min-lg) {
-                    min-height: 68px !important;
-                }
-            }
-        }
+
         &-form {
             box-shadow: 0px 2px 10px 0px #00000033;
             display: flex;
             flex-direction: column;
             gap: 20px;
-            &-secondbutton {
-                color: white !important;
-                background-color: red;
-                border: 2px solid red;
+        }
+
+        &-location-image {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+
+            img {
+                max-width: 450px;
+                height: auto;
+                border-radius: 10px;
+            }
+        }
+
+        &-ticket-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+
+            &-row {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+                label {
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                }
+
+                &-items {
+                    display: flex;
+                    justify-content: center; 
+                    gap: 20px;
+
+                    &-item {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        flex: 1; 
+                        max-width: 30%; 
+                        
+                        label {
+                            margin-bottom: 5px;
+                        }
+
+                        input {
+                            text-align: center;
+                            width: 100%;
+                        }
+                    }
+                }
             }
         }
     }
