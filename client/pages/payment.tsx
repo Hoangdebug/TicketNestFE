@@ -137,7 +137,7 @@ const Payment = () => {
                 <p>{formattedDayEnd}</p>
             </div>
             <div className="components__payment-timer">
-                <span>Hoàn tất đặt vé trong</span>
+                <span>Complete your booking within</span>
                 <div className="components__payment-timer--countdown">
                     <span>{String(Math.floor(countdown / 60)).padStart(2, '0')}</span>
                     <span>:</span>
@@ -147,45 +147,33 @@ const Payment = () => {
             <div className="components__payment-paymentSection">
                 <div className="components__payment-paymentSection-left">
                     <div className="components__payment-paymentSection-ticketInfo">
-                        <h2>Thông tin nhận vé</h2>
-                        <p>Họ tên: {yourName}</p>
-                        <p>Số điện thoại: {yourPhone}</p>
+                        <h2>Ticket receiving info</h2>
+                        <p>Name: {yourName}</p>
+                        <p>Phone Number: {yourPhone}</p>
                         <p>Email: {yourEmail}</p>
                     </div>
                     <div className="components__payment-paymentSection-paymentMethods">
-                        <h2>Phương thức thanh toán</h2>
+                        <h2>Payment method</h2>
                         <div className="components__payment-paymentSection-method">
                             <input type="radio" id="paypal" name="payment" value="paypal" />
                             <label>PayPal</label>
-                        </div>
-                        <div className="components__payment-paymentSection-method">
-                            <input type="radio" id="visa" name="payment" value="visa" />
-                            <label>Thẻ thanh toán quốc tế</label>
-                        </div>
-                        <div className="components__payment-paymentSection-method">
-                            <input type="radio" id="atm" name="payment" value="atm" />
-                            <label>Thẻ ATM/ Internet Banking</label>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
                 <div className="components__payment-paymentSection-right">
                     <div className="components__payment-paymentSection-orderInfo">
-                        <h2>Thông tin đặt vé</h2>
-                        <p>Ghế: {formattedSeatDetails}</p>
-                        <p>Số lượng: {seatCount}</p>
-                        <p>Giá: {ticketPrice}</p>
-                    </div>
-                    <div className="components__payment-paymentSection-promotion">
-                        <input type="text" placeholder="MÃ GIẢM GIÁ" />
-                        <button>Áp dụng</button>
-                    </div>
+                        <h2>Ticket information</h2>
+                        <p>Seat: {formattedSeatDetails}</p>
+                        <p>Number: {seatCount}</p>
+                        <p>{ticketPrice}</p>
+                    </div>                    
                     <div className="components__payment-paymentSection-total">
-                        <h2>Thông tin đơn hàng</h2>
-                        <p>Tạm tính: {ticketPrice}</p>
-                        <p>Tổng tiền: {ticketPrice}</p>
+                        <h2>Order information</h2>
+                        <p>Subtotal: {ticketPrice}</p>
+                        <p>Total: {ticketPrice}</p>
                     </div>
                     <button className="components__payment-paymentSection-payButton" disabled={isDisabled} onClick={handlePayment}>
-                        Thanh toán
+                        Paymen
                     </button>
                 </div>
             </div>
