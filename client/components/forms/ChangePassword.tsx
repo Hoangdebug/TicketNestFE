@@ -3,11 +3,14 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { createRef, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { validateHelper } from '@utils/helpers';
-import { http, routes } from '@utils/constants';
+import { http, images, routes } from '@utils/constants';
 import Validator from '@components/commons/Validator';
 import Input from '@components/commons/Input';
 import { verifyOtpForgot } from '@redux/actions/api';
 import { useDispatch } from 'react-redux';
+import { setModal } from '@redux/actions';
+import Img from '@components/commons/Img';
+import Button from '@components/commons/Button';
 
 const ChangePasswordForm: IChangePasswordComponent<IChangePasswordComponentProps> = () => {
     const navigate = useRouter();
@@ -30,7 +33,7 @@ const ChangePasswordForm: IChangePasswordComponent<IChangePasswordComponentProps
     };
 
     const handleNextPage = () => {
-        navigate.push(routes.CLIENT.REGISTERSUCCESS_PAGE.href);
+        navigate.push(routes.CLIENT.CHANGE_PASSWORD_SUCCESS_PAGE.href, undefined, { scroll: false });
     };
 
     const [state, setState] = useState<IChangePasswordComponentState>({
@@ -70,7 +73,36 @@ const ChangePasswordForm: IChangePasswordComponent<IChangePasswordComponentProps
             await verifyOtpForgot(email, { otp, newPassword }, (res: IOtpVerifyDataApiRes | IErrorAPIRes | null) => {
                 console.log('API response:', res);
                 if (res && 'code' in res && res.code === http.SUCCESS_CODE) {
-                    navigate.push(routes.CLIENT.POST_FORGOT_PASSWORD_PAGE.href, undefined, { scroll: false });
+                    dispatch(
+                        setModal({
+                            isShow: true,
+                            content: (
+                                <>
+                                    <div className="text-center bases__margin--bottom31">
+                                        <Img src={images.ICON_SUCCESS} className="bases__width--90 bases__height--75" />
+                                    </div>
+                                    <div className="bases__text--bold bases__font--14 text-center">Password had reset</div>
+                                </>
+                            ),
+                            button: (
+                                <>
+                                    <Button
+                                        textColor="white"
+                                        background="blue"
+                                        buttonText="Continue"
+                                        onClick={() => {
+                                            handleNextPage();
+                                            dispatch(
+                                                setModal({
+                                                    isShow: false,
+                                                }),
+                                            );
+                                        }}
+                                    />
+                                </>
+                            ),
+                        }),
+                    );
                 }
             }),
         );
